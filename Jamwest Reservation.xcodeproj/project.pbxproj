@@ -29,6 +29,14 @@
 		855D9448240E94E000F50CB2 /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9447240E94E000F50CB2 /* Reservation.swift */; };
 		855D944A240E954600F50CB2 /* MenuOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9449240E954600F50CB2 /* MenuOptionCell.swift */; };
 		855D944C240E955300F50CB2 /* ReservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D944B240E955300F50CB2 /* ReservationCell.swift */; };
+		855D944E240E95B600F50CB2 /* AddReservationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D944D240E95B600F50CB2 /* AddReservationVC.swift */; };
+		855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D944F240E95C400F50CB2 /* ContainerVC.swift */; };
+		855D9452240E95CD00F50CB2 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9451240E95CD00F50CB2 /* LoginVC.swift */; };
+		855D9454240E95D600F50CB2 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9453240E95D600F50CB2 /* MenuVC.swift */; };
+		855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */; };
+		855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9457240E95FD00F50CB2 /* SignUpVC.swift */; };
+		855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */; };
+		855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D945B240E961600F50CB2 /* WaiverVC.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +67,14 @@
 		855D9447240E94E000F50CB2 /* Reservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reservation.swift; sourceTree = "<group>"; };
 		855D9449240E954600F50CB2 /* MenuOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOptionCell.swift; sourceTree = "<group>"; };
 		855D944B240E955300F50CB2 /* ReservationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationCell.swift; sourceTree = "<group>"; };
+		855D944D240E95B600F50CB2 /* AddReservationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReservationVC.swift; sourceTree = "<group>"; };
+		855D944F240E95C400F50CB2 /* ContainerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerVC.swift; sourceTree = "<group>"; };
+		855D9451240E95CD00F50CB2 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		855D9453240E95D600F50CB2 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
+		855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoVC.swift; sourceTree = "<group>"; };
+		855D9457240E95FD00F50CB2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToursSelectionVC.swift; sourceTree = "<group>"; };
+		855D945B240E961600F50CB2 /* WaiverVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVC.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -131,7 +147,15 @@
 		855D9423240E8E8A00F50CB2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				855D944D240E95B600F50CB2 /* AddReservationVC.swift */,
+				855D944F240E95C400F50CB2 /* ContainerVC.swift */,
+				855D9451240E95CD00F50CB2 /* LoginVC.swift */,
 				855D9424240E8EC800F50CB2 /* HomeVC.swift */,
+				855D9453240E95D600F50CB2 /* MenuVC.swift */,
+				855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */,
+				855D9457240E95FD00F50CB2 /* SignUpVC.swift */,
+				855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */,
+				855D945B240E961600F50CB2 /* WaiverVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -284,20 +308,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				855D9452240E95CD00F50CB2 /* LoginVC.swift in Sources */,
 				855D9425240E8EC800F50CB2 /* HomeVC.swift in Sources */,
 				855D9432240E91EE00F50CB2 /* UIColorExt.swift in Sources */,
 				855D944C240E955300F50CB2 /* ReservationCell.swift in Sources */,
 				855D9446240E94D100F50CB2 /* PickerViewData.swift in Sources */,
 				855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */,
+				855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */,
 				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,
 				855D9430240E91E000F50CB2 /* UIButtonExt.swift in Sources */,
+				855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */,
 				855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */,
 				855D9442240E94B500F50CB2 /* Alert.swift in Sources */,
+				855D944E240E95B600F50CB2 /* AddReservationVC.swift in Sources */,
 				855D9440240E940E00F50CB2 /* Countries.swift in Sources */,
+				855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				855D9448240E94E000F50CB2 /* Reservation.swift in Sources */,
+				855D9454240E95D600F50CB2 /* MenuVC.swift in Sources */,
+				855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */,
 				855D9434240E91F700F50CB2 /* UILabelExt.swift in Sources */,
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
+				855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */,
 				855D944A240E954600F50CB2 /* MenuOptionCell.swift in Sources */,
 				855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */,
 				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
