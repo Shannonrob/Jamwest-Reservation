@@ -13,6 +13,13 @@
 		855D941C240E8AB900F50CB2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 855D941A240E8AB900F50CB2 /* LaunchScreen.storyboard */; };
 		855D9425240E8EC800F50CB2 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9424240E8EC800F50CB2 /* HomeVC.swift */; };
 		855D9427240E8FA700F50CB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855D9426240E8FA700F50CB2 /* GoogleService-Info.plist */; };
+		855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D942D240E91D100F50CB2 /* ArrayExt.swift */; };
+		855D9430240E91E000F50CB2 /* UIButtonExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D942F240E91E000F50CB2 /* UIButtonExt.swift */; };
+		855D9432240E91EE00F50CB2 /* UIColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9431240E91EE00F50CB2 /* UIColorExt.swift */; };
+		855D9434240E91F700F50CB2 /* UILabelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9433240E91F700F50CB2 /* UILabelExt.swift */; };
+		855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9435240E920600F50CB2 /* UIStackviewExt.swift */; };
+		855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9437240E921200F50CB2 /* UITextfieldExt.swift */; };
+		855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9439240E921B00F50CB2 /* UIViewExt.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +34,13 @@
 		855D941D240E8AB900F50CB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		855D9424240E8EC800F50CB2 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		855D9426240E8FA700F50CB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		855D942D240E91D100F50CB2 /* ArrayExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExt.swift; sourceTree = "<group>"; };
+		855D942F240E91E000F50CB2 /* UIButtonExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExt.swift; sourceTree = "<group>"; };
+		855D9431240E91EE00F50CB2 /* UIColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExt.swift; sourceTree = "<group>"; };
+		855D9433240E91F700F50CB2 /* UILabelExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExt.swift; sourceTree = "<group>"; };
+		855D9435240E920600F50CB2 /* UIStackviewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackviewExt.swift; sourceTree = "<group>"; };
+		855D9437240E921200F50CB2 /* UITextfieldExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextfieldExt.swift; sourceTree = "<group>"; };
+		855D9439240E921B00F50CB2 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -56,7 +70,6 @@
 				298CE1659D48E687F3B38B25 /* Pods-Jamwest Reservation.debug.xcconfig */,
 				4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -81,6 +94,11 @@
 		855D940E240E8AB900F50CB2 /* Jamwest Reservation */ = {
 			isa = PBXGroup;
 			children = (
+				855D942C240E918100F50CB2 /* Extensions */,
+				855D942B240E917A00F50CB2 /* Services */,
+				855D942A240E916900F50CB2 /* Utilities */,
+				855D9429240E916500F50CB2 /* Model */,
+				855D9428240E915E00F50CB2 /* View */,
 				855D9423240E8E8A00F50CB2 /* Controllers */,
 				855D940F240E8AB900F50CB2 /* AppDelegate.swift */,
 				855D9411240E8AB900F50CB2 /* SceneDelegate.swift */,
@@ -98,6 +116,48 @@
 				855D9424240E8EC800F50CB2 /* HomeVC.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		855D9428240E915E00F50CB2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		855D9429240E916500F50CB2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		855D942A240E916900F50CB2 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		855D942B240E917A00F50CB2 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		855D942C240E918100F50CB2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				855D942D240E91D100F50CB2 /* ArrayExt.swift */,
+				855D942F240E91E000F50CB2 /* UIButtonExt.swift */,
+				855D9431240E91EE00F50CB2 /* UIColorExt.swift */,
+				855D9433240E91F700F50CB2 /* UILabelExt.swift */,
+				855D9435240E920600F50CB2 /* UIStackviewExt.swift */,
+				855D9437240E921200F50CB2 /* UITextfieldExt.swift */,
+				855D9439240E921B00F50CB2 /* UIViewExt.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,8 +258,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				855D9425240E8EC800F50CB2 /* HomeVC.swift in Sources */,
+				855D9432240E91EE00F50CB2 /* UIColorExt.swift in Sources */,
+				855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */,
+				855D9430240E91E000F50CB2 /* UIButtonExt.swift in Sources */,
+				855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */,
+				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
+				855D9434240E91F700F50CB2 /* UILabelExt.swift in Sources */,
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
 				855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */,
+				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
