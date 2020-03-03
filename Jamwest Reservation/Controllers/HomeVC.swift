@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeVC.swift
 //  Jamwest Reservation
 //
 //  Created by Shannon Robinson on 3/3/20.
@@ -8,13 +8,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HomeVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        view.backgroundColor = .blue
     }
+    
 
 
 }
-

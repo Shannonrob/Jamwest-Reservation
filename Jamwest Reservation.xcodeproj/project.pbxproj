@@ -9,21 +9,19 @@
 /* Begin PBXBuildFile section */
 		855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D940F240E8AB900F50CB2 /* AppDelegate.swift */; };
 		855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9411240E8AB900F50CB2 /* SceneDelegate.swift */; };
-		855D9414240E8AB900F50CB2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9413240E8AB900F50CB2 /* ViewController.swift */; };
-		855D9417240E8AB900F50CB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 855D9415240E8AB900F50CB2 /* Main.storyboard */; };
 		855D9419240E8AB900F50CB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855D9418240E8AB900F50CB2 /* Assets.xcassets */; };
 		855D941C240E8AB900F50CB2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 855D941A240E8AB900F50CB2 /* LaunchScreen.storyboard */; };
+		855D9425240E8EC800F50CB2 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9424240E8EC800F50CB2 /* HomeVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		855D940C240E8AB900F50CB2 /* Jamwest Reservation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jamwest Reservation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		855D940F240E8AB900F50CB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		855D9411240E8AB900F50CB2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		855D9413240E8AB900F50CB2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		855D9416240E8AB900F50CB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		855D9418240E8AB900F50CB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		855D941B240E8AB900F50CB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		855D941D240E8AB900F50CB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		855D9424240E8EC800F50CB2 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +54,22 @@
 		855D940E240E8AB900F50CB2 /* Jamwest Reservation */ = {
 			isa = PBXGroup;
 			children = (
+				855D9423240E8E8A00F50CB2 /* Controllers */,
 				855D940F240E8AB900F50CB2 /* AppDelegate.swift */,
 				855D9411240E8AB900F50CB2 /* SceneDelegate.swift */,
-				855D9413240E8AB900F50CB2 /* ViewController.swift */,
-				855D9415240E8AB900F50CB2 /* Main.storyboard */,
 				855D9418240E8AB900F50CB2 /* Assets.xcassets */,
 				855D941A240E8AB900F50CB2 /* LaunchScreen.storyboard */,
 				855D941D240E8AB900F50CB2 /* Info.plist */,
 			);
 			path = "Jamwest Reservation";
+			sourceTree = "<group>";
+		};
+		855D9423240E8E8A00F50CB2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				855D9424240E8EC800F50CB2 /* HomeVC.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +132,6 @@
 			files = (
 				855D941C240E8AB900F50CB2 /* LaunchScreen.storyboard in Resources */,
 				855D9419240E8AB900F50CB2 /* Assets.xcassets in Resources */,
-				855D9417240E8AB900F50CB2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				855D9414240E8AB900F50CB2 /* ViewController.swift in Sources */,
+				855D9425240E8EC800F50CB2 /* HomeVC.swift in Sources */,
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
 				855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */,
 			);
@@ -147,14 +151,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		855D9415240E8AB900F50CB2 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				855D9416240E8AB900F50CB2 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		855D941A240E8AB900F50CB2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
