@@ -20,6 +20,9 @@
 		855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9435240E920600F50CB2 /* UIStackviewExt.swift */; };
 		855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9437240E921200F50CB2 /* UITextfieldExt.swift */; };
 		855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9439240E921B00F50CB2 /* UIViewExt.swift */; };
+		855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D943B240E93FB00F50CB2 /* Protocols.swift */; };
+		855D943E240E940600F50CB2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D943D240E940600F50CB2 /* Constants.swift */; };
+		855D9440240E940E00F50CB2 /* Countries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D943F240E940E00F50CB2 /* Countries.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +44,9 @@
 		855D9435240E920600F50CB2 /* UIStackviewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackviewExt.swift; sourceTree = "<group>"; };
 		855D9437240E921200F50CB2 /* UITextfieldExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextfieldExt.swift; sourceTree = "<group>"; };
 		855D9439240E921B00F50CB2 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
+		855D943B240E93FB00F50CB2 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		855D943D240E940600F50CB2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		855D943F240E940E00F50CB2 /* Countries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Countries.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -135,6 +141,9 @@
 		855D942A240E916900F50CB2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				855D943B240E93FB00F50CB2 /* Protocols.swift */,
+				855D943D240E940600F50CB2 /* Constants.swift */,
+				855D943F240E940E00F50CB2 /* Countries.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -260,13 +269,16 @@
 				855D9425240E8EC800F50CB2 /* HomeVC.swift in Sources */,
 				855D9432240E91EE00F50CB2 /* UIColorExt.swift in Sources */,
 				855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */,
+				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,
 				855D9430240E91E000F50CB2 /* UIButtonExt.swift in Sources */,
 				855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */,
+				855D9440240E940E00F50CB2 /* Countries.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				855D9434240E91F700F50CB2 /* UILabelExt.swift in Sources */,
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
 				855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */,
 				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
+				855D943E240E940600F50CB2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
