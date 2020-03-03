@@ -66,6 +66,13 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         configureStackViews()
         textFieldDelegates()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        emailTextField.text = nil
+        passwordTextField.text = nil
+    }
    
 //    MARK: - Handlers
     
