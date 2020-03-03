@@ -11,6 +11,8 @@ import Firebase
 
 class SignUpVC: UIViewController, UITextFieldDelegate {
     
+//    MARK: - Properties
+    
     let emailTextField: UITextField = {
          
         let textfield = UITextField()
@@ -84,6 +86,8 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         return button
     }()
 
+//    MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -91,9 +95,6 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         
         configureViewComponents()
         textFieldDelegates()
-        
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        view.addGestureRecognizer(tap)
         
         view.addSubview(alreadyHaveAccount)
         alreadyHaveAccount.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 30, paddingRight: 0, width: 0, height: 50)

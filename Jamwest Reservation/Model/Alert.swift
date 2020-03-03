@@ -46,6 +46,10 @@ struct Alert {
     static func dayChangedDetected(on vc: UIViewController) {
          showBasicAlert(on: vc, with: "Day Changed", message: "Detected new date.")
     }
+    
+    static func showErrorMessage(on vc: UIViewController, with message: String) {
+        showBasicAlert(on: vc, with: "", message: message)
+    }
 
 }
 

@@ -20,7 +20,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
       
     let textfield = UITextField()
     textfield.design(placeHolder: "Email", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
-    textfield.addTarget(self, action: #selector(formValidation), for: .editingChanged)
     textfield.keyboardType = .emailAddress
     textfield.textfieldClearButtonIcon(#imageLiteral(resourceName: "grayClearButtonExpanded "))
     return textfield
@@ -32,7 +31,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     textfield.design(placeHolder: "Password", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
     textfield.isSecureTextEntry = true
     textfield.textfieldClearButtonIcon(#imageLiteral(resourceName: "grayClearButtonExpanded "))
-    textfield.addTarget(self, action: #selector(formValidation), for: .editingChanged)
     return textfield
     }()
     
@@ -44,21 +42,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         button.setTitle("Login", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 24)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(red: 374/255, green: 175/255, blue: 22/255, alpha: 1)
+        button.backgroundColor = UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1)
         button.layer.cornerRadius = 5
-        button.isEnabled = false
-        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleLogin(textField:)), for: .touchUpInside)
         return button
-    }()
-    
-    let incorrectPasswordLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = "Incorrect email or password"
-        label.textColor = UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1)
-        label.isHidden = true
-        label.font = UIFont(name: "AvenirNext-DemiBold", size: 22)
-        return label
     }()
     
     let dontHaveAccountButton: UIButton = {
@@ -75,17 +62,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Constants.Design.Color.Primary.HeavyGreen
-        navigationController?.navigationBar.isHidden = true
-        configureViewComponents()
-        
+        configureUI()
+        configureStackViews()
         textFieldDelegates()
-        
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        view.addGestureRecognizer(tap)
-      
-        view.addSubview(dontHaveAccountButton)
-        dontHaveAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 30, paddingRight: 0, width: 0, height: 50)
     }
    
 //    MARK: - Handlers
@@ -96,38 +75,20 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         navigationController?.pushViewController(signUpVC, animated: true)
     }
     
-    @objc func handleLogin() {
+    @objc func handleLogin(textField: Bool) {
         
         view.endEditing(true)
-        
-        guard let email = emailTextField.text,
-              let password = passwordTextField.text else { return }
-        
-        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+        // present custom error messages for empty textFields then API call if success
+        switch textField {
             
-//            handle error
-            if let error = error {
-                print("Unable to sign user in with error", error.localizedDescription)
-                self.incorrectPasswordLabel.isHidden = false
-                return
-            }
-//            handle success
-            self.presenContainerVC()
+        case emailTextField.hasText:
+            Alert.showErrorMessage(on: self, with: "Enter a valid Email to continue")
+        case passwordTextField.hasText:
+            Alert.showErrorMessage(on: self, with: "Enter a valid Password to continue")
+        default:
+            attempLogin()
         }
-    }
-    
-    @objc func formValidation() {
-           guard
-           emailTextField.hasText,
-           passwordTextField.hasText else {
-           loginButton.isEnabled = false
-           incorrectPasswordLabel.isHidden = true
-           loginButton.backgroundColor = UIColor(red: 374/255, green: 175/255, blue: 22/255, alpha: 1)
-           return
-           }
-           loginButton.isEnabled = true
-           loginButton.backgroundColor = UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1)
-       }
+   }
     
     // delete contents of textfield
     @objc func handleClearTextField(textfield: Bool) {
@@ -166,7 +127,24 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         textField.rightView?.addGestureRecognizer(clearTextfieldGesture)
     }
     
-    func configureViewComponents() {
+    func presenContainerVC() {
+        
+        let containerVC = ContainerVC()
+        let navigationController = UINavigationController(rootViewController: containerVC)
+        view.addSubview(navigationController.view)
+        addChild(navigationController)
+        navigationController.didMove(toParent: self)
+        navigationController.setNavigationBarHidden(true, animated: false)
+    }
+    
+    func configureUI () {
+        
+        view.backgroundColor = Constants.Design.Color.Primary.HeavyGreen
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    func configureStackViews() {
+        
         let stackView = UIStackView(arrangedSubviews: [emailTextField,passwordTextField,loginButton])
         
         stackView.axis = .vertical
@@ -177,18 +155,36 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         stackView.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 180, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 600, height: 180)
         stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        view.addSubview(incorrectPasswordLabel)
-        incorrectPasswordLabel.anchor(top: stackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        incorrectPasswordLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        view.addSubview(dontHaveAccountButton)
+        dontHaveAccountButton.anchor(top: stackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+        dontHaveAccountButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
-
-    func presenContainerVC() {
+    
+//    MARK: - API
+    
+    func attempLogin() {
         
-        let containerVC = ContainerVC()
-        let navigationController = UINavigationController(rootViewController: containerVC)
-        view.addSubview(navigationController.view)
-        addChild(navigationController)
-        navigationController.didMove(toParent: self)
-        navigationController.setNavigationBarHidden(true, animated: false)
+        guard let email = emailTextField.text,
+        let password = passwordTextField.text else { return }
+            
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+                
+//            handle error
+        if let error = error {
+            
+            switch error.localizedDescription{
+            case "There is no user record corresponding to this identifier. The user may have been deleted.":
+                Alert.showErrorMessage(on: self, with: "Email is invalid, \nGive it another try.")
+            case "The password is invalid or the user does not have a password.":
+                Alert.showErrorMessage(on: self, with: "Password is invalid, \nGive it another try.")
+            default:
+                Alert.showErrorMessage(on: self, with: error.localizedDescription)
+            }
+         
+            return
+        }
+//            handle success
+            self.presenContainerVC()
+        }
     }
 }
