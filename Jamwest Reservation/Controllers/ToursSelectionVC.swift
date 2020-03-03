@@ -9,227 +9,631 @@
 import UIKit
 import Firebase
 
-class SignUpVC: UIViewController, UITextFieldDelegate {
+class ToursSelectionVC: UIViewController {
     
-    let emailTextField: UITextField = {
-         
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Email", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
-        textfield.addTarget(self, action: #selector(formValidation), for: .editingChanged)
-        textfield.keyboardType = .emailAddress
-        textfield.textfieldClearButtonIcon(#imageLiteral(resourceName: "grayClearButtonExpanded "))
-        return textfield
-    }()
+//    MARK: - Properties
     
-    let userNameTextfield: UITextField = {
-         
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Username", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
-        textfield.addTarget(self, action: #selector(formValidation), for: .editingChanged)
-        textfield.textfieldClearButtonIcon(#imageLiteral(resourceName: "grayClearButtonExpanded "))
-        return textfield
-    }()
+    var singleTourPackageSelection = String()
+    var comboDealToursArray = [UIButton]()
+    var superDealPackageArray = [UIButton]()
+    var deluxePackageArray = [UIButton]()
+    var reservationTours = [String]()
+    var reservationId = ""
+    var tourPackage = String()
+    var reservedToursDictionary = [:] as [String: Any]
     
-    let passwordTextfield: UITextField = {
-         
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Password", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
-        textfield.isSecureTextEntry = true
-        textfield.textfieldClearButtonIcon(#imageLiteral(resourceName: "grayClearButtonExpanded "))
-        textfield.addTarget(self, action: #selector(formValidation), for: .editingChanged)
-        return textfield
-    }()
+//    MARK: - Labels
     
-    let confirmPasswordTextfield: UITextField = {
-        
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Confirm Password", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
-        textfield.isSecureTextEntry = true
-        textfield.textfieldClearButtonIcon(#imageLiteral(resourceName: "grayClearButtonExpanded "))
-        textfield.addTarget(self, action: #selector(formValidation), for: .editingChanged)
-        return textfield
-    }()
-    
-    let signUpButton: UIButton = {
-       
-        let button = UIButton(type: .system)
-        button.setTitle("Sign Up", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 24)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(red: 374/255, green: 175/255, blue: 22/255, alpha: 1)
-        button.layer.cornerRadius = 5
-        button.isEnabled = false
-        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
-        return button
-    }()
-    
-    let incorrectPasswordLabel: UILabel = {
-        
+    let tourLabel: UILabel = {
         let label = UILabel()
-        label.text = "Password doesn't match"
-        label.textColor = UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1)
-        label.isHidden = true
-        label.font = UIFont(name: "AvenirNext-DemiBold", size: 22)
+        label.text = "Please select reserved tours"
+        label.textColor = .darkText
+        label.font = UIFont(name: avenirNext_Regular, size: 32)
         return label
     }()
     
-    let alreadyHaveAccount: UIButton = {
+//    MARK: - Buttons
     
+   let atvTourButton: UIButton = {
+       let button = UIButton(type: .system)
+       button.configureButtonWithIcon("orangeATV", title: "ATV Tour", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
+       button.titleLabel?.font = .systemFont(ofSize: 24)
+       button.layer.borderWidth = 0.80
+       button.layer.borderColor = UIColor.lightGray.cgColor
+       button.addTarget(self, action: #selector(handleATVTour), for: .touchUpInside)
+       return button
+   }()
+   
+   let horseBackRidingTourButton: UIButton = {
+       let button = UIButton(type: .system)
+       button.configureButtonWithIcon("orangeHorseRiding", title: "Horseback", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
+       button.titleLabel?.font = .systemFont(ofSize: 24)
+       button.layer.borderWidth = 0.80
+       button.layer.borderColor = UIColor.lightGray.cgColor
+       button.addTarget(self, action: #selector(handleHorseBackRidingTour), for: .touchUpInside)
+       return button
+   }()
+   
+   let safariTourButton: UIButton = {
+       let button = UIButton(type: .system)
+       button.configureButtonWithIcon("orangeCrocodile", title: "Safari Tour", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
+       button.titleLabel?.font = .systemFont(ofSize: 24)
+       button.layer.borderWidth = 0.80
+       button.layer.borderColor = UIColor.lightGray.cgColor
+       button.addTarget(self, action: #selector(handleSafariTour), for: .touchUpInside)
+       return button
+   }()
+   
+   let zipLineTourButton: UIButton = {
+       let button = UIButton(type: .system)
+       button.configureButtonWithIcon("orangeZipline", title: "Zip Line", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
+       button.titleLabel?.font = .systemFont(ofSize: 24)
+       button.layer.borderWidth = 0.80
+       button.layer.borderColor = UIColor.lightGray.cgColor
+       button.addTarget(self, action: #selector(handleZiplineTour), for: .touchUpInside)
+       return button
+   }()
+   
+   let pushKartTourButton: UIButton = {
+       let button = UIButton(type: .system)
+       button.configureButtonWithIcon("orangeKart", title: "Push Kart", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
+       button.titleLabel?.font = .systemFont(ofSize: 24)
+       button.layer.borderWidth = 0.80
+       button.layer.borderColor = UIColor.lightGray.cgColor
+       button.addTarget(self, action: #selector(handlePushKartTour), for: .touchUpInside)
+       return button
+   }()
+    
+    let drivingExperienceButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSMutableAttributedString(string: "Already have an account?  ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        attributedTitle.append(NSAttributedString(string: "Log In", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1)]))
-        button.addTarget(self, action: #selector(handleShowLogIn), for: .touchUpInside)
-        button.setAttributedTitle(attributedTitle, for: .normal)
-        
+        button.configureButtonWithIcon(orange_Race_Flag_Icon, title: "Driving Experience", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
+        button.titleLabel?.font = .systemFont(ofSize: 24)
+        button.layer.borderWidth = 0.80
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.addTarget(self, action: #selector(handleDrivingExperienceTour), for: .touchUpInside)
         return button
     }()
-
+    
+    let submitButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Submit", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.red, for: .selected)
+        button.backgroundColor = Constants.Design.Color.FadedHue.Green
+        button.layer.cornerRadius = 8
+        button.titleLabel?.font = .boldSystemFont(ofSize: 24)
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(handleSubmitButton), for: .touchUpInside)
+        return button
+   }()
+   
+    
+//    MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
 
-         view.backgroundColor = Constants.Design.Color.Primary.HeavyGreen
-        
-        configureViewComponents()
-        textFieldDelegates()
-        
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        view.addGestureRecognizer(tap)
-        
-        view.addSubview(alreadyHaveAccount)
-        alreadyHaveAccount.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 30, paddingRight: 0, width: 0, height: 50)
+       configureUI()
+       updateTourLabel()
+       setConstraints()
     }
     
-    @objc func handleShowLogIn() {
-        _ = navigationController?.popViewController(animated: true)
+//    MARK: - Selectors
+    
+    @objc func handleDismiss() {
+//        dismiss(animated: true, completion: nil)
+        dismissTourSelectionVC(navigationItem.leftBarButtonItem!)
     }
     
-    @objc func handleSignUp() {
+    @objc func handleATVTour() {
+    
+        updateSelectionFont(button: atvTourButton)
         
-        view.endEditing(true)
+        switch tourPackage {
+            
+        case single_Tour:
+            drivingExperienceButton.isSelected = false
+            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
+            horseBackRidingTourButton.isSelected = false
+            horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            pushKartTourButton.isSelected = false
+            pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            safariTourButton.isSelected = false
+            safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            zipLineTourButton.isSelected = false
+            zipLineTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            singleTourPackageSelection = atvTourButton.currentTitle!
+            configureSingleTourPackageSelection()
         
-        guard let email = emailTextField.text,
-              let password = passwordTextfield.text,
-              let username = userNameTextfield.text else { return }
-        
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
-//            handle error
-            if let error = error {
-                print("Failed to create user with error:", error.localizedDescription)
-                return
-            }
+        case combo_Deal:
+            updateComboDealArray(button: atvTourButton)
+            configureComboDealPackageTours()
             
-            guard let uid = user?.user.uid else { return }
+        case super_Deal:
+            updateSuperDealArray(button: atvTourButton)
+            configureSuperDealPackageTours()
             
-            let dictionaryValues = ["username": username]
-            let values = [uid: dictionaryValues]
+        case deluxe_Package:
+            updateDeluxePackageArray(button: atvTourButton)
+            configureDeluxePackageTours()
             
-//            save user info to dataBase and log user in
-            USER_REF.updateChildValues(values) { (error, ref) in
-         
-                self.presenContainerVC()
-            }
+        default:
+            return
         }
     }
     
-    @objc func formValidation() {
-        
-        guard
-            emailTextField.hasText,
-            userNameTextfield.hasText,
-            passwordTextfield.hasText,
-            confirmPasswordTextfield.hasText && confirmPasswordTextfield.text == passwordTextfield.text else {
-                
-                passwordCheck()
-                signUpButton.isEnabled = false
-                signUpButton.backgroundColor = UIColor(red: 374/255, green: 175/255, blue: 22/255, alpha: 1)
-                return
-        }
-        passwordCheck()
-        signUpButton.isEnabled = true
-        signUpButton.backgroundColor = UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1)
-    }
-    
-    // delete contents of textfield
-       @objc func handleClearTextField(textfield: Bool) {
-
-        if emailTextField.isFirstResponder {
-               emailTextField.text?.removeAll()
-        } else if userNameTextfield.isFirstResponder {
-               userNameTextfield.text?.removeAll()
-        } else if passwordTextfield.isFirstResponder {
-            passwordTextfield.text?.removeAll()
-        } else {
-            confirmPasswordTextfield.text?.removeAll()
-        }
+    @objc func handleDrivingExperienceTour() {
+          
+          updateSelectionFont(button: drivingExperienceButton)
+          
+          switch tourPackage {
+              
+          case single_Tour:
+              atvTourButton.isSelected = false
+              atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+              horseBackRidingTourButton.isSelected = false
+              horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+              pushKartTourButton.isSelected = false
+              pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+              safariTourButton.isSelected = false
+              safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+              singleTourPackageSelection = drivingExperienceButton.currentTitle!
+              configureSingleTourPackageSelection()
+              
+          case combo_Deal:
+              updateComboDealArray(button: drivingExperienceButton)
+              configureComboDealPackageTours()
+              
+          case super_Deal:
+              updateSuperDealArray(button: drivingExperienceButton)
+              configureSuperDealPackageTours()
+              
+          case deluxe_Package:
+              updateDeluxePackageArray(button: drivingExperienceButton)
+              configureDeluxePackageTours()
+              
+          default:
+              return
+          }
       }
+    
+    @objc func handleHorseBackRidingTour() {
+        
+        updateSelectionFont(button: horseBackRidingTourButton)
+    
+        switch tourPackage {
+            
+        case single_Tour:
+            atvTourButton.isSelected = false
+            atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            drivingExperienceButton.isSelected = false
+            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
+            pushKartTourButton.isSelected = false
+            pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            safariTourButton.isSelected = false
+            safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            zipLineTourButton.isSelected = false
+            zipLineTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            singleTourPackageSelection = horseBackRidingTourButton.currentTitle!
+            configureSingleTourPackageSelection()
+            
+        case combo_Deal:
+            updateComboDealArray(button: horseBackRidingTourButton)
+            configureComboDealPackageTours()
+            
+        case super_Deal:
+            updateSuperDealArray(button: horseBackRidingTourButton)
+            configureSuperDealPackageTours()
+            
+        case deluxe_Package:
+            updateDeluxePackageArray(button: horseBackRidingTourButton)
+            configureDeluxePackageTours()
+            
+        default:
+            return
+        }
+    }
+    
+    @objc func handlePushKartTour() {
+    
+        updateSelectionFont(button: pushKartTourButton)
+        
+        switch tourPackage {
+            
+        case single_Tour:
+            atvTourButton.isSelected = false
+            atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            drivingExperienceButton.isSelected = false
+            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
+            horseBackRidingTourButton.isSelected = false
+            horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            safariTourButton.isSelected = false
+            safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            zipLineTourButton.isSelected = false
+            zipLineTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            singleTourPackageSelection = pushKartTourButton.currentTitle!
+            configureSingleTourPackageSelection()
+            
+        case combo_Deal:
+            updateComboDealArray(button: pushKartTourButton)
+            configureComboDealPackageTours()
+            
+        case super_Deal:
+            updateSuperDealArray(button: pushKartTourButton)
+            configureSuperDealPackageTours()
+            
+        case deluxe_Package:
+            updateDeluxePackageArray(button: pushKartTourButton)
+            configureDeluxePackageTours()
+            
+        default:
+            return
+        }
+    }
+    
+    @objc func handleSafariTour() {
+    
+        updateSelectionFont(button: safariTourButton)
+        
+        switch tourPackage {
+            
+        case single_Tour:
+            atvTourButton.isSelected = false
+            atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            drivingExperienceButton.isSelected = false
+            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
+            horseBackRidingTourButton.isSelected = false
+            horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            pushKartTourButton.isSelected = false
+            pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            zipLineTourButton.isSelected = false
+            zipLineTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            singleTourPackageSelection = safariTourButton.currentTitle!
+            configureSingleTourPackageSelection()
+        
+        case combo_Deal:
+            updateComboDealArray(button: safariTourButton)
+            configureComboDealPackageTours()
+            
+        case super_Deal:
+            updateSuperDealArray(button: safariTourButton)
+            configureSuperDealPackageTours()
+            
+        case deluxe_Package:
+            updateDeluxePackageArray(button: safariTourButton)
+            configureDeluxePackageTours()
+            
+        default:
+            return
+        }
+    }
+    
+    @objc func handleZiplineTour() {
+    
+        updateSelectionFont(button: zipLineTourButton)
+        
+        switch tourPackage {
+            
+        case single_Tour:
+            atvTourButton.isSelected = false
+            atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            drivingExperienceButton.isSelected = false
+            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
+            horseBackRidingTourButton.isSelected = false
+            horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            pushKartTourButton.isSelected = false
+            pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            safariTourButton.isSelected = false
+            safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
+            singleTourPackageSelection = zipLineTourButton.currentTitle!
+            configureSingleTourPackageSelection()
+            
+        case combo_Deal:
+            updateComboDealArray(button: zipLineTourButton)
+            configureComboDealPackageTours()
+            
+        case super_Deal:
+            updateSuperDealArray(button: zipLineTourButton)
+            configureSuperDealPackageTours()
+            
+        case deluxe_Package:
+            updateDeluxePackageArray(button: zipLineTourButton)
+            configureDeluxePackageTours()
+            
+        default:
+            return
+        }
+    }
+    
+    
+    @objc func handleSubmitButton() {
+        
+        selectedTours()
+    }
     
 //    MARK: - Helper Functions
     
-    func textFieldDelegates() {
-          
-        emailTextField.delegate = self
-        userNameTextfield.delegate = self
-        passwordTextfield.delegate = self
-        confirmPasswordTextfield.delegate = self
-      }
-      
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    // checking array for selected buttons
+    func checkSelectedTours(forArray array:Array<UIButton>) {
         
-        switch textField {
+        for tours in array {
+        reservationTours.append(tours.currentTitle!)
+       }
+    }
+    
+    func selectedTours() {
+   
+       switch tourPackage {
+           
+       case single_Tour:
+        // catching the selected tour
+           reservationTours = [singleTourPackageSelection]
+           
+           //append tour to dictionary
+           reservedToursDictionary.updateValue(reservationTours[0], forKey: first_Tour)
+           
+           //method for pushing selected tours to database
+           submitSelectedTours()
+        
+       case combo_Deal:
+           
+           // check if package selections is greater than package limit
+           if comboDealToursArray.count > 2 {
+               Alert.showOverLimitComboDealTourSelections(on: self)
+           } else {
+            checkSelectedTours(forArray: comboDealToursArray)
             
-        case emailTextField:
-            userNameTextfield.becomeFirstResponder()
-        case userNameTextfield:
-            passwordTextfield.becomeFirstResponder()
-        case passwordTextfield:
-            confirmPasswordTextfield.becomeFirstResponder()
-        default:
-            textField.resignFirstResponder()
-        }
-        return false
-    }
-      
-      func textFieldDidBeginEditing(_ textField: UITextField) {
-          // add gesture to clear button icon
-          let clearTextfieldGesture = UITapGestureRecognizer(target: self, action: #selector(handleClearTextField))
-          clearTextfieldGesture.numberOfTapsRequired = 1
-          textField.rightView?.addGestureRecognizer(clearTextfieldGesture)
-      }
-      
-    
-    func passwordCheck() {
-        
-        if confirmPasswordTextfield.text != passwordTextfield.text {
-            incorrectPasswordLabel.isHidden = false
-        } else {
-            incorrectPasswordLabel.isHidden = true
-        }
-    }
-    
-    
-    func presenContainerVC() {
-        
-        let containerVC = ContainerVC()
-        let navigationController = UINavigationController(rootViewController: containerVC)
-        view.addSubview(navigationController.view)
-        addChild(navigationController)
-        navigationController.didMove(toParent: self)
-        navigationController.setNavigationBarHidden(true, animated: false)
-    }
+            //append tours to dictionary
+            reservedToursDictionary.updateValue(reservationTours[0], forKey: first_Tour)
+            reservedToursDictionary.updateValue(reservationTours[1], forKey: second_Tour)
+            
+            //method for pushing selected tours to database
+            submitSelectedTours()
+           }
+           
+       case super_Deal:
+           
+           // check if package selections is greater than package limit
+           if superDealPackageArray.count > 3 {
+               Alert.showOverLimitSuperDealTourSelections(on: self)
+           } else {
+            checkSelectedTours(forArray: superDealPackageArray)
+            
+            //append tours to dictionary
+            reservedToursDictionary.updateValue(reservationTours[0], forKey: first_Tour)
+            reservedToursDictionary.updateValue(reservationTours[1], forKey: second_Tour)
+            reservedToursDictionary.updateValue(reservationTours[2], forKey: third_Tour)
+            
+            //method for pushing selected tours to database
+            submitSelectedTours()
+           }
+           
+       case deluxe_Package:
+           
+           // check if package selections is greater than package limit
+           if deluxePackageArray.count > 4 {
+               Alert.showOverLimitDeluxePackageTourSelections(on: self)
+           } else {
+            checkSelectedTours(forArray: deluxePackageArray)
+            
+            //append tours to dictionary
+            reservedToursDictionary.updateValue(reservationTours[0], forKey: first_Tour)
+            reservedToursDictionary.updateValue(reservationTours[1], forKey: second_Tour)
+            reservedToursDictionary.updateValue(reservationTours[2], forKey: third_Tour)
+            reservedToursDictionary.updateValue(reservationTours[3], forKey: forth_Tour)
 
-    func configureViewComponents() {
-        let stackView = UIStackView(arrangedSubviews: [emailTextField,userNameTextfield,passwordTextfield,confirmPasswordTextfield,signUpButton])
+            //method for pushing selected tours to database
+            submitSelectedTours()
+           }
+       default:
+           return
+       }
+    }
+    
+    func updateTourLabel() {
+        if tourPackage == single_Tour {
+            tourLabel.text = "Please select reserved tour"
+        }
+    }
+    
+    func configureUI() {
+        
+        view.backgroundColor = Constants.Design.Color.Background.FadeGray
+        
+        navigationController?.navigationBar.barTintColor = Constants.Design.Color.Primary.HeavyGreen
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barStyle = .black
+        navigationItem.title = "Tour selection"
+        
+        let reservation = UIFont.boldSystemFont(ofSize: 25)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteDismiss ").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
+    }
+    
+    
+    func setConstraints() {
+    
+        view.addSubview(tourLabel)
+        tourLabel.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        tourLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        let stackView = UIStackView(arrangedSubviews: [atvTourButton, drivingExperienceButton, horseBackRidingTourButton, pushKartTourButton, safariTourButton, zipLineTourButton])
         stackView.axis = .vertical
-        stackView.spacing = 15
+        stackView.spacing = 10
+        stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        
         view.addSubview(stackView)
-        stackView.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 60, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 600, height: 320)
-        stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        stackView.anchor(top: tourLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 15, paddingLeft: 20, paddingBottom:0, paddingRight: 15, width: 0, height: 300)
+        
+        view.addSubview(submitButton)
+        submitButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 50, paddingRight: 15, width: 0, height: 60)
+    }
+    
+//    Function to update font style on button selection
+    func updateSelectionFont(button: UIButton) {
        
-        view.addSubview(incorrectPasswordLabel)
-        incorrectPasswordLabel.anchor(top: stackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 6, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        incorrectPasswordLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        if !button.isSelected == true {
+            button.isSelected = true
+            button.titleLabel?.font = .boldSystemFont(ofSize: 24)
+        } else {
+            button.isSelected = false
+            button.titleLabel?.font = .systemFont(ofSize: 24)
+        }
+    }
+    
+//    Function to add or remove from ComboDeal Array
+    func updateComboDealArray(button: UIButton) {
+        
+        if !comboDealToursArray.contains(button) {
+            comboDealToursArray.append(button)
+            button.isSelected = true
+        } else {
+            comboDealToursArray.remove(object: button)
+            button.isSelected = false
+            button.titleLabel?.font = .systemFont(ofSize: 24)
+        }
+    }
+    
+    //    Function to add or remove from SuperDeal Array
+    func updateSuperDealArray(button: UIButton) {
+        
+        if !superDealPackageArray.contains(button) {
+            superDealPackageArray.append(button)
+            button.isSelected = true
+        } else {
+            superDealPackageArray.remove(object: button)
+            button.isSelected = false
+            button.titleLabel?.font = .systemFont(ofSize: 24)
+        }
+    }
+    
+    //    Function to add or remove from SuperDeal Array
+       func updateDeluxePackageArray(button: UIButton) {
+           
+           if !deluxePackageArray.contains(button) {
+               deluxePackageArray.append(button)
+               button.isSelected = true
+           } else {
+               deluxePackageArray.remove(object: button)
+               button.isSelected = false
+               button.titleLabel?.font = .systemFont(ofSize: 24)
+           }
+       }
+    
+    func activateSubmitButton() {
+        submitButton.isEnabled = true
+        submitButton.backgroundColor = Constants.Design.Color.Hue.Green
     }
 
+    func configureSingleTourPackageSelection() {
+        
+        activateSubmitButton()
+        guard atvTourButton.isSelected || drivingExperienceButton.isSelected || horseBackRidingTourButton.isSelected || pushKartTourButton.isSelected || safariTourButton.isSelected || zipLineTourButton.isSelected == true else {
+        submitButton.backgroundColor = Constants.Design.Color.FadedHue.Green
+        submitButton.isEnabled = false
+        return
+        }
+    }
+    
+    func configureComboDealPackageTours() {
+        
+        activateSubmitButton()
+        guard comboDealToursArray.count >= 2 else {
+        submitButton.backgroundColor = Constants.Design.Color.FadedHue.Green
+        submitButton.isEnabled = false
+        return
+        }
+    }
+    
+    func configureSuperDealPackageTours() {
+        
+        activateSubmitButton()
+        guard superDealPackageArray.count >= 3 else {
+        submitButton.backgroundColor = Constants.Design.Color.FadedHue.Green
+        submitButton.isEnabled = false
+        return
+        }
+    }
+    
+    func configureDeluxePackageTours() {
+        
+        activateSubmitButton()
+        guard deluxePackageArray.count >= 4 else {
+        submitButton.backgroundColor = Constants.Design.Color.FadedHue.Green
+        submitButton.isEnabled = false
+        return
+        }
+    }
+    
+    func showAddReservationVC() {
+        //
+        let addReservationVC = AddReservationVC()
+        
+        var vcArray = self.navigationController?.viewControllers
+        vcArray!.removeLast()
+        vcArray!.append(addReservationVC)
+        self.navigationController?.setViewControllers(vcArray!, animated: true)
+    }
+    
+    // Action sheet
+    func showAlertSheet(_ sender: UIButton) {
+
+        let alertController = UIAlertController(title: nil, message: "Do you wish to submit another reservation?", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            // present AddReservationVC
+            self.showAddReservationVC()
+        })
+
+        let deleteAction = UIAlertAction(title: "No", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+
+            //dismiss all viewControllers back to rootVC
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        })
+
+        alertController.addAction(defaultAction)
+        alertController.addAction(deleteAction)
+
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    func dismissTourSelectionVC(_ sender: UIBarButtonItem) {
+        
+        let alertController = UIAlertController(title: "Warning", message: "This reservation will be incomplete!", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Proceed", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            // dismiss tourSelectionVC
+            self.dismiss(animated: true, completion: nil)
+        })
+
+        let deleteAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+        })
+
+        alertController.addAction(defaultAction)
+        alertController.addAction(deleteAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+//    MARK: - API
+    
+    // submit tours to firebase
+    func submitSelectedTours() {
+        
+        let tours = RESERVATION_TOURS_REF.child(reservationId)
+        tours.updateChildValues(reservedToursDictionary) { (err, ref) in
+            
+            self.showAlertSheet(self.submitButton)
+        }
+    }
 }
+
