@@ -279,7 +279,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
 
         formatReservationTime()
         formatReservationDate()
-        submitReservation()
+        presentToursSelectionVC()
     }
     
     @objc func configureDatePicker() {
@@ -533,10 +533,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
        navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
-//    MARK: - API
-
-// creating reservation
-   func submitReservation() {
+// passingData to ToursSelectionVC
+   func presentToursSelectionVC() {
        
        guard
           let hotel = hotelNameTextField.text,
@@ -562,32 +560,10 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
                                          pax_Count: paxQuantity] as [String: Any] 
     
     navigationController?.pushViewController(toursSelectionVC, animated: true)
-        
     
-//         // post id
-//       let reservation = RESERVATION_REF.childByAutoId()
-//
-//         // upload information to dataBase
-//       reservation.updateChildValues(values) { (err, ref) in
-//
-//           guard let reservationId = reservation.key else { return }
-//
-//           let dateValue = [reservationId: 1] as [String: Any]
-//
-//           let dates = RESERVATION_DATE_REF.child(date)
-//           dates.updateChildValues(dateValue)
-           
-           //present toursSelectionVC
-//           var vcArray = self.navigationController?.viewControllers
-//           vcArray!.removeLast()
-//           vcArray!.append(self.toursSelectionVC)
-////           self.toursSelectionVC.reservationId = reservationId
-//    
-////           self.toursSelectionVC.tourPackage = self.tourPackageSelected
-//           self.navigationController?.setViewControllers(vcArray!, animated: true)
-       }
-   }
-//}
+    }
+}
+
 
 extension AddReservationVC {
     

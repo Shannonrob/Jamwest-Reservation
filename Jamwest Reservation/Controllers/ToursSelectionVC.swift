@@ -18,8 +18,7 @@ class ToursSelectionVC: UIViewController {
     var superDealPackageArray = [UIButton]()
     var deluxePackageArray = [UIButton]()
     var reservationTours = [String]()
-    var reservationId = ""
-    var tourPackage = String()
+    lazy var tourPackage = String()
     var reservedToursDictionary = [:] as [String: Any]
     var reservationInfo = [String: Any]()
     
@@ -116,8 +115,6 @@ class ToursSelectionVC: UIViewController {
        configureUI()
        updateTourLabel()
        setConstraints()
-        
-        testDictionary()
     }
     
 //    MARK: - Selectors
@@ -354,25 +351,7 @@ class ToursSelectionVC: UIViewController {
     }
     
 //    MARK: - Helper Functions
-    
-    func testDictionary() {
-        
-//        print(reservationInfo[hotel_Name,voucher_Number, default: group_Name],
-//              [group_Name],
-//              [voucher_Number],
-//              [tour_Rep],
-//              [tour_Company],
-//              [tour_Package],
-//              [pax_Count],
-//              [reservation_Date],
-//              [reservation_Time])
-        
-        for (key, values) in reservationInfo {
-            print("\(values)")
-        }
-        
-    }
-    
+  
     // checking array for selected buttons
     func checkSelectedTours(forArray array:Array<UIButton>) {
         
@@ -451,6 +430,9 @@ class ToursSelectionVC: UIViewController {
     }
     
     func updateTourLabel() {
+        // get selected tour package
+        tourPackage = reservationInfo[tour_Package] as! String
+        
         if tourPackage == single_Tour {
             tourLabel.text = "Please select reserved tour"
         }
@@ -647,14 +629,27 @@ class ToursSelectionVC: UIViewController {
     
 //    MARK: - API
     
-    // submit tours to firebase
+//     submit tours to firebase
     func submitSelectedTours() {
         
-        let tours = RESERVATION_TOURS_REF.child(reservationId)
-        tours.updateChildValues(reservedToursDictionary) { (err, ref) in
-            
-            self.showAlertSheet(self.submitButton)
+        // create post ID
+        let reservation = RESERVATION_REF.childByAutoId()
+
+        //push reservation info to firebase
+        reservation.updateChildValues(reservationInfo) { (err, ref) in
+
+            guard let reservationID = reservation.key else { return }
+
+            let dateValue = [reservationID: 1] as [String: Any]
+
+            let date = RESERVATION_DATE_REF.child(self.reservationInfo[reservation_Date] as! String)
+            date.updateChildValues(dateValue)
+
+            let tours = RESERVATION_TOURS_REF.child(reservationID)
+            tours.updateChildValues(self.reservedToursDictionary) { (err, ref) in
+
+                self.showAlertSheet(self.submitButton)
+            }
         }
     }
 }
-
