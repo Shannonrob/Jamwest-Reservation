@@ -21,6 +21,7 @@ class ToursSelectionVC: UIViewController {
     var reservationId = ""
     var tourPackage = String()
     var reservedToursDictionary = [:] as [String: Any]
+    var reservationInfo = [String: Any]()
     
 //    MARK: - Labels
     
@@ -115,6 +116,8 @@ class ToursSelectionVC: UIViewController {
        configureUI()
        updateTourLabel()
        setConstraints()
+        
+        testDictionary()
     }
     
 //    MARK: - Selectors
@@ -351,6 +354,24 @@ class ToursSelectionVC: UIViewController {
     }
     
 //    MARK: - Helper Functions
+    
+    func testDictionary() {
+        
+//        print(reservationInfo[hotel_Name,voucher_Number, default: group_Name],
+//              [group_Name],
+//              [voucher_Number],
+//              [tour_Rep],
+//              [tour_Company],
+//              [tour_Package],
+//              [pax_Count],
+//              [reservation_Date],
+//              [reservation_Time])
+        
+        for (key, values) in reservationInfo {
+            print("\(values)")
+        }
+        
+    }
     
     // checking array for selected buttons
     func checkSelectedTours(forArray array:Array<UIButton>) {

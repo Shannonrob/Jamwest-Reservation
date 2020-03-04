@@ -13,8 +13,6 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
 
 //    MARK: - Properties
     
-    let toursSelectionVC = ToursSelectionVC()
-    
     var reservationTime = String()
     var reservationDate = String()
     var tourPackageSelected = String()
@@ -281,7 +279,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
 
         formatReservationTime()
         formatReservationDate()
-        showActionSheet(navigationItem.rightBarButtonItem!)
+        submitReservation()
     }
     
     @objc func configureDatePicker() {
@@ -395,33 +393,6 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     }
 
 //    MARK: - Helper Functions
-    
-    // Action sheet
-    func showActionSheet(_ sender: UIBarButtonItem) {
-        
-        let alertController = UIAlertController(title: nil, message: "Would you like to verify that all information is correct before creating this reservation?", preferredStyle: .actionSheet)
-        
-        let defaultAction = UIAlertAction(title: "Reserve", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-            // Submit current reservation to database
-            self.submitReservation()
-        })
-
-        let deleteAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
-        })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
-        })
-
-        alertController.addAction(defaultAction)
-        alertController.addAction(deleteAction)
-        alertController.addAction(cancelAction)
-        
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popoverController.permittedArrowDirections = []
-        }
-        self.present(alertController, animated: true, completion: nil)
-    }
     
     func textFieldDelegates() {
         
@@ -576,42 +547,47 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
           let paxQuantity = paxStepper.value
           let time = reservationTime
           let date = reservationDate
-          
-          
-       // reservation info
-         let values = [ hotel_Name: hotel,
-                        group_Name: group,
-                        voucher_Number: voucherNumber,
-                        tour_Rep: tourRep,
-                        tour_Company: tourCompany,
-                        reservation_Time: time,
-                        tour_Package: tourPackageSelected,
-                        pax_Count: paxQuantity] as [String: Any]
-       
-
-         // post id
-       let reservation = RESERVATION_REF.childByAutoId()
-
-         // upload information to dataBase
-       reservation.updateChildValues(values) { (err, ref) in
-           
-           guard let reservationId = reservation.key else { return }
-           
-           let dateValue = [reservationId: 1] as [String: Any]
-           
-           let dates = RESERVATION_DATE_REF.child(date)
-           dates.updateChildValues(dateValue)
+    
+   
+   let toursSelectionVC = ToursSelectionVC()
+    
+    toursSelectionVC.reservationInfo = [ hotel_Name: hotel,
+                                         group_Name: group,
+                                         voucher_Number: voucherNumber,
+                                         tour_Rep: tourRep,
+                                         tour_Company: tourCompany,
+                                         reservation_Time: time,
+                                         tour_Package: tourPackageSelected,
+                                         reservation_Date: date,
+                                         pax_Count: paxQuantity] as [String: Any] 
+    
+    navigationController?.pushViewController(toursSelectionVC, animated: true)
+        
+    
+//         // post id
+//       let reservation = RESERVATION_REF.childByAutoId()
+//
+//         // upload information to dataBase
+//       reservation.updateChildValues(values) { (err, ref) in
+//
+//           guard let reservationId = reservation.key else { return }
+//
+//           let dateValue = [reservationId: 1] as [String: Any]
+//
+//           let dates = RESERVATION_DATE_REF.child(date)
+//           dates.updateChildValues(dateValue)
            
            //present toursSelectionVC
-           var vcArray = self.navigationController?.viewControllers
-           vcArray!.removeLast()
-           vcArray!.append(self.toursSelectionVC)
-           self.toursSelectionVC.reservationId = reservationId
-           self.toursSelectionVC.tourPackage = self.tourPackageSelected
-           self.navigationController?.setViewControllers(vcArray!, animated: true)
+//           var vcArray = self.navigationController?.viewControllers
+//           vcArray!.removeLast()
+//           vcArray!.append(self.toursSelectionVC)
+////           self.toursSelectionVC.reservationId = reservationId
+//    
+////           self.toursSelectionVC.tourPackage = self.tourPackageSelected
+//           self.navigationController?.setViewControllers(vcArray!, animated: true)
        }
    }
-}
+//}
 
 extension AddReservationVC {
     

@@ -181,9 +181,6 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         stackView.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 90, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 600, height: 320)
         stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-//        view.addSubview(alreadyHaveAccountButton)
-//        alreadyHaveAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 30, paddingRight: 0, width: 0, height: 50)
-        
         view.addSubview(alreadyHaveAccountButton)
         alreadyHaveAccountButton.anchor(top: stackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         alreadyHaveAccountButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
