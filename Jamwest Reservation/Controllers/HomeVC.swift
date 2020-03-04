@@ -60,6 +60,12 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         fetchCurrentReservations()
      }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+
+        showSearchBar(shouldShow: false)
+    }
+  
     
 //    MARK: - UICollectionViewFlowLayout
     
