@@ -17,6 +17,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     var delegate: HomeVcDelegate?
     var currentDate = String()
     var reservations = [Reservation]()
+    var filteredReservations = [Reservation]()
+    var inSearchMode = false
  
     //notification key whatever
     let dateChanged = Notification.Name(rawValue: date_Changed_key)
@@ -63,7 +65,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
+        inSearchMode = false
         showSearchBar(shouldShow: false)
+        collectionView.reloadData()
     }
   
     
@@ -95,13 +99,16 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return reservations.count
+        
+        if inSearchMode {
+            return filteredReservations.count
+        } else {
+            return reservations.count
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ReservationCell
-        
-        cell.reservation = reservations[indexPath.item]
         
         cell.backgroundColor = .white
         cell.layer.cornerRadius = 8
@@ -115,13 +122,30 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         cell.layer.shadowOpacity = 1.0
         cell.layer.masksToBounds = false
         
+        var reservation: Reservation!
+        
+        if inSearchMode {
+            reservation = filteredReservations[indexPath.row]
+        } else {
+            reservation = reservations[indexPath.row]
+        }
+        cell.reservation = reservation
+        
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-                
+        
+        var reservation: Reservation!
+        
+        if inSearchMode {
+            reservation = filteredReservations[indexPath.row]
+        } else {
+            reservation = reservations[indexPath.row]
+        }
+        
         let participantInfoVC = ParticipantInfoVC()
-        participantInfoVC.reservation = reservations[indexPath.row]
+        participantInfoVC.reservation = reservation
         navigationController?.pushViewController(participantInfoVC, animated: true)
     }
     
@@ -142,6 +166,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     // whenever the search bar cancel button is tapped
     @objc func handleCancel() {
         showSearchBar(shouldShow: false)
+        inSearchMode = false
+        collectionView.reloadData()
     }
     
 //    MARK: - Helper functions
@@ -159,7 +185,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     }
     
     func showSearchBar(shouldShow: Bool) {
-        
+        // shows searchbar if true
         showSearchBarButton(shouldShow: !shouldShow)
         navigationItem.titleView = shouldShow ? searchBar : nil
     }
@@ -207,10 +233,12 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         reservations = []
         formatReservationDate()
         
+        // fetch reservationIDs for current date
         RESERVATION_DATE_REF.child(currentDate).observe(.childAdded) { (snapshot) in
     
              let reservationIds = snapshot.key
             
+            // fetch reservations for current reservationIDs
             RESERVATION_REF.child(reservationIds).observeSingleEvent(of: .value) { (reservationSnapshot) in
                 
                 guard let dictionary = reservationSnapshot.value as? Dictionary<String, AnyObject> else { return }
@@ -235,8 +263,25 @@ extension HomeVC: UISearchBarDelegate {
         searchBar.text = nil
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    // filters search
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
+        
+        let searchText = searchText
+        
+        if searchText.isEmpty || searchText == " " {
+            inSearchMode = false
+            collectionView.reloadData()
+        } else {
+            inSearchMode = true
+            filteredReservations = reservations.filter({ (reservation) -> Bool in
+                return reservation.group.contains(searchText)
+            })
+            collectionView.reloadData()
+        }
     }
 }
 
