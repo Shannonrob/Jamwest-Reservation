@@ -270,7 +270,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         popoverViewController.popoverPresentationController?.sourceRect = CGRect(x: (selectedTextfield!.bounds.width) / 2, y: selectedTextfield!.bounds.height + 1, width: 0, height: 0)
         popoverViewController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
 
-        toolBar.anchor(top: popoverView.topAnchor, left: popoverView.leftAnchor, bottom: nil, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: pickerView.frame.width, height: 60)
+        toolBar.anchor(top: popoverView.topAnchor, left: popoverView.leftAnchor, bottom: nil, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
         pickerView.anchor(top: toolBar.bottomAnchor, left: popoverView.leftAnchor, bottom: popoverView.bottomAnchor, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         self.present(popoverViewController, animated: true, completion: nil)
@@ -348,8 +348,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
             phoneNumberTextfield.becomeFirstResponder()
         case phoneNumberTextfield:
             emailTextfield.becomeFirstResponder()
-        case emailTextfield:
-            countryTextfield.becomeFirstResponder()
         default:
             textField.resignFirstResponder()
         }

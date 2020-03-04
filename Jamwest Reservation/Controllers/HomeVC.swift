@@ -69,7 +69,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         showSearchBar(shouldShow: false)
         collectionView.reloadData()
     }
-  
+    
     
 //    MARK: - UICollectionViewFlowLayout
     
