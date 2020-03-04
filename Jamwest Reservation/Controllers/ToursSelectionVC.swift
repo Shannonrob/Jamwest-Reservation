@@ -119,9 +119,13 @@ class ToursSelectionVC: UIViewController {
     
 //    MARK: - Selectors
     
-    @objc func handleDismiss() {
-//        dismiss(animated: true, completion: nil)
+    @objc func handleCancelButton() {
+
         dismissTourSelectionVC(navigationItem.leftBarButtonItem!)
+    }
+    
+    @objc func handleBackButton() {
+        _ = navigationController?.popViewController(animated: true)
     }
     
     @objc func handleATVTour() {
@@ -450,7 +454,10 @@ class ToursSelectionVC: UIViewController {
         
         let reservation = UIFont.boldSystemFont(ofSize: 25)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteDismiss ").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleBackButton))
+        navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelButton))
+        navigationItem.rightBarButtonItem?.tintColor = .white
     }
     
     
@@ -581,7 +588,7 @@ class ToursSelectionVC: UIViewController {
     // Action sheet
     func showAlertSheet(_ sender: UIButton) {
 
-        let alertController = UIAlertController(title: nil, message: "Do you wish to submit another reservation?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: nil, message: "Would you like to create another reservation?", preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             // present AddReservationVC
             self.showAddReservationVC()
@@ -604,16 +611,16 @@ class ToursSelectionVC: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    
+    // dismiss toursSelectionVC
     func dismissTourSelectionVC(_ sender: UIBarButtonItem) {
         
-        let alertController = UIAlertController(title: "Warning", message: "This reservation will be incomplete!", preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Proceed", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+        let alertController = UIAlertController(title: "Warning", message: "Reservation will be incomplete!", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Leave", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
             // dismiss tourSelectionVC
             self.dismiss(animated: true, completion: nil)
         })
 
-        let deleteAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+        let deleteAction = UIAlertAction(title: "Stay here", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
         })
 
         alertController.addAction(defaultAction)
