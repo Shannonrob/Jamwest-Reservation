@@ -26,7 +26,25 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         NotificationCenter.default.removeObserver(self)
     }
     
-    //    var toursDictionary = [:] as [String: Any] delete if not used
+//    MARK: - SearchBar
+    
+    let searchBar: UISearchBar = {
+       
+        let searchBar = UISearchBar()
+        searchBar.sizeToFit()
+        searchBar.barStyle = .black
+        searchBar.searchTextField.textColor = .white
+        searchBar.placeholder = "Search group"
+        return searchBar
+    }()
+    
+//    MARK: - BarButton
+    
+    let cancelButton: UIBarButtonItem = {
+        
+        let button = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+        return button
+    }()
        
     
  //    MARK: - Init
@@ -40,7 +58,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         configureUI()
         observeDateChanged()
         fetchCurrentReservations()
-    
      }
     
     
@@ -109,8 +126,37 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         delegate?.handleMenuToggle(forMenuOption: nil)
     }
     
+    // shows the searchBar
+    @objc func handleSearchBar() {
+       showSearchBar(shouldShow: true)
+        searchBar.becomeFirstResponder()
+        searchBar.delegate = self
+    }
+    
+    // whenever the search bar cancel button is tapped
+    @objc func handleCancel() {
+        showSearchBar(shouldShow: false)
+    }
     
 //    MARK: - Helper functions
+    
+    // switches between searchBar to cancel button
+    func showSearchBarButton(shouldShow: Bool) {
+        
+        if shouldShow {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleSearchBar))
+        } else {
+            navigationItem.rightBarButtonItem = cancelButton
+            cancelButton.target = self
+            cancelButton.action = .some(#selector(handleCancel))
+        }
+    }
+    
+    func showSearchBar(shouldShow: Bool) {
+        
+        showSearchBarButton(shouldShow: !shouldShow)
+        navigationItem.titleView = shouldShow ? searchBar : nil
+    }
     
     // listener for dateDidChange notification
     func observeDateChanged() {
@@ -138,14 +184,14 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
        
         let reservation = UIFont.boldSystemFont(ofSize: 25)
         navigationController?.navigationBar.barTintColor = Constants.Design.Color.Primary.HeavyGreen
-        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.tintColor = .white
         
         navigationItem.title = "Reservations"
-        
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleMenuToggle))
+        showSearchBar(shouldShow: false)
     }
     
 //    MARK: - API
@@ -177,6 +223,16 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension HomeVC: UISearchBarDelegate {
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+    }
+}
 
 
 
