@@ -278,7 +278,7 @@ extension HomeVC: UISearchBarDelegate {
         } else {
             inSearchMode = true
             filteredReservations = reservations.filter({ (reservation) -> Bool in
-                return reservation.group.contains(searchText)
+                return reservation.group.localizedCaseInsensitiveContains(searchText)
             })
             collectionView.reloadData()
         }

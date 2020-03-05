@@ -326,7 +326,10 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         formatDate()
         formValidation()
         reservationDateTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeDate"))
-        groupNameTextfield.becomeFirstResponder()
+        
+        if !groupNameTextfield.hasText {
+            groupNameTextfield.becomeFirstResponder()
+        }
     }
     
     @objc func handleStepper() {
