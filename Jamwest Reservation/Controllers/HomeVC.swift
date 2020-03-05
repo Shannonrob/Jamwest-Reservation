@@ -154,6 +154,11 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     @objc func handleMenuToggle() {
         
         delegate?.handleMenuToggle(forMenuOption: nil)
+        
+        // dismiss searchBar when presenting menu
+        if searchBar.isFirstResponder {
+            showSearchBar(shouldShow: false)
+        }
     }
     
     // shows the searchBar
