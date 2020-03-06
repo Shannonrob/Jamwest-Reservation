@@ -120,63 +120,49 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     let firstNameLabel: UILabel = {
 
      let label = UILabel()
-     label.text = " First name"
-     label.textColor = .darkGray
-     label.font = UIFont(name: avenirNext_Demibold, size: 16)
+     label.labelConfigurations(text: " First name", textColor: .darkGray, fontSize: 16)
      return label
     }()
-    
+
     let lastNameLabel: UILabel = {
 
      let label = UILabel()
-     label.text = " Last name"
-     label.textColor = .darkGray
-     label.font = UIFont(name: avenirNext_Demibold, size: 16)
+     label.labelConfigurations(text: " Last name", textColor: .darkGray, fontSize: 18)
      return label
     }()
     
     let emailLabel: UILabel = {
 
      let label = UILabel()
-     label.text = " Email"
-     label.textColor = .darkGray
-     label.font = UIFont(name: avenirNext_Demibold, size: 16)
+     label.labelConfigurations(text: " Email", textColor: .darkGray, fontSize: 18)
      return label
     }()
     
     let countryLabel: UILabel = {
 
      let label = UILabel()
-     label.text = " Country of residence"
-     label.textColor = .darkGray
-     label.font = UIFont(name: avenirNext_Demibold, size: 16)
+     label.labelConfigurations(text: " Country of residence", textColor: .darkGray, fontSize: 18)
      return label
     }()
     
     let phoneNumberLabel: UILabel = {
 
      let label = UILabel()
-     label.text = " Phone number"
-     label.textColor = .darkGray
-     label.font = UIFont(name: avenirNext_Demibold, size: 16)
+     label.labelConfigurations(text: " Phone number", textColor: .darkGray, fontSize: 18)
      return label
     }()
     
     let dateLabel: UILabel = {
         
      let label = UILabel()
-     label.text = " Date"
-     label.textColor = .darkGray
-     label.font = UIFont(name: avenirNext_Demibold, size: 16)
+     label.labelConfigurations(text: " Date", textColor: .darkGray, fontSize: 18)
      return label
     }()
     
     let groupCountLabel: UILabel = {
         
      let label = UILabel()
-     label.text = " Group Count"
-     label.textColor = .darkGray
-     label.font = UIFont(name: avenirNext_Demibold, size: 16)
+     label.labelConfigurations(text: " Group Count", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
      return label
     }()
     

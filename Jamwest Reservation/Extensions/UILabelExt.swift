@@ -31,4 +31,19 @@ extension UILabel {
         layer.add(move, forKey: nil)
         
     }
+    
+    func labelConfigurations(text: String?, textColor: UIColor?, fontSize: CGFloat?) {
+        
+        if let text = text {
+            self.text = text
+        }
+        
+        if let textColor = textColor {
+            self.textColor = textColor
+        }
+  
+        if let font = fontSize {
+            self.font = UIFont.init(name: avenirNext_Demibold, size: font)
+        }        
+    }
 }
