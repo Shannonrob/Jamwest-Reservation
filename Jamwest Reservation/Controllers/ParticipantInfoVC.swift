@@ -21,65 +21,40 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     
 //    MARK: - TextFields
     
-    let firstNameTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: "First name", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 400, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeName"))
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+    let firstNameTextfield: ParticipantInfoTextField = {
+        let textfield = ParticipantInfoTextField()
+        textfield.configurePlaceHolderWithIcon("First name", #imageLiteral(resourceName: "orangeName"))
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
     let lastNameTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Last name", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 400, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeName"))
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        let textfield = ParticipantInfoTextField()
+        textfield.configurePlaceHolderWithIcon("Last name", #imageLiteral(resourceName: "orangeName"))
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
     let emailTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Email", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 400, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeEmail "))
+        let textfield = ParticipantInfoTextField()
+        textfield.configurePlaceHolderWithIcon("Email", #imageLiteral(resourceName: "orangeEmail "))
         textfield.keyboardType = .emailAddress
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
     let phoneNumberTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Phone number", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 400, height: 51)
+        let textfield = ParticipantInfoTextField()
+        textfield.configurePlaceHolderWithIcon("Phone number", #imageLiteral(resourceName: "orangePhone "))
         textfield.keyboardType = .phonePad
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangePhone "))
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
     let dateTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: nil, backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 400, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeDate"))
+        let textfield = ParticipantInfoTextField()
+        textfield.configurePlaceHolderWithIcon(nil, #imageLiteral(resourceName: "orangeDate"))
         textfield.isEnabled = false
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
         return textfield
     }()
@@ -88,12 +63,12 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         let textfield = UITextField()
         textfield.design(placeHolder: "Country", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 235, height: 51)
         textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeCountry "))
-        textfield.allowsEditingTextAttributes = false
-        textfield.textAlignment = .center
         textfield.layer.borderWidth = 0.85
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
         textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.allowsEditingTextAttributes = false
+        textfield.textAlignment = .center
         textfield.addTarget(self, action: #selector(handlePickerView), for: .editingDidBegin)
         return textfield
     }()

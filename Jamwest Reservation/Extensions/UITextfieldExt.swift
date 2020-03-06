@@ -42,6 +42,24 @@ extension UITextField {
            }
     }
     
+    // placeholder with image used in ParticipantInfoVC
+    func configurePlaceHolderWithIcon(_ placeHolder: String?, _ image: UIImage) {
+        
+        if placeHolder != nil {
+            self.attributedPlaceholder = NSAttributedString(string: placeHolder!, attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+        }
+        
+        let iconView = UIImageView(frame: CGRect(x: -10, y: 0, width: 50, height: 50))
+        iconView.image = image
+        
+        let iconContainerView: UIView = UIView(frame: CGRect(x: 30, y: 0, width: 50, height: 50))
+        iconContainerView.addSubview(iconView)
+        
+        rightView = iconContainerView
+        rightViewMode = .unlessEditing
+    }
+    
+    
     // textfield icon
     func setTextfieldIcon(_ image: UIImage) {
         
