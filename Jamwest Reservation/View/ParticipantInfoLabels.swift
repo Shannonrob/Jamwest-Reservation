@@ -59,6 +59,8 @@ class ParticipantInfoLabels: UILabel {
      return label
     }()
     
+//    MARK: - Question labels
+    
     let questionaireLabel: UILabel = {
 
      let label = UILabel()
@@ -68,45 +70,115 @@ class ParticipantInfoLabels: UILabel {
      label.textColor = Constants.Design.Color.Primary.MarkerColor
      label.layer.shadowColor = UIColor.gray.cgColor
      label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
-     label.layer.shadowRadius = 1.0
-     label.layer.shadowOpacity = 1.0
-     label.layer.masksToBounds = false
-        
+     label.layer.shadowRadius = 0.25
+     label.layer.shadowOpacity = 0.50
      return label
     }()
     
     let ageLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Are you over 18 years of age?", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        label.labelConfigurations(text: "Are you over 18 years of age?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 22)
         return label
     }()
     
     let heartProblemLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Do you have heart problems?", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        label.labelConfigurations(text: "Do you have heart problems?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 22)
         return label
     }()
     
     let backProblemLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Do you have back problems?", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        label.labelConfigurations(text: "Do you have back problems?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 22)
         return label
     }()
     
-    let influenceLabel: UILabel = {
+    let underInfluenceLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Are you under the influence of (drug/alcohol)?", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        label.labelConfigurations(text: "Are you under the influence of (drug/alcohol)?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 22)
         return label
     }()
     
     let pregnantLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: " Are you pregnant?", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        label.labelConfigurations(text: "Are you pregnant?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+//    MARK: - Answers labels
+    
+    let ageYesAnswerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+    let ageNoAnswerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+    let backProblemYesAnswersLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+    let backProblemNoAnswersLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+    let heartProblemYesAnswersLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+    let heartProblemNoAnswersLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+    let underInfluenceYesAnswerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+    let underInfluenceNoAnswerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+    let pregnantYesAnswersLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 22)
+        return label
+    }()
+    
+    let pregnantNoAnswersLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 22)
         return label
     }()
     

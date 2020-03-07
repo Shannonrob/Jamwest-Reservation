@@ -57,6 +57,7 @@ extension UITextField {
         
         rightView = iconContainerView
         rightViewMode = .unlessEditing
+        
     }
     
     

@@ -38,12 +38,15 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
        
         let view = UIView()
         view.layer.cornerRadius = 8
-        view.layer.borderColor = (Constants.Design.Color.Primary.MarkerColor).cgColor
-        view.layer.borderWidth = 1.5
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.75)
-        
+        view.layer.borderWidth = 0.25
+        view.layer.borderColor = UIColor.clear.cgColor
+        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        view.layer.shadowRadius = 1.0
+        view.layer.shadowOpacity = 1.0
+        view.layer.masksToBounds = false
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return view
-        
     }()
     
     
@@ -301,9 +304,14 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         bottomRightStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 25)
         bottomRightStackView.axis = .horizontal
         
-        let questionsStackView = UIStackView(arrangedSubviews: [participantInfoLabels.ageLabel, participantInfoLabels.backProblemLabel, participantInfoLabels.heartProblemLabel, participantInfoLabels.influenceLabel, participantInfoLabels.pregnantLabel])
+        let questionsStackView = UIStackView(arrangedSubviews: [participantInfoLabels.ageLabel, participantInfoLabels.backProblemLabel, participantInfoLabels.heartProblemLabel, participantInfoLabels.underInfluenceLabel, participantInfoLabels.pregnantLabel])
         questionsStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
         questionsStackView.axis = .vertical
+        
+        let answerStackView = UIStackView(arrangedSubviews: [participantInfoLabels.ageYesAnswerLabel, participantInfoLabels.ageNoAnswerLabel])
+        answerStackView.configureStackView(alignment: .center, distribution: .equalCentering, spacing: 25)
+        answerStackView.axis = .horizontal
+        
         
         //anchors
         view.addSubview(leftStackView)
@@ -323,7 +331,10 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         participantInfoLabels.questionaireLabel.centerXAnchor.constraint(equalTo: questionView.centerXAnchor).isActive = true
         
         questionView.addSubview(questionsStackView)
-        questionsStackView.anchor(top: participantInfoLabels.questionaireLabel.bottomAnchor, left: questionView.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        questionsStackView.anchor(top: participantInfoLabels.questionaireLabel.bottomAnchor, left: questionView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 60, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        questionView.addSubview(answerStackView)
+        answerStackView.anchor(top: participantInfoLabels.questionaireLabel.bottomAnchor, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 0, height: 0)
         
     }
 }
