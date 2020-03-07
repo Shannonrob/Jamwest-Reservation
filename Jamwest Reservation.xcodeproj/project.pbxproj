@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8502D06A2413E08500A4E808 /* ParticipantInfoButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8502D0692413E08500A4E808 /* ParticipantInfoButtons.swift */; };
 		855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D940F240E8AB900F50CB2 /* AppDelegate.swift */; };
 		855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9411240E8AB900F50CB2 /* SceneDelegate.swift */; };
 		855D9419240E8AB900F50CB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855D9418240E8AB900F50CB2 /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 /* Begin PBXFileReference section */
 		298CE1659D48E687F3B38B25 /* Pods-Jamwest Reservation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.debug.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.debug.xcconfig"; sourceTree = "<group>"; };
 		4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.release.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.release.xcconfig"; sourceTree = "<group>"; };
+		8502D0692413E08500A4E808 /* ParticipantInfoButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoButtons.swift; sourceTree = "<group>"; };
 		855D940C240E8AB900F50CB2 /* Jamwest Reservation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jamwest Reservation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		855D940F240E8AB900F50CB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		855D9411240E8AB900F50CB2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
 				85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */,
 				85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */,
+				8502D0692413E08500A4E808 /* ParticipantInfoButtons.swift */,
 				85BECCB42413137500C62454 /* ParticipantInfoLabels.swift */,
 				85BECCB82413188C00C62454 /* ParticipantInfoTextFields.swift */,
 			);
@@ -337,6 +340,7 @@
 				855D944E240E95B600F50CB2 /* AddReservationVC.swift in Sources */,
 				855D9440240E940E00F50CB2 /* Countries.swift in Sources */,
 				855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */,
+				8502D06A2413E08500A4E808 /* ParticipantInfoButtons.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				855D9448240E94E000F50CB2 /* Reservation.swift in Sources */,
 				855D9454240E95D600F50CB2 /* MenuVC.swift in Sources */,

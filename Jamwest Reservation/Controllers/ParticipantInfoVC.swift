@@ -20,6 +20,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     var pickerViewSelection: String?
     var participantInfoLabels = ParticipantInfoLabels()
     var participantInfoTextFields = ParticipantInfoTextFields()
+    var participantInfoButtons = ParticipantInfoButtons()
     
     
 //    MARK: - Picker
@@ -304,13 +305,76 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         bottomRightStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 25)
         bottomRightStackView.axis = .horizontal
         
-        let questionsStackView = UIStackView(arrangedSubviews: [participantInfoLabels.ageLabel, participantInfoLabels.backProblemLabel, participantInfoLabels.heartProblemLabel, participantInfoLabels.underInfluenceLabel, participantInfoLabels.pregnantLabel])
-        questionsStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
-        questionsStackView.axis = .vertical
+//        MARK: - Age question constraints
+        let ageYesStackView = UIStackView(arrangedSubviews: [participantInfoButtons.yesAgeButton ,participantInfoLabels.ageYesAnswerLabel])
+        ageYesStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
+        ageYesStackView.axis = .horizontal
         
-        let answerStackView = UIStackView(arrangedSubviews: [participantInfoLabels.ageYesAnswerLabel, participantInfoLabels.ageNoAnswerLabel])
-        answerStackView.configureStackView(alignment: .center, distribution: .equalCentering, spacing: 25)
-        answerStackView.axis = .horizontal
+        let ageNoStackView = UIStackView(arrangedSubviews: [participantInfoButtons.noAgeButton ,participantInfoLabels.ageNoAnswerLabel])
+        ageNoStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
+        ageNoStackView.axis = .horizontal
+        
+        let ageAnswersStackView = UIStackView(arrangedSubviews: [ageYesStackView, ageNoStackView])
+        ageAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 25)
+        ageAnswersStackView.axis = .horizontal
+        
+        let ageStackView = UIStackView(arrangedSubviews: [participantInfoLabels.ageLabel, ageAnswersStackView])
+        ageStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 6)
+        ageStackView.axis = .vertical
+        
+//        MARK: - Back problem question constraints
+        let yesBackProblemStackView = UIStackView(arrangedSubviews: [participantInfoButtons.yesBackProblemButton ,participantInfoLabels.backProblemYesAnswersLabel])
+       yesBackProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
+       yesBackProblemStackView.axis = .horizontal
+
+       let noBackProblemStackView = UIStackView(arrangedSubviews: [participantInfoButtons.noBackProblemButton ,participantInfoLabels.backProblemNoAnswersLabel])
+       noBackProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
+       noBackProblemStackView.axis = .horizontal
+
+       let backProblemAnswersStackView = UIStackView(arrangedSubviews: [yesBackProblemStackView, noBackProblemStackView])
+       backProblemAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 25)
+       backProblemAnswersStackView.axis = .horizontal
+
+       let backProblemStackView = UIStackView(arrangedSubviews: [participantInfoLabels.backProblemLabel, backProblemAnswersStackView])
+       backProblemStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 6)
+       backProblemStackView.axis = .vertical
+        
+//        MARK: - Heart problem question constraints
+        let yesHeartProblemStackView = UIStackView(arrangedSubviews: [participantInfoButtons.yesHeartProblemButton ,participantInfoLabels.heartProblemYesAnswersLabel])
+        yesHeartProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
+        yesHeartProblemStackView.axis = .horizontal
+        
+        let noHeartProblemStackView = UIStackView(arrangedSubviews: [participantInfoButtons.noHeartProblemButton ,participantInfoLabels.heartProblemNoAnswersLabel])
+        noHeartProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
+        noHeartProblemStackView.axis = .horizontal
+        
+        let heartProblemAnswersStackView = UIStackView(arrangedSubviews: [yesHeartProblemStackView, noHeartProblemStackView])
+        heartProblemAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 25)
+        heartProblemAnswersStackView.axis = .horizontal
+        
+        let heartProblemStackView = UIStackView(arrangedSubviews: [participantInfoLabels.heartProblemLabel, heartProblemAnswersStackView])
+        heartProblemStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 6)
+        heartProblemStackView.axis = .vertical
+        
+//        MARK: - Under influence question constraints
+        let yesUnderInfluenceStackView = UIStackView(arrangedSubviews: [participantInfoButtons.yesUnderInfluenceButton ,participantInfoLabels.underInfluenceYesAnswerLabel])
+        yesUnderInfluenceStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
+        yesUnderInfluenceStackView.axis = .horizontal
+        
+        let noUnderInfluenceStackView = UIStackView(arrangedSubviews: [participantInfoButtons.noUnderInfluenceButton ,participantInfoLabels.underInfluenceNoAnswerLabel])
+        noUnderInfluenceStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
+        noUnderInfluenceStackView.axis = .horizontal
+        
+        let underInfluenceAnswersStackView = UIStackView(arrangedSubviews: [yesUnderInfluenceStackView, noUnderInfluenceStackView])
+        underInfluenceAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 25)
+        underInfluenceAnswersStackView.axis = .horizontal
+        
+        let underInfluenceStackView = UIStackView(arrangedSubviews: [participantInfoLabels.underInfluenceLabel, underInfluenceAnswersStackView])
+        underInfluenceStackView.configureStackView(alignment: .trailing, distribution: .equalSpacing, spacing: 6)
+        underInfluenceStackView.axis = .vertical
+
+        
+        
         
         
         //anchors
@@ -327,14 +391,21 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         questionView.anchor(top: bottomRightStackView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 30, paddingLeft: 80, paddingBottom: 25, paddingRight: 80, width: 0, height: 0)
         
         questionView.addSubview(participantInfoLabels.questionaireLabel)
-        participantInfoLabels.questionaireLabel.anchor(top: questionView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        participantInfoLabels.questionaireLabel.anchor(top: questionView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         participantInfoLabels.questionaireLabel.centerXAnchor.constraint(equalTo: questionView.centerXAnchor).isActive = true
         
-        questionView.addSubview(questionsStackView)
-        questionsStackView.anchor(top: participantInfoLabels.questionaireLabel.bottomAnchor, left: questionView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 60, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        questionView.addSubview(ageStackView)
+        ageStackView.anchor(top: participantInfoLabels.questionaireLabel.bottomAnchor, left: questionView.leftAnchor, bottom: nil, right: nil, paddingTop: 35, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-        questionView.addSubview(answerStackView)
-        answerStackView.anchor(top: participantInfoLabels.questionaireLabel.bottomAnchor, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 0, height: 0)
+        questionView.addSubview(backProblemStackView)
+        backProblemStackView.anchor(top: ageStackView.bottomAnchor, left: questionView.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        questionView.addSubview(heartProblemStackView)
+        heartProblemStackView.anchor(top: backProblemStackView.bottomAnchor, left: questionView.leftAnchor, bottom: questionView.bottomAnchor, right: nil, paddingTop: 15, paddingLeft: 40, paddingBottom: 20, paddingRight: 0, width: 0, height: 0)
+        
+        questionView.addSubview(underInfluenceStackView)
+        underInfluenceStackView.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 0, height: 0)
+        underInfluenceStackView.centerYAnchor.constraint(equalTo: ageStackView.centerYAnchor).isActive = true
         
     }
 }
