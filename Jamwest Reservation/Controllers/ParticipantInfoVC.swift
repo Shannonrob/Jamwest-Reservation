@@ -22,58 +22,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     var participantInfoTextFields = ParticipantInfoTextFields()
     
     
-//    MARK: - Labels
-    
-    let firstNameLabel: UILabel = {
-
-     let label = UILabel()
-     label.labelConfigurations(text: " First name", textColor: .darkGray, fontSize: 16)
-     return label
-    }()
-
-    let lastNameLabel: UILabel = {
-
-     let label = UILabel()
-     label.labelConfigurations(text: " Last name", textColor: .darkGray, fontSize: 16)
-     return label
-    }()
-    
-    let emailLabel: UILabel = {
-
-     let label = UILabel()
-     label.labelConfigurations(text: " Email", textColor: .darkGray, fontSize: 16)
-     return label
-    }()
-    
-    let countryLabel: UILabel = {
-
-     let label = UILabel()
-     label.labelConfigurations(text: " Country of residence", textColor: .darkGray, fontSize: 16)
-     return label
-    }()
-    
-    let phoneNumberLabel: UILabel = {
-
-     let label = UILabel()
-     label.labelConfigurations(text: " Phone number", textColor: .darkGray, fontSize: 16)
-     return label
-    }()
-    
-    let dateLabel: UILabel = {
-        
-     let label = UILabel()
-     label.labelConfigurations(text: " Date", textColor: .darkGray, fontSize: 16)
-     return label
-    }()
-    
-    let groupCountLabel: UILabel = {
-        
-     let label = UILabel()
-     label.labelConfigurations(text: " Group Count", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
-     return label
-    }()
-    
-    
 //    MARK: - Picker
     
     let pickerView: UIPickerView = {
@@ -82,6 +30,20 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         picker.backgroundColor = .white
         picker.setValue(UIColor.black, forKey: "textColor")
         return picker
+    }()
+    
+//    MARK: - View
+    
+    let questionView: UIView = {
+       
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.layer.borderColor = (Constants.Design.Color.Primary.MarkerColor).cgColor
+        view.layer.borderWidth = 1.5
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.75)
+        
+        return view
+        
     }()
     
     
@@ -299,31 +261,31 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     
     func configureConstraints() {
         
-        let firstNameStackView = UIStackView(arrangedSubviews: [firstNameLabel, participantInfoTextFields.firstNameTextfield])
+        let firstNameStackView = UIStackView(arrangedSubviews: [participantInfoLabels.firstNameLabel, participantInfoTextFields.firstNameTextfield])
         firstNameStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         firstNameStackView.axis = .vertical
         
-        let lastNameStackView = UIStackView(arrangedSubviews: [lastNameLabel, participantInfoTextFields.lastNameTextfield])
+        let lastNameStackView = UIStackView(arrangedSubviews: [participantInfoLabels.lastNameLabel, participantInfoTextFields.lastNameTextfield])
         lastNameStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         lastNameStackView.axis = .vertical
         
-        let emailStackView = UIStackView(arrangedSubviews: [emailLabel, participantInfoTextFields.emailTextfield])
+        let emailStackView = UIStackView(arrangedSubviews: [participantInfoLabels.emailLabel, participantInfoTextFields.emailTextfield])
         emailStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         emailStackView.axis = .vertical
         
-        let phoneNumberStackView = UIStackView(arrangedSubviews: [phoneNumberLabel, participantInfoTextFields.phoneNumberTextfield])
+        let phoneNumberStackView = UIStackView(arrangedSubviews: [participantInfoLabels.phoneNumberLabel, participantInfoTextFields.phoneNumberTextfield])
         phoneNumberStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         phoneNumberStackView.axis = .vertical
         
-        let dateStackView = UIStackView(arrangedSubviews: [dateLabel, participantInfoTextFields.dateTextfield])
+        let dateStackView = UIStackView(arrangedSubviews: [participantInfoLabels.dateLabel, participantInfoTextFields.dateTextfield])
         dateStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         dateStackView.axis = .vertical
         
-        let countryStackView = UIStackView(arrangedSubviews: [countryLabel, participantInfoTextFields.countryTextfield])
+        let countryStackView = UIStackView(arrangedSubviews: [participantInfoLabels.countryLabel, participantInfoTextFields.countryTextfield])
         countryStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         countryStackView.axis = .vertical
         
-        let groupCountStackView = UIStackView(arrangedSubviews: [groupCountLabel, participantInfoTextFields.groupCountTextfield])
+        let groupCountStackView = UIStackView(arrangedSubviews: [participantInfoLabels.groupCountLabel, participantInfoTextFields.groupCountTextfield])
         groupCountStackView.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: nil)
         groupCountStackView.axis = .vertical
         
@@ -339,6 +301,10 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         bottomRightStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 25)
         bottomRightStackView.axis = .horizontal
         
+        let questionsStackView = UIStackView(arrangedSubviews: [participantInfoLabels.ageLabel, participantInfoLabels.backProblemLabel, participantInfoLabels.heartProblemLabel, participantInfoLabels.influenceLabel, participantInfoLabels.pregnantLabel])
+        questionsStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
+        questionsStackView.axis = .vertical
+        
         //anchors
         view.addSubview(leftStackView)
         leftStackView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 80, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -348,6 +314,16 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         
         view.addSubview(bottomRightStackView)
         bottomRightStackView.anchor(top: rightStackView.bottomAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 0, height: 0)
+        
+        view.addSubview(questionView)
+        questionView.anchor(top: bottomRightStackView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 30, paddingLeft: 80, paddingBottom: 25, paddingRight: 80, width: 0, height: 0)
+        
+        questionView.addSubview(participantInfoLabels.questionaireLabel)
+        participantInfoLabels.questionaireLabel.anchor(top: questionView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        participantInfoLabels.questionaireLabel.centerXAnchor.constraint(equalTo: questionView.centerXAnchor).isActive = true
+        
+        questionView.addSubview(questionsStackView)
+        questionsStackView.anchor(top: participantInfoLabels.questionaireLabel.bottomAnchor, left: questionView.leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
     }
 }
