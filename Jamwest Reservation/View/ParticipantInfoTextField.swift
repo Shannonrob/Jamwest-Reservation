@@ -24,4 +24,6 @@ class ParticipantInfoTextField: UITextField {
         widthAnchor.constraint(equalToConstant: 400).isActive = true
         heightAnchor.constraint(equalToConstant: 51).isActive = true
     }
+    
+    
 }
