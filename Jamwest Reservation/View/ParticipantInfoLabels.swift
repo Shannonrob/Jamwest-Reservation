@@ -115,70 +115,70 @@ class ParticipantInfoLabels: UILabel {
     let ageYesAnswerLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
     let ageNoAnswerLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
     let backProblemYesAnswersLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
     let backProblemNoAnswersLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
     let heartProblemYesAnswersLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
     let heartProblemNoAnswersLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
     let underInfluenceYesAnswerLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
     let underInfluenceNoAnswerLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
     let pregnantYesAnswersLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
     let pregnantNoAnswersLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 15)
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
         return label
     }()
     
