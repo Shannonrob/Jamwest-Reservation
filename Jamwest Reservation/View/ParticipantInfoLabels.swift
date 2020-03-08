@@ -64,7 +64,7 @@ class ParticipantInfoLabels: UILabel {
     let questionaireLabel: UILabel = {
 
      let label = UILabel()
-     let attributedTitle = NSMutableAttributedString(string: "Please answer the following questions accurately", attributes: [NSAttributedString.Key.font : UIFont(name: helveticaNeue_Bold, size: 26) ?? UIFont.boldSystemFont(ofSize: 26), NSAttributedString.Key.foregroundColor: UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1), NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue])
+     let attributedTitle = NSMutableAttributedString(string: "Answer the following questions accurately", attributes: [NSAttributedString.Key.font : UIFont(name: helveticaNeue_Bold, size: 26) ?? UIFont.boldSystemFont(ofSize: 26), NSAttributedString.Key.foregroundColor: UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1), NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue])
         
      label.attributedText = attributedTitle
      label.textColor = Constants.Design.Color.Primary.MarkerColor

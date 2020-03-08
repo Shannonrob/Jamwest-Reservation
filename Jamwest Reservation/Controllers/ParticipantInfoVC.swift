@@ -317,7 +317,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         ageNoStackView.axis = .horizontal
         
         let ageAnswersStackView = UIStackView(arrangedSubviews: [ageYesStackView, ageNoStackView])
-        ageAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 25)
+        ageAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 10)
         ageAnswersStackView.axis = .horizontal
         
         let ageStackView = UIStackView(arrangedSubviews: [participantInfoLabels.ageLabel, ageAnswersStackView])
@@ -334,7 +334,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
        noBackProblemStackView.axis = .horizontal
 
        let backProblemAnswersStackView = UIStackView(arrangedSubviews: [yesBackProblemStackView, noBackProblemStackView])
-       backProblemAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 25)
+       backProblemAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 10)
        backProblemAnswersStackView.axis = .horizontal
 
        let backProblemStackView = UIStackView(arrangedSubviews: [participantInfoLabels.backProblemLabel, backProblemAnswersStackView])
@@ -351,7 +351,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         noHeartProblemStackView.axis = .horizontal
         
         let heartProblemAnswersStackView = UIStackView(arrangedSubviews: [yesHeartProblemStackView, noHeartProblemStackView])
-        heartProblemAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 25)
+        heartProblemAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 10)
         heartProblemAnswersStackView.axis = .horizontal
         
         let heartProblemStackView = UIStackView(arrangedSubviews: [participantInfoLabels.heartProblemLabel, heartProblemAnswersStackView])
@@ -368,7 +368,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         noUnderInfluenceStackView.axis = .horizontal
         
         let underInfluenceAnswersStackView = UIStackView(arrangedSubviews: [yesUnderInfluenceStackView, noUnderInfluenceStackView])
-        underInfluenceAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 25)
+        underInfluenceAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 10)
         underInfluenceAnswersStackView.axis = .horizontal
         
         let underInfluenceStackView = UIStackView(arrangedSubviews: [participantInfoLabels.underInfluenceLabel, underInfluenceAnswersStackView])
@@ -385,7 +385,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         noPregnantStackView.axis = .horizontal
         
         let pregnantAnswersStackView = UIStackView(arrangedSubviews: [yesPregnantStackView, noPregnantStackView])
-        pregnantAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 25)
+        pregnantAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 10)
         pregnantAnswersStackView.axis = .horizontal
         
         let pregnantStackView = UIStackView(arrangedSubviews: [participantInfoLabels.pregnantLabel, pregnantAnswersStackView])

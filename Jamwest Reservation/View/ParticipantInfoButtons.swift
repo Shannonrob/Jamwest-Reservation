@@ -15,7 +15,7 @@ class ParticipantInfoButtons: UIButton {
         
         let button = UIButton(type: .system)
 //        button.selectedPackageButtonState(icon: "greenRadioUnselected", font: nil, enabled: true)
-        button.unSelectedPackageButtonState(icon: "greenSelectedRadioSmall", font: nil, enabled: false)
+        button.unSelectedPackageButtonState(icon: "greenSelectedRadioSmall", font: nil, enabled: true)
 //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
         return button
     }()
