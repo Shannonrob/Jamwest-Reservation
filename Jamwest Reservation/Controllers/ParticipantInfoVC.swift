@@ -21,6 +21,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     var participantInfoLabels = ParticipantInfoLabels()
     var participantInfoTextFields = ParticipantInfoTextFields()
     var participantInfoButtons = ParticipantInfoButtons()
+    var participantInfoView = ParticipantInfoViews()
     
     
 //    MARK: - Picker
@@ -308,11 +309,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         bottomRightStackView.axis = .horizontal
         
 //        MARK: - Age question constraints
-        let ageYesStackView = UIStackView(arrangedSubviews: [participantInfoButtons.yesAgeButton ,participantInfoLabels.ageYesAnswerLabel])
+        let ageYesStackView = UIStackView(arrangedSubviews: [participantInfoView.yesAgeButton ,participantInfoLabels.ageYesAnswerLabel])
         ageYesStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         ageYesStackView.axis = .horizontal
         
-        let ageNoStackView = UIStackView(arrangedSubviews: [participantInfoButtons.noAgeButton ,participantInfoLabels.ageNoAnswerLabel])
+        let ageNoStackView = UIStackView(arrangedSubviews: [participantInfoView.noAgeButton ,participantInfoLabels.ageNoAnswerLabel])
         ageNoStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         ageNoStackView.axis = .horizontal
         
@@ -325,11 +326,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         ageStackView.axis = .vertical
         
 //        MARK: - Back problem question constraints
-        let yesBackProblemStackView = UIStackView(arrangedSubviews: [participantInfoButtons.yesBackProblemButton ,participantInfoLabels.backProblemYesAnswersLabel])
+        let yesBackProblemStackView = UIStackView(arrangedSubviews: [participantInfoView.yesBackProblemButton ,participantInfoLabels.backProblemYesAnswersLabel])
        yesBackProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
        yesBackProblemStackView.axis = .horizontal
 
-       let noBackProblemStackView = UIStackView(arrangedSubviews: [participantInfoButtons.noBackProblemButton ,participantInfoLabels.backProblemNoAnswersLabel])
+       let noBackProblemStackView = UIStackView(arrangedSubviews: [participantInfoView.noBackProblemButton ,participantInfoLabels.backProblemNoAnswersLabel])
        noBackProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
        noBackProblemStackView.axis = .horizontal
 
@@ -342,11 +343,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
        backProblemStackView.axis = .vertical
         
 //        MARK: - Heart problem question constraints
-        let yesHeartProblemStackView = UIStackView(arrangedSubviews: [participantInfoButtons.yesHeartProblemButton ,participantInfoLabels.heartProblemYesAnswersLabel])
+        let yesHeartProblemStackView = UIStackView(arrangedSubviews: [participantInfoView.yesHeartProblemButton ,participantInfoLabels.heartProblemYesAnswersLabel])
         yesHeartProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         yesHeartProblemStackView.axis = .horizontal
         
-        let noHeartProblemStackView = UIStackView(arrangedSubviews: [participantInfoButtons.noHeartProblemButton ,participantInfoLabels.heartProblemNoAnswersLabel])
+        let noHeartProblemStackView = UIStackView(arrangedSubviews: [participantInfoView.noHeartProblemButton ,participantInfoLabels.heartProblemNoAnswersLabel])
         noHeartProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         noHeartProblemStackView.axis = .horizontal
         
@@ -359,11 +360,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         heartProblemStackView.axis = .vertical
         
 //        MARK: - Under influence question constraints
-        let yesUnderInfluenceStackView = UIStackView(arrangedSubviews: [participantInfoButtons.yesUnderInfluenceButton ,participantInfoLabels.underInfluenceYesAnswerLabel])
+        let yesUnderInfluenceStackView = UIStackView(arrangedSubviews: [participantInfoView.yesUnderInfluenceButton ,participantInfoLabels.underInfluenceYesAnswerLabel])
         yesUnderInfluenceStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         yesUnderInfluenceStackView.axis = .horizontal
         
-        let noUnderInfluenceStackView = UIStackView(arrangedSubviews: [participantInfoButtons.noUnderInfluenceButton ,participantInfoLabels.underInfluenceNoAnswerLabel])
+        let noUnderInfluenceStackView = UIStackView(arrangedSubviews: [participantInfoView.noUnderInfluenceButton ,participantInfoLabels.underInfluenceNoAnswerLabel])
         noUnderInfluenceStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         noUnderInfluenceStackView.axis = .horizontal
         
@@ -376,11 +377,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         underInfluenceStackView.axis = .vertical
 
 //        MARK: - Pregnant question constraints
-        let yesPregnantStackView = UIStackView(arrangedSubviews: [participantInfoButtons.yesPregnantButton ,participantInfoLabels.pregnantYesAnswersLabel])
+        let yesPregnantStackView = UIStackView(arrangedSubviews: [participantInfoView.yesPregnantButton ,participantInfoLabels.pregnantYesAnswersLabel])
         yesPregnantStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         yesPregnantStackView.axis = .horizontal
         
-        let noPregnantStackView = UIStackView(arrangedSubviews: [participantInfoButtons.noPregnantButton ,participantInfoLabels.pregnantNoAnswersLabel])
+        let noPregnantStackView = UIStackView(arrangedSubviews: [participantInfoView.noPregnantButton ,participantInfoLabels.pregnantNoAnswersLabel])
         noPregnantStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         noPregnantStackView.axis = .horizontal
         
@@ -426,10 +427,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         questionView.addSubview(heartProblemStackView)
         heartProblemStackView.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 39, width: 0, height: 0)
         heartProblemStackView.centerYAnchor.constraint(equalTo: ageStackView.centerYAnchor).isActive = true
-        
-        
-        
-        
     }
 }
 
