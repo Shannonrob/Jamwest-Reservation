@@ -38,7 +38,6 @@
 		855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */; };
 		855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D945B240E961600F50CB2 /* WaiverVC.swift */; };
 		8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */; };
-		85BECCB52413137500C62454 /* ParticipantInfoLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB42413137500C62454 /* ParticipantInfoLabels.swift */; };
 		85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */; };
 		85BECCBB24131D7A00C62454 /* JamwestLabelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
@@ -80,7 +79,6 @@
 		855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToursSelectionVC.swift; sourceTree = "<group>"; };
 		855D945B240E961600F50CB2 /* WaiverVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVC.swift; sourceTree = "<group>"; };
 		8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoViews.swift; sourceTree = "<group>"; };
-		85BECCB42413137500C62454 /* ParticipantInfoLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoLabels.swift; sourceTree = "<group>"; };
 		85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestTextfieldClass.swift; sourceTree = "<group>"; };
 		85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestLabelClass.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,7 +172,6 @@
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
 				85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */,
-				85BECCB42413137500C62454 /* ParticipantInfoLabels.swift */,
 				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
 			);
 			path = View;
@@ -325,7 +322,6 @@
 				855D9432240E91EE00F50CB2 /* UIColorExt.swift in Sources */,
 				855D944C240E955300F50CB2 /* ReservationCell.swift in Sources */,
 				855D9446240E94D100F50CB2 /* PickerViewData.swift in Sources */,
-				85BECCB52413137500C62454 /* ParticipantInfoLabels.swift in Sources */,
 				855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */,
 				85BECCBB24131D7A00C62454 /* JamwestLabelClass.swift in Sources */,
 				855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */,
