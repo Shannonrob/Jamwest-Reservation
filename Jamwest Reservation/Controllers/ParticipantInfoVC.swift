@@ -19,8 +19,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     var groupCounter = [Int]()
     var pickerViewSelection: String?
     var participantInfoLabels = ParticipantInfoLabels()
-    var participantInfoTextFields = ParticipantInfoTextFields()
-    var participantInfoButtons = ParticipantInfoButtons()
     var participantInfoView = ParticipantInfoViews()
     
     
@@ -62,10 +60,10 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         configureUI()
         configureConstraints()
         
-        participantInfoTextFields.firstNameTextfield.becomeFirstResponder()
+        participantInfoView.firstNameTextfield.becomeFirstResponder()
         
         textFieldDelegates()
-        getCurrentDate(textField: participantInfoTextFields.dateTextfield)
+        getCurrentDate(textField: participantInfoView.dateTextfield)
         
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -78,6 +76,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     
     @objc func handleFormValidation() {
         
+        print("tapped")
     }
     
     // present pickerview
@@ -88,15 +87,15 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         
         switch textfield {
             
-        case participantInfoTextFields.countryTextfield:
-            participantInfoTextFields.countryTextfield.resignFirstResponder()
-            selectedTextfield = participantInfoTextFields.countryTextfield
+        case participantInfoView.countryTextfield:
+            participantInfoView.countryTextfield.resignFirstResponder()
+            selectedTextfield = participantInfoView.countryTextfield
             pickerViewDataLoop(textfield)
             countryTextfieldBool = true
             
-        case participantInfoTextFields.groupCountTextfield:
-            participantInfoTextFields.groupCountTextfield.resignFirstResponder()
-            selectedTextfield = participantInfoTextFields.groupCountTextfield
+        case participantInfoView.groupCountTextfield:
+            participantInfoView.groupCountTextfield.resignFirstResponder()
+            selectedTextfield = participantInfoView.groupCountTextfield
             pickerViewDataLoop(textfield)
             countryTextfieldBool = false
             
@@ -146,18 +145,18 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
             
         case true:
             
-            if pickerViewSelection == nil && !participantInfoTextFields.countryTextfield.text!.isEmpty {
-                pickerViewSelection = participantInfoTextFields.countryTextfield.text
+            if pickerViewSelection == nil && !participantInfoView.countryTextfield.text!.isEmpty {
+                pickerViewSelection = participantInfoView.countryTextfield.text
             }
-            participantInfoTextFields.countryTextfield.text = pickerViewSelection
+            participantInfoView.countryTextfield.text = pickerViewSelection
              pickerViewSelection = nil
             
         case false:
             
-            if pickerViewSelection == nil && !participantInfoTextFields.groupCountTextfield.text!.isEmpty {
-                pickerViewSelection = participantInfoTextFields.groupCountTextfield.text
+            if pickerViewSelection == nil && !participantInfoView.groupCountTextfield.text!.isEmpty {
+                pickerViewSelection = participantInfoView.groupCountTextfield.text
             }
-            participantInfoTextFields.groupCountTextfield.text = pickerViewSelection
+            participantInfoView.groupCountTextfield.text = pickerViewSelection
             pickerViewSelection = nil
         }
         pickerView.selectRow(0, inComponent: 0, animated: true)
@@ -172,14 +171,14 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         
         switch textfield {
             
-        case participantInfoTextFields.countryTextfield:
+        case participantInfoView.countryTextfield:
             for countries in countries {
                 
                 let countriesResult = PickerViewData(title: String(countries))
                 pickerViewData.append(countriesResult)
             }
             
-        case participantInfoTextFields.groupCountTextfield:
+        case participantInfoView.groupCountTextfield:
             for numbers in 1...99 {
                 
                 let numbersResult = PickerViewData(title: String(numbers))
@@ -192,24 +191,24 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     
     func textFieldDelegates() {
         
-        participantInfoTextFields.firstNameTextfield.delegate = self
-        participantInfoTextFields.lastNameTextfield.delegate = self
-        participantInfoTextFields.phoneNumberTextfield.delegate = self
-        participantInfoTextFields.emailTextfield.delegate = self
-        participantInfoTextFields.countryTextfield.delegate = self
-        participantInfoTextFields.dateTextfield.delegate = self
+        participantInfoView.firstNameTextfield.delegate = self
+        participantInfoView.lastNameTextfield.delegate = self
+        participantInfoView.phoneNumberTextfield.delegate = self
+        participantInfoView.emailTextfield.delegate = self
+        participantInfoView.countryTextfield.delegate = self
+        participantInfoView.dateTextfield.delegate = self
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
         switch textField {
             
-        case participantInfoTextFields.firstNameTextfield:
-            participantInfoTextFields.lastNameTextfield.becomeFirstResponder()
-        case participantInfoTextFields.lastNameTextfield:
-            participantInfoTextFields.phoneNumberTextfield.becomeFirstResponder()
-        case participantInfoTextFields.phoneNumberTextfield:
-            participantInfoTextFields.emailTextfield.becomeFirstResponder()
+        case participantInfoView.firstNameTextfield:
+            participantInfoView.lastNameTextfield.becomeFirstResponder()
+        case participantInfoView.lastNameTextfield:
+            participantInfoView.phoneNumberTextfield.becomeFirstResponder()
+        case participantInfoView.phoneNumberTextfield:
+            participantInfoView.emailTextfield.becomeFirstResponder()
         default:
             textField.resignFirstResponder()
         }
@@ -218,20 +217,20 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
            
-        if participantInfoTextFields.firstNameTextfield.isEditing ||
-           participantInfoTextFields.lastNameTextfield.isEditing ||
-           participantInfoTextFields.phoneNumberTextfield.isEditing ||
-           participantInfoTextFields.emailTextfield.isEditing ||
-           participantInfoTextFields.countryTextfield.isEditing {
-            participantInfoTextFields.countryTextfield.isEnabled = false
-           participantInfoTextFields.groupCountTextfield.isEnabled = false
+        if participantInfoView.firstNameTextfield.isEditing ||
+           participantInfoView.lastNameTextfield.isEditing ||
+           participantInfoView.phoneNumberTextfield.isEditing ||
+           participantInfoView.emailTextfield.isEditing ||
+           participantInfoView.countryTextfield.isEditing {
+            participantInfoView.countryTextfield.isEnabled = false
+           participantInfoView.groupCountTextfield.isEnabled = false
            }
        }
        
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
     
-        participantInfoTextFields.countryTextfield.isEnabled = true
-        participantInfoTextFields.groupCountTextfield.isEnabled = true
+        participantInfoView.countryTextfield.isEnabled = true
+        participantInfoView.groupCountTextfield.isEnabled = true
         return true
     }
     
@@ -268,31 +267,31 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     
     func configureConstraints() {
         
-        let firstNameStackView = UIStackView(arrangedSubviews: [participantInfoLabels.firstNameLabel, participantInfoTextFields.firstNameTextfield])
+        let firstNameStackView = UIStackView(arrangedSubviews: [participantInfoLabels.firstNameLabel, participantInfoView.firstNameTextfield])
         firstNameStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         firstNameStackView.axis = .vertical
         
-        let lastNameStackView = UIStackView(arrangedSubviews: [participantInfoLabels.lastNameLabel, participantInfoTextFields.lastNameTextfield])
+        let lastNameStackView = UIStackView(arrangedSubviews: [participantInfoLabels.lastNameLabel, participantInfoView.lastNameTextfield])
         lastNameStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         lastNameStackView.axis = .vertical
         
-        let emailStackView = UIStackView(arrangedSubviews: [participantInfoLabels.emailLabel, participantInfoTextFields.emailTextfield])
+        let emailStackView = UIStackView(arrangedSubviews: [participantInfoLabels.emailLabel, participantInfoView.emailTextfield])
         emailStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         emailStackView.axis = .vertical
         
-        let phoneNumberStackView = UIStackView(arrangedSubviews: [participantInfoLabels.phoneNumberLabel, participantInfoTextFields.phoneNumberTextfield])
+        let phoneNumberStackView = UIStackView(arrangedSubviews: [participantInfoLabels.phoneNumberLabel, participantInfoView.phoneNumberTextfield])
         phoneNumberStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         phoneNumberStackView.axis = .vertical
         
-        let dateStackView = UIStackView(arrangedSubviews: [participantInfoLabels.dateLabel, participantInfoTextFields.dateTextfield])
+        let dateStackView = UIStackView(arrangedSubviews: [participantInfoLabels.dateLabel, participantInfoView.dateTextfield])
         dateStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         dateStackView.axis = .vertical
         
-        let countryStackView = UIStackView(arrangedSubviews: [participantInfoLabels.countryLabel, participantInfoTextFields.countryTextfield])
+        let countryStackView = UIStackView(arrangedSubviews: [participantInfoLabels.countryLabel, participantInfoView.countryTextfield])
         countryStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         countryStackView.axis = .vertical
         
-        let groupCountStackView = UIStackView(arrangedSubviews: [participantInfoLabels.groupCountLabel, participantInfoTextFields.groupCountTextfield])
+        let groupCountStackView = UIStackView(arrangedSubviews: [participantInfoLabels.groupCountLabel, participantInfoView.groupCountTextfield])
         groupCountStackView.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: nil)
         groupCountStackView.axis = .vertical
         

@@ -40,7 +40,6 @@
 		8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */; };
 		85BECCB52413137500C62454 /* ParticipantInfoLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB42413137500C62454 /* ParticipantInfoLabels.swift */; };
 		85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */; };
-		85BECCB92413188C00C62454 /* ParticipantInfoTextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB82413188C00C62454 /* ParticipantInfoTextFields.swift */; };
 		85BECCBB24131D7A00C62454 /* JamwestLabelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
 /* End PBXBuildFile section */
@@ -83,7 +82,6 @@
 		8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoViews.swift; sourceTree = "<group>"; };
 		85BECCB42413137500C62454 /* ParticipantInfoLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoLabels.swift; sourceTree = "<group>"; };
 		85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestTextfieldClass.swift; sourceTree = "<group>"; };
-		85BECCB82413188C00C62454 /* ParticipantInfoTextFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoTextFields.swift; sourceTree = "<group>"; };
 		85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestLabelClass.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -178,7 +176,6 @@
 				85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */,
 				85BECCB42413137500C62454 /* ParticipantInfoLabels.swift */,
 				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
-				85BECCB82413188C00C62454 /* ParticipantInfoTextFields.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -354,7 +351,6 @@
 				855D9444240E94C100F50CB2 /* MenuOption.swift in Sources */,
 				85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */,
 				855D943E240E940600F50CB2 /* Constants.swift in Sources */,
-				85BECCB92413188C00C62454 /* ParticipantInfoTextFields.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
