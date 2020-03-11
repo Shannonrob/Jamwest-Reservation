@@ -14,8 +14,7 @@ class ParticipantInfoButtons: UIButton {
     let yesAgeButton: UIButton = {
         
         let button = UIButton(type: .system)
-//        button.selectedPackageButtonState(icon: "greenRadioUnselected", font: nil, enabled: true)
-        button.unSelectedPackageButtonState(icon: "greenSelectedRadioSmall", font: nil, enabled: true)
+        button.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
 //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
         return button
     }()
@@ -23,7 +22,7 @@ class ParticipantInfoButtons: UIButton {
     let noAgeButton: UIButton = {
         
             let button = UIButton(type: .system)
-        button.selectedPackageButtonState(icon: "greenRadioUnselectedSmall", font: nil, enabled: true)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
     //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
             return button
         }()
@@ -31,8 +30,7 @@ class ParticipantInfoButtons: UIButton {
     let yesBackProblemButton: UIButton = {
             
             let button = UIButton(type: .system)
-    //        button.selectedPackageButtonState(icon: "greenRadioUnselected", font: nil, enabled: true)
-            button.unSelectedPackageButtonState(icon: "greenSelectedRadioSmall", font: nil, enabled: false)
+            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
     //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
             return button
         }()
@@ -40,7 +38,7 @@ class ParticipantInfoButtons: UIButton {
     let noBackProblemButton: UIButton = {
         
             let button = UIButton(type: .system)
-        button.selectedPackageButtonState(icon: "greenRadioUnselectedSmall", font: nil, enabled: true)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
     //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
             return button
         }()
@@ -48,8 +46,7 @@ class ParticipantInfoButtons: UIButton {
     let yesHeartProblemButton: UIButton = {
             
             let button = UIButton(type: .system)
-    //        button.selectedPackageButtonState(icon: "greenRadioUnselected", font: nil, enabled: true)
-            button.unSelectedPackageButtonState(icon: "greenSelectedRadioSmall", font: nil, enabled: false)
+            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
     //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
             return button
         }()
@@ -57,7 +54,7 @@ class ParticipantInfoButtons: UIButton {
     let noHeartProblemButton: UIButton = {
         
             let button = UIButton(type: .system)
-        button.selectedPackageButtonState(icon: "greenRadioUnselectedSmall", font: nil, enabled: true)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
     //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
             return button
         }()
@@ -65,8 +62,7 @@ class ParticipantInfoButtons: UIButton {
     let yesUnderInfluenceButton: UIButton = {
             
             let button = UIButton(type: .system)
-    //        button.selectedPackageButtonState(icon: "greenRadioUnselected", font: nil, enabled: true)
-            button.unSelectedPackageButtonState(icon: "greenSelectedRadioSmall", font: nil, enabled: false)
+            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
     //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
             return button
         }()
@@ -74,16 +70,15 @@ class ParticipantInfoButtons: UIButton {
         let noUnderInfluenceButton: UIButton = {
             
                 let button = UIButton(type: .system)
-            button.selectedPackageButtonState(icon: "greenRadioUnselectedSmall", font: nil, enabled: true)
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+        //        button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
                 return button
             }()
     
     let yesPregnantButton: UIButton = {
             
             let button = UIButton(type: .system)
-    //        button.selectedPackageButtonState(icon: "greenRadioUnselected", font: nil, enabled: true)
-            button.unSelectedPackageButtonState(icon: "greenSelectedRadioSmall", font: nil, enabled: false)
+            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
     //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
             return button
         }()
@@ -91,7 +86,7 @@ class ParticipantInfoButtons: UIButton {
     let noPregnantButton: UIButton = {
         
             let button = UIButton(type: .system)
-        button.selectedPackageButtonState(icon: "greenRadioUnselectedSmall", font: nil, enabled: true)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
     //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
             return button
         }()

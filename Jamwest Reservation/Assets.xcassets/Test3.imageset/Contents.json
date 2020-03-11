@@ -2,17 +2,15 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "greenRadioSelected @1x.png",
+      "filename" : "Test3.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "greenRadioSelected @2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "greenRadioSelected @3x.png",
       "scale" : "3x"
     }
   ],

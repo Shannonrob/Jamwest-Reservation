@@ -35,7 +35,7 @@ class ParticipantInfoTextFields: UITextField {
     
     let phoneNumberTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
-        textfield.configurePlaceHolderWithIcon("Phone number", #imageLiteral(resourceName: "orangePhone "))
+        textfield.configurePlaceHolderWithIcon("(xxx) - xxx - xxxx", #imageLiteral(resourceName: "orangePhone "))
         textfield.keyboardType = .phonePad
         textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
