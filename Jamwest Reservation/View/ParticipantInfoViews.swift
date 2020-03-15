@@ -46,13 +46,14 @@ class ParticipantInfoViews: UIView {
     
 //    MARK: - Picker
     
-//    let pickerView: UIPickerView = {
-//       
-//        let picker = UIPickerView()
-//        picker.backgroundColor = .white
-//        picker.setValue(UIColor.black, forKey: "textColor")
-//        return picker
-//    }()
+    let pickerView: UIPickerView = {
+       
+        let picker = UIPickerView()
+        picker.backgroundColor = .white
+        picker.setValue(UIColor.black, forKey: "textColor")
+        return picker
+    }()
+    
     
 //    MARK: - Buttons
     let yesAgeButton: UIButton = {

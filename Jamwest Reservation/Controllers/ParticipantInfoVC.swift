@@ -19,18 +19,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     var pickerViewSelection: String?
     var participantInfoView = ParticipantInfoViews()
     
-    
-    
-////    MARK: - Picker
-    
-    let pickerView: UIPickerView = {
-       
-        let picker = UIPickerView()
-        picker.backgroundColor = .white
-        picker.setValue(UIColor.black, forKey: "textColor")
-        return picker
-    }()
-    
 //    MARK: - Init
     
     override func viewDidLoad() {
@@ -43,8 +31,8 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         textFieldDelegates()
         getCurrentDate(textField: participantInfoView.dateTextfield)
         
-        pickerView.delegate = self
-        pickerView.dataSource = self
+        participantInfoView.pickerView.delegate = self
+        participantInfoView.pickerView.dataSource = self
      
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         view.addGestureRecognizer(tap)
@@ -102,7 +90,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         let popoverViewController = UIViewController()
     
         popoverView.addSubview(toolBar)
-        popoverView.addSubview(pickerView)
+        popoverView.addSubview(participantInfoView.pickerView)
 
         popoverViewController.view = popoverView
         popoverViewController.modalPresentationStyle = .popover
@@ -114,7 +102,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         popoverViewController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
 
         toolBar.anchor(top: popoverView.topAnchor, left: popoverView.leftAnchor, bottom: nil, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
-        pickerView.anchor(top: toolBar.bottomAnchor, left: popoverView.leftAnchor, bottom: popoverView.bottomAnchor, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        participantInfoView.pickerView.anchor(top: toolBar.bottomAnchor, left: popoverView.leftAnchor, bottom: popoverView.bottomAnchor, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         self.present(popoverViewController, animated: true, completion: nil)
     }
@@ -141,7 +129,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
             participantInfoView.groupCountTextfield.text = pickerViewSelection
             pickerViewSelection = nil
         }
-        pickerView.selectRow(0, inComponent: 0, animated: true)
+        participantInfoView.pickerView.selectRow(0, inComponent: 0, animated: true)
         dismiss(animated: true, completion: nil)
     }
 
