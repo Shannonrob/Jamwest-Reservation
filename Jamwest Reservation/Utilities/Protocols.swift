@@ -6,7 +6,14 @@
 //  Copyright © 2020 Wurllink. All rights reserved.
 //
 
+import Foundation
+
 protocol HomeVcDelegate {
   
     func handleMenuToggle(forMenuOption menuOption: MenuOption?)
+}
+
+protocol ParticipantInfoViewsDelegate: class {
+    
+    func handlePresentPickerView(for view: AnyObject)
 }

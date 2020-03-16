@@ -6,19 +6,23 @@
 //  Copyright © 2020 Wurllink. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class ParticipantInfoViews: UIView {
     
+   weak var participantInfoDelegate: ParticipantInfoViewsDelegate?
+    
+    
+//    MARK: - Init
+    
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: .zero)
         configureConstraints()
     }
     
     convenience init() {
         self.init(frame: CGRect.zero)
-        
+        configureConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -56,103 +60,103 @@ class ParticipantInfoViews: UIView {
     
     
 //    MARK: - Buttons
-    let yesAgeButton: UIButton = {
+    lazy var yesAgeButton: UIButton = {
             
             let button = UIButton(type: .system)
             button.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-    //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+            button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
             return button
         }()
         
-        let noAgeButton: UIButton = {
+        lazy var noAgeButton: UIButton = {
             
                 let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
                 return button
             }()
         
-        let yesBackProblemButton: UIButton = {
+        lazy var yesBackProblemButton: UIButton = {
                 
                 let button = UIButton(type: .system)
                 button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
                 return button
             }()
             
-        let noBackProblemButton: UIButton = {
+        lazy var noBackProblemButton: UIButton = {
             
                 let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
                 return button
             }()
 
-        let yesHeartProblemButton: UIButton = {
+        lazy var yesHeartProblemButton: UIButton = {
                 
                 let button = UIButton(type: .system)
                 button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
                 return button
             }()
             
-        let noHeartProblemButton: UIButton = {
+        lazy var noHeartProblemButton: UIButton = {
             
                 let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
                 return button
             }()
         
-        let yesUnderInfluenceButton: UIButton = {
+        lazy var yesUnderInfluenceButton: UIButton = {
                 
                 let button = UIButton(type: .system)
                 button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
                 return button
             }()
             
-            let noUnderInfluenceButton: UIButton = {
+            lazy var noUnderInfluenceButton: UIButton = {
                 
                     let button = UIButton(type: .system)
                 button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-            //        button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
+//                    button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
                     return button
                 }()
         
-        let yesPregnantButton: UIButton = {
+        lazy var yesPregnantButton: UIButton = {
                 
                 let button = UIButton(type: .system)
                 button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
                 return button
             }()
             
-        let noPregnantButton: UIButton = {
+        lazy var noPregnantButton: UIButton = {
             
                 let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
                 return button
             }()
     
     
 //    MARK: - Textfields
-    let firstNameTextfield: JamwestTextfieldClass = {
+    lazy var firstNameTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("First name", #imageLiteral(resourceName: "orangeName"))
         textfield.addTarget(textfield, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
-    let lastNameTextfield: JamwestTextfieldClass = {
+    lazy var lastNameTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("Last name", #imageLiteral(resourceName: "orangeName"))
         textfield.addTarget(textfield, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
-    let emailTextfield: JamwestTextfieldClass = {
+    lazy var emailTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("Email", #imageLiteral(resourceName: "orangeEmail "))
         textfield.keyboardType = .emailAddress
@@ -160,7 +164,7 @@ class ParticipantInfoViews: UIView {
         return textfield
     }()
     
-    let phoneNumberTextfield: JamwestTextfieldClass = {
+    lazy var phoneNumberTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("(xxx) - xxx - xxxx", #imageLiteral(resourceName: "orangePhone "))
         textfield.keyboardType = .phonePad
@@ -168,7 +172,7 @@ class ParticipantInfoViews: UIView {
         return textfield
     }()
     
-    let dateTextfield: JamwestTextfieldClass = {
+    lazy var dateTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon(nil, #imageLiteral(resourceName: "orangeDate"))
         textfield.isEnabled = false
@@ -176,7 +180,7 @@ class ParticipantInfoViews: UIView {
         return textfield
     }()
     
-    let countryTextfield: UITextField = {
+    lazy var countryTextfield: UITextField = {
         let textfield = UITextField()
         textfield.design(placeHolder: "Country", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 235, height: 51)
         textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeCountry "))
@@ -186,11 +190,11 @@ class ParticipantInfoViews: UIView {
         textfield.layer.borderColor = Constants.Design.Color.Border.Blue
         textfield.allowsEditingTextAttributes = false
         textfield.textAlignment = .center
-        textfield.addTarget(Selector.self, action: #selector(ParticipantInfoVC.handlePickerView(textfield:)), for: .editingDidBegin)
+        textfield.addTarget(Selector.self, action: #selector(handlePickerViewTextFieldTapped), for: .editingDidBegin)
         return textfield
     }()
     
-    let groupCountTextfield: UITextField = {
+    lazy var groupCountTextfield: UITextField = {
         let textfield = UITextField()
         textfield.design(placeHolder: nil, backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 140, height: 51)
         textfield.text = "1"
@@ -201,7 +205,7 @@ class ParticipantInfoViews: UIView {
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
         textfield.layer.borderColor = Constants.Design.Color.Border.Blue
-        textfield.addTarget(Selector.self, action: #selector(ParticipantInfoVC.handlePickerView(textfield:)), for: .editingDidBegin)
+//        textfield.addTarget(Selector.self, action: #selector(handlePickerViewTextFieldTapped), for: .editingDidBegin)
         return textfield
     }()
     
@@ -377,6 +381,14 @@ class ParticipantInfoViews: UIView {
             label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
             return label
         }()
+    
+//    MARK: - Handlers
+    
+    @objc func handlePickerViewTextFieldTapped() {
+        participantInfoDelegate?.handlePresentPickerView(for: UIButton.self)
+    }
+    
+//    MARK: - Constraints
     
     func configureConstraints() {
         

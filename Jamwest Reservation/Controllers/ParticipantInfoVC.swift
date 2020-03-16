@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
+class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoViewsDelegate {
+    
+    
     
 //    MARK: - Properties
     
@@ -28,8 +30,9 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
     
         participantInfoView.firstNameTextfield.becomeFirstResponder()
         
-        textFieldDelegates()
         getCurrentDate(textField: participantInfoView.dateTextfield)
+        
+        textFieldDelegates()
         
         participantInfoView.pickerView.delegate = self
         participantInfoView.pickerView.dataSource = self
@@ -38,9 +41,14 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap)
     }
     
+    
     override func loadView() {
-        view = ParticipantInfoViews()
+
+        let newView = ParticipantInfoViews()
+        newView.participantInfoDelegate = self
+        view = newView
     }
+
     
 //    MARK: - Handlers
     
@@ -133,6 +141,15 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate {
         dismiss(animated: true, completion: nil)
     }
 
+//    MARK: - Protocols
+    
+    func handlePresentPickerView(for view: AnyObject) {
+        if view as! NSObject == participantInfoView.yesAgeButton {
+            print("age button")
+        } else {
+        print("handle Picker view tapped")
+        }
+       }
     
 //    MARK: - Helpers Functions
     
