@@ -15,5 +15,5 @@ protocol HomeVcDelegate {
 
 protocol ParticipantInfoViewsDelegate: class {
     
-    func handlePresentPickerView(for view: AnyObject)
+    func handlePresentPickerView(for textfield: NSObject)
 }

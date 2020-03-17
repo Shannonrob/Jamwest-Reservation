@@ -41,10 +41,9 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     
     // show custom UIView and comform to protocol
     override func loadView() {
-
-        let newView = ParticipantInfoViews()
-        newView.participantInfoDelegate = self
-        view = newView
+        
+        participantInfoView.participantInfoDelegate = self
+        view = participantInfoView
     }
 
     
@@ -53,64 +52,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     @objc func handleFormValidation() {
         
         print("tapped")
-    }
-    
-    // present pickerview
-    @objc func handlePickerView(textfield: UITextField) {
-        
-        pickerViewData = []
-        var selectedTextfield: UITextField?
-        
-        switch textfield {
-            
-        case participantInfoView.countryTextfield:
-            participantInfoView.countryTextfield.resignFirstResponder()
-            selectedTextfield = participantInfoView.countryTextfield
-            pickerViewDataLoop(textfield)
-            countryTextfieldBool = true
-            
-        case participantInfoView.groupCountTextfield:
-            participantInfoView.groupCountTextfield.resignFirstResponder()
-            selectedTextfield = participantInfoView.groupCountTextfield
-            pickerViewDataLoop(textfield)
-            countryTextfieldBool = false
-            
-        default:
-            break
-        }
-        
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        toolBar.barStyle = UIBarStyle.default
-        let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(handlePickerViewSelection))
-        toolBar.barTintColor = .lightGray
-        toolBar.tintColor = Constants.Design.Color.Primary.HeavyGreen
-        toolBar.setItems([space, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
-        
-        // the dimensions of the pickerview size
-        let groupCountPickerSize = CGSize(width: (selectedTextfield!.frame.width) - 20, height: 200)
-        let popoverView = UIView()
-        popoverView.backgroundColor = .white
-        let popoverViewController = UIViewController()
-    
-        popoverView.addSubview(toolBar)
-        popoverView.addSubview(participantInfoView.pickerView)
-
-        popoverViewController.view = popoverView
-        popoverViewController.modalPresentationStyle = .popover
-        popoverViewController.view.frame = CGRect(x: 0, y: 0, width: groupCountPickerSize.width, height: groupCountPickerSize.height)
-        popoverViewController.preferredContentSize = groupCountPickerSize
-        popoverViewController.popoverPresentationController?.sourceView = selectedTextfield
-        popoverViewController.popoverPresentationController?.permittedArrowDirections = .up
-        popoverViewController.popoverPresentationController?.sourceRect = CGRect(x: (selectedTextfield!.bounds.width) / 2, y: selectedTextfield!.bounds.height + 1, width: 0, height: 0)
-        popoverViewController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
-
-        toolBar.anchor(top: popoverView.topAnchor, left: popoverView.leftAnchor, bottom: nil, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
-        participantInfoView.pickerView.anchor(top: toolBar.bottomAnchor, left: popoverView.leftAnchor, bottom: popoverView.bottomAnchor, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
-        self.present(popoverViewController, animated: true, completion: nil)
     }
     
     @objc func handlePickerViewSelection() {
@@ -135,19 +76,71 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             participantInfoView.groupCountTextfield.text = pickerViewSelection
             pickerViewSelection = nil
         }
-        participantInfoView.pickerView.selectRow(0, inComponent: 0, animated: true)
-        dismiss(animated: true, completion: nil)
+        
+        dismiss(animated: true) {
+            self.participantInfoView.pickerView.selectRow(0, inComponent: 0, animated: true)
+        }
     }
 
 //    MARK: - Protocols
     
-    func handlePresentPickerView(for view: AnyObject) {
-        if view as! NSObject == participantInfoView.yesAgeButton {
-            print("age button")
-        } else {
-        print("handle Picker view tapped")
-        }
+    // present picker view
+    func handlePresentPickerView(for textfield: NSObject) {
+        
+        pickerViewData = []
+       var selectedTextfield: UITextField?
+       
+       switch textfield {
+           
+       case participantInfoView.countryTextfield:
+           participantInfoView.countryTextfield.resignFirstResponder()
+           selectedTextfield = participantInfoView.countryTextfield
+           pickerViewDataLoop(textfield as! UITextField)
+           countryTextfieldBool = true
+           
+       case participantInfoView.groupCountTextfield:
+           participantInfoView.groupCountTextfield.resignFirstResponder()
+           selectedTextfield = participantInfoView.groupCountTextfield
+           pickerViewDataLoop(textfield as! UITextField)
+           countryTextfieldBool = false
+           
+       default:
+           break
        }
+       
+       let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+       toolBar.barStyle = UIBarStyle.default
+       let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+       let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(handlePickerViewSelection))
+       toolBar.barTintColor = .lightGray
+       toolBar.tintColor = Constants.Design.Color.Primary.HeavyGreen
+       toolBar.setItems([space, doneButton], animated: false)
+       toolBar.isUserInteractionEnabled = true
+       toolBar.sizeToFit()
+       
+       // the dimensions of the pickerview size
+       let groupCountPickerSize = CGSize(width: (selectedTextfield!.frame.width) - 20, height: 200)
+       let popoverView = UIView()
+       popoverView.backgroundColor = .white
+       let popoverViewController = UIViewController()
+   
+       popoverView.addSubview(toolBar)
+       popoverView.addSubview(participantInfoView.pickerView)
+
+       popoverViewController.view = popoverView
+       popoverViewController.modalPresentationStyle = .popover
+       popoverViewController.view.frame = CGRect(x: 0, y: 0, width: groupCountPickerSize.width, height: groupCountPickerSize.height)
+       popoverViewController.preferredContentSize = groupCountPickerSize
+       popoverViewController.popoverPresentationController?.sourceView = selectedTextfield
+       popoverViewController.popoverPresentationController?.permittedArrowDirections = .up
+       popoverViewController.popoverPresentationController?.sourceRect = CGRect(x: (selectedTextfield!.bounds.width) / 2, y: selectedTextfield!.bounds.height + 1, width: 0, height: 0)
+       popoverViewController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
+
+       toolBar.anchor(top: popoverView.topAnchor, left: popoverView.leftAnchor, bottom: nil, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
+       participantInfoView.pickerView.anchor(top: toolBar.bottomAnchor, left: popoverView.leftAnchor, bottom: popoverView.bottomAnchor, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+       
+       self.present(popoverViewController, animated: true, completion: nil)
+    }
     
 //    MARK: - Helpers Functions
     

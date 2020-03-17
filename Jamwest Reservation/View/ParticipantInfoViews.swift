@@ -64,7 +64,7 @@ class ParticipantInfoViews: UIView {
             
             let button = UIButton(type: .system)
             button.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-            button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+//            button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(sender:)), for: .touchUpInside)
             return button
         }()
         
@@ -72,7 +72,7 @@ class ParticipantInfoViews: UIView {
             
                 let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(sender:)), for: .touchUpInside)
                 return button
             }()
         
@@ -190,7 +190,7 @@ class ParticipantInfoViews: UIView {
         textfield.layer.borderColor = Constants.Design.Color.Border.Blue
         textfield.allowsEditingTextAttributes = false
         textfield.textAlignment = .center
-        textfield.addTarget(Selector.self, action: #selector(handlePickerViewTextFieldTapped), for: .editingDidBegin)
+        textfield.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(textfield:)), for: .editingDidBegin)
         return textfield
     }()
     
@@ -205,7 +205,7 @@ class ParticipantInfoViews: UIView {
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
         textfield.layer.borderColor = Constants.Design.Color.Border.Blue
-//        textfield.addTarget(Selector.self, action: #selector(handlePickerViewTextFieldTapped), for: .editingDidBegin)
+        textfield.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(textfield:)), for: .editingDidBegin)
         return textfield
     }()
     
@@ -384,8 +384,8 @@ class ParticipantInfoViews: UIView {
     
 //    MARK: - Handlers
     
-    @objc func handlePickerViewTextFieldTapped() {
-        participantInfoDelegate?.handlePresentPickerView(for: UIButton.self)
+    @objc func handlePickerViewTextFieldTapped(textfield : UITextField) {
+        participantInfoDelegate?.handlePresentPickerView(for: textfield)
     }
     
 //    MARK: - Constraints
