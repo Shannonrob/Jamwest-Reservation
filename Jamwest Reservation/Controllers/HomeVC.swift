@@ -47,7 +47,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         let button = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
         return button
     }()
-       
     
  //    MARK: - Init
      

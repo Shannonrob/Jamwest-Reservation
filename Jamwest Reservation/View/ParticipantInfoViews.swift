@@ -23,6 +23,7 @@ class ParticipantInfoViews: UIView {
     convenience init() {
         self.init(frame: CGRect.zero)
         configureConstraints()
+        pickerViewContraints()
     }
     
     required init?(coder: NSCoder) {
@@ -57,9 +58,49 @@ class ParticipantInfoViews: UIView {
         picker.setValue(UIColor.black, forKey: "textColor")
         return picker
     }()
+
+    let popoverView: UIView = {
+        
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
     
+    let popoverViewController: UIViewController = {
+        
+        let vc = UIViewController()
+        return vc
+    }()
     
 //    MARK: - Buttons
+    
+    let toolBar: UIToolbar = {
+        
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        toolBar.barStyle = UIBarStyle.default
+        
+        toolBar.barTintColor = .lightGray
+        toolBar.tintColor = Constants.Design.Color.Primary.HeavyGreen
+//        toolBar.setItems([space, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        return toolBar
+    }()
+    
+    let space: UIBarButtonItem = {
+       
+        let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        return space
+    }()
+    
+    let doneButton: UIBarButtonItem = {
+        
+        let button = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(handleDoneTapped(sender:)))
+        return button
+    }()
+    
+    
+    
     lazy var yesAgeButton: UIButton = {
             
             let button = UIButton(type: .system)
@@ -388,7 +429,19 @@ class ParticipantInfoViews: UIView {
         participantInfoDelegate?.handlePresentPickerView(for: textfield)
     }
     
+    @objc func handleDoneTapped(sender: UIButton) {
+        print(" Done tapped")
+    }
+    
 //    MARK: - Constraints
+    
+    func pickerViewContraints() {
+        popoverView.addSubview(toolBar)
+        popoverView.addSubview(pickerView)
+        
+    toolBar.anchor(top: popoverView.topAnchor, left: popoverView.leftAnchor, bottom: nil, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
+    pickerView.anchor(top: toolBar.bottomAnchor, left: popoverView.leftAnchor, bottom: popoverView.bottomAnchor, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
     
     func configureConstraints() {
         
