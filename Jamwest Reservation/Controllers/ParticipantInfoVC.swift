@@ -47,41 +47,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     }
 
     
-//    MARK: - Handlers
-    
-    @objc func handleFormValidation() {
-        
-        print("tapped")
-    }
-    
-    @objc func handlePickerViewSelection() {
-
-    // add form validation here for checking if group count textfield has text
-        
-        switch countryTextfieldBool {
-            
-        case true:
-            
-            if pickerViewSelection == nil && !participantInfoView.countryTextfield.text!.isEmpty {
-                pickerViewSelection = participantInfoView.countryTextfield.text
-            }
-            participantInfoView.countryTextfield.text = pickerViewSelection
-             pickerViewSelection = nil
-            
-        case false:
-            
-            if pickerViewSelection == nil && !participantInfoView.groupCountTextfield.text!.isEmpty {
-                pickerViewSelection = participantInfoView.groupCountTextfield.text
-            }
-            participantInfoView.groupCountTextfield.text = pickerViewSelection
-            pickerViewSelection = nil
-        }
-        
-        dismiss(animated: true) {
-            self.participantInfoView.pickerView.selectRow(0, inComponent: 0, animated: true)
-        }
-    }
-
 //    MARK: - Protocols
     
     // present picker view
@@ -129,6 +94,30 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     // handle done button on pickerView toolBar
     func handlePickerViewDoneButton(for sender: NSObject) {
     
+        // add form validation here for checking if group count textfield has text
+        
+        switch countryTextfieldBool {
+            
+        case true:
+            
+            if pickerViewSelection == nil && !participantInfoView.countryTextfield.text!.isEmpty {
+                pickerViewSelection = participantInfoView.countryTextfield.text
+            }
+            participantInfoView.countryTextfield.text = pickerViewSelection
+             pickerViewSelection = nil
+            
+        case false:
+            
+            if pickerViewSelection == nil && !participantInfoView.groupCountTextfield.text!.isEmpty {
+                pickerViewSelection = participantInfoView.groupCountTextfield.text
+            }
+            participantInfoView.groupCountTextfield.text = pickerViewSelection
+            pickerViewSelection = nil
+        }
+        
+        dismiss(animated: true) {
+            self.participantInfoView.pickerView.selectRow(0, inComponent: 0, animated: true)
+        }
     }
     
 //    MARK: - Helpers Functions

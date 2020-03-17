@@ -81,7 +81,6 @@ class ParticipantInfoViews: UIView {
         
         toolBar.barTintColor = .lightGray
         toolBar.tintColor = Constants.Design.Color.Primary.HeavyGreen
-//        toolBar.setItems([space, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         return toolBar
@@ -93,13 +92,11 @@ class ParticipantInfoViews: UIView {
         return space
     }()
     
-    let doneButton: UIBarButtonItem = {
-        
-        let button = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(handleDoneTapped(sender:)))
+    lazy var doneButton: UIBarButtonItem = {
+     
+        let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDoneTapped(sender:)))
         return button
     }()
-    
-    
     
     lazy var yesAgeButton: UIButton = {
             
@@ -109,77 +106,77 @@ class ParticipantInfoViews: UIView {
             return button
         }()
         
-        lazy var noAgeButton: UIButton = {
-            
-                let button = UIButton(type: .system)
-            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+    lazy var noAgeButton: UIButton = {
+        
+            let button = UIButton(type: .system)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
 //                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(sender:)), for: .touchUpInside)
-                return button
-            }()
-        
-        lazy var yesBackProblemButton: UIButton = {
-                
-                let button = UIButton(type: .system)
-                button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
-                return button
-            }()
+            return button
+        }()
+    
+    lazy var yesBackProblemButton: UIButton = {
             
-        lazy var noBackProblemButton: UIButton = {
-            
-                let button = UIButton(type: .system)
+            let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
 //                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
-                return button
-            }()
+            return button
+        }()
+        
+    lazy var noBackProblemButton: UIButton = {
+        
+            let button = UIButton(type: .system)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+            return button
+        }()
 
-        lazy var yesHeartProblemButton: UIButton = {
-                
-                let button = UIButton(type: .system)
-                button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
-                return button
-            }()
+    lazy var yesHeartProblemButton: UIButton = {
             
-        lazy var noHeartProblemButton: UIButton = {
-            
-                let button = UIButton(type: .system)
+            let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
 //                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
-                return button
-            }()
+            return button
+        }()
         
-        lazy var yesUnderInfluenceButton: UIButton = {
-                
-                let button = UIButton(type: .system)
-                button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+    lazy var noHeartProblemButton: UIButton = {
+        
+            let button = UIButton(type: .system)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
 //                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
-                return button
-            }()
+            return button
+        }()
+    
+    lazy var yesUnderInfluenceButton: UIButton = {
             
-            lazy var noUnderInfluenceButton: UIButton = {
-                
-                    let button = UIButton(type: .system)
-                button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            let button = UIButton(type: .system)
+            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+            return button
+        }()
+        
+    lazy var noUnderInfluenceButton: UIButton = {
+        
+            let button = UIButton(type: .system)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
 //                    button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
-                    return button
-                }()
-        
-        lazy var yesPregnantButton: UIButton = {
-                
-                let button = UIButton(type: .system)
-                button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
-                return button
-            }()
+            return button
+        }()
+    
+    lazy var yesPregnantButton: UIButton = {
             
-        lazy var noPregnantButton: UIButton = {
-            
-                let button = UIButton(type: .system)
+            let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
 //                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
-                return button
-            }()
+            return button
+        }()
+        
+    lazy var noPregnantButton: UIButton = {
+        
+            let button = UIButton(type: .system)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+            return button
+        }()
     
     
 //    MARK: - Textfields
@@ -430,7 +427,7 @@ class ParticipantInfoViews: UIView {
     }
     
     @objc func handleDoneTapped(sender: UIButton) {
-        print(" Done tapped")
+        participantInfoDelegate?.handlePickerViewDoneButton(for: sender)
     }
     
 //    MARK: - Constraints
