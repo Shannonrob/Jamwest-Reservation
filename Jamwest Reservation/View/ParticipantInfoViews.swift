@@ -183,14 +183,14 @@ class ParticipantInfoViews: UIView {
     lazy var firstNameTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("First name", #imageLiteral(resourceName: "orangeName"))
-        textfield.addTarget(textfield, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
+//        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
     lazy var lastNameTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("Last name", #imageLiteral(resourceName: "orangeName"))
-        textfield.addTarget(textfield, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
+//        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
@@ -198,15 +198,14 @@ class ParticipantInfoViews: UIView {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("Email", #imageLiteral(resourceName: "orangeEmail "))
         textfield.keyboardType = .emailAddress
-        textfield.addTarget(textfield, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
+//        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
     lazy var phoneNumberTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
-        textfield.configurePlaceHolderWithIcon("(xxx) - xxx - xxxx", #imageLiteral(resourceName: "orangePhone "))
+        textfield.configurePlaceHolderWithIcon("(xxx) xxx - xxxx", #imageLiteral(resourceName: "orangePhone "))
         textfield.keyboardType = .phonePad
-        textfield.addTarget(textfield, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
@@ -214,7 +213,7 @@ class ParticipantInfoViews: UIView {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon(nil, #imageLiteral(resourceName: "orangeDate"))
         textfield.isEnabled = false
-        textfield.addTarget(textfield, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
+//        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
@@ -427,7 +426,7 @@ class ParticipantInfoViews: UIView {
     }
     
     @objc func handleDoneTapped(sender: UIButton) {
-        participantInfoDelegate?.handlePickerViewDoneButton(for: sender)
+        participantInfoDelegate?.handlePickerViewDoneButton()
     }
     
 //    MARK: - Constraints
