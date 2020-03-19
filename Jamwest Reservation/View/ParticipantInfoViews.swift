@@ -102,7 +102,7 @@ class ParticipantInfoViews: UIView {
             
             let button = UIButton(type: .system)
             button.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//            button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(sender:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
         
@@ -110,7 +110,7 @@ class ParticipantInfoViews: UIView {
         
             let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(sender:)), for: .touchUpInside)
+                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
     
@@ -118,7 +118,7 @@ class ParticipantInfoViews: UIView {
             
             let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
         
@@ -126,7 +126,7 @@ class ParticipantInfoViews: UIView {
         
             let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
 
@@ -134,7 +134,7 @@ class ParticipantInfoViews: UIView {
             
             let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
         
@@ -142,7 +142,7 @@ class ParticipantInfoViews: UIView {
         
             let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
     
@@ -150,7 +150,7 @@ class ParticipantInfoViews: UIView {
             
             let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
         
@@ -158,7 +158,7 @@ class ParticipantInfoViews: UIView {
         
             let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                    button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+                    button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
     
@@ -166,7 +166,7 @@ class ParticipantInfoViews: UIView {
             
             let button = UIButton(type: .system)
             button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
         
@@ -174,7 +174,7 @@ class ParticipantInfoViews: UIView {
         
             let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-//                button.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .touchUpInside)
+                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
             return button
         }()
     
@@ -427,6 +427,10 @@ class ParticipantInfoViews: UIView {
     
     @objc func handleDoneTapped(sender: UIButton) {
         participantInfoDelegate?.handlePickerViewDoneButton()
+    }
+    
+    @objc func answerButtonTapped(sender: UIButton) {
+        participantInfoDelegate?.handleSelectedAnswers(for: sender)
     }
     
 //    MARK: - Constraints

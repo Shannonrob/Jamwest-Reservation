@@ -18,6 +18,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var groupCounter = [Int]()
     var pickerViewSelection: String?
     var participantInfoView = ParticipantInfoViews()
+    var currentlyPregnant = Bool()
+    var underAge = Bool()
+    var underInfluence = Bool()
+    var backProblems = Bool()
+    var heartProblems = Bool()
     
 //    MARK: - Init
     
@@ -117,8 +122,43 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         }
     }
     
+    func handleSelectedAnswers(for button: NSObject) {
+        
+        updateSelectedAnswer(sender: button as! UIButton)
+    }
+    
     
 //    MARK: - Helpers Functions
+    
+    func updateSelectedAnswer(sender tapped: UIButton) {
+        
+//        switch tapped {
+//        case participantInfoView.yesPregnantButton:
+//            participantInfoView.yesPregnantButton.setImage(#imageLiteral(resourceName: "green_radio_Selected"), for: .selected)
+//            participantInfoView.noPregnantButton.setImage(#imageLiteral(resourceName: "green_radio_unselected"), for: .normal)
+//        case participantInfoView.noPregnantButton:
+//            participantInfoView.yesPregnantButton.setImage(#imageLiteral(resourceName: "green_radio_unselected_small"), for: .normal)
+//            participantInfoView.noPregnantButton.setImage(#imageLiteral(resourceName: "green_radio_Selected"), for: .normal)
+//        case participantInfoView.yesAgeButton:
+//        print("yes age tapped")
+//        case participantInfoView.noAgeButton:
+//        print("no age tapped")
+//        case participantInfoView.yesUnderInfluenceButton:
+//        print("yes under influence tapped")
+//        case participantInfoView.noUnderInfluenceButton:
+//        print("no under influence tapped")
+//        case participantInfoView.yesBackProblemButton:
+//        print("yes back problem tapped")
+//        case participantInfoView.noBackProblemButton:
+//        print("no back problem tapped")
+//        case participantInfoView.yesHeartProblemButton:
+//        print("yes heart problem tapped")
+//        case participantInfoView.noHeartProblemButton:
+//        print("no heart problem tapped")
+//        default:
+//            print("keep trying")
+//        }
+    }
 
     // format textfield for phone number pattern
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

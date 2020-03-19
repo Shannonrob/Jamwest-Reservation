@@ -17,4 +17,5 @@ protocol ParticipantInfoViewsDelegate: class {
     
     func handlePresentPickerView(for textfield: NSObject)
     func handlePickerViewDoneButton()
+    func handleSelectedAnswers(for button: NSObject)
 }
