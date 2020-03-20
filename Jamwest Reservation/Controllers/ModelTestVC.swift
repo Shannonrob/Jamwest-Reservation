@@ -12,8 +12,6 @@ class ModelTestVC: UIViewController {
 
     var participantInformation = [ParticipantInformation]()
     
-    var testLabel = String()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,8 +19,7 @@ class ModelTestVC: UIViewController {
         
         for info in participantInformation {
             
-            
-            print(info.firstName!)
+            print(info.firstName)
         }
     }
 }

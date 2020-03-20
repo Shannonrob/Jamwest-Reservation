@@ -23,7 +23,9 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var underInfluenceAnswer = Bool()
     var backProblemsAnswer = Bool()
     var heartProblemsAnswer = Bool()
+    var modelTestVC = ModelTestVC()
     var participantInformation = [ParticipantInformation]()
+    
     
 //    MARK: - Init
     
@@ -45,15 +47,10 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     // show custom UIView and comform to protocol
     override func loadView() {
         
-        let modelTestVC = ModelTestVC()
         participantInfoView.participantInfoDelegate = self
-        modelTestVC.participantInformation = self.participantInformation
         view = participantInfoView
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        updateParticipantInfoModel()
-    }
     
 //    MARK: - Protocols
     
@@ -137,13 +134,16 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     
     @objc func handleNextButton() {
         
+        passData()
+        
         let modelTestVC = ModelTestVC()
+        modelTestVC.participantInformation = self.participantInformation 
         navigationController?.pushViewController(modelTestVC, animated: true)
     }
     
     
 //    MARK: - Helpers Functions
-    
+    // updates selected/unselected button icons
     func updateSelectedAnswer(sender tapped: UIButton) {
         
         switch tapped {
@@ -202,28 +202,26 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         }
     }
     
-    func updateParticipantInfoModel() {
+    // collects participant information
+    func passData() {
         
         guard let firstName = participantInfoView.firstNameTextfield.text,
-              let lastName = participantInfoView.lastNameTextfield.text,
-              let phoneNumber = participantInfoView.phoneNumberTextfield.text,
-              let email = participantInfoView.emailTextfield.text,
-              let date = participantInfoView.dateTextfield.text,
-              let country = participantInfoView.countryTextfield.text,
-              let groupCount = participantInfoView.groupCountTextfield.text else { return }
-        
-        let pregnantAnswer = self.pregnantAnswer
-        let underAgeAnswer = self.underAgeAnswer
-        let underInfluenceAnswer = self.underInfluenceAnswer
-        let backProblemsAnswer = self.backProblemsAnswer
-        let heartProblemsAnswer = self.heartProblemsAnswer
-        
-        let participantInformations = ParticipantInformation(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, groupCount: groupCount, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)
-        
-        self.participantInformation.append(participantInformations)
-        
+                let lastName = participantInfoView.lastNameTextfield.text,
+                let phoneNumber = participantInfoView.phoneNumberTextfield.text,
+                let email = participantInfoView.emailTextfield.text,
+                let date = participantInfoView.dateTextfield.text,
+                let country = participantInfoView.countryTextfield.text,
+                let groupCount = participantInfoView.groupCountTextfield.text else { return }
+                      
+              let pregnantAnswer = self.pregnantAnswer
+              let underAgeAnswer = self.underAgeAnswer
+              let underInfluenceAnswer = self.underInfluenceAnswer
+              let backProblemsAnswer = self.backProblemsAnswer
+              let heartProblemsAnswer = self.heartProblemsAnswer
+              
+        self.participantInformation = [ParticipantInformation(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, groupCount: groupCount, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)]
     }
-
+    
     // format textfield for phone number pattern
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
