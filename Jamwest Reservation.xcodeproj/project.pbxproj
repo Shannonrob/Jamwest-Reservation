@@ -40,6 +40,8 @@
 		8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */; };
 		85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */; };
 		85BECCBB24131D7A00C62454 /* JamwestLabelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */; };
+		85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */; };
+		85D0FCB1242457220069BFFF /* ModelTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCB0242457220069BFFF /* ModelTestVC.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +83,8 @@
 		8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoViews.swift; sourceTree = "<group>"; };
 		85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestTextfieldClass.swift; sourceTree = "<group>"; };
 		85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestLabelClass.swift; sourceTree = "<group>"; };
+		85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInformation.swift; sourceTree = "<group>"; };
+		85D0FCB0242457220069BFFF /* ModelTestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTestVC.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -159,6 +163,7 @@
 				855D9424240E8EC800F50CB2 /* HomeVC.swift */,
 				855D9453240E95D600F50CB2 /* MenuVC.swift */,
 				855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */,
+				85D0FCB0242457220069BFFF /* ModelTestVC.swift */,
 				855D9457240E95FD00F50CB2 /* SignUpVC.swift */,
 				855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */,
 				855D945B240E961600F50CB2 /* WaiverVC.swift */,
@@ -183,6 +188,7 @@
 				855D9441240E94B500F50CB2 /* Alert.swift */,
 				855D9443240E94C100F50CB2 /* MenuOption.swift */,
 				855D9445240E94D100F50CB2 /* PickerViewData.swift */,
+				85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */,
 				855D9447240E94E000F50CB2 /* Reservation.swift */,
 			);
 			path = Model;
@@ -333,11 +339,13 @@
 				855D944E240E95B600F50CB2 /* AddReservationVC.swift in Sources */,
 				855D9440240E940E00F50CB2 /* Countries.swift in Sources */,
 				855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */,
+				85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				855D9448240E94E000F50CB2 /* Reservation.swift in Sources */,
 				855D9454240E95D600F50CB2 /* MenuVC.swift in Sources */,
 				855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */,
 				855D9434240E91F700F50CB2 /* UILabelExt.swift in Sources */,
+				85D0FCB1242457220069BFFF /* ModelTestVC.swift in Sources */,
 				8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */,
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
 				855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */,

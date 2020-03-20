@@ -18,11 +18,12 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var groupCounter = [Int]()
     var pickerViewSelection: String?
     var participantInfoView = ParticipantInfoViews()
-    var currentlyPregnant = Bool()
-    var underAge = Bool()
-    var underInfluence = Bool()
-    var backProblems = Bool()
-    var heartProblems = Bool()
+    var pregnantAnswer = Bool()
+    var underAgeAnswer = Bool()
+    var underInfluenceAnswer = Bool()
+    var backProblemsAnswer = Bool()
+    var heartProblemsAnswer = Bool()
+    var participantInformation = [ParticipantInformation]()
     
 //    MARK: - Init
     
@@ -44,10 +45,15 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     // show custom UIView and comform to protocol
     override func loadView() {
         
+        let modelTestVC = ModelTestVC()
         participantInfoView.participantInfoDelegate = self
+        modelTestVC.participantInformation = self.participantInformation
         view = participantInfoView
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        updateParticipantInfoModel()
+    }
     
 //    MARK: - Protocols
     
@@ -127,6 +133,14 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         updateSelectedAnswer(sender: button as! UIButton)
     }
     
+//    MARK: - Handlers
+    
+    @objc func handleNextButton() {
+        
+        let modelTestVC = ModelTestVC()
+        navigationController?.pushViewController(modelTestVC, animated: true)
+    }
+    
     
 //    MARK: - Helpers Functions
     
@@ -134,58 +148,80 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         switch tapped {
         case participantInfoView.yesPregnantButton:
-            currentlyPregnant = true
+            pregnantAnswer = true
             participantInfoView.yesPregnantButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             participantInfoView.noPregnantButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             
         case participantInfoView.noPregnantButton:
-            currentlyPregnant = false
+            pregnantAnswer = false
             participantInfoView.yesPregnantButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             participantInfoView.noPregnantButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             
         case participantInfoView.yesAgeButton:
-            underAge = true
+            underAgeAnswer = true
             participantInfoView.yesAgeButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             participantInfoView.noAgeButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             
         case participantInfoView.noAgeButton:
-            underAge = false
+            underAgeAnswer = false
             participantInfoView.yesAgeButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             participantInfoView.noAgeButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             
         case participantInfoView.yesUnderInfluenceButton:
-            underInfluence = true
+            underInfluenceAnswer = true
             participantInfoView.yesUnderInfluenceButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             participantInfoView.noUnderInfluenceButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             
         case participantInfoView.noUnderInfluenceButton:
-            underInfluence = false
+            underInfluenceAnswer = false
             participantInfoView.yesUnderInfluenceButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             participantInfoView.noUnderInfluenceButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             
         case participantInfoView.yesBackProblemButton:
-            backProblems = true
+            backProblemsAnswer = true
             participantInfoView.yesBackProblemButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             participantInfoView.noBackProblemButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             
         case participantInfoView.noBackProblemButton:
-            backProblems = false
+            backProblemsAnswer = false
             participantInfoView.yesBackProblemButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             participantInfoView.noBackProblemButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             
         case participantInfoView.yesHeartProblemButton:
-            heartProblems = true
+            heartProblemsAnswer = true
             participantInfoView.yesHeartProblemButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             participantInfoView.noHeartProblemButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             
         case participantInfoView.noHeartProblemButton:
-            heartProblems = false
+            heartProblemsAnswer = false
             participantInfoView.yesHeartProblemButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
             participantInfoView.noHeartProblemButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
             
         default:
             break
         }
+    }
+    
+    func updateParticipantInfoModel() {
+        
+        guard let firstName = participantInfoView.firstNameTextfield.text,
+              let lastName = participantInfoView.lastNameTextfield.text,
+              let phoneNumber = participantInfoView.phoneNumberTextfield.text,
+              let email = participantInfoView.emailTextfield.text,
+              let date = participantInfoView.dateTextfield.text,
+              let country = participantInfoView.countryTextfield.text,
+              let groupCount = participantInfoView.groupCountTextfield.text else { return }
+        
+        let pregnantAnswer = self.pregnantAnswer
+        let underAgeAnswer = self.underAgeAnswer
+        let underInfluenceAnswer = self.underInfluenceAnswer
+        let backProblemsAnswer = self.backProblemsAnswer
+        let heartProblemsAnswer = self.heartProblemsAnswer
+        
+        let participantInformations = ParticipantInformation(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, groupCount: groupCount, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)
+        
+        self.participantInformation.append(participantInformations)
+        
     }
 
     // format textfield for phone number pattern
@@ -334,6 +370,8 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         let navigationFont = UIFont.boldSystemFont(ofSize: 25)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: navigationFont]
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(handleNextButton))
     }
 }
 
