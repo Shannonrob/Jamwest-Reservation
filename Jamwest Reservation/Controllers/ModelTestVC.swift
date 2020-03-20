@@ -9,6 +9,8 @@
 import UIKit
 
 class ModelTestVC: UIViewController {
+    
+    // this VC was a test for passing the data  using a model
 
     var participantInformation = [ParticipantInformation]()
     

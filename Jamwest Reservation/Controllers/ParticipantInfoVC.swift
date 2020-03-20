@@ -136,9 +136,12 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         passData()
         
-        let modelTestVC = ModelTestVC()
-        modelTestVC.participantInformation = self.participantInformation 
-        navigationController?.pushViewController(modelTestVC, animated: true)
+//        let modelTestVC = ModelTestVC()
+//        modelTestVC.participantInformation = self.participantInformation
+//        navigationController?.pushViewController(modelTestVC, animated: true)
+        
+        let cameraVC = CameraVC()
+        navigationController?.pushViewController(cameraVC, animated: true)
     }
     
     

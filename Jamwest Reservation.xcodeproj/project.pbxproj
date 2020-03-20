@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		8524F5172424E610003173EF /* ParticipantInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F5162424E610003173EF /* ParticipantInfoData.swift */; };
+		8524F51B2424F0DE003173EF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51A2424F0DE003173EF /* CameraView.swift */; };
+		8524F51D2424F56D003173EF /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51C2424F56D003173EF /* CameraVC.swift */; };
+		8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F52024250E2F003173EF /* PreviewImageVC.swift */; };
 		855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D940F240E8AB900F50CB2 /* AppDelegate.swift */; };
 		855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9411240E8AB900F50CB2 /* SceneDelegate.swift */; };
 		855D9419240E8AB900F50CB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855D9418240E8AB900F50CB2 /* Assets.xcassets */; };
@@ -50,6 +53,9 @@
 		298CE1659D48E687F3B38B25 /* Pods-Jamwest Reservation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.debug.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.debug.xcconfig"; sourceTree = "<group>"; };
 		4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.release.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.release.xcconfig"; sourceTree = "<group>"; };
 		8524F5162424E610003173EF /* ParticipantInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoData.swift; sourceTree = "<group>"; };
+		8524F51A2424F0DE003173EF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		8524F51C2424F56D003173EF /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
+		8524F52024250E2F003173EF /* PreviewImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageVC.swift; sourceTree = "<group>"; };
 		855D940C240E8AB900F50CB2 /* Jamwest Reservation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jamwest Reservation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		855D940F240E8AB900F50CB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		855D9411240E8AB900F50CB2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +175,8 @@
 				855D9457240E95FD00F50CB2 /* SignUpVC.swift */,
 				855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */,
 				855D945B240E961600F50CB2 /* WaiverVC.swift */,
+				8524F51C2424F56D003173EF /* CameraVC.swift */,
+				8524F52024250E2F003173EF /* PreviewImageVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -180,6 +188,7 @@
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
 				85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */,
 				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
+				8524F51A2424F0DE003173EF /* CameraView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -334,6 +343,7 @@
 				855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */,
 				85BECCBB24131D7A00C62454 /* JamwestLabelClass.swift in Sources */,
 				855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */,
+				8524F51B2424F0DE003173EF /* CameraView.swift in Sources */,
 				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,
 				8524F5172424E610003173EF /* ParticipantInfoData.swift in Sources */,
 				855D9430240E91E000F50CB2 /* UIButtonExt.swift in Sources */,
@@ -344,7 +354,9 @@
 				855D9440240E940E00F50CB2 /* Countries.swift in Sources */,
 				855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */,
 				85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */,
+				8524F51D2424F56D003173EF /* CameraVC.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
+				8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */,
 				855D9448240E94E000F50CB2 /* Reservation.swift in Sources */,
 				855D9454240E95D600F50CB2 /* MenuVC.swift in Sources */,
 				855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */,
