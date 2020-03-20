@@ -132,32 +132,60 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     
     func updateSelectedAnswer(sender tapped: UIButton) {
         
-//        switch tapped {
-//        case participantInfoView.yesPregnantButton:
-//            participantInfoView.yesPregnantButton.setImage(#imageLiteral(resourceName: "green_radio_Selected"), for: .selected)
-//            participantInfoView.noPregnantButton.setImage(#imageLiteral(resourceName: "green_radio_unselected"), for: .normal)
-//        case participantInfoView.noPregnantButton:
-//            participantInfoView.yesPregnantButton.setImage(#imageLiteral(resourceName: "green_radio_unselected_small"), for: .normal)
-//            participantInfoView.noPregnantButton.setImage(#imageLiteral(resourceName: "green_radio_Selected"), for: .normal)
-//        case participantInfoView.yesAgeButton:
-//        print("yes age tapped")
-//        case participantInfoView.noAgeButton:
-//        print("no age tapped")
-//        case participantInfoView.yesUnderInfluenceButton:
-//        print("yes under influence tapped")
-//        case participantInfoView.noUnderInfluenceButton:
-//        print("no under influence tapped")
-//        case participantInfoView.yesBackProblemButton:
-//        print("yes back problem tapped")
-//        case participantInfoView.noBackProblemButton:
-//        print("no back problem tapped")
-//        case participantInfoView.yesHeartProblemButton:
-//        print("yes heart problem tapped")
-//        case participantInfoView.noHeartProblemButton:
-//        print("no heart problem tapped")
-//        default:
-//            print("keep trying")
-//        }
+        switch tapped {
+        case participantInfoView.yesPregnantButton:
+            currentlyPregnant = true
+            participantInfoView.yesPregnantButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            participantInfoView.noPregnantButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            
+        case participantInfoView.noPregnantButton:
+            currentlyPregnant = false
+            participantInfoView.yesPregnantButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            participantInfoView.noPregnantButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            
+        case participantInfoView.yesAgeButton:
+            underAge = true
+            participantInfoView.yesAgeButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            participantInfoView.noAgeButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            
+        case participantInfoView.noAgeButton:
+            underAge = false
+            participantInfoView.yesAgeButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            participantInfoView.noAgeButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            
+        case participantInfoView.yesUnderInfluenceButton:
+            underInfluence = true
+            participantInfoView.yesUnderInfluenceButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            participantInfoView.noUnderInfluenceButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            
+        case participantInfoView.noUnderInfluenceButton:
+            underInfluence = false
+            participantInfoView.yesUnderInfluenceButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            participantInfoView.noUnderInfluenceButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            
+        case participantInfoView.yesBackProblemButton:
+            backProblems = true
+            participantInfoView.yesBackProblemButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            participantInfoView.noBackProblemButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            
+        case participantInfoView.noBackProblemButton:
+            backProblems = false
+            participantInfoView.yesBackProblemButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            participantInfoView.noBackProblemButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            
+        case participantInfoView.yesHeartProblemButton:
+            heartProblems = true
+            participantInfoView.yesHeartProblemButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            participantInfoView.noHeartProblemButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            
+        case participantInfoView.noHeartProblemButton:
+            heartProblems = false
+            participantInfoView.yesHeartProblemButton.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+            participantInfoView.noHeartProblemButton.selectedPackageButtonState(icon: "green_radio_Selected", font: nil, enabled: false)
+            
+        default:
+            break
+        }
     }
 
     // format textfield for phone number pattern
