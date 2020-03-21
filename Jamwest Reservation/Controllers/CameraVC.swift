@@ -22,10 +22,17 @@ class CameraVC: UIViewController {
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     var image: UIImage?
     
+    // values for CADisplay animation
+    var startValue: Double = 4
+    let endValue: Double = 1
+    let animationDuration: Double = 3
+   lazy var animationStartDate = Date()
+    
 //    MARK: - UILabels
     let countDownLabel: UILabel = {
         
         let label = UILabel()
+        label.isHidden = true
         label.text = "1"
         label.textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.60)
         label.font = .boldSystemFont(ofSize: 80)
@@ -37,7 +44,7 @@ class CameraVC: UIViewController {
         
         let button = UIButton(type: .system)
         button.updateButtonIcon("grayCamera")
-        button.addTarget(self, action: #selector(handleTakePhotoTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleStartTimer), for: .touchUpInside)
         button.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.60)
         button.layer.cornerRadius = 30
         button.layer.borderWidth = 0.75
@@ -80,20 +87,50 @@ class CameraVC: UIViewController {
         startRunningCaptureSession()
     }
     
-//    MARK: - Handlers
-    @objc func handleTakePhotoTapped() {
-        
-        let settings = AVCapturePhotoSettings()
-        photoOutput?.capturePhoto(with: settings, delegate: self)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        countDownLabel.isHidden = true
     }
     
+//    MARK: - Handlers
+   
     @objc func handleCancelTapped() {
         //extension used to dismiss like a viewController
         dismissDetail()
     }
     
+    // start CADisplayLink
+    @objc func handleStartTimer() {
+        
+        let displayLink = CADisplayLink(target: self, selector: #selector(handleCountDown(sender:)))
+        displayLink.add(to: .main, forMode: .default)
+        countDownLabel.isHidden = false
+    }
+    
+    @objc func handleCountDown(sender: CADisplayLink) {
+    // handles CADisplayLink functionalities
+        let now = Date()
+        let elapsedTime = now.timeIntervalSince(animationStartDate)
+        
+        if elapsedTime > animationDuration {
+            self.countDownLabel.text = "\(Int(endValue))"
+            sender.invalidate()
+            snapPhoto()
+        } else {
+            let percentage = elapsedTime / animationDuration
+            let value = startValue + percentage * (endValue - startValue)
+            self.countDownLabel.text = "\(Int(value))"
+        }
+    }
+    
     
 //    MARK: - Helper Functions
+    
+    @objc func snapPhoto() {
+           
+        let settings = AVCapturePhotoSettings()
+        photoOutput?.capturePhoto(with: settings, delegate: self)
+    }
     
     func presentPreviewVC() {
         
@@ -103,6 +140,7 @@ class CameraVC: UIViewController {
         presentDetail(previewImageVC)
     }
     
+    // rotate image after capture session
     func rotateImage(image:UIImage) -> UIImage {
       
         var rotatedImage = UIImage()
@@ -120,7 +158,7 @@ class CameraVC: UIViewController {
         return rotatedImage
     }
     
-//    MARK: - Setup camera
+    // setup camera methods
     func setupCaptureSession() {
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
     }
