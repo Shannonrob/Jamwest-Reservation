@@ -22,6 +22,16 @@ class CameraVC: UIViewController {
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     var image: UIImage?
     
+//    MARK: - UILabels
+    let countDownLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "1"
+        label.textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.60)
+        label.font = .boldSystemFont(ofSize: 80)
+        return label
+    }()
+    
 //    MARK: - UIButtons
     lazy var takePhotoButton: UIButton = {
         
@@ -110,6 +120,7 @@ class CameraVC: UIViewController {
         return rotatedImage
     }
     
+//    MARK: - Setup camera
     func setupCaptureSession() {
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
     }
@@ -157,7 +168,7 @@ class CameraVC: UIViewController {
         captureSession.startRunning()
     }
     
-    
+//    MARK: - Constraints
     func configureConstraints() {
         
         view.addSubview(takePhotoButton)
@@ -169,6 +180,10 @@ class CameraVC: UIViewController {
         
         view.addSubview(cancelButton)
         cancelButton.anchor(top: nil, left: view.leftAnchor, bottom: bottomView.topAnchor, right: nil, paddingTop: 0, paddingLeft: 30, paddingBottom: 20, paddingRight: 0, width: 108, height: 36)
+        
+        view.addSubview(countDownLabel)
+        countDownLabel.anchor(top: nil, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        countDownLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 }
 
