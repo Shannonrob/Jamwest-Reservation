@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
 		8524F5172424E610003173EF /* ParticipantInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F5162424E610003173EF /* ParticipantInfoData.swift */; };
 		8524F51B2424F0DE003173EF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51A2424F0DE003173EF /* CameraView.swift */; };
 		8524F51D2424F56D003173EF /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51C2424F56D003173EF /* CameraVC.swift */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		298CE1659D48E687F3B38B25 /* Pods-Jamwest Reservation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.debug.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.debug.xcconfig"; sourceTree = "<group>"; };
 		4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.release.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.release.xcconfig"; sourceTree = "<group>"; };
+		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		8524F5162424E610003173EF /* ParticipantInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoData.swift; sourceTree = "<group>"; };
 		8524F51A2424F0DE003173EF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		8524F51C2424F56D003173EF /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
@@ -166,17 +168,17 @@
 			isa = PBXGroup;
 			children = (
 				855D944D240E95B600F50CB2 /* AddReservationVC.swift */,
+				8524F51C2424F56D003173EF /* CameraVC.swift */,
 				855D944F240E95C400F50CB2 /* ContainerVC.swift */,
 				855D9451240E95CD00F50CB2 /* LoginVC.swift */,
 				855D9424240E8EC800F50CB2 /* HomeVC.swift */,
 				855D9453240E95D600F50CB2 /* MenuVC.swift */,
-				855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */,
 				85D0FCB0242457220069BFFF /* ModelTestVC.swift */,
+				855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */,
+				8524F52024250E2F003173EF /* PreviewImageVC.swift */,
 				855D9457240E95FD00F50CB2 /* SignUpVC.swift */,
 				855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */,
 				855D945B240E961600F50CB2 /* WaiverVC.swift */,
-				8524F51C2424F56D003173EF /* CameraVC.swift */,
-				8524F52024250E2F003173EF /* PreviewImageVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -184,11 +186,11 @@
 		855D9428240E915E00F50CB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
-				855D944B240E955300F50CB2 /* ReservationCell.swift */,
-				85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */,
-				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
 				8524F51A2424F0DE003173EF /* CameraView.swift */,
+				85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */,
+				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
+				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
+				855D944B240E955300F50CB2 /* ReservationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -209,10 +211,10 @@
 		855D942A240E916900F50CB2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				855D943B240E93FB00F50CB2 /* Protocols.swift */,
 				855D943D240E940600F50CB2 /* Constants.swift */,
 				855D943F240E940E00F50CB2 /* Countries.swift */,
 				85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */,
+				855D943B240E93FB00F50CB2 /* Protocols.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -234,6 +236,7 @@
 				855D9435240E920600F50CB2 /* UIStackviewExt.swift */,
 				855D9437240E921200F50CB2 /* UITextfieldExt.swift */,
 				855D9439240E921B00F50CB2 /* UIViewExt.swift */,
+				851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
 				855D9444240E94C100F50CB2 /* MenuOption.swift in Sources */,
 				85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */,
+				851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */,
 				855D943E240E940600F50CB2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -31,8 +31,7 @@ class PreviewImageVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        configureUI()
+        
         configureConstraints()
     }
     
@@ -40,16 +39,13 @@ class PreviewImageVC: UIViewController {
 //    MARK: - Handlers
     
     @objc func handleDismiss() {
-        _ = navigationController?.popViewController(animated: true)
+        dismissDetail()
     }
     
     
     
 //    MARK: - Helper Functions
     
-    func configureUI(){
-        navigationController?.navigationBar.isHidden = true
-    }
     
     func configureConstraints() {
         

@@ -50,7 +50,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         participantInfoView.participantInfoDelegate = self
         view = participantInfoView
     }
-
     
 //    MARK: - Protocols
     
@@ -141,7 +140,8 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
 //        navigationController?.pushViewController(modelTestVC, animated: true)
         
         let cameraVC = CameraVC()
-        navigationController?.pushViewController(cameraVC, animated: true)
+        cameraVC.modalPresentationStyle = .fullScreen
+        presentDetail(cameraVC)
     }
     
     
