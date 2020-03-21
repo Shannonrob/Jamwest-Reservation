@@ -20,6 +20,7 @@ class CameraVC: UIViewController {
     var currentCamera: AVCaptureDevice?
     var photoOutput: AVCapturePhotoOutput?
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
+    var image: UIImage?
     
 //    MARK: - UIButtons
     lazy var takePhotoButton: UIButton = {
@@ -72,9 +73,8 @@ class CameraVC: UIViewController {
 //    MARK: - Handlers
     @objc func handleTakePhotoTapped() {
         
-        let previewImageVC = PreviewImageVC()
-        previewImageVC.modalPresentationStyle = .fullScreen
-        presentDetail(previewImageVC)
+        let settings = AVCapturePhotoSettings()
+        photoOutput?.capturePhoto(with: settings, delegate: self)
     }
     
     @objc func handleCancelTapped() {
@@ -85,14 +85,37 @@ class CameraVC: UIViewController {
     
 //    MARK: - Helper Functions
     
+    func presentPreviewVC() {
+        
+        let previewImageVC = PreviewImageVC()
+        previewImageVC.modalPresentationStyle = .fullScreen
+        previewImageVC.photoPreview.image = rotateImage(image: self.image!)
+        presentDetail(previewImageVC)
+    }
+    
+    func rotateImage(image:UIImage) -> UIImage {
+      
+        var rotatedImage = UIImage()
+       
+        switch image.imageOrientation {
+        case .right:
+            rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .down)
+        case .down:
+            rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .left)
+        case .left:
+            rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .up)
+        default:
+            rotatedImage = UIImage(cgImage: image.cgImage!, scale: 1.0, orientation: .right)
+        }
+        return rotatedImage
+    }
+    
     func setupCaptureSession() {
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
     }
     
     func setupDevice() {
-        // set front camera as default #test
-//        let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.front)
-        
+    
         let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.unspecified)
         
         let devices = deviceDiscoverySession.devices
@@ -112,7 +135,9 @@ class CameraVC: UIViewController {
         do {
             let captureDeviceInput = try AVCaptureDeviceInput(device: currentCamera!)
             captureSession.addInput(captureDeviceInput)
+            photoOutput = AVCapturePhotoOutput()
             photoOutput?.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])], completionHandler: nil)
+            captureSession.addOutput(photoOutput!)
         } catch {
             print(error.localizedDescription)
         }
@@ -144,5 +169,16 @@ class CameraVC: UIViewController {
         
         view.addSubview(cancelButton)
         cancelButton.anchor(top: nil, left: view.leftAnchor, bottom: bottomView.topAnchor, right: nil, paddingTop: 0, paddingLeft: 30, paddingBottom: 20, paddingRight: 0, width: 108, height: 36)
+    }
+}
+
+extension CameraVC: AVCapturePhotoCaptureDelegate {
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        
+        if let imageData = photo.fileDataRepresentation() {
+            image = UIImage(data: imageData)
+            presentPreviewVC()
+        }
     }
 }
