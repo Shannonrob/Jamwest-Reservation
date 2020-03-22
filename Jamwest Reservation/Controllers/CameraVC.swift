@@ -22,18 +22,16 @@ class CameraVC: UIViewController {
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     var image: UIImage?
     
-    // values for CADisplay animation
-    var startValue: Double = 4
-    let endValue: Double = 1
-    let animationDuration: Double = 3
-   lazy var animationStartDate = Date()
+    // values for Timer
+    var startValue = Int()
+    let endValue = 1
+    var timer: Timer?
     
 //    MARK: - UILabels
     let countDownLabel: UILabel = {
         
         let label = UILabel()
-        label.isHidden = true
-        label.text = "1"
+        label.text = ""
         label.textColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.60)
         label.font = .boldSystemFont(ofSize: 80)
         return label
@@ -87,46 +85,47 @@ class CameraVC: UIViewController {
         startRunningCaptureSession()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(true)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
         countDownLabel.isHidden = true
+        startValue = 4
+        countDownLabel.text = "\(startValue)"
     }
     
 //    MARK: - Handlers
    
     @objc func handleCancelTapped() {
         //extension used to dismiss like a viewController
+        
         dismissDetail()
     }
     
     // start CADisplayLink
     @objc func handleStartTimer() {
         
-        let displayLink = CADisplayLink(target: self, selector: #selector(handleCountDown(sender:)))
-        displayLink.add(to: .main, forMode: .default)
         countDownLabel.isHidden = false
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
     }
     
-    @objc func handleCountDown(sender: CADisplayLink) {
-    // handles CADisplayLink functionalities
-        let now = Date()
-        let elapsedTime = now.timeIntervalSince(animationStartDate)
+    @objc func fireTimer() {
         
-        if elapsedTime > animationDuration {
-            self.countDownLabel.text = "\(Int(endValue))"
-            sender.invalidate()
+         if startValue == endValue {
+            
+            countDownLabel.text = "\(endValue)"
+            timer!.invalidate()
             snapPhoto()
-        } else {
-            let percentage = elapsedTime / animationDuration
-            let value = startValue + percentage * (endValue - startValue)
-            self.countDownLabel.text = "\(Int(value))"
-        }
+         } else {
+            
+            startValue -= endValue
+            countDownLabel.text = "\(startValue)"
+         }
     }
     
     
 //    MARK: - Helper Functions
     
-    @objc func snapPhoto() {
+    func snapPhoto() {
            
         let settings = AVCapturePhotoSettings()
         photoOutput?.capturePhoto(with: settings, delegate: self)
