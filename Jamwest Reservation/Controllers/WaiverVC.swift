@@ -12,11 +12,33 @@ class WaiverVC: UIViewController {
     
 //    MARK: - Properties
     
+    lazy var contentViewSize = CGSize(width: self.scrollViewContainer.frame.width, height: self.scrollViewContainer.frame.height + 2000 )
     
-//    MAR: - UIViews
+//    MARK: - ScrollView
     
-    let scrollView = JamwestDefaultView()
+    lazy var scrollView: UIScrollView = {
+        
+        let view = UIScrollView()
+        view.backgroundColor = Constants.Design.Color.Background.FadeGray
+        view.contentSize = contentViewSize
+        view.alwaysBounceVertical = true
+        return view
+    }()
+    
+//    MARK: - UIViews
+    
     let signatureContentsView = JamwestDefaultView()
+    
+    // the view holding the scrollView
+    let scrollViewContainer = JamwestDefaultView()
+    
+    let containerView: UIView = {
+        // the view inside the scrollView
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
  
     let signatureView: UIView = {
         
@@ -24,6 +46,21 @@ class WaiverVC: UIViewController {
         view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.25)
         return view
     }()
+    
+
+    
+//    MARK: - UILabel
+    
+    let testLabel = TestLabel()
+    
+//    lazy var testLabel: UILabel = {
+//
+//        let label = UILabel()
+//        label.labelConfigurations(text: "Keep Trying", textColor: .black, fontSize: 30)
+//        label.contentMode = .center
+//        label.frame = self.containerView.frame
+//        return label
+//    }()
     
 //    MARK: - Init
     
@@ -55,13 +92,23 @@ class WaiverVC: UIViewController {
     
     func configureContraints() {
         
-        view.addSubview(scrollView)
-        scrollView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, width: 0, height: 400)
+        view.addSubview(scrollViewContainer)
+        scrollViewContainer.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, width: 0, height: 400)
         
-        view.addSubview(signatureContentsView)
-        signatureContentsView.anchor(top: scrollView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 25, paddingBottom: 25, paddingRight: 25, width: 0, height: 0)
+
+        scrollViewContainer.addSubview(scrollView)
+        scrollView.anchor(top: scrollViewContainer.topAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
+
+        scrollView.addSubview(containerView)
+        containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: scrollView.frame.width, height: scrollView.frame.height + 2000)
+
+        containerView.addSubview(testLabel)
+        testLabel.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 25, width: 0, height: 0)
+
+
         
-        view.addSubview(signatureView)
-        signatureView.anchor(top: signatureContentsView.topAnchor, left: signatureContentsView.leftAnchor, bottom: nil, right: signatureContentsView.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 180)
+        
+//        view.addSubview(signatureView)
+//        signatureView.anchor(top: signatureContentsView.topAnchor, left: signatureContentsView.leftAnchor, bottom: nil, right: signatureContentsView.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 180)
     }
 }

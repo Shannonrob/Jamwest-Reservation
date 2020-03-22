@@ -44,6 +44,7 @@
 		855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D945B240E961600F50CB2 /* WaiverVC.swift */; };
 		8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */; };
 		85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */; };
+		85BA870A2427F19B00B95665 /* TestLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BA87092427F19B00B95665 /* TestLabel.swift */; };
 		85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */; };
 		85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */; };
 		85D0FCB1242457220069BFFF /* ModelTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCB0242457220069BFFF /* ModelTestVC.swift */; };
@@ -92,6 +93,7 @@
 		855D945B240E961600F50CB2 /* WaiverVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVC.swift; sourceTree = "<group>"; };
 		8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoViews.swift; sourceTree = "<group>"; };
 		85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestDefaultView.swift; sourceTree = "<group>"; };
+		85BA87092427F19B00B95665 /* TestLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLabel.swift; sourceTree = "<group>"; };
 		85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestTextfieldClass.swift; sourceTree = "<group>"; };
 		85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInformation.swift; sourceTree = "<group>"; };
 		85D0FCB0242457220069BFFF /* ModelTestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTestVC.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			children = (
 				85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */,
 				85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */,
+				85BA87092427F19B00B95665 /* TestLabel.swift */,
 			);
 			path = CustomClasses;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				855D9442240E94B500F50CB2 /* Alert.swift in Sources */,
 				855D944E240E95B600F50CB2 /* AddReservationVC.swift in Sources */,
 				855D9440240E940E00F50CB2 /* Countries.swift in Sources */,
+				85BA870A2427F19B00B95665 /* TestLabel.swift in Sources */,
 				855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */,
 				85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */,
 				8524F51D2424F56D003173EF /* CameraVC.swift in Sources */,
