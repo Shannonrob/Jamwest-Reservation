@@ -45,7 +45,6 @@
 		8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */; };
 		85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */; };
 		85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */; };
-		85BECCBB24131D7A00C62454 /* JamwestLabelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */; };
 		85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */; };
 		85D0FCB1242457220069BFFF /* ModelTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCB0242457220069BFFF /* ModelTestVC.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
@@ -94,7 +93,6 @@
 		8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoViews.swift; sourceTree = "<group>"; };
 		85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestDefaultView.swift; sourceTree = "<group>"; };
 		85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestTextfieldClass.swift; sourceTree = "<group>"; };
-		85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestLabelClass.swift; sourceTree = "<group>"; };
 		85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInformation.swift; sourceTree = "<group>"; };
 		85D0FCB0242457220069BFFF /* ModelTestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTestVC.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				855D942C240E918100F50CB2 /* Extensions */,
+				85AC5FC52427E6CA00A36BE4 /* CustomClasses */,
 				855D942B240E917A00F50CB2 /* Services */,
 				855D942A240E916900F50CB2 /* Utilities */,
 				855D9429240E916500F50CB2 /* Model */,
@@ -189,10 +188,8 @@
 			isa = PBXGroup;
 			children = (
 				8524F51A2424F0DE003173EF /* CameraView.swift */,
-				85BECCBA24131D7A00C62454 /* JamwestLabelClass.swift */,
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
 				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
-				85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */,
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
 			);
 			path = View;
@@ -216,7 +213,6 @@
 			children = (
 				855D943D240E940600F50CB2 /* Constants.swift */,
 				855D943F240E940E00F50CB2 /* Countries.swift */,
-				85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */,
 				855D943B240E93FB00F50CB2 /* Protocols.swift */,
 			);
 			path = Utilities;
@@ -242,6 +238,15 @@
 				851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		85AC5FC52427E6CA00A36BE4 /* CustomClasses */ = {
+			isa = PBXGroup;
+			children = (
+				85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */,
+				85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */,
+			);
+			path = CustomClasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,7 +352,6 @@
 				855D944C240E955300F50CB2 /* ReservationCell.swift in Sources */,
 				855D9446240E94D100F50CB2 /* PickerViewData.swift in Sources */,
 				855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */,
-				85BECCBB24131D7A00C62454 /* JamwestLabelClass.swift in Sources */,
 				855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */,
 				8524F51B2424F0DE003173EF /* CameraView.swift in Sources */,
 				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,

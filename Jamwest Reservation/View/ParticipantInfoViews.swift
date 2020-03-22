@@ -32,22 +32,7 @@ class ParticipantInfoViews: UIView {
     
     
 //    MARK: - UIView
-    let questionView: UIView = {
-       
-        let view = UIView()
-        
-        view.layer.cornerRadius = 8
-        view.layer.borderWidth = 0.25
-        view.layer.borderColor = UIColor.clear.cgColor
-        view.layer.shadowColor = UIColor.gray.cgColor
-        view.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
-        view.layer.shadowRadius = 2.75
-        view.layer.shadowOpacity = 1.0
-        view.layer.masksToBounds = false
-        
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        return view
-    }()
+    let questionView = JamwestDefaultView()
     
 //    MARK: - Picker
     
