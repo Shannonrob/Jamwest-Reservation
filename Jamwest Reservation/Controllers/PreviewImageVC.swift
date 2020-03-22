@@ -71,7 +71,11 @@ class PreviewImageVC: UIViewController {
 //    MARK: - Handlers
     
     @objc func handleUsePhoto() {
-        print("use photo tapped")
+        
+        let waiverVC = WaiverVC()
+        let navigationController = UINavigationController(rootViewController: waiverVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        presentDetail(navigationController)
     }
     
     @objc func handleDismiss() {

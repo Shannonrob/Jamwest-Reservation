@@ -139,9 +139,12 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
 //        modelTestVC.participantInformation = self.participantInformation
 //        navigationController?.pushViewController(modelTestVC, animated: true)
         
-        let cameraVC = CameraVC()
-        cameraVC.modalPresentationStyle = .fullScreen
-        presentDetail(cameraVC)
+//        let cameraVC = CameraVC()
+//        cameraVC.modalPresentationStyle = .fullScreen
+//        presentDetail(cameraVC)
+        
+        let tempVC = WaiverVC()
+        navigationController?.pushViewController(tempVC, animated: true)
     }
     
     
@@ -363,7 +366,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         view.backgroundColor = Constants.Design.Color.Background.FadeGray
         
-        navigationController?.navigationBar.isHidden = false
         navigationItem.title = "Participant information"
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black

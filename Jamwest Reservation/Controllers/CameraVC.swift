@@ -89,7 +89,7 @@ class CameraVC: UIViewController {
         super.viewDidAppear(true)
         
         countDownLabel.isHidden = true
-        startValue = 4
+        startValue = 3
         countDownLabel.text = "\(startValue)"
     }
     

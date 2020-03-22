@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.rootViewController = ContainerVC()
-//        window?.rootViewController = CameraVC()
+//        window?.rootViewController = WaiverVC()
         window?.makeKeyAndVisible()
 
     }
