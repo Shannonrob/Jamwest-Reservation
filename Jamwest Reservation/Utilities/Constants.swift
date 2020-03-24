@@ -37,6 +37,8 @@ let forth_Tour = "forthTour"
 // Fonts
 let avenirNext_Demibold = "AvenirNext-DemiBold"
 let avenirNext_Heavy = "AvenirNext-Heavy"
+let helveticaNeue = "HelveticaNeue"
+let helveticaNeue_Medium = "HelveticaNeue-Medium"
 let helveticaNeue_Bold = "HelveticaNeue-Bold"
 let avenirNext_Medium = "AvenirNext-Medium"
 let avenirNext_Regular = "AvenirNext-Regular"
