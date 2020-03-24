@@ -23,7 +23,7 @@ class WaiverVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        print(waiverViews.firstTextView.contentSize)
+        
     }
     
     override func loadView() {
