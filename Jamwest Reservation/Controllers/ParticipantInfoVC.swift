@@ -10,7 +10,7 @@ import UIKit
 
 class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoViewsDelegate {
     
-//    MARK: - Properties
+    //    MARK: - Properties
     
     var countryTextfieldBool = Bool()
     var pickerViewData = [PickerViewData]()
@@ -27,19 +27,19 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var participantInformation = [ParticipantInformation]()
     
     
-//    MARK: - Init
+    //    MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureUI()
-    
+        
         participantInfoView.firstNameTextfield.becomeFirstResponder()
         getCurrentDate(textField: participantInfoView.dateTextfield)
         textFieldDelegates()
         participantInfoView.pickerView.delegate = self
         participantInfoView.pickerView.dataSource = self
-     
+        
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         view.addGestureRecognizer(tap)
     }
@@ -51,53 +51,53 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         view = participantInfoView
     }
     
-//    MARK: - Protocols
+    //    MARK: - Protocols
     
     // present picker view
     func handlePresentPickerView(for textfield: NSObject) {
         
         pickerViewData = []
-       var selectedTextfield: UITextField?
-       
-       switch textfield {
-           
-       case participantInfoView.countryTextfield:
-           participantInfoView.countryTextfield.resignFirstResponder()
-           selectedTextfield = participantInfoView.countryTextfield
-           pickerViewDataLoop(textfield as! UITextField)
-           countryTextfieldBool = true
-           
-       case participantInfoView.groupCountTextfield:
-           participantInfoView.groupCountTextfield.resignFirstResponder()
-           selectedTextfield = participantInfoView.groupCountTextfield
-           pickerViewDataLoop(textfield as! UITextField)
-           countryTextfieldBool = false
-           
-       default:
-           break
-       }
-       // configure pickerView to fit textfield dimensions
+        var selectedTextfield: UITextField?
+        
+        switch textfield {
+            
+        case participantInfoView.countryTextfield:
+            participantInfoView.countryTextfield.resignFirstResponder()
+            selectedTextfield = participantInfoView.countryTextfield
+            pickerViewDataLoop(textfield as! UITextField)
+            countryTextfieldBool = true
+            
+        case participantInfoView.groupCountTextfield:
+            participantInfoView.groupCountTextfield.resignFirstResponder()
+            selectedTextfield = participantInfoView.groupCountTextfield
+            pickerViewDataLoop(textfield as! UITextField)
+            countryTextfieldBool = false
+            
+        default:
+            break
+        }
+        // configure pickerView to fit textfield dimensions
         
         participantInfoView.toolBar.setItems([participantInfoView.space, participantInfoView.doneButton], animated: false)
-       
-       // the dimensions of the pickerview size
-       let groupCountPickerSize = CGSize(width: (selectedTextfield!.frame.width) - 20, height: 200)
-
-       participantInfoView.popoverViewController.view = participantInfoView.popoverView
-      participantInfoView.popoverViewController.modalPresentationStyle = .popover
-       participantInfoView.popoverViewController.view.frame = CGRect(x: 0, y: 0, width: groupCountPickerSize.width, height: groupCountPickerSize.height)
-       participantInfoView.popoverViewController.preferredContentSize = groupCountPickerSize
-       participantInfoView.popoverViewController.popoverPresentationController?.sourceView = selectedTextfield
-       participantInfoView.popoverViewController.popoverPresentationController?.permittedArrowDirections = .up
-       participantInfoView.popoverViewController.popoverPresentationController?.sourceRect = CGRect(x: (selectedTextfield!.bounds.width) / 2, y: selectedTextfield!.bounds.height + 1, width: 0, height: 0)
-       participantInfoView.popoverViewController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
-       
-       self.present(participantInfoView.popoverViewController, animated: true, completion: nil)
+        
+        // the dimensions of the pickerview size
+        let groupCountPickerSize = CGSize(width: (selectedTextfield!.frame.width) - 20, height: 200)
+        
+        participantInfoView.popoverViewController.view = participantInfoView.popoverView
+        participantInfoView.popoverViewController.modalPresentationStyle = .popover
+        participantInfoView.popoverViewController.view.frame = CGRect(x: 0, y: 0, width: groupCountPickerSize.width, height: groupCountPickerSize.height)
+        participantInfoView.popoverViewController.preferredContentSize = groupCountPickerSize
+        participantInfoView.popoverViewController.popoverPresentationController?.sourceView = selectedTextfield
+        participantInfoView.popoverViewController.popoverPresentationController?.permittedArrowDirections = .up
+        participantInfoView.popoverViewController.popoverPresentationController?.sourceRect = CGRect(x: (selectedTextfield!.bounds.width) / 2, y: selectedTextfield!.bounds.height + 1, width: 0, height: 0)
+        participantInfoView.popoverViewController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
+        
+        self.present(participantInfoView.popoverViewController, animated: true, completion: nil)
     }
     
     // handle done button on pickerView toolBar
     func handlePickerViewDoneButton() {
-    
+        
         // add form validation here for checking if group count textfield has text
         
         switch countryTextfieldBool {
@@ -108,7 +108,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
                 pickerViewSelection = participantInfoView.countryTextfield.text
             }
             participantInfoView.countryTextfield.text = pickerViewSelection
-             pickerViewSelection = nil
+            pickerViewSelection = nil
             
         case false:
             
@@ -129,26 +129,22 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         updateSelectedAnswer(sender: button as! UIButton)
     }
     
-//    MARK: - Handlers
+    //    MARK: - Handlers
     
     @objc func handleNextButton() {
         
         passData()
         
-//        let modelTestVC = ModelTestVC()
-//        modelTestVC.participantInformation = self.participantInformation
-//        navigationController?.pushViewController(modelTestVC, animated: true)
-        
-//        let cameraVC = CameraVC()
-//        cameraVC.modalPresentationStyle = .fullScreen
-//        presentDetail(cameraVC)
+        //        let modelTestVC = ModelTestVC()
+        //        modelTestVC.participantInformation = self.participantInformation
+        //        navigationController?.pushViewController(modelTestVC, animated: true)
         
         let tempVC = WaiverVC()
-        navigationController?.pushViewController(tempVC, animated: true)
+        tempVC.modalPresentationStyle = .fullScreen
+        presentDetail(tempVC)
     }
     
-    
-//    MARK: - Helpers Functions
+    //    MARK: - Helpers Functions
     // updates selected/unselected button icons
     func updateSelectedAnswer(sender tapped: UIButton) {
         
@@ -212,19 +208,19 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     func passData() {
         
         guard let firstName = participantInfoView.firstNameTextfield.text,
-                let lastName = participantInfoView.lastNameTextfield.text,
-                let phoneNumber = participantInfoView.phoneNumberTextfield.text,
-                let email = participantInfoView.emailTextfield.text,
-                let date = participantInfoView.dateTextfield.text,
-                let country = participantInfoView.countryTextfield.text,
-                let groupCount = participantInfoView.groupCountTextfield.text else { return }
-                      
-              let pregnantAnswer = self.pregnantAnswer
-              let underAgeAnswer = self.underAgeAnswer
-              let underInfluenceAnswer = self.underInfluenceAnswer
-              let backProblemsAnswer = self.backProblemsAnswer
-              let heartProblemsAnswer = self.heartProblemsAnswer
-              
+            let lastName = participantInfoView.lastNameTextfield.text,
+            let phoneNumber = participantInfoView.phoneNumberTextfield.text,
+            let email = participantInfoView.emailTextfield.text,
+            let date = participantInfoView.dateTextfield.text,
+            let country = participantInfoView.countryTextfield.text,
+            let groupCount = participantInfoView.groupCountTextfield.text else { return }
+        
+        let pregnantAnswer = self.pregnantAnswer
+        let underAgeAnswer = self.underAgeAnswer
+        let underInfluenceAnswer = self.underInfluenceAnswer
+        let backProblemsAnswer = self.backProblemsAnswer
+        let heartProblemsAnswer = self.heartProblemsAnswer
+        
         self.participantInformation = [ParticipantInformation(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, groupCount: groupCount, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)]
     }
     
@@ -247,35 +243,35 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         }
         return true
     }
-
+    
     // format textfield for phone number pattern
     func format(phoneNumber: String, shouldRemoveLastDigit: Bool = false) -> String {
         guard !phoneNumber.isEmpty else { return "" }
         guard let regex = try? NSRegularExpression(pattern: "[\\s-\\(\\)]", options: .caseInsensitive) else { return "" }
         let r = NSString(string: phoneNumber).range(of: phoneNumber)
         var number = regex.stringByReplacingMatches(in: phoneNumber, options: .init(rawValue: 0), range: r, withTemplate: "")
-
+        
         if number.count > 10 {
             let tenthDigitIndex = number.index(number.startIndex, offsetBy: 10)
             number = String(number[number.startIndex..<tenthDigitIndex])
         }
-
+        
         if shouldRemoveLastDigit {
             let end = number.index(number.startIndex, offsetBy: number.count-1)
             number = String(number[number.startIndex..<end])
         }
-
+        
         if number.count < 7 {
             let end = number.index(number.startIndex, offsetBy: number.count)
             let range = number.startIndex..<end
             number = number.replacingOccurrences(of: "(\\d{3})(\\d+)", with: "($1) $2", options: .regularExpression, range: range)
-
+            
         } else {
             let end = number.index(number.startIndex, offsetBy: number.count)
             let range = number.startIndex..<end
             number = number.replacingOccurrences(of: "(\\d{3})(\\d{3})(\\d+)", with: "($1) $2-$3", options: .regularExpression, range: range)
         }
-
+        
         return number
     }
     
@@ -312,7 +308,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
+        
         switch textField {
             
         case participantInfoView.firstNameTextfield:
@@ -328,19 +324,19 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-           
+        
         if participantInfoView.firstNameTextfield.isEditing ||
-           participantInfoView.lastNameTextfield.isEditing ||
-           participantInfoView.phoneNumberTextfield.isEditing ||
-           participantInfoView.emailTextfield.isEditing ||
-           participantInfoView.countryTextfield.isEditing {
+            participantInfoView.lastNameTextfield.isEditing ||
+            participantInfoView.phoneNumberTextfield.isEditing ||
+            participantInfoView.emailTextfield.isEditing ||
+            participantInfoView.countryTextfield.isEditing {
             participantInfoView.countryTextfield.isEnabled = false
-           participantInfoView.groupCountTextfield.isEnabled = false
-           }
-       }
-       
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+            participantInfoView.groupCountTextfield.isEnabled = false
+        }
+    }
     
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        
         participantInfoView.countryTextfield.isEnabled = true
         participantInfoView.groupCountTextfield.isEnabled = true
         return true
@@ -351,7 +347,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         var calendar: Calendar = Calendar.current
         let currentDate: Date = Date()
         var dateComponents: DateComponents = DateComponents()
-
+        
         calendar.timeZone = TimeZone(identifier: "EST")!
         dateComponents.calendar = calendar
         
@@ -379,7 +375,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
 }
 
 extension ParticipantInfoVC: UIPickerViewDelegate, UIPickerViewDataSource {
-
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         
         return 1
@@ -389,7 +385,7 @@ extension ParticipantInfoVC: UIPickerViewDelegate, UIPickerViewDataSource {
         
         return pickerViewData[row].title
     }
-
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
         return pickerViewData.count

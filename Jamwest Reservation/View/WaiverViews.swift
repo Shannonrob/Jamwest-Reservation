@@ -37,6 +37,13 @@ class WaiverViews: UIView {
     let scrollViewContainer = JamwestDefaultView()
     let signatureContentsView = JamwestDefaultView()
     
+    let navigationBarView: UIView = {
+        
+        let view = UIView()
+        view.backgroundColor = Constants.Design.Color.Primary.HeavyGreen
+        return view
+    }()
+    
     lazy var scrollView: UIScrollView = {
         
         let view = UIScrollView()
@@ -63,6 +70,14 @@ class WaiverViews: UIView {
     
 //    MARK: - UILabels
     
+    let navigationBarTitle: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Waiver & Release of Liability"
+        label.font = .boldSystemFont(ofSize: 25)
+        return label
+    }()
+    
 //    MARK: - UITextView
     
     lazy var textView: UITextView = {
@@ -73,7 +88,7 @@ class WaiverViews: UIView {
         var dictionary: NSDictionary? = nil
         let waiverText = try! NSAttributedString(url: url, options: opts, documentAttributes: &dictionary)
         
-        textView.backgroundColor = .white
+        textView.backgroundColor = .clear
         textView.textColor = .darkText
         textView.isEditable = false
         textView.font = UIFont.init(name: helveticaNeue_Medium, size: 18)
@@ -82,16 +97,21 @@ class WaiverViews: UIView {
         return textView
     }()
     
-   
-    
     
 //    MARK: - Constraints
     
     func configureConstraints() {
         
-       
+        addSubview(navigationBarView)
+        navigationBarView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
+        
+        navigationBarView.addSubview(navigationBarTitle)
+        navigationBarTitle.anchor(top: navigationBarView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        navigationBarTitle.centerXAnchor.constraint(equalTo: navigationBarView.centerXAnchor).isActive = true
+        navigationBarTitle.centerYAnchor.constraint(equalTo: navigationBarView.centerYAnchor).isActive = true
+        
         addSubview(scrollViewContainer)
-        scrollViewContainer.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
+        scrollViewContainer.anchor(top: navigationBarView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
 
         scrollViewContainer.addSubview(scrollView)
         scrollView.anchor(top: scrollViewContainer.topAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
@@ -100,7 +120,7 @@ class WaiverViews: UIView {
         containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: scrollView.frame.width, height: scrollView.frame.height + 5000)
 
         containerView.addSubview(textView)
-        textView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        textView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 10, width: 20, height: 0)
         
 //        view.addSubview(signatureView)
 //        signatureView.anchor(top: signatureContentsView.topAnchor, left: signatureContentsView.leftAnchor, bottom: nil, right: signatureContentsView.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 180)

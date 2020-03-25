@@ -85,83 +85,83 @@ class ParticipantInfoViews: UIView {
     
     lazy var yesAgeButton: UIButton = {
             
-            let button = UIButton(type: .system)
-            button.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-            button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
+        let button = UIButton(type: .system)
+        button.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
         
     lazy var noAgeButton: UIButton = {
         
-            let button = UIButton(type: .system)
+        let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
     
     lazy var yesBackProblemButton: UIButton = {
-            
-            let button = UIButton(type: .system)
-            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
         
+        let button = UIButton(type: .system)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
+    
     lazy var noBackProblemButton: UIButton = {
         
-            let button = UIButton(type: .system)
+        let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
-
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
+    
     lazy var yesHeartProblemButton: UIButton = {
-            
-            let button = UIButton(type: .system)
-            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
         
+        let button = UIButton(type: .system)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
+    
     lazy var noHeartProblemButton: UIButton = {
         
-            let button = UIButton(type: .system)
+        let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
     
     lazy var yesUnderInfluenceButton: UIButton = {
-            
-            let button = UIButton(type: .system)
-            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
         
+        let button = UIButton(type: .system)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
+    
     lazy var noUnderInfluenceButton: UIButton = {
         
-            let button = UIButton(type: .system)
+        let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-                    button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
     
     lazy var yesPregnantButton: UIButton = {
-            
-            let button = UIButton(type: .system)
-            button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
         
+        let button = UIButton(type: .system)
+        button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
+    
     lazy var noPregnantButton: UIButton = {
         
-            let button = UIButton(type: .system)
+        let button = UIButton(type: .system)
         button.selectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
-                button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
-            return button
-        }()
+        button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
     
     
 //    MARK: - Textfields
@@ -281,128 +281,129 @@ class ParticipantInfoViews: UIView {
          return label
         }()
         
-    //    MARK: - Question labels
+//    MARK: - Question labels
         
-        let questionaireLabel: UILabel = {
-
-         let label = UILabel()
-         let attributedTitle = NSMutableAttributedString(string: "Answer the following questions accurately", attributes: [NSAttributedString.Key.font : UIFont(name: helveticaNeue_Bold, size: 24) ?? UIFont.boldSystemFont(ofSize: 26), NSAttributedString.Key.foregroundColor: UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1), NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue])
-            
-         label.attributedText = attributedTitle
-         label.textColor = Constants.Design.Color.Primary.MarkerColor
-         label.layer.shadowColor = UIColor.gray.cgColor
-         label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
-         label.layer.shadowRadius = 0.25
-         label.layer.shadowOpacity = 0.50
-         return label
-        }()
+    let questionaireLabel: UILabel = {
         
-        let ageLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Are you over 18 years of age?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
-            return label
-        }()
+        let label = UILabel()
+        let attributedTitle = NSMutableAttributedString(string: "Answer the following questions accurately", attributes: [NSAttributedString.Key.font : UIFont(name: helveticaNeue_Bold, size: 24) ?? UIFont.boldSystemFont(ofSize: 26), NSAttributedString.Key.foregroundColor: UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1), NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue])
         
-        let heartProblemLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Do you have heart problems?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
-            return label
-        }()
+        label.attributedText = attributedTitle
+        label.textColor = Constants.Design.Color.Primary.MarkerColor
+        label.layer.shadowColor = UIColor.gray.cgColor
+        label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        label.layer.shadowRadius = 0.25
+        label.layer.shadowOpacity = 0.50
+        return label
+    }()
+    
+    let ageLabel: UILabel = {
         
-        let backProblemLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Do you have back problems?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "Are you over 18 years of age?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
+        return label
+    }()
+    
+    let heartProblemLabel: UILabel = {
         
-        let underInfluenceLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Are you under the influence of (drug/alcohol)?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "Do you have heart problems?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
+        return label
+    }()
+    
+    let backProblemLabel: UILabel = {
         
-        let pregnantLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Are you pregnant?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "Do you have back problems?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
+        return label
+    }()
+    
+    let underInfluenceLabel: UILabel = {
         
-    //    MARK: - Answers labels
+        let label = UILabel()
+        label.labelConfigurations(text: "Are you under the influence of (drug/alcohol)?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
+        return label
+    }()
+    
+    let pregnantLabel: UILabel = {
         
-        let ageYesAnswerLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "Are you pregnant?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
+        return label
+    }()
+    
+//    MARK: - Answers labels
+    
         
-        let ageNoAnswerLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+    let ageYesAnswerLabel: UILabel = {
         
-        let backProblemYesAnswersLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
+    
+    let ageNoAnswerLabel: UILabel = {
         
-        let backProblemNoAnswersLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
+    
+    let backProblemYesAnswersLabel: UILabel = {
         
-        let heartProblemYesAnswersLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
+    
+    let backProblemNoAnswersLabel: UILabel = {
         
-        let heartProblemNoAnswersLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
+    
+    let heartProblemYesAnswersLabel: UILabel = {
         
-        let underInfluenceYesAnswerLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
+    
+    let heartProblemNoAnswersLabel: UILabel = {
         
-        let underInfluenceNoAnswerLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
+    
+    let underInfluenceYesAnswerLabel: UILabel = {
         
-        let pregnantYesAnswersLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
+    
+    let underInfluenceNoAnswerLabel: UILabel = {
         
-        let pregnantNoAnswersLabel: UILabel = {
-            
-            let label = UILabel()
-            label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
-            return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
+    
+    let pregnantYesAnswersLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "Yes", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
+    
+    let pregnantNoAnswersLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: "No", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 17)
+        return label
+    }()
     
 //    MARK: - Handlers
     
@@ -470,7 +471,7 @@ class ParticipantInfoViews: UIView {
         bottomRightStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 25)
         bottomRightStackView.axis = .horizontal
         
-//        MARK: - Age question constraints
+        //        MARK: - Age question constraints
         let ageYesStackView = UIStackView(arrangedSubviews: [yesAgeButton ,ageYesAnswerLabel])
         ageYesStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         ageYesStackView.axis = .horizontal
@@ -487,24 +488,24 @@ class ParticipantInfoViews: UIView {
         ageStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 6)
         ageStackView.axis = .vertical
         
-//        MARK: - Back problem question constraints
+        //        MARK: - Back problem question constraints
         let yesBackProblemStackView = UIStackView(arrangedSubviews: [yesBackProblemButton ,backProblemYesAnswersLabel])
-       yesBackProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
-       yesBackProblemStackView.axis = .horizontal
-
-       let noBackProblemStackView = UIStackView(arrangedSubviews: [noBackProblemButton ,backProblemNoAnswersLabel])
-       noBackProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
-       noBackProblemStackView.axis = .horizontal
-
-       let backProblemAnswersStackView = UIStackView(arrangedSubviews: [yesBackProblemStackView, noBackProblemStackView])
-       backProblemAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 10)
-       backProblemAnswersStackView.axis = .horizontal
-
-       let backProblemStackView = UIStackView(arrangedSubviews: [backProblemLabel, backProblemAnswersStackView])
-       backProblemStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 6)
-       backProblemStackView.axis = .vertical
+        yesBackProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
+        yesBackProblemStackView.axis = .horizontal
         
-//        MARK: - Heart problem question constraints
+        let noBackProblemStackView = UIStackView(arrangedSubviews: [noBackProblemButton ,backProblemNoAnswersLabel])
+        noBackProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
+        noBackProblemStackView.axis = .horizontal
+        
+        let backProblemAnswersStackView = UIStackView(arrangedSubviews: [yesBackProblemStackView, noBackProblemStackView])
+        backProblemAnswersStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 10)
+        backProblemAnswersStackView.axis = .horizontal
+        
+        let backProblemStackView = UIStackView(arrangedSubviews: [backProblemLabel, backProblemAnswersStackView])
+        backProblemStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 6)
+        backProblemStackView.axis = .vertical
+        
+        //        MARK: - Heart problem question constraints
         let yesHeartProblemStackView = UIStackView(arrangedSubviews: [yesHeartProblemButton ,heartProblemYesAnswersLabel])
         yesHeartProblemStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         yesHeartProblemStackView.axis = .horizontal
@@ -521,7 +522,7 @@ class ParticipantInfoViews: UIView {
         heartProblemStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 6)
         heartProblemStackView.axis = .vertical
         
-//        MARK: - Under influence question constraints
+        //        MARK: - Under influence question constraints
         let yesUnderInfluenceStackView = UIStackView(arrangedSubviews: [yesUnderInfluenceButton ,underInfluenceYesAnswerLabel])
         yesUnderInfluenceStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         yesUnderInfluenceStackView.axis = .horizontal
@@ -537,8 +538,8 @@ class ParticipantInfoViews: UIView {
         let underInfluenceStackView = UIStackView(arrangedSubviews: [underInfluenceLabel, underInfluenceAnswersStackView])
         underInfluenceStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 6)
         underInfluenceStackView.axis = .vertical
-
-//        MARK: - Pregnant question constraints
+        
+        //        MARK: - Pregnant question constraints
         let yesPregnantStackView = UIStackView(arrangedSubviews: [yesPregnantButton ,pregnantYesAnswersLabel])
         yesPregnantStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 0)
         yesPregnantStackView.axis = .horizontal
@@ -556,7 +557,7 @@ class ParticipantInfoViews: UIView {
         pregnantStackView.axis = .vertical
         
         
-//        MARK: - Anchors
+        //        MARK: - Anchors
         addSubview(leftStackView)
         leftStackView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 80, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
@@ -589,9 +590,9 @@ class ParticipantInfoViews: UIView {
         questionView.addSubview(heartProblemStackView)
         heartProblemStackView.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 39, width: 0, height: 0)
         heartProblemStackView.centerYAnchor.constraint(equalTo: ageStackView.centerYAnchor).isActive = true
-
+        
     }
     
-                
+    
     
 }

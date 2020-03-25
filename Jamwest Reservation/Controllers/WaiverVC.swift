@@ -39,13 +39,5 @@ class WaiverVC: UIViewController {
     func configureUI() {
         
          view.backgroundColor = Constants.Design.Color.Background.FadeGray
-         
-         navigationItem.title = "Waiver & Release of Liability"
-         navigationController?.navigationBar.isTranslucent = false
-         navigationController?.navigationBar.barStyle = .black
-         navigationController?.navigationBar.barTintColor = Constants.Design.Color.Primary.HeavyGreen
-         
-         let navigationFont = UIFont.boldSystemFont(ofSize: 25)
-         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: navigationFont]
     }
 }
