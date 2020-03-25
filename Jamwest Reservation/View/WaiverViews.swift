@@ -57,7 +57,9 @@ class WaiverViews: UIView {
     let containerView: UIView = {
         // the view inside the scrollView
         let view = UIView()
-        view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
+        view.backgroundColor = .clear
+
+
         return view
     }()
     
@@ -88,7 +90,7 @@ class WaiverViews: UIView {
         var dictionary: NSDictionary? = nil
         let waiverText = try! NSAttributedString(url: url, options: opts, documentAttributes: &dictionary)
         
-        textView.backgroundColor = .clear
+        textView.backgroundColor = .white
         textView.textColor = .darkText
         textView.isEditable = false
         textView.font = UIFont.init(name: helveticaNeue_Medium, size: 18)
@@ -117,10 +119,10 @@ class WaiverViews: UIView {
         scrollView.anchor(top: scrollViewContainer.topAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
 
         scrollView.addSubview(containerView)
-        containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: scrollView.frame.width, height: scrollView.frame.height + 5000)
+        containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: scrollView.frame.width, height: scrollView.frame.height + 5000)
 
         containerView.addSubview(textView)
-        textView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 10, width: 20, height: 0)
+        textView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
         
 //        view.addSubview(signatureView)
 //        signatureView.anchor(top: signatureContentsView.topAnchor, left: signatureContentsView.leftAnchor, bottom: nil, right: signatureContentsView.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 180)
