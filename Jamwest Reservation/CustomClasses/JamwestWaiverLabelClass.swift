@@ -28,8 +28,10 @@ class JamwestWaiverLabelClass: UILabel {
 
     func configuration() {
         
-        textColor = .darkText
+//        textColor = .darkText
+//        textColor = Constants.Design.Color.Primary.HeavyGreen
+        textColor = .darkGray
         textAlignment = .center
-        font = UIFont.init(name: helveticaNeue_Bold, size: 16)
+        font = UIFont.init(name: helveticaNeue_Bold, size: 20)
     }
 }

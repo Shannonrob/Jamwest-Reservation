@@ -12,7 +12,7 @@ class WaiverViews: UIView {
 
 //    MARK: - Properties
     
-    lazy var contentViewSize = CGSize(width: self.scrollViewContainer.frame.width, height: self.scrollViewContainer.frame.height + 4000 )
+    lazy var contentViewSize = CGSize(width: self.scrollViewContainer.frame.width, height: self.scrollViewContainer.frame.height + 5000 )
     
 //    MARK: - Init
     
@@ -37,6 +37,8 @@ class WaiverViews: UIView {
 //    MARK: - UIViews
     
     let scrollViewContainer = JamwestDefaultView()
+    let leftParticipantInfoView = JamwestDefaultView ()
+    let rightParticipantInfoView = JamwestDefaultView()
     let signatureContentsView = JamwestDefaultView()
     
     let navigationBarView: UIView = {
@@ -70,6 +72,17 @@ class WaiverViews: UIView {
         return view
     }()
     
+    
+//    MARK: - UIImageView
+    
+    let headerImage: UIImageView = {
+        
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "greenJamwestLogo  ").withRenderingMode(.alwaysOriginal)
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
 //    MARK: - UILabels
     
     let navigationBarTitle: UILabel = {
@@ -77,6 +90,15 @@ class WaiverViews: UIView {
         let label = UILabel()
         label.text = "Waiver & Release of Liability"
         label.font = .boldSystemFont(ofSize: 25)
+        return label
+    }()
+    
+    let headerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "WARNING, ASSUMPTION OF RISK, LIABILITY RELEASE, INDEMNITY AND HOLD HARMLESS AGREEMENT"
+        label.font = UIFont.init(name: helveticaNeue_Bold, size: 14)
+        label.textColor = .darkText
         return label
     }()
     
@@ -165,6 +187,7 @@ class WaiverViews: UIView {
     }()
     
     
+    
     func scrollToBottomCheck() {
         
         if scrollView.isAtBottom {
@@ -177,6 +200,22 @@ class WaiverViews: UIView {
 //    MARK: - Constraints
     
     func configureConstraints() {
+        
+        let participantInfoStackViews = UIStackView(arrangedSubviews: [leftParticipantInfoView, rightParticipantInfoView])
+        participantInfoStackViews.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 5)
+        participantInfoStackViews.axis = .horizontal
+        
+        let leftLabelsStackViews = UIStackView(arrangedSubviews: [nameLabel, hotelLabel, dateLabel, reservationTimeLabel, paxLabel])
+        leftLabelsStackViews.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
+        leftLabelsStackViews.axis = .vertical
+        
+        let rightlabelsStackViews = UIStackView(arrangedSubviews: [toursLabel, voucherLabel, tourRepLabel, tourCompanyLabel])
+        rightlabelsStackViews.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
+        rightlabelsStackViews.axis = .vertical
+        
+        let headerStackViews = UIStackView(arrangedSubviews: [headerImage, headerLabel])
+        headerStackViews.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: -15)
+        headerStackViews.axis = .vertical
         
         addSubview(navigationBarView)
         navigationBarView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
@@ -194,10 +233,23 @@ class WaiverViews: UIView {
 
         scrollView.addSubview(containerView)
         containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: scrollView.frame.width, height: scrollView.frame.height)
+        
+        containerView.addSubview(headerStackViews)
+        headerStackViews.anchor(top: containerView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        headerStackViews.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        
+        containerView.addSubview(participantInfoStackViews)
+        participantInfoStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 230)
+
+        leftParticipantInfoView.addSubview(leftLabelsStackViews)
+        leftLabelsStackViews.anchor(top: leftParticipantInfoView.topAnchor, left: leftParticipantInfoView.leftAnchor, bottom: leftParticipantInfoView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
+
+        rightParticipantInfoView.addSubview(rightlabelsStackViews)
+        rightlabelsStackViews.anchor(top: rightParticipantInfoView.topAnchor, left: rightParticipantInfoView.leftAnchor, bottom: rightParticipantInfoView.bottomAnchor, right: rightParticipantInfoView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
 
         containerView.addSubview(textView)
-        textView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
-        
+        textView.anchor(top: participantInfoStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+//
 //        view.addSubview(signatureView)
 //        signatureView.anchor(top: signatureContentsView.topAnchor, left: signatureContentsView.leftAnchor, bottom: nil, right: signatureContentsView.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 180)
         
