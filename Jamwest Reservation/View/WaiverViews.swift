@@ -12,13 +12,14 @@ class WaiverViews: UIView {
 
 //    MARK: - Properties
     
-    lazy var contentViewSize = CGSize(width: self.scrollViewContainer.frame.width, height: self.scrollViewContainer.frame.height + 7000 )
+    lazy var contentViewSize = CGSize(width: self.scrollViewContainer.frame.width, height: self.scrollViewContainer.frame.height + 4000 )
     
 //    MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
         configureConstraints()
+        scrollToBottomCheck()
     }
     
     convenience init() {
@@ -26,6 +27,7 @@ class WaiverViews: UIView {
         
         // initialize constraints/views here
         configureConstraints()
+        scrollToBottomCheck()
     }
     
     required init?(coder: NSCoder) {
@@ -58,8 +60,6 @@ class WaiverViews: UIView {
         // the view inside the scrollView
         let view = UIView()
         view.backgroundColor = .clear
-
-
         return view
     }()
     
@@ -80,6 +80,70 @@ class WaiverViews: UIView {
         return label
     }()
     
+    let nameLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Name :"
+        return label
+    }()
+    
+    let dateLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Date :"
+        return label
+    }()
+    
+    let voucherLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Voucher # :"
+        return label
+    }()
+    
+    let tourCompanyLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Tour Company :"
+        return label
+    }()
+    
+    let tourRepLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Tour Representative :"
+        return label
+    }()
+    
+    let paxLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Pax :"
+        return label
+    }()
+    
+    let toursLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Tour/s :"
+        return label
+    }()
+    
+    let reservationTimeLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Resevation Time :"
+        return label
+    }()
+    
+    let hotelLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Hotel :"
+        return label
+    }()
+
+    
 //    MARK: - UITextView
     
     lazy var textView: UITextView = {
@@ -93,12 +157,22 @@ class WaiverViews: UIView {
         textView.backgroundColor = .white
         textView.textColor = .darkText
         textView.isEditable = false
+        textView.isScrollEnabled = false
         textView.font = UIFont.init(name: helveticaNeue_Medium, size: 18)
         textView.textAlignment = .center
         textView.attributedText = waiverText
         return textView
     }()
     
+    
+    func scrollToBottomCheck() {
+        
+        if scrollView.isAtBottom {
+            
+            print("reached bottom")
+            
+        }
+    }
     
 //    MARK: - Constraints
     
@@ -119,7 +193,7 @@ class WaiverViews: UIView {
         scrollView.anchor(top: scrollViewContainer.topAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
 
         scrollView.addSubview(containerView)
-        containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: scrollView.frame.width, height: scrollView.frame.height + 5000)
+        containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: scrollView.frame.width, height: scrollView.frame.height)
 
         containerView.addSubview(textView)
         textView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)

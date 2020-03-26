@@ -26,12 +26,10 @@ class JamwestWaiverLabelClass: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
 
-    
     func configuration() {
         
         textColor = .darkText
-        numberOfLines = 2
         textAlignment = .center
-        font = UIFont.init(name: helveticaNeue_Bold, size: 22)
+        font = UIFont.init(name: helveticaNeue_Bold, size: 16)
     }
 }

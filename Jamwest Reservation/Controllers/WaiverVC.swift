@@ -19,6 +19,7 @@ class WaiverVC: UIViewController {
         super.viewDidLoad()
        
         configureUI()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,4 +41,7 @@ class WaiverVC: UIViewController {
         
          view.backgroundColor = Constants.Design.Color.Background.FadeGray
     }
+    
+    
+    
 }
