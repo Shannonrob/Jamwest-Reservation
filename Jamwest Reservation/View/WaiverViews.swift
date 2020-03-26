@@ -12,7 +12,7 @@ class WaiverViews: UIView {
 
 //    MARK: - Properties
     
-    lazy var contentViewSize = CGSize(width: self.scrollViewContainer.frame.width, height: self.scrollViewContainer.frame.height + 5000 )
+    lazy var contentViewSize = CGSize(width: self.scrollViewContainer.frame.width, height: 5000 )
     
 //    MARK: - Init
     
@@ -147,14 +147,14 @@ class WaiverViews: UIView {
     let toursLabel: JamwestWaiverLabelClass = {
         
         let label = JamwestWaiverLabelClass()
-        label.text = "Tour/s :"
+        label.text = "Tour(s) :"
         return label
     }()
     
     let reservationTimeLabel: JamwestWaiverLabelClass = {
         
         let label = JamwestWaiverLabelClass()
-        label.text = "Resevation Time :"
+        label.text = "Time :"
         return label
     }()
     
@@ -165,6 +165,7 @@ class WaiverViews: UIView {
         return label
     }()
 
+    
     
 //    MARK: - UITextView
     
@@ -197,6 +198,23 @@ class WaiverViews: UIView {
         }
     }
     
+//    MARK: - UIButton
+    
+    let agreeButton: UIButton = {
+        
+        let button = UIButton()
+        button.updateButtonIcon("grayUncheckMark")
+//        button.unSelectedPackageButtonState(icon: "grayUncheckMark", font: nil, enabled: true)
+        button.addTarget(self, action: #selector(handleAgreeButton), for: .touchUpInside)
+        return button
+    }()
+    
+//    MARK: - Handlers
+    
+    @objc func handleAgreeButton() {
+        print("agree button tapped")
+    }
+    
 //    MARK: - Constraints
     
     func configureConstraints() {
@@ -217,6 +235,10 @@ class WaiverViews: UIView {
         headerStackViews.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: -15)
         headerStackViews.axis = .vertical
         
+        let agreeStackViews = UIStackView(arrangedSubviews: [agreeButton])
+        agreeStackViews.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
+        
+        
         addSubview(navigationBarView)
         navigationBarView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         
@@ -232,14 +254,14 @@ class WaiverViews: UIView {
         scrollView.anchor(top: scrollViewContainer.topAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
 
         scrollView.addSubview(containerView)
-        containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: scrollView.frame.width, height: scrollView.frame.height)
+        containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: scrollView.contentSize.height)
         
         containerView.addSubview(headerStackViews)
-        headerStackViews.anchor(top: containerView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        headerStackViews.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        headerStackViews.anchor(top: containerView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        headerImage.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
         
         containerView.addSubview(participantInfoStackViews)
-        participantInfoStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 230)
+        participantInfoStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 230)
 
         leftParticipantInfoView.addSubview(leftLabelsStackViews)
         leftLabelsStackViews.anchor(top: leftParticipantInfoView.topAnchor, left: leftParticipantInfoView.leftAnchor, bottom: leftParticipantInfoView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
@@ -248,7 +270,10 @@ class WaiverViews: UIView {
         rightlabelsStackViews.anchor(top: rightParticipantInfoView.topAnchor, left: rightParticipantInfoView.leftAnchor, bottom: rightParticipantInfoView.bottomAnchor, right: rightParticipantInfoView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
 
         containerView.addSubview(textView)
-        textView.anchor(top: participantInfoStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        textView.anchor(top: participantInfoStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 3700)
+        
+        containerView.addSubview(agreeStackViews)
+        agreeStackViews.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 //
 //        view.addSubview(signatureView)
 //        signatureView.anchor(top: signatureContentsView.topAnchor, left: signatureContentsView.leftAnchor, bottom: nil, right: signatureContentsView.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 180)
