@@ -39,6 +39,64 @@ extension UIView {
         }
     }
     
+    
+    // Export pdf from Save pdf in drectory and return pdf file path
+    func exportAsPdfFromView() -> String {
+        
+        let pdfPageFrame = self.bounds
+        let pdfData = NSMutableData()
+        
+        UIGraphicsBeginPDFContextToData(pdfData, .zero, nil)
+        UIGraphicsBeginPDFPageWithInfo(.zero, nil)
+    
+//        guard let pdfContext = UIGraphicsGetCurrentContext() else { return "" }
+//        self.layer.render(in: pdfContext)
+        renderSize()
+        UIGraphicsBeginPDFPage()
+        
+        UIGraphicsEndPDFContext()
+        
+        return self.saveViewPdf(data: pdfData)
+    }
+    
+    // Save pdf file in document directory
+    func saveViewPdf(data: NSMutableData) -> String {
+
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let docDirectoryPath = paths[0]
+        let pdfPath = docDirectoryPath.appendingPathComponent("viewPdf.pdf")
+        if data.write(to: pdfPath, atomically: true) {
+            return pdfPath.path
+        } else {
+            return ""
+        }
+    }
+    
+
+    func renderSize() {
+        
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+        
+//         let view = self
+        
+        let width = self.frame.width
+        let height = self.frame.height
+        
+        let frame = CGRect(origin: .zero, size: CGSize(width: width, height: height))
+        self.frame = frame
+        
+        context.saveGState()
+        
+        let rect = context.boundingBoxOfClipPath
+        
+        context.translateBy(x: (rect.width - width) / 2 , y: (rect.height - height) / 90)
+         
+        
+        self.layer.render(in: context)
+        context.restoreGState()
+    }
+
+    
 //    func bindToKeyboard() {
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 //    }

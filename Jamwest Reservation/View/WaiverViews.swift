@@ -204,7 +204,6 @@ class WaiverViews: UIView {
         
         let button = UIButton()
         button.updateButtonIcon("grayUncheckMark")
-//        button.unSelectedPackageButtonState(icon: "grayUncheckMark", font: nil, enabled: true)
         button.addTarget(self, action: #selector(handleAgreeButton), for: .touchUpInside)
         return button
     }()
@@ -212,8 +211,115 @@ class WaiverViews: UIView {
 //    MARK: - Handlers
     
     @objc func handleAgreeButton() {
-        print("agree button tapped")
+       
+        containerView.exportAsPdfFromView()
+//        print(pdfFilePath)
+
+//        generatePDF(fileName: "test4")
+        
+//        scrollView.generatePDF(fileName: "scroll")
+        
     }
+    
+    
+    //test method
+    
+    func generatePDF(fileName: String) {
+        
+        // page size
+        let pageDimensions = scrollView.bounds
+        
+        // divide scrollView dimensions to figure how many pages are needed
+        let pageSize = pageDimensions.size
+        let totalSize = scrollView.contentSize
+        let numberOfPagesThatFitHorizontally = Int(ceil(totalSize.width / pageSize.width))
+        let numberOfPagesThatFitVertically = Int(ceil(totalSize.height / pageSize.height))
+        
+        //set up Core Graphic PDF context
+        let outputData = NSMutableData()
+        UIGraphicsBeginPDFContextToData(outputData, pageDimensions, nil)
+        
+        
+        let savedContentOffset = scrollView.contentOffset
+        let savedContentInset = scrollView.contentInset
+
+        scrollView.contentInset = UIEdgeInsets.zero
+        
+        if let context = UIGraphicsGetCurrentContext()
+        {
+            for indexHorizontal in 0 ..< numberOfPagesThatFitHorizontally
+            {
+                for indexVertical in 0 ..< numberOfPagesThatFitVertically
+                {
+
+                    UIGraphicsBeginPDFPageWithInfo(pageDimensions, nil)
+                    UIGraphicsBeginPDFPage()
+
+                    let offsetHorizontal = CGFloat(indexHorizontal) * pageSize.width
+                    let offsetVertical = CGFloat(indexVertical) * pageSize.height
+
+                    scrollView.contentOffset = CGPoint(x: offsetHorizontal, y: offsetVertical)
+                    context.translateBy(x: -offsetHorizontal, y: -offsetVertical)
+
+                    scrollView.layer.render(in: context)
+                    
+                }
+                
+            }
+            
+        }
+        
+        UIGraphicsEndPDFContext()
+        
+       scrollView.contentInset = savedContentInset
+       scrollView.contentOffset = savedContentOffset
+        
+        
+        
+        
+        // Save pdf file in document directory
+        
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let docDirectoryPath = paths[0]
+            let pdfPath = docDirectoryPath.appendingPathComponent("\(fileName).pdf")
+            outputData.write(to: pdfPath, atomically: true)
+        
+//
+//        func saveViewPdf(data: NSMutableData) -> String {
+//
+//            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//            let docDirectoryPath = paths[0]
+//            let pdfPath = docDirectoryPath.appendingPathComponent("\(fileName).pdf")
+//            if data.write(to: pdfPath, atomically: true) {
+//                return pdfPath.path
+//            } else {
+//                return ""
+//            }
+//        }
+        
+    }
+    
+//    this method has the capabilities to add name to the file
+    
+    func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String) {
+           
+           let pdfData = NSMutableData()
+           let height = 5000
+           let width = 1164
+           UIGraphicsBeginPDFContextToData(pdfData, CGRect(x:-30, y:15,width:width,height:height) , nil)
+           UIGraphicsBeginPDFPage()
+           guard let pdfContext = UIGraphicsGetCurrentContext() else { return }
+
+           aView.layer.render(in: pdfContext)
+           UIGraphicsEndPDFContext()
+
+           if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
+               let documentsFileName = documentDirectories + "/" + fileName
+               debugPrint(documentsFileName)
+               pdfData.write(toFile: documentsFileName, atomically: true)
+           }
+       }
+    
     
 //    MARK: - Constraints
     
@@ -259,6 +365,13 @@ class WaiverViews: UIView {
         containerView.addSubview(headerStackViews)
         headerStackViews.anchor(top: containerView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         headerImage.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+
+        
+        //this in temporary
+        containerView.addSubview(agreeStackViews)
+        agreeStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+
+
         
         containerView.addSubview(participantInfoStackViews)
         participantInfoStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 230)
@@ -272,9 +385,9 @@ class WaiverViews: UIView {
         containerView.addSubview(textView)
         textView.anchor(top: participantInfoStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 3700)
         
-        containerView.addSubview(agreeStackViews)
-        agreeStackViews.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-//
+//        containerView.addSubview(agreeStackViews)
+//        agreeStackViews.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+////
 //        view.addSubview(signatureView)
 //        signatureView.anchor(top: signatureContentsView.topAnchor, left: signatureContentsView.leftAnchor, bottom: nil, right: signatureContentsView.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 180)
         

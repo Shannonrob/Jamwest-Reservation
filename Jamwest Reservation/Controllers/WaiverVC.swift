@@ -19,17 +19,17 @@ class WaiverVC: UIViewController {
         super.viewDidLoad()
        
         configureUI()
-        
+            
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
      
-        print("scroll view containter height is\(waiverViews.scrollViewContainer.frame.height)")
-        print("scroll view height is\(waiverViews.scrollView.contentSize.height)")
-        print("containerView height is\(waiverViews.containerView.frame.height)")
-        print("textView height is\(waiverViews.textView.contentSize.height)")
-        print("headerImage height is\(waiverViews.headerImage.frame.height)")
+//        print("scroll view containter height is\(waiverViews.scrollViewContainer.frame.height)")
+//        print("scroll view height is\(waiverViews.scrollView.contentSize.height)")
+//        print("containerView height is\(waiverViews.containerView.frame)")
+//        print("textView height is\(waiverViews.textView.contentSize.height)")
+//        print("headerImage height is\(waiverViews.headerImage.frame.height)")
     }
     
     override func loadView() {
@@ -46,7 +46,4 @@ class WaiverVC: UIViewController {
         
          view.backgroundColor = Constants.Design.Color.Background.FadeGray
     }
-    
-    
-    
 }
