@@ -12,7 +12,7 @@ class WaiverViews: UIView {
 
 //    MARK: - Properties
     
-    lazy var contentViewSize = CGSize(width: self.scrollViewContainer.frame.width, height: 5000 )
+    lazy var contentViewSize = CGSize(width: 1164, height: 5000 )
     
 //    MARK: - Init
     
@@ -212,78 +212,80 @@ class WaiverViews: UIView {
     
     @objc func handleAgreeButton() {
        
-        containerView.exportAsPdfFromView()
+//          containerView.exportAsPdfFromView()
 //        print(pdfFilePath)
-
-//        generatePDF(fileName: "test4")
         
-//        scrollView.generatePDF(fileName: "scroll")
+        generatePDF(fileName: "Keep Trying")
         
     }
     
     
     //test method
-    
+
     func generatePDF(fileName: String) {
-        
+
         // page size
         let pageDimensions = scrollView.bounds
-        
+
         // divide scrollView dimensions to figure how many pages are needed
         let pageSize = pageDimensions.size
         let totalSize = scrollView.contentSize
         let numberOfPagesThatFitHorizontally = Int(ceil(totalSize.width / pageSize.width))
         let numberOfPagesThatFitVertically = Int(ceil(totalSize.height / pageSize.height))
-        
+
         //set up Core Graphic PDF context
         let outputData = NSMutableData()
-        UIGraphicsBeginPDFContextToData(outputData, pageDimensions, nil)
-        
-        
+        UIGraphicsBeginPDFContextToData(outputData, .zero, nil)
+
+
         let savedContentOffset = scrollView.contentOffset
         let savedContentInset = scrollView.contentInset
 
         scrollView.contentInset = UIEdgeInsets.zero
-        
-        if let context = UIGraphicsGetCurrentContext()
-        {
-            for indexHorizontal in 0 ..< numberOfPagesThatFitHorizontally
-            {
-                for indexVertical in 0 ..< numberOfPagesThatFitVertically
-                {
+
+        if let context = UIGraphicsGetCurrentContext() {
+            
+            for indexHorizontal in 0 ..< numberOfPagesThatFitHorizontally {
+                
+                print("number of horizontal pages are \(indexHorizontal)")
+                
+                for indexVertical in 0 ..< numberOfPagesThatFitVertically {
+                    
+                    print("number of vertical pages are \(indexVertical)")
 
                     UIGraphicsBeginPDFPageWithInfo(pageDimensions, nil)
-                    UIGraphicsBeginPDFPage()
+                    
 
                     let offsetHorizontal = CGFloat(indexHorizontal) * pageSize.width
                     let offsetVertical = CGFloat(indexVertical) * pageSize.height
 
+                    
                     scrollView.contentOffset = CGPoint(x: offsetHorizontal, y: offsetVertical)
                     context.translateBy(x: -offsetHorizontal, y: -offsetVertical)
 
                     scrollView.layer.render(in: context)
-                    
+
                 }
-                
+
             }
-            
+
         }
-        
+
         UIGraphicsEndPDFContext()
-        
+
        scrollView.contentInset = savedContentInset
        scrollView.contentOffset = savedContentOffset
-        
-        
-        
-        
+
+
+
+
         // Save pdf file in document directory
-        
+
             let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
             let docDirectoryPath = paths[0]
             let pdfPath = docDirectoryPath.appendingPathComponent("\(fileName).pdf")
             outputData.write(to: pdfPath, atomically: true)
-        
+
 //
 //        func saveViewPdf(data: NSMutableData) -> String {
 //
@@ -296,30 +298,30 @@ class WaiverViews: UIView {
 //                return ""
 //            }
 //        }
-        
+
     }
     
 //    this method has the capabilities to add name to the file
     
-    func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String) {
-           
-           let pdfData = NSMutableData()
-           let height = 5000
-           let width = 1164
-           UIGraphicsBeginPDFContextToData(pdfData, CGRect(x:-30, y:15,width:width,height:height) , nil)
-           UIGraphicsBeginPDFPage()
-           guard let pdfContext = UIGraphicsGetCurrentContext() else { return }
-
-           aView.layer.render(in: pdfContext)
-           UIGraphicsEndPDFContext()
-
-           if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
-               let documentsFileName = documentDirectories + "/" + fileName
-               debugPrint(documentsFileName)
-               pdfData.write(toFile: documentsFileName, atomically: true)
-           }
-       }
-    
+//    func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String) {
+//
+//           let pdfData = NSMutableData()
+//           let height = 5000
+//           let width = 1164
+//           UIGraphicsBeginPDFContextToData(pdfData, CGRect(x:-30, y:15,width:width,height:height) , nil)
+//           UIGraphicsBeginPDFPage()
+//           guard let pdfContext = UIGraphicsGetCurrentContext() else { return }
+//
+//           aView.layer.render(in: pdfContext)
+//           UIGraphicsEndPDFContext()
+//
+//           if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
+//               let documentsFileName = documentDirectories + "/" + fileName
+//               debugPrint(documentsFileName)
+//               pdfData.write(toFile: documentsFileName, atomically: true)
+//           }
+//       }
+//
     
 //    MARK: - Constraints
     

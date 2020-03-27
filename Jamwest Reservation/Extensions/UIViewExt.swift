@@ -46,11 +46,10 @@ extension UIView {
         let pdfPageFrame = self.bounds
         let pdfData = NSMutableData()
         
-        UIGraphicsBeginPDFContextToData(pdfData, .zero, nil)
+        UIGraphicsBeginPDFContextToData(pdfData, .zero , nil)
         UIGraphicsBeginPDFPageWithInfo(.zero, nil)
-    
-//        guard let pdfContext = UIGraphicsGetCurrentContext() else { return "" }
-//        self.layer.render(in: pdfContext)
+        
+        UIGraphicsBeginPDFPage()
         renderSize()
         UIGraphicsBeginPDFPage()
         
@@ -77,40 +76,21 @@ extension UIView {
         
         guard let context = UIGraphicsGetCurrentContext() else { return }
         
-//         let view = self
-        
-        let width = self.frame.width
-        let height = self.frame.height
-        
+        let width = self.bounds.width
+        let height = self.bounds.height
+//
         let frame = CGRect(origin: .zero, size: CGSize(width: width, height: height))
         self.frame = frame
-        
+//
+//
         context.saveGState()
         
         let rect = context.boundingBoxOfClipPath
-        
+
         context.translateBy(x: (rect.width - width) / 2 , y: (rect.height - height) / 90)
-         
         
         self.layer.render(in: context)
         context.restoreGState()
     }
 
-    
-//    func bindToKeyboard() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-//    }
-//
-//    @objc func keyboardWillChangeFrame(_ notification: NSNotification) {
-//
-//        let duration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
-//        let curve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! UInt
-//        let beginningFrame = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-//        let endFrame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-//        let deltaY = endFrame.origin.y - beginningFrame.origin.y
-//
-//        UIView.animateKeyframes(withDuration: duration, delay: 0.0, options: UIView.KeyframeAnimationOptions(rawValue: curve), animations: {
-//            self.frame.origin.y += deltaY
-//        }, completion: nil)
-//    }
 }
