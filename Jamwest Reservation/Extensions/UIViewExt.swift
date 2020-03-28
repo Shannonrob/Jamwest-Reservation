@@ -86,16 +86,14 @@ extension UIView {
         
         let pdfScale = (self.frame.width/paperRect.size.width) / 3.75
        
-        let pdfTranslate = (self.bounds.width - self.bounds.width) / 2
-        
         let width = self.frame.width
         let height = self.frame.height
         
         if let context = UIGraphicsGetCurrentContext() {
             
-            let bounds = UIGraphicsGetPDFContextBounds()
+//            let bounds = UIGraphicsGetPDFContextBounds()
             
-            for i in 0..<renderer.numberOfPages {
+            for _ in 0..<renderer.numberOfPages {
                 
                 UIGraphicsBeginPDFPage()
                 
@@ -108,11 +106,7 @@ extension UIView {
                 context.scaleBy(x: pdfScale, y: pdfScale)
                 
                 
-              
-                
-                
-                
-                renderer.drawPage(at: i, in: bounds)
+//                renderer.drawPage(at: i, in: bounds)
                 self.layer.render(in: context)
                 
                 context.restoreGState()
@@ -125,7 +119,7 @@ extension UIView {
         // Save pdf file in document directory
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let docDirectoryPath = paths[0]
-        let pdfPath = docDirectoryPath.appendingPathComponent("SatTest2.pdf")
+        let pdfPath = docDirectoryPath.appendingPathComponent("SatTest3.pdf")
         
         do {
             try pdfData.write(to: pdfPath)
