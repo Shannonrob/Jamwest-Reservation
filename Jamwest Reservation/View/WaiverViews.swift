@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreText
 
 class WaiverViews: UIView {
 
@@ -212,10 +213,10 @@ class WaiverViews: UIView {
     
     @objc func handleAgreeButton() {
        
-//          containerView.exportAsPdfFromView()
-//        print(pdfFilePath)
-        
-        generatePDF(fileName: "Keep Trying")
+//        let pdfPath = containerView.exportAsPdfFromView()
+//        print(pdfPath)
+        containerView.customPDF()
+//        generatePDF(fileName: "Keep Trying")
         
     }
     
@@ -238,6 +239,10 @@ class WaiverViews: UIView {
         UIGraphicsBeginPDFContextToData(outputData, .zero, nil)
 
 
+        var currentRange = CFRangeMake(0, 0)
+        var currentPage = 0
+        var done = false
+        
         let savedContentOffset = scrollView.contentOffset
         let savedContentInset = scrollView.contentInset
 
@@ -247,36 +252,30 @@ class WaiverViews: UIView {
             
             for indexHorizontal in 0 ..< numberOfPagesThatFitHorizontally {
                 
-                print("number of horizontal pages are \(indexHorizontal)")
-                
                 for indexVertical in 0 ..< numberOfPagesThatFitVertically {
-                    
-                    print("number of vertical pages are \(indexVertical)")
 
-                    UIGraphicsBeginPDFPageWithInfo(pageDimensions, nil)
+//                    UIGraphicsBeginPDFPageWithInfo(pageDimensions, nil)
+                    UIGraphicsBeginPDFPageWithInfo(CGRect(x: 0, y: 0, width: 612, height: 792), nil)
                     
-
+                    
+                
+                
                     let offsetHorizontal = CGFloat(indexHorizontal) * pageSize.width
                     let offsetVertical = CGFloat(indexVertical) * pageSize.height
-
                     
                     scrollView.contentOffset = CGPoint(x: offsetHorizontal, y: offsetVertical)
                     context.translateBy(x: -offsetHorizontal, y: -offsetVertical)
-
+                    
                     scrollView.layer.render(in: context)
-
+                
                 }
-
             }
-
         }
 
         UIGraphicsEndPDFContext()
 
        scrollView.contentInset = savedContentInset
        scrollView.contentOffset = savedContentOffset
-
-
 
 
         // Save pdf file in document directory
@@ -299,6 +298,7 @@ class WaiverViews: UIView {
 //            }
 //        }
 
+        print(pdfPath)
     }
     
 //    this method has the capabilities to add name to the file
@@ -370,8 +370,8 @@ class WaiverViews: UIView {
 
         
         //this in temporary
-        containerView.addSubview(agreeStackViews)
-        agreeStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+//        containerView.addSubview(agreeStackViews)
+//        agreeStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
 
         
@@ -387,8 +387,8 @@ class WaiverViews: UIView {
         containerView.addSubview(textView)
         textView.anchor(top: participantInfoStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 3700)
         
-//        containerView.addSubview(agreeStackViews)
-//        agreeStackViews.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        containerView.addSubview(agreeStackViews)
+        agreeStackViews.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 ////
 //        view.addSubview(signatureView)
 //        signatureView.anchor(top: signatureContentsView.topAnchor, left: signatureContentsView.leftAnchor, bottom: nil, right: signatureContentsView.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 180)
