@@ -8,19 +8,20 @@
 
 import UIKit
 import CoreText
+import PencilKit
 
 class WaiverViews: UIView {
 
 //    MARK: - Properties
     
-    lazy var contentViewSize = CGSize(width: 1164, height: 5000 )
+    lazy var contentViewSize = CGSize(width: 1164, height: 4815 )
+    weak var waiverVCDelegate: WaiverVCDelegates?
     
 //    MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
         configureConstraints()
-        scrollToBottomCheck()
     }
     
     convenience init() {
@@ -28,7 +29,6 @@ class WaiverViews: UIView {
         
         // initialize constraints/views here
         configureConstraints()
-        scrollToBottomCheck()
     }
     
     required init?(coder: NSCoder) {
@@ -40,7 +40,9 @@ class WaiverViews: UIView {
     let scrollViewContainer = JamwestDefaultView()
     let leftParticipantInfoView = JamwestDefaultView ()
     let rightParticipantInfoView = JamwestDefaultView()
-    let signatureContentsView = JamwestDefaultView()
+    let signatureCanvasContainerView = UIView()
+//    let canvasView = PKCanvasView()
+ 
     
     let navigationBarView: UIView = {
         
@@ -53,9 +55,11 @@ class WaiverViews: UIView {
         
         let view = UIScrollView()
         view.backgroundColor = .white
+//        view.backgroundColor = .systemTeal
         view.contentSize = contentViewSize
         view.alwaysBounceVertical = true
         view.indicatorStyle = .black
+        view.showsHorizontalScrollIndicator = false
         return view
     }()
     
@@ -66,20 +70,28 @@ class WaiverViews: UIView {
         return view
     }()
     
-    let signatureView: UIView = {
+    let seperatorView: UIView = {
         
         let view = UIView()
-        view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.25)
+        view.backgroundColor = .gray
         return view
     }()
     
+    lazy var canvasView: PKCanvasView = {
+
+        let canvas = PKCanvasView()
+        canvas.backgroundColor = .lightGray
+        canvas.tool = PKInkingTool(.pen, color: .systemOrange, width: 10)
+        canvas.frame = signatureCanvasContainerView.bounds
+        return canvas
+    }()
     
 //    MARK: - UIImageView
     
     let headerImage: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "greenJamwestLogo  ").withRenderingMode(.alwaysOriginal)
+        imageView.image = #imageLiteral(resourceName: "greenJamwestLogo").withRenderingMode(.alwaysOriginal)
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -166,6 +178,23 @@ class WaiverViews: UIView {
         return label
     }()
 
+    let agreeLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "I confirm that I have read, understand and agree to the terms and condition"
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = .black
+        return label
+    }()
+
+    let guardianLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "I parentName is signing this waiver of liability on the behalf of minorName"
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = .black
+        return label
+    }()
     
     
 //    MARK: - UITextView
@@ -189,144 +218,58 @@ class WaiverViews: UIView {
     }()
     
     
-    
-    func scrollToBottomCheck() {
-        
-        if scrollView.isAtBottom {
-            
-            print("reached bottom")
-            
-        }
-    }
-    
 //    MARK: - UIButton
     
     let agreeButton: UIButton = {
         
         let button = UIButton()
         button.updateButtonIcon("grayUncheckMark")
-        button.addTarget(self, action: #selector(handleAgreeButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleAgreeButton(sender:)), for: .touchUpInside)
         return button
     }()
     
+    let onBehalfButton: UIButton = {
+        
+        let button = UIButton()
+        button.updateButtonIcon("grayUncheckMark")
+        button.addTarget(self, action: #selector(handleAgreeButton(sender:)), for: .touchUpInside)
+        return button
+    }()
+    
+    let cancelButton: JamwestCustomRoundedButton = {
+        
+        let button = JamwestCustomRoundedButton()
+        button.setTitle("Cancel", for: .normal)
+        button.backgroundColor = Constants.Design.Color.Primary.Orange
+        return button
+    }()
+    
+    lazy var doneButton: JamwestCustomRoundedButton = {
+        
+        let button = JamwestCustomRoundedButton()
+        button.setTitle("Done", for: .normal)
+        button.backgroundColor = UIColor(red: 53/255, green: 109/255, blue: 240/255, alpha: 1)
+        return button
+    }()
+
 //    MARK: - Handlers
     
-    @objc func handleAgreeButton() {
-       
-//        let pdfPath = containerView.exportAsPdfFromView()
-//        print(pdfPath)
-        containerView.customPDF()
-//        generatePDF(fileName: "Keep Trying")
-        
+    
+    
+    @objc func handleAgreeButton(sender: UIButton) {
+
+//        let pdf = leftParticipantInfoView.exportAsPdfFromView()
+//        print(pdf)
+//        waiverVCDelegate?.handleShowPreviewImageVC(for: sender)
     }
     
     
-    //test method
-
-    func generatePDF(fileName: String) {
-
-        // page size
-        let pageDimensions = scrollView.bounds
-
-        // divide scrollView dimensions to figure how many pages are needed
-        let pageSize = pageDimensions.size
-        let totalSize = scrollView.contentSize
-        let numberOfPagesThatFitHorizontally = Int(ceil(totalSize.width / pageSize.width))
-        let numberOfPagesThatFitVertically = Int(ceil(totalSize.height / pageSize.height))
-
-        //set up Core Graphic PDF context
-        let outputData = NSMutableData()
-        UIGraphicsBeginPDFContextToData(outputData, .zero, nil)
-
-
-        var currentRange = CFRangeMake(0, 0)
-        var currentPage = 0
-        var done = false
-        
-        let savedContentOffset = scrollView.contentOffset
-        let savedContentInset = scrollView.contentInset
-
-        scrollView.contentInset = UIEdgeInsets.zero
-
-        if let context = UIGraphicsGetCurrentContext() {
-            
-            for indexHorizontal in 0 ..< numberOfPagesThatFitHorizontally {
-                
-                for indexVertical in 0 ..< numberOfPagesThatFitVertically {
-
-//                    UIGraphicsBeginPDFPageWithInfo(pageDimensions, nil)
-                    UIGraphicsBeginPDFPageWithInfo(CGRect(x: 0, y: 0, width: 612, height: 792), nil)
-                    
-                    
-                
-                
-                    let offsetHorizontal = CGFloat(indexHorizontal) * pageSize.width
-                    let offsetVertical = CGFloat(indexVertical) * pageSize.height
-                    
-                    scrollView.contentOffset = CGPoint(x: offsetHorizontal, y: offsetVertical)
-                    context.translateBy(x: -offsetHorizontal, y: -offsetVertical)
-                    
-                    scrollView.layer.render(in: context)
-                
-                }
-            }
-        }
-
-        UIGraphicsEndPDFContext()
-
-       scrollView.contentInset = savedContentInset
-       scrollView.contentOffset = savedContentOffset
-
-
-        // Save pdf file in document directory
-
-            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            let docDirectoryPath = paths[0]
-            let pdfPath = docDirectoryPath.appendingPathComponent("\(fileName).pdf")
-            outputData.write(to: pdfPath, atomically: true)
-
-//
-//        func saveViewPdf(data: NSMutableData) -> String {
-//
-//            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//            let docDirectoryPath = paths[0]
-//            let pdfPath = docDirectoryPath.appendingPathComponent("\(fileName).pdf")
-//            if data.write(to: pdfPath, atomically: true) {
-//                return pdfPath.path
-//            } else {
-//                return ""
-//            }
-//        }
-
-        print(pdfPath)
-    }
-    
-//    this method has the capabilities to add name to the file
-    
-//    func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String) {
-//
-//           let pdfData = NSMutableData()
-//           let height = 5000
-//           let width = 1164
-//           UIGraphicsBeginPDFContextToData(pdfData, CGRect(x:-30, y:15,width:width,height:height) , nil)
-//           UIGraphicsBeginPDFPage()
-//           guard let pdfContext = UIGraphicsGetCurrentContext() else { return }
-//
-//           aView.layer.render(in: pdfContext)
-//           UIGraphicsEndPDFContext()
-//
-//           if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
-//               let documentsFileName = documentDirectories + "/" + fileName
-//               debugPrint(documentsFileName)
-//               pdfData.write(toFile: documentsFileName, atomically: true)
-//           }
-//       }
-//
     
 //    MARK: - Constraints
     
     func configureConstraints() {
         
+        // stackViews
         let participantInfoStackViews = UIStackView(arrangedSubviews: [leftParticipantInfoView, rightParticipantInfoView])
         participantInfoStackViews.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 5)
         participantInfoStackViews.axis = .horizontal
@@ -343,10 +286,17 @@ class WaiverViews: UIView {
         headerStackViews.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: -15)
         headerStackViews.axis = .vertical
         
-        let agreeStackViews = UIStackView(arrangedSubviews: [agreeButton])
-        agreeStackViews.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
+        let agreeStackView = UIStackView(arrangedSubviews: [agreeButton, agreeLabel])
+        agreeStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
         
+        let onBehalfStackViews = UIStackView(arrangedSubviews: [onBehalfButton, guardianLabel])
+        onBehalfStackViews.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
+
+        let confirmationStackView = UIStackView(arrangedSubviews: [agreeStackView, onBehalfStackViews])
+        confirmationStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 0)
+        confirmationStackView.axis = .vertical
         
+        // subviews
         addSubview(navigationBarView)
         navigationBarView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         
@@ -363,15 +313,15 @@ class WaiverViews: UIView {
 
         scrollView.addSubview(containerView)
         containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: scrollView.contentSize.height)
-        
+
         containerView.addSubview(headerStackViews)
         headerStackViews.anchor(top: containerView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         headerImage.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
 
         
         //this in temporary
-//        containerView.addSubview(agreeStackViews)
-//        agreeStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+//        containerView.addSubview(testButton)
+//        testButton.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 1500, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
 
         
@@ -385,14 +335,25 @@ class WaiverViews: UIView {
         rightlabelsStackViews.anchor(top: rightParticipantInfoView.topAnchor, left: rightParticipantInfoView.leftAnchor, bottom: rightParticipantInfoView.bottomAnchor, right: rightParticipantInfoView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
 
         containerView.addSubview(textView)
-        textView.anchor(top: participantInfoStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 3700)
+        textView.anchor(top: participantInfoStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         
-        containerView.addSubview(agreeStackViews)
-        agreeStackViews.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-////
-//        view.addSubview(signatureView)
-//        signatureView.anchor(top: signatureContentsView.topAnchor, left: signatureContentsView.leftAnchor, bottom: nil, right: signatureContentsView.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 180)
+        containerView.addSubview(seperatorView)
+        seperatorView.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 0.5)
         
-    }
+        containerView.addSubview(confirmationStackView)
+        confirmationStackView.anchor(top: seperatorView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
+        containerView.addSubview(signatureCanvasContainerView)
+        signatureCanvasContainerView.anchor(top: confirmationStackView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        
+        signatureCanvasContainerView.addSubview(canvasView)
+        canvasView.anchor(top: signatureCanvasContainerView.topAnchor, left: signatureCanvasContainerView.leftAnchor, bottom: signatureCanvasContainerView.bottomAnchor, right: signatureCanvasContainerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        containerView.addSubview(cancelButton)
+        cancelButton.anchor(top: signatureCanvasContainerView.bottomAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 80, paddingBottom: 20, paddingRight: 0, width: 160, height: 60)
+        
+        containerView.addSubview(doneButton)
+        doneButton.anchor(top: nil, left: nil, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 160, height: 60)
+        doneButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
+    }
 }

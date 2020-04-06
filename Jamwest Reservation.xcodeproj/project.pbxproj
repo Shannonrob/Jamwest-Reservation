@@ -12,6 +12,8 @@
 		8524F51B2424F0DE003173EF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51A2424F0DE003173EF /* CameraView.swift */; };
 		8524F51D2424F56D003173EF /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51C2424F56D003173EF /* CameraVC.swift */; };
 		8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F52024250E2F003173EF /* PreviewImageVC.swift */; };
+		8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */; };
+		85261260243621470009E2B2 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526125F243621470009E2B2 /* PDFCreator.swift */; };
 		855D929724299CE800084D9B /* WaiverViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D929624299CE800084D9B /* WaiverViews.swift */; };
 		855D92992429A5AA00084D9B /* JamwestWaiverLabelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */; };
 		855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D940F240E8AB900F50CB2 /* AppDelegate.swift */; };
@@ -62,6 +64,8 @@
 		8524F51A2424F0DE003173EF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		8524F51C2424F56D003173EF /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
 		8524F52024250E2F003173EF /* PreviewImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageVC.swift; sourceTree = "<group>"; };
+		8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestCustomRoundedButton.swift; sourceTree = "<group>"; };
+		8526125F243621470009E2B2 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		855D929624299CE800084D9B /* WaiverViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverViews.swift; sourceTree = "<group>"; };
 		855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestWaiverLabelClass.swift; sourceTree = "<group>"; };
 		855D940C240E8AB900F50CB2 /* Jamwest Reservation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jamwest Reservation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,6 +228,7 @@
 				855D943D240E940600F50CB2 /* Constants.swift */,
 				855D943F240E940E00F50CB2 /* Countries.swift */,
 				855D943B240E93FB00F50CB2 /* Protocols.swift */,
+				8526125F243621470009E2B2 /* PDFCreator.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -257,6 +262,7 @@
 				85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */,
 				85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */,
 				855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */,
+				8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */,
 			);
 			path = CustomClasses;
 			sourceTree = "<group>";
@@ -367,10 +373,12 @@
 				855D9446240E94D100F50CB2 /* PickerViewData.swift in Sources */,
 				855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */,
 				855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */,
+				8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */,
 				8524F51B2424F0DE003173EF /* CameraView.swift in Sources */,
 				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,
 				8524F5172424E610003173EF /* ParticipantInfoData.swift in Sources */,
 				855D9430240E91E000F50CB2 /* UIButtonExt.swift in Sources */,
+				85261260243621470009E2B2 /* PDFCreator.swift in Sources */,
 				855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */,
 				855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */,
 				855D9442240E94B500F50CB2 /* Alert.swift in Sources */,

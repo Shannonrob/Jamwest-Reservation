@@ -135,13 +135,14 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         passData()
         
-        //        let modelTestVC = ModelTestVC()
-        //        modelTestVC.participantInformation = self.participantInformation
-        //        navigationController?.pushViewController(modelTestVC, animated: true)
-        
-        let tempVC = WaiverVC()
-        tempVC.modalPresentationStyle = .fullScreen
-        presentDetail(tempVC)
+//        let modelTestVC = ModelTestVC()
+//        modelTestVC.modalPresentationStyle = .fullScreen
+//        navigationController?.pushViewController(modelTestVC, animated: true)
+//
+        let waiverVC = WaiverVC()
+        waiverVC.modalPresentationStyle = .fullScreen
+        waiverVC.participantInformation = self.participantInformation
+        presentDetail(waiverVC)
     }
     
     //    MARK: - Helpers Functions
