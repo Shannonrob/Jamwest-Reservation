@@ -14,8 +14,15 @@ class WaiverViews: UIView {
 
 //    MARK: - Properties
     
-    lazy var contentViewSize = CGSize(width: 1164, height: 4300 )
+    lazy var contentViewSize = CGSize(width: 1164, height: 4400 )
+    var canvasContainerViewLeftAnchor: NSLayoutConstraint?
+    var canvasContainerViewRightAnchor: NSLayoutConstraint?
+    var canvasContainerViewTopAnchor: NSLayoutConstraint?
+    var canvasContainerViewBottomAnchor: NSLayoutConstraint?
+    var canvasContainerViewHeight: NSLayoutConstraint?
+    var scrollViewBottomAnchor: NSLayoutConstraint?
     weak var waiverVCDelegate: WaiverVCDelegates?
+    
     
 //    MARK: - Init
     
@@ -40,7 +47,8 @@ class WaiverViews: UIView {
     let scrollViewContainer = JamwestDefaultView()
     let leftParticipantInfoView = JamwestDefaultView ()
     let rightParticipantInfoView = JamwestDefaultView()
-    let signatureCanvasContainerView = UIView()
+    let canvasContainerView = UIView()
+    let buttonBackgrounView = UIView()
 //    let canvasView = PKCanvasView()
  
     
@@ -70,12 +78,21 @@ class WaiverViews: UIView {
         return view
     }()
     
+    let signatureLineView: UIView = {
+        
+        let view = UIView()
+        view.backgroundColor = .red
+        return view
+    }()
+    
     lazy var canvasView: PKCanvasView = {
 
         let canvas = PKCanvasView()
         canvas.backgroundColor = Constants.Design.Color.Background.FadeGray
-        canvas.tool = PKInkingTool(.pen, color: .systemOrange, width: 5)
-        canvas.frame = signatureCanvasContainerView.bounds
+        canvas.tool = PKInkingTool(.pen, color: UIColor.black, width: 2.5)
+        canvas.frame = canvasContainerView.bounds
+        canvas.layer.borderWidth = 2
+        canvas.layer.borderColor = UIColor.lightGray.cgColor
         return canvas
     }()
     
@@ -234,6 +251,7 @@ class WaiverViews: UIView {
         let button = JamwestCustomRoundedButton()
         button.setTitle("Cancel", for: .normal)
         button.backgroundColor = Constants.Design.Color.Primary.Orange
+        button.addTarget(self, action: #selector(handleCancelTapped), for: .touchUpInside)
         return button
     }()
     
@@ -254,8 +272,24 @@ class WaiverViews: UIView {
 //        let pdf = leftParticipantInfoView.exportAsPdfFromView()
 //        print(pdf)
 //        waiverVCDelegate?.handleShowPreviewImageVC(for: sender)
+        handleAnimate()
     }
     
+    @objc func handleCancelTapped() {
+        waiverVCDelegate?.handleCancelButton()
+    }
+    
+    func handleAnimate() {
+
+        canvasContainerViewHeight = canvasContainerView.heightAnchor.constraint(equalToConstant: 460)
+        canvasContainerViewHeight?.isActive = true
+
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+
+            self.layoutIfNeeded()
+
+        }, completion: nil)
+    }
     
     
 //    MARK: - Constraints
@@ -284,8 +318,8 @@ class WaiverViews: UIView {
         
         let onBehalfStackViews = UIStackView(arrangedSubviews: [onBehalfButton, guardianLabel])
         onBehalfStackViews.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
-
-        let confirmationStackView = UIStackView(arrangedSubviews: [agreeStackView, onBehalfStackViews])
+        
+        let confirmationStackView = UIStackView(arrangedSubviews: [onBehalfStackViews, agreeStackView])
         confirmationStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 0)
         confirmationStackView.axis = .vertical
         
@@ -300,43 +334,52 @@ class WaiverViews: UIView {
         
         addSubview(scrollViewContainer)
         scrollViewContainer.anchor(top: navigationBarView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
-
+        
         scrollViewContainer.addSubview(scrollView)
         scrollView.anchor(top: scrollViewContainer.topAnchor, left: scrollViewContainer.leftAnchor, bottom: nil, right: scrollViewContainer.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
-
+        
         scrollView.addSubview(containerView)
         containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: scrollView.contentSize.height)
-
+        
         containerView.addSubview(headerStackViews)
         headerStackViews.anchor(top: containerView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         headerImage.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
-
+        
         containerView.addSubview(participantInfoStackViews)
         participantInfoStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 170)
-
+        
         leftParticipantInfoView.addSubview(leftLabelsStackViews)
         leftLabelsStackViews.anchor(top: leftParticipantInfoView.topAnchor, left: leftParticipantInfoView.leftAnchor, bottom: leftParticipantInfoView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
-
+        
         rightParticipantInfoView.addSubview(rightlabelsStackViews)
         rightlabelsStackViews.anchor(top: rightParticipantInfoView.topAnchor, left: rightParticipantInfoView.leftAnchor, bottom: rightParticipantInfoView.bottomAnchor, right: rightParticipantInfoView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
-
+        
         containerView.addSubview(textView)
         textView.anchor(top: participantInfoStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         
         containerView.addSubview(confirmationStackView)
-        confirmationStackView.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        confirmationStackView.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-        scrollViewContainer.addSubview(signatureCanvasContainerView)
-        signatureCanvasContainerView.anchor(top: scrollView.bottomAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 260)
+        scrollViewContainer.addSubview(canvasContainerView)
+        canvasContainerView.backgroundColor = Constants.Design.Color.Background.FadeGray
+        canvasContainerView.anchor(top: scrollView.bottomAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-        signatureCanvasContainerView.addSubview(canvasView)
-        canvasView.anchor(top: signatureCanvasContainerView.topAnchor, left: signatureCanvasContainerView.leftAnchor, bottom: signatureCanvasContainerView.bottomAnchor, right: signatureCanvasContainerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-//
-//        containerView.addSubview(cancelButton)
-//        cancelButton.anchor(top: signatureCanvasContainerView.bottomAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 80, paddingBottom: 20, paddingRight: 0, width: 160, height: 60)
-//
-//        containerView.addSubview(doneButton)
-//        doneButton.anchor(top: nil, left: nil, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 160, height: 60)
-//        doneButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
+        canvasContainerView.addSubview(canvasView)
+        canvasView.anchor(top: canvasContainerView.topAnchor, left: canvasContainerView.leftAnchor, bottom: nil, right: canvasContainerView.rightAnchor, paddingTop: 10, paddingLeft: 60, paddingBottom: 0, paddingRight: 60, width: 0, height: 0)
+        
+        canvasContainerView.addSubview(buttonBackgrounView)
+        buttonBackgrounView.backgroundColor = Constants.Design.Color.Hue.Green
+        buttonBackgrounView.anchor(top: canvasView.bottomAnchor, left: canvasContainerView.leftAnchor, bottom: canvasContainerView.bottomAnchor, right: canvasContainerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 90)
+
+        buttonBackgrounView.addSubview(cancelButton)
+        cancelButton.anchor(top: buttonBackgrounView.topAnchor, left: buttonBackgrounView.leftAnchor, bottom: buttonBackgrounView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 80, paddingBottom: 20, paddingRight: 0, width: 220, height: 60)
+        
+        buttonBackgrounView.addSubview(doneButton)
+        doneButton.anchor(top: nil, left: nil, bottom: nil, right: buttonBackgrounView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 220, height: 60)
+        doneButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
+        
+        //        canvasView.addSubview(signatureLineView)
+        //        signatureLineView.anchor(top: nil, left: canvasView.leftAnchor, bottom: canvasView.bottomAnchor, right: canvasView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 10, paddingRight: 5, width: 0, height: 5)
+                
     }
 }

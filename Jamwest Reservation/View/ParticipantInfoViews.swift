@@ -568,7 +568,7 @@ class ParticipantInfoViews: UIView {
         bottomRightStackView.anchor(top: rightStackView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 0, height: 0)
         
         addSubview(questionView)
-        questionView.anchor(top: bottomRightStackView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 30, paddingLeft: 80, paddingBottom: 25, paddingRight: 80, width: 0, height: 0)
+        questionView.anchor(top: bottomRightStackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 80, paddingBottom: 25, paddingRight: 80, width: 0, height: 0)
         
         questionView.addSubview(questionaireLabel)
         questionaireLabel.anchor(top: questionView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -581,7 +581,7 @@ class ParticipantInfoViews: UIView {
         ageStackView.anchor(top: pregnantStackView.bottomAnchor, left: questionView.leftAnchor, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         questionView.addSubview(underInfluenceStackView)
-        underInfluenceStackView.anchor(top: ageStackView.bottomAnchor, left: questionView.leftAnchor, bottom: questionView.bottomAnchor, right: nil, paddingTop: 15, paddingLeft: 40, paddingBottom: 20, paddingRight: 0, width: 0, height: 0)
+        underInfluenceStackView.anchor(top: ageStackView.bottomAnchor, left: questionView.leftAnchor, bottom: questionView.bottomAnchor, right: nil, paddingTop: 15, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         questionView.addSubview(backProblemStackView)
         backProblemStackView.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 0, height: 0)

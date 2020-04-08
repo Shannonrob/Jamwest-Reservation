@@ -19,3 +19,9 @@ protocol ParticipantInfoViewsDelegate: class {
     func handlePickerViewDoneButton()
     func handleSelectedAnswers(for button: NSObject)
 }
+
+protocol WaiverVCDelegates: class {
+    
+    func handleShowPreviewImageVC(for button: NSObject)
+    func handleCancelButton()
+}

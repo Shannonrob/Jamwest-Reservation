@@ -64,9 +64,18 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
 //        self.showAlertSheet(button as! UIButton)
         
 //        screenShotScrollview()
-        createPdfFromView()
+//        createPdfFromView()
    
+        
     }
+    
+    func handleCancelButton() {
+        
+        dismissDetail()
+    }
+    
+    
+    
 //    MARK:- Helper Functions
     
     func createPdfFromView() {
