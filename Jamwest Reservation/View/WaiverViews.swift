@@ -20,7 +20,8 @@ class WaiverViews: UIView {
     var canvasContainerViewTopAnchor: NSLayoutConstraint?
     var canvasContainerViewBottomAnchor: NSLayoutConstraint?
     var canvasContainerViewHeight: NSLayoutConstraint?
-    var scrollViewBottomAnchor: NSLayoutConstraint?
+    var canvasViewHeight: NSLayoutConstraint?
+    var signHereLabelCenterAxis: NSLayoutConstraint?
     weak var waiverVCDelegate: WaiverVCDelegates?
     
     
@@ -81,15 +82,17 @@ class WaiverViews: UIView {
     let signatureLineView: UIView = {
         
         let view = UIView()
-        view.backgroundColor = .red
+        view.backgroundColor = .lightGray
+        view.isHidden = true
         return view
     }()
     
     lazy var canvasView: PKCanvasView = {
 
         let canvas = PKCanvasView()
-        canvas.backgroundColor = Constants.Design.Color.Background.FadeGray
-        canvas.tool = PKInkingTool(.pen, color: UIColor.black, width: 2.5)
+//        canvas.backgroundColor = Constants.Design.Color.Background.FadeGray
+        canvas.backgroundColor = .white
+        canvas.tool = PKInkingTool(.pen, color: .white, width: 2.5)
         canvas.frame = canvasContainerView.bounds
         canvas.layer.borderWidth = 2
         canvas.layer.borderColor = UIColor.lightGray.cgColor
@@ -206,6 +209,15 @@ class WaiverViews: UIView {
         return label
     }()
     
+    let signHereLabel: JamwestWaiverLabelClass = {
+        
+        let label = JamwestWaiverLabelClass()
+        label.text = "Sign here"
+        label.textColor = .lightGray
+        label.isHidden = true
+        return label
+    }()
+    
     
 //    MARK: - UITextView
     
@@ -232,7 +244,7 @@ class WaiverViews: UIView {
     
     let agreeButton: UIButton = {
         
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.updateButtonIcon("grayUnselectedCheckMark_Medium")
         button.addTarget(self, action: #selector(handleAgreeButton(sender:)), for: .touchUpInside)
         return button
@@ -240,9 +252,20 @@ class WaiverViews: UIView {
     
     let onBehalfButton: UIButton = {
         
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.updateButtonIcon("grayUnselectedCheckMark_Medium")
-        button.addTarget(self, action: #selector(handleAgreeButton(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleOnbehalfOfMinorTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    let clearButton: UIButton = {
+        
+        let button = UIButton(type: .system)
+        button.setTitle("Clear", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont(name: avenirNext_Demibold, size: 16)
+        button.isHidden = true
+        button.addTarget(self, action: #selector(handleClearTapped), for: .touchUpInside)
         return button
     }()
     
@@ -259,38 +282,62 @@ class WaiverViews: UIView {
         
         let button = JamwestCustomRoundedButton()
         button.setTitle("Done", for: .normal)
-        button.backgroundColor = UIColor(red: 53/255, green: 109/255, blue: 240/255, alpha: 1)
+        button.isEnabled = false
+        button.backgroundColor = Constants.Design.Color.Primary.Green
+        button.addTarget(self, action: #selector(handleDoneTapped), for: .touchUpInside)
         return button
     }()
 
 //    MARK: - Handlers
     
-    
+    @objc func handleOnbehalfOfMinorTapped() {
+        
+        onBehalfButton.updateButtonIcon("greenSelectedCheckMark")
+    }
     
     @objc func handleAgreeButton(sender: UIButton) {
-
-//        let pdf = leftParticipantInfoView.exportAsPdfFromView()
-//        print(pdf)
-//        waiverVCDelegate?.handleShowPreviewImageVC(for: sender)
+        
+        agreeButton.updateButtonIcon("greenSelectedCheckMark")
+        
         handleAnimate()
+    }
+    
+    @objc func handleDoneTapped() {
+        waiverVCDelegate?.handleDoneButton()
     }
     
     @objc func handleCancelTapped() {
         waiverVCDelegate?.handleCancelButton()
     }
     
+    @objc func handleClearTapped() {
+        waiverVCDelegate?.handleClearButton()
+    }
+    
+    
+//    MARK: - Helper Functions
+    
     func handleAnimate() {
 
-        canvasContainerViewHeight = canvasContainerView.heightAnchor.constraint(equalToConstant: 460)
+        
+        canvasContainerViewHeight = canvasContainerView.heightAnchor.constraint(equalToConstant: 360)
         canvasContainerViewHeight?.isActive = true
-
+        canvasViewHeight = canvasView.heightAnchor.constraint(equalToConstant: 240)
+        canvasViewHeight?.isActive = true
+        clearButton.isHidden = false
+        signHereLabel.isHidden = false
+        signatureLineView.isHidden = false
+        doneButton.isEnabled = true
+        
+        
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
 
             self.layoutIfNeeded()
-
+            self.scrollView.scrollTo(direction: .Bottom, animated: true)
         }, completion: nil)
     }
     
+
     
 //    MARK: - Constraints
     
@@ -333,10 +380,10 @@ class WaiverViews: UIView {
         navigationBarTitle.centerYAnchor.constraint(equalTo: navigationBarView.centerYAnchor).isActive = true
         
         addSubview(scrollViewContainer)
-        scrollViewContainer.anchor(top: navigationBarView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
+        scrollViewContainer.anchor(top: navigationBarView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
         
         scrollViewContainer.addSubview(scrollView)
-        scrollView.anchor(top: scrollViewContainer.topAnchor, left: scrollViewContainer.leftAnchor, bottom: nil, right: scrollViewContainer.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
+        scrollView.anchor(top: scrollViewContainer.topAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
         
         scrollView.addSubview(containerView)
         containerView.anchor(top: nil, left: scrollView.frameLayoutGuide.leftAnchor, bottom: nil, right: scrollView.frameLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: scrollView.contentSize.height)
@@ -360,26 +407,33 @@ class WaiverViews: UIView {
         containerView.addSubview(confirmationStackView)
         confirmationStackView.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-        scrollViewContainer.addSubview(canvasContainerView)
+        addSubview(canvasContainerView)
         canvasContainerView.backgroundColor = Constants.Design.Color.Background.FadeGray
-        canvasContainerView.anchor(top: scrollView.bottomAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        canvasContainerView.anchor(top: scrollViewContainer.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         canvasContainerView.addSubview(canvasView)
-        canvasView.anchor(top: canvasContainerView.topAnchor, left: canvasContainerView.leftAnchor, bottom: nil, right: canvasContainerView.rightAnchor, paddingTop: 10, paddingLeft: 60, paddingBottom: 0, paddingRight: 60, width: 0, height: 0)
+        canvasView.anchor(top: canvasContainerView.topAnchor, left: canvasContainerView.leftAnchor, bottom: nil, right: canvasContainerView.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 0)
         
-        canvasContainerView.addSubview(buttonBackgrounView)
-        buttonBackgrounView.backgroundColor = Constants.Design.Color.Hue.Green
-        buttonBackgrounView.anchor(top: canvasView.bottomAnchor, left: canvasContainerView.leftAnchor, bottom: canvasContainerView.bottomAnchor, right: canvasContainerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 90)
+        canvasContainerView.addSubview(clearButton)
+        clearButton.anchor(top: canvasView.topAnchor, left: nil, bottom: nil, right: canvasView.rightAnchor, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 25, width: 0, height: 0)
+        
+        canvasContainerView.addSubview(signHereLabel)
+        signHereLabel.anchor(top: nil, left: canvasView.leftAnchor, bottom: canvasView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 30, paddingBottom: 35, paddingRight: 0, width: 0, height: 0)
+        
+        canvasContainerView.addSubview(signatureLineView)
+        signatureLineView.anchor(top: nil, left: signHereLabel.rightAnchor, bottom: canvasView.bottomAnchor, right: canvasView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 35, paddingRight: 50, width: 0, height: 0.5)
+        
+        canvasContainerView.addSubview(cancelButton)
+        cancelButton.anchor(top: canvasView.bottomAnchor, left: canvasContainerView.leftAnchor, bottom: canvasContainerView.bottomAnchor, right: nil, paddingTop: 20, paddingLeft: 80, paddingBottom: 30, paddingRight: 0, width: 220, height: 60)
 
-        buttonBackgrounView.addSubview(cancelButton)
-        cancelButton.anchor(top: buttonBackgrounView.topAnchor, left: buttonBackgrounView.leftAnchor, bottom: buttonBackgrounView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 80, paddingBottom: 20, paddingRight: 0, width: 220, height: 60)
-        
-        buttonBackgrounView.addSubview(doneButton)
-        doneButton.anchor(top: nil, left: nil, bottom: nil, right: buttonBackgrounView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 220, height: 60)
+        canvasContainerView.addSubview(doneButton)
+        doneButton.anchor(top: nil, left: nil, bottom: nil, right: canvasContainerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 220, height: 60)
         doneButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
-        
-        //        canvasView.addSubview(signatureLineView)
-        //        signatureLineView.anchor(top: nil, left: canvasView.leftAnchor, bottom: canvasView.bottomAnchor, right: canvasView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 10, paddingRight: 5, width: 0, height: 5)
-                
+    }
+}
+
+extension UIScrollView {
+    func scrollTo(direction: ScrollDirection, animated: Bool = true) {
+        self.setContentOffset(direction.contentOffsetWith(scrollView: self), animated: animated)
     }
 }

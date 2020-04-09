@@ -24,4 +24,6 @@ protocol WaiverVCDelegates: class {
     
     func handleShowPreviewImageVC(for button: NSObject)
     func handleCancelButton()
+    func handleDoneButton()
+    func handleClearButton()
 }

@@ -65,8 +65,13 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         
 //        screenShotScrollview()
 //        createPdfFromView()
-   
+    }
+    
+    func handleDoneButton() {
         
+        let cameraVC = CameraVC()
+        cameraVC.modalPresentationStyle = .fullScreen
+        presentDetail(cameraVC)
     }
     
     func handleCancelButton() {
@@ -74,7 +79,9 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         dismissDetail()
     }
     
-    
+    func handleClearButton() {
+        undoManager?.undo()
+    }
     
 //    MARK:- Helper Functions
     
