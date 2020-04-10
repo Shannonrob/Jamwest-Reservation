@@ -236,15 +236,15 @@ class WaiverViews: UIView {
         
         let button = UIButton(type: .system)
         button.updateButtonIcon("grayUnselectedCheckMark_Medium")
-        button.addTarget(self, action: #selector(handleAgreeButton(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleAgreeButton), for: .touchUpInside)
         return button
     }()
     
-    let onBehalfButton: UIButton = {
+    let guardianAcceptButton: UIButton = {
         
         let button = UIButton(type: .system)
         button.updateButtonIcon("grayUnselectedCheckMark_Medium")
-        button.addTarget(self, action: #selector(handleOnbehalfOfMinorTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(guardianAcceptTapped), for: .touchUpInside)
         return button
     }()
     
@@ -280,16 +280,12 @@ class WaiverViews: UIView {
 
 //    MARK: - Handlers
     
-    @objc func handleOnbehalfOfMinorTapped() {
-        
-        onBehalfButton.updateButtonIcon("greenSelectedCheckMark")
+    @objc func guardianAcceptTapped() {
+        waiverVCDelegate?.handleGuardianAcceptButton()
     }
     
-    @objc func handleAgreeButton(sender: UIButton) {
-        
-        agreeButton.updateButtonIcon("greenSelectedCheckMark")
-        
-        handleAnimate()
+    @objc func handleAgreeButton() {
+        waiverVCDelegate?.handleAgreeButton()
     }
     
     @objc func handleDoneTapped() {
@@ -304,28 +300,6 @@ class WaiverViews: UIView {
         waiverVCDelegate?.handleClearButton()
     }
     
-    
-//    MARK: - Helper Functions
-    
-    func handleAnimate() {
-
-        canvasContainerViewHeight = canvasContainerView.heightAnchor.constraint(equalToConstant: 280)
-        canvasContainerViewHeight?.isActive = true
-        canvasViewHeight = canvasView.heightAnchor.constraint(equalToConstant: 240)
-        canvasViewHeight?.isActive = true
-        clearButton.isHidden = false
-        signHereLabel.isHidden = false
-        signatureLineView.isHidden = false
-        doneButton.isEnabled = true
-        
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-
-            self.layoutIfNeeded()
-            self.scrollView.scrollTo(direction: .Bottom, animated: true)
-        }, completion: nil)
-    }
-    
-
     
 //    MARK: - Constraints
     
@@ -351,7 +325,7 @@ class WaiverViews: UIView {
         let agreeStackView = UIStackView(arrangedSubviews: [agreeButton, agreeLabel])
         agreeStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
         
-        let onBehalfStackViews = UIStackView(arrangedSubviews: [onBehalfButton, guardianLabel])
+        let onBehalfStackViews = UIStackView(arrangedSubviews: [guardianAcceptButton, guardianLabel])
         onBehalfStackViews.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 5)
         
         let confirmationStackView = UIStackView(arrangedSubviews: [onBehalfStackViews, agreeStackView])
@@ -422,8 +396,4 @@ class WaiverViews: UIView {
     }
 }
 
-extension UIScrollView {
-    func scrollTo(direction: ScrollDirection, animated: Bool = true) {
-        self.setContentOffset(direction.contentOffsetWith(scrollView: self), animated: animated)
-    }
-}
+

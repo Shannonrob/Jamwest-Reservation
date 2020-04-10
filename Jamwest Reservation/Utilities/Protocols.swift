@@ -22,6 +22,8 @@ protocol ParticipantInfoViewsDelegate: class {
 
 protocol WaiverVCDelegates: class {
     
+    func handleAgreeButton()
+    func handleGuardianAcceptButton()
     func handleShowPreviewImageVC(for button: NSObject)
     func handleCancelButton()
     func handleDoneButton()

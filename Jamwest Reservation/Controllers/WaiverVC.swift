@@ -67,6 +67,15 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
 //        createPdfFromView()
     }
     
+    func handleAgreeButton() {
+        waiverViews.agreeButton.updateButtonIcon("greenSelectedCheckMark")
+        handleAnimate()
+    }
+    
+    func handleGuardianAcceptButton() {
+        waiverViews.guardianAcceptButton.updateButtonIcon("greenSelectedCheckMark")
+    }
+    
     func handleDoneButton() {
         
         let cameraVC = CameraVC()
@@ -84,6 +93,30 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     }
     
 //    MARK:- Helper Functions
+    
+    func handleAnimate() {
+
+        waiverViews.canvasContainerViewHeight = waiverViews.canvasContainerView.heightAnchor.constraint(equalToConstant: 280)
+        waiverViews.canvasContainerViewHeight?.isActive = true
+        waiverViews.canvasViewHeight = waiverViews.canvasView.heightAnchor.constraint(equalToConstant: 240)
+        waiverViews.canvasViewHeight?.isActive = true
+        waiverViews.clearButton.isHidden = false
+        waiverViews.signHereLabel.isHidden = false
+        waiverViews.signatureLineView.isHidden = false
+        waiverViews.doneButton.isEnabled = true
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+
+            self.view.layoutIfNeeded()
+            self.waiverViews.scrollView.scrollTo(direction: .Bottom, animated: true)
+        }, completion: nil)
+    }
+    
+    
+    
+    
+    
+    
     
     func createPdfFromView() {
         
@@ -215,5 +248,11 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     func configureUI() {
         
          view.backgroundColor = Constants.Design.Color.Background.FadeGray
+    }
+}
+
+extension UIScrollView {
+    func scrollTo(direction: ScrollDirection, animated: Bool = true) {
+        self.setContentOffset(direction.contentOffsetWith(scrollView: self), animated: animated)
     }
 }
