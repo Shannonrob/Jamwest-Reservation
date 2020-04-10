@@ -17,7 +17,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     var participantInformation = [ParticipantInformation]()
     let image = #imageLiteral(resourceName: "greenJamwestLogo").withRenderingMode(.alwaysOriginal)
     var pkCanvasView: PKCanvasView!
-    
+    var underAgeParticipant: Bool?
     
     
 //    MARK: - Init
@@ -26,6 +26,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         super.viewDidLoad()
        
         configureUI()
+        enableGaurdianButton(with: underAgeParticipant!)
         
         for info in participantInformation {
             
@@ -38,8 +39,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         
         
       pkCanvasView = waiverViews.canvasView
-       
-        
     }
     
     
@@ -59,14 +58,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
 //    MARK: - Protocols
     
-    func handleShowPreviewImageVC(for button: NSObject) {
-        
-//        self.showAlertSheet(button as! UIButton)
-        
-//        screenShotScrollview()
-//        createPdfFromView()
-    }
-    
     func handleAgreeButton() {
         waiverViews.agreeButton.updateButtonIcon("greenSelectedCheckMark")
         handleAnimate()
@@ -76,21 +67,28 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         waiverViews.guardianAcceptButton.updateButtonIcon("greenSelectedCheckMark")
     }
     
-    func handleDoneButton() {
-        
-        let cameraVC = CameraVC()
-        cameraVC.modalPresentationStyle = .fullScreen
-        presentDetail(cameraVC)
+    func handleClearButton() {
+        undoManager?.undo()
     }
     
     func handleCancelButton() {
         
         dismissDetail()
     }
-    
-    func handleClearButton() {
-        undoManager?.undo()
+
+    func handleDoneButton() {
+        
+        if !waiverViews.canvasView.drawing.bounds.isEmpty {
+            
+            let cameraVC = CameraVC()
+            cameraVC.modalPresentationStyle = .fullScreen
+            presentDetail(cameraVC)
+            
+        } else {
+            Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability.")
+        }
     }
+    
     
 //    MARK:- Helper Functions
     
@@ -112,7 +110,15 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         }, completion: nil)
     }
     
-    
+    func enableGaurdianButton(with condition: Bool) {
+        
+        switch condition {
+        case true:
+            waiverViews.guardianAcceptButton.isEnabled = true
+        case false:
+            waiverViews.guardianAcceptButton.isEnabled = false
+        }
+    }
     
     
     

@@ -25,7 +25,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var heartProblemsAnswer = Bool()
     var modelTestVC = ModelTestVC()
     var participantInformation = [ParticipantInformation]()
-    
+    var waiverVC = WaiverVC()
     
     //    MARK: - Init
     
@@ -140,6 +140,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
 //        navigationController?.pushViewController(modelTestVC, animated: true)
 //
         let waiverVC = WaiverVC()
+        waiverVC.underAgeParticipant = false
         waiverVC.modalPresentationStyle = .fullScreen
         waiverVC.participantInformation = self.participantInformation
         presentDetail(waiverVC)

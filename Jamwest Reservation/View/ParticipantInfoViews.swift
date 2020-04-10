@@ -300,7 +300,7 @@ class ParticipantInfoViews: UIView {
     let ageLabel: UILabel = {
         
         let label = UILabel()
-        label.labelConfigurations(text: "Are you over 18 years of age?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
+        label.labelConfigurations(text: "Are you under 18 years of age?", textColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), fontSize: 20)
         return label
     }()
     
