@@ -108,12 +108,11 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         // loop participant information and present it in waiver labels
         for data in participantInformation {
             
-            waiverViews.nameLabel.text = "Name : \(data.firstName) \(data.lastName)"
+            waiverViews.nameLabel.text = "Name:  \(data.firstName) \(data.lastName)"
             waiverViews.phoneNumberLabel.text = "Phone# \(data.phoneNumber)"
-            waiverViews.dateLabel.text = "Date : \(data.currentDate)"
-            waiverViews.emailLabel.text = "Email : \(data.emailAddress)"
-            waiverViews.countryLabel.text = "Country : \(data.country)"
-            waiverViews.paxLabel.text = "Pax : \(data.groupCount)"
+            waiverViews.dateLabel.text = "Date:  \(data.currentDate)"
+            waiverViews.emailLabel.text = "Email:  \(data.emailAddress)"
+            waiverViews.countryLabel.text = "Country:  \(data.country)"
         }
         
         // loop reservation information and present it in waiver labels
@@ -125,6 +124,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
                 let time = data?.time,
                 let voucher = data?.voucherNumber,
                 let tourRep = data?.tourRep,
+                let groupCount = data?.pax,
                 let tourComp = data?.tourCompany else { return }
             
             // check if tours are nill and append it to tours label
@@ -134,12 +134,13 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             if let fourthTour = data?.fourthTour { tours.append(", \(fourthTour)") }
             
             // configure labels with data to present
-            waiverViews.hotelLabel.text = "Hotel : \(hotel)"
-            waiverViews.reservationTimeLabel.text = "Time : \(time)"
+            waiverViews.hotelLabel.text = "Hotel:  \(hotel)"
+            waiverViews.reservationTimeLabel.text = "Time:  \(time)"
             waiverViews.voucherLabel.text = "Voucher# \(voucher)"
-            waiverViews.tourRepLabel.text = "Tour Representative : \(tourRep)"
-            waiverViews.tourCompanyLabel.text = "Tour Company : \(tourComp)"
-            waiverViews.toursLabel.text = "Tour(s) : \(tours)"
+            waiverViews.tourRepLabel.text = "Tour Representative:  \(tourRep)"
+            waiverViews.tourCompanyLabel.text = "Tour Company:  \(tourComp)"
+            waiverViews.toursLabel.text = "Tour(s):  \(tours)"
+            waiverViews.paxLabel.text = "Pax:  \(groupCount)"
         }
     }
     

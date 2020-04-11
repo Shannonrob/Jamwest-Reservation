@@ -260,11 +260,11 @@ class WaiverViews: UIView {
         participantInfoStackViews.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 5)
         participantInfoStackViews.axis = .horizontal
         
-        let leftLabelsStackViews = UIStackView(arrangedSubviews: [nameLabel, hotelLabel, reservationTimeLabel, emailLabel,  phoneNumberLabel, countryLabel])
+        let leftLabelsStackViews = UIStackView(arrangedSubviews: [nameLabel, hotelLabel, emailLabel, phoneNumberLabel, countryLabel, voucherLabel])
         leftLabelsStackViews.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
         leftLabelsStackViews.axis = .vertical
         
-        let rightlabelsStackViews = UIStackView(arrangedSubviews: [dateLabel, voucherLabel, tourRepLabel, tourCompanyLabel, paxLabel, toursLabel])
+        let rightlabelsStackViews = UIStackView(arrangedSubviews: [dateLabel, reservationTimeLabel, tourRepLabel, tourCompanyLabel, paxLabel, toursLabel])
         rightlabelsStackViews.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
         rightlabelsStackViews.axis = .vertical
         

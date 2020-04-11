@@ -23,8 +23,14 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var underInfluenceAnswer = Bool()
     var backProblemsAnswer = Bool()
     var heartProblemsAnswer = Bool()
+    var pregnantAnsweredValue = Int()
+    var underAgeAnsweredValue = Int()
+    var underInfluenceAnsweredValue = Int()
+    var backProblemsAnsweredValue = Int()
+    var heartProblemsAnsweredValue = Int()
     var participantInformation = [ParticipantInformation]()
     var waiverVC = WaiverVC()
+    var questionsAnswered = Int()
     
     //    MARK: - Init
     
@@ -49,6 +55,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         participantInfoView.participantInfoDelegate = self
         view = participantInfoView
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        questionsAnswered = 0
     }
     
     //    MARK: - Protocols
@@ -132,15 +143,25 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     //    MARK: - Handlers
     
     @objc func handleNextButton() {
+       
+        updateQuestionsAnsweredValue()
+
+        if questionsAnswered > 4 {
+            
+            passData()
+            
+            let waiverVC = WaiverVC()
+            waiverVC.underAgeParticipant = self.underAgeAnswer
+            waiverVC.modalPresentationStyle = .fullScreen
+            waiverVC.participantInformation = self.participantInformation
+            waiverVC.reservation = self.reservation
+            presentDetail(waiverVC)
+            
+        } else {
+            Alert.answersRequiredMessage(on: self, with: "You must answer all questions to proceed!!!")
+        }
         
-        passData()
-    
-        let waiverVC = WaiverVC()
-        waiverVC.underAgeParticipant = false
-        waiverVC.modalPresentationStyle = .fullScreen
-        waiverVC.participantInformation = self.participantInformation
-        waiverVC.reservation = self.reservation
-        presentDetail(waiverVC)
+        questionsAnswered = 0
     }
     
     //    MARK: - Helpers Functions
@@ -201,6 +222,41 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         default:
             break
         }
+        answeredQuestionsValidation(with: tapped)
+    }
+    
+    // check if buttons are selected
+    func answeredQuestionsValidation(with button: UIButton) {
+        
+        if !participantInfoView.yesPregnantButton.isEnabled ||
+            !participantInfoView.noPregnantButton.isEnabled {
+           pregnantAnsweredValue = 1
+        }
+        if !participantInfoView.yesAgeButton.isEnabled ||
+            !participantInfoView.noAgeButton.isEnabled {
+            underAgeAnsweredValue = 1
+        }
+        if !participantInfoView.yesUnderInfluenceButton.isEnabled ||
+            !participantInfoView.noUnderInfluenceButton.isEnabled {
+            underInfluenceAnsweredValue = 1
+        }
+        if !participantInfoView.yesBackProblemButton.isEnabled ||
+            !participantInfoView.noBackProblemButton.isEnabled {
+            backProblemsAnsweredValue = 1
+        }
+        if !participantInfoView.yesHeartProblemButton.isEnabled ||
+            !participantInfoView.noHeartProblemButton.isEnabled {
+            heartProblemsAnsweredValue = 1
+        }
+    }
+    
+    func updateQuestionsAnsweredValue() {
+        
+        questionsAnswered += pregnantAnsweredValue
+        questionsAnswered += underAgeAnsweredValue
+        questionsAnswered += underInfluenceAnsweredValue
+        questionsAnswered += backProblemsAnsweredValue
+        questionsAnswered += heartProblemsAnsweredValue
     }
     
     // collects participant information

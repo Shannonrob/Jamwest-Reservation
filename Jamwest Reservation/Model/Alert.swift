@@ -54,6 +54,10 @@ struct Alert {
     static func signatureRequiredMessage(on vc: UIViewController, with message: String) {
         showBasicAlert(on: vc, with: "", message: message)
     }
+    
+    static func answersRequiredMessage(on vc: UIViewController, with message: String) {
+        showBasicAlert(on: vc, with: "", message: message)
+    }
 
 }
 
