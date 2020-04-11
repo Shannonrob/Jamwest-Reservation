@@ -32,6 +32,7 @@ class JamwestWaiverLabelClass: UILabel {
 //        textColor = Constants.Design.Color.Primary.HeavyGreen
         textColor = .darkGray
         textAlignment = .center
+//        text = "test Text"
         font = UIFont.init(name: helveticaNeue_Bold, size: 20)
     }
 }

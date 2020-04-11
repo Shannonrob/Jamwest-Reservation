@@ -7,44 +7,28 @@
 //
 
 import UIKit
-import PDFKit
 import PencilKit
 
 class WaiverVC: UIViewController, WaiverVCDelegates {
     
-//    MARK: - Properties
+    //    MARK: - Properties
     var waiverViews = WaiverViews()
     var participantInformation = [ParticipantInformation]()
     let image = #imageLiteral(resourceName: "greenJamwestLogo").withRenderingMode(.alwaysOriginal)
     var pkCanvasView: PKCanvasView!
+    var reservation : Reservation!
     var underAgeParticipant: Bool?
     
     
-//    MARK: - Init
+    //    MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         configureUI()
         enableGaurdianButton(with: underAgeParticipant!)
-        
-        for info in participantInformation {
-            
-            print(info.firstName)
-        }
-        
-//        let pdfCreator = PDFCreator(headertitle: waiverViews.headerLabel.text!, image: image, name: "Marlene Smith", hotel: "Grand Palladium", date: "April 2, 2020", time: "9:18 AM", pax: "6", tours: "Zip Line, Horseback Riding, ATV, Driving Experience, Safari, Push kart", voucherNumber: "12345", tourRep: "Lisa", tourComp: "Amstar")
-//        
-//        pdfCreator.createPDF()
-        
-        
-      pkCanvasView = waiverViews.canvasView
-    }
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-     
+        presentData()
+        pkCanvasView = waiverViews.canvasView
     }
     
     override func loadView() {
@@ -53,10 +37,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         view = waiverViews
     }
     
-//    MARK: - Selectors
-  
-    
-//    MARK: - Protocols
+    //    MARK: - Protocols
     
     func handleAgreeButton() {
         waiverViews.agreeButton.updateButtonIcon("greenSelectedCheckMark")
@@ -72,12 +53,12 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     }
     
     func handleCancelButton() {
-        
         dismissDetail()
     }
-
+    
     func handleDoneButton() {
         
+        // check if canvasView has drawing then present CameraVC else shows alert
         if !waiverViews.canvasView.drawing.bounds.isEmpty {
             
             let cameraVC = CameraVC()
@@ -85,15 +66,16 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             presentDetail(cameraVC)
             
         } else {
-            Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability.")
+            Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability")
         }
     }
     
     
-//    MARK:- Helper Functions
+    //    MARK:- Helper Functions
     
+    // animate canvasContainerView to show upon agree button tapped
     func handleAnimate() {
-
+        
         waiverViews.canvasContainerViewHeight = waiverViews.canvasContainerView.heightAnchor.constraint(equalToConstant: 280)
         waiverViews.canvasContainerViewHeight?.isActive = true
         waiverViews.canvasViewHeight = waiverViews.canvasView.heightAnchor.constraint(equalToConstant: 240)
@@ -104,12 +86,13 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         waiverViews.doneButton.isEnabled = true
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-
+            
             self.view.layoutIfNeeded()
             self.waiverViews.scrollView.scrollTo(direction: .Bottom, animated: true)
         }, completion: nil)
     }
     
+    // enables guardianButton if participant is underAge
     func enableGaurdianButton(with condition: Bool) {
         
         switch condition {
@@ -120,143 +103,54 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         }
     }
     
-    
-    
-    
-    
-    func createPdfFromView() {
+    func presentData() {
         
-        let spreadsheetView = waiverViews.containerView
-        
-        let pageSize = CGSize(width: 612, height: 792)
-        
-        let pageDimensions = CGRect(x: 0, y: 0, width: spreadsheetView.bounds.width, height: pageSize.height)
-        let newPageDimensions = CGRect(x: 0, y: -734, width: spreadsheetView.bounds.width, height: pageSize.height)
-        let outputData = NSMutableData()
-
-        UIGraphicsBeginPDFContextToData(outputData, pageDimensions, nil)
-    if let context = UIGraphicsGetCurrentContext() {
-        
-            UIGraphicsBeginPDFPage()
-            spreadsheetView.layer.render(in: context)
-    }
-        if let secondContext = UIGraphicsGetCurrentContext(){
+        // loop participant information and present it in waiver labels
+        for data in participantInformation {
             
-            UIGraphicsBeginPDFPageWithInfo(newPageDimensions, nil)
-            spreadsheetView.layer.render(in: secondContext)
-            
+            waiverViews.nameLabel.text = "Name : \(data.firstName) \(data.lastName)"
+            waiverViews.phoneNumberLabel.text = "Phone# \(data.phoneNumber)"
+            waiverViews.dateLabel.text = "Date : \(data.currentDate)"
+            waiverViews.emailLabel.text = "Email : \(data.emailAddress)"
+            waiverViews.countryLabel.text = "Country : \(data.country)"
+            waiverViews.paxLabel.text = "Pax : \(data.groupCount)"
         }
         
-    UIGraphicsEndPDFContext()
-        
-    let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
-    let documentsFileName = documentDirectories! + "/" + "pdfName.pdf"
-    outputData.write(toFile: documentsFileName, atomically: true)
-    print(documentsFileName)
-    // Reset spreadsheetView
-    spreadsheetView.frame = CGRect(x: 0, y: 64, width: self.view.frame.width, height: self.view.frame.height)
-    spreadsheetView.layoutSubviews()
-    spreadsheetView.layoutIfNeeded()
-//    spreadsheetView.reloadData()
-        
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // works best but still cant seem to seperate all pages correctly
-    func screenShotScrollview() -> String {
-
-        let scrollView = waiverViews.scrollView
-        
-        
-
-        let pageDimensions = scrollView.bounds
-
-        let pageSize = pageDimensions.size
-        let totalSize = scrollView.contentSize
-
-        let outputData = NSMutableData()
-
-        UIGraphicsBeginPDFContextToData(outputData, .zero, nil)
-
-        var savedContentOffset = scrollView.contentOffset
-        let savedContentInset = scrollView.contentInset
-
-        let numberOfPagesThatFitVertivally = Int(ceil(totalSize.height/pageSize.height))
-        
-        scrollView.contentInset = UIEdgeInsets.zero
-
-        let pageRect = CGRect(x: 0, y: 0, width: pageSize.width, height: pageSize.height)
-        
-        print(pageSize.height)
-        print("page width \(pageSize.width)")
-        
-        
-        
-        if let context = UIGraphicsGetCurrentContext() {
+        // loop reservation information and present it in waiver labels
+        for data in [reservation] {
             
-            UIGraphicsBeginPDFPageWithInfo(pageRect, nil)
+            var tours = String()
+            // check if data is nil
+            guard let hotel = data?.hotel,
+                let time = data?.time,
+                let voucher = data?.voucherNumber,
+                let tourRep = data?.tourRep,
+                let tourComp = data?.tourCompany else { return }
             
-                            
-            //                let offsetVertical = CGFloat(indexVertical) * pageSize.height
-//                            let offsetVertical = CGFloat(indexVertical) * 734
-                            
-            scrollView.contentOffset = CGPoint(x: 0, y: 0)
-//
-//                            context.translateBy(x: 0, y: -offsetVertical)
-
-                            scrollView.layer.render(in: context)
+            // check if tours are nill and append it to tours label
+            if let firstTour = data?.firstTour { tours.append(firstTour) }
+            if let secondTour = data?.secondTour { tours.append(", \(secondTour)") }
+            if let thirdTour = data?.thirdTour { tours.append(", \(thirdTour)") }
+            if let fourthTour = data?.fourthTour { tours.append(", \(fourthTour)") }
             
-//            for indexVertical in 0..<numberOfPagesThatFitVertivally {
-//
-//                UIGraphicsBeginPDFPageWithInfo(origin, nil)
-//
-////                let offsetVertical = CGFloat(indexVertical) * pageSize.height
-//                let offsetVertical = CGFloat(indexVertical) * 734
-//
-//                scrollView.contentOffset = CGPoint(x: 0, y: offsetVertical)
-//
-//                context.translateBy(x: 0, y: -offsetVertical)
-//
-//                scrollView.layer.render(in: context)
-//            }
-            
-            UIGraphicsEndPDFContext()
-
-            scrollView.contentInset = savedContentInset
-            scrollView.contentOffset = savedContentOffset
-        }
-
-        return self.saveViewPdf(data: outputData)
-    }
-    
-    // Save pdf file in document directory
-    func saveViewPdf(data: NSMutableData) -> String {
-        
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let docDirectoryPath = paths[0]
-        let pdfPath = docDirectoryPath.appendingPathComponent("viewPdf.pdf")
-        if data.write(to: pdfPath, atomically: true) {
-            return pdfPath.path
-        } else {
-            return ""
+            // configure labels with data to present
+            waiverViews.hotelLabel.text = "Hotel : \(hotel)"
+            waiverViews.reservationTimeLabel.text = "Time : \(time)"
+            waiverViews.voucherLabel.text = "Voucher# \(voucher)"
+            waiverViews.tourRepLabel.text = "Tour Representative : \(tourRep)"
+            waiverViews.tourCompanyLabel.text = "Tour Company : \(tourComp)"
+            waiverViews.toursLabel.text = "Tour(s) : \(tours)"
         }
     }
     
     
     func configureUI() {
         
-         view.backgroundColor = Constants.Design.Color.Background.FadeGray
+        view.backgroundColor = Constants.Design.Color.Background.FadeGray
     }
 }
 
+// extension to manually opperate scrollView
 extension UIScrollView {
     func scrollTo(direction: ScrollDirection, animated: Bool = true) {
         self.setContentOffset(direction.contentOffsetWith(scrollView: self), animated: animated)

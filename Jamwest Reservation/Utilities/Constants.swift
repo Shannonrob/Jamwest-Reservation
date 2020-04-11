@@ -13,7 +13,6 @@ import UIKit
 let DB_REF = Database.database().reference()
 let USER_REF = DB_REF.child("users")
 let RESERVATION_REF = DB_REF.child("reservations")
-let RESERVATION_TOURS_REF = DB_REF.child("reservation-Tours")
 let RESERVATION_DATE_REF = DB_REF.child("reservation-Date")
 
 
@@ -31,7 +30,7 @@ let reservation_Id = "reservationId"
 let first_Tour = "firstTour"
 let second_Tour = "secondTour"
 let third_Tour = "thirdTour"
-let forth_Tour = "forthTour"
+let forth_Tour = "fourthTour"
 
 
 // Fonts

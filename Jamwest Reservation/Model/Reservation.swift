@@ -17,7 +17,7 @@ class Reservation {
     var firstTour: String!
     var secondTour: String!
     var thirdTour: String!
-    var forthTour: String!
+    var fourthTour: String!
     var package: String!
     var pax: Int!
     var tourCompany: String!
@@ -58,7 +58,7 @@ class Reservation {
         }
         
         if let forthTour = dictionary[forth_Tour] as? String {
-            self.firstTour = forthTour
+            self.fourthTour = forthTour
         }
         
         if let package = dictionary[tour_Package] as? String {

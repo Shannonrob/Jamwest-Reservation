@@ -23,7 +23,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var underInfluenceAnswer = Bool()
     var backProblemsAnswer = Bool()
     var heartProblemsAnswer = Bool()
-    var modelTestVC = ModelTestVC()
     var participantInformation = [ParticipantInformation]()
     var waiverVC = WaiverVC()
     
@@ -42,6 +41,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         view.addGestureRecognizer(tap)
+        
     }
     
     // show custom UIView and comform to protocol
@@ -134,15 +134,12 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     @objc func handleNextButton() {
         
         passData()
-        
-//        let modelTestVC = ModelTestVC()
-//        modelTestVC.modalPresentationStyle = .fullScreen
-//        navigationController?.pushViewController(modelTestVC, animated: true)
-//
+    
         let waiverVC = WaiverVC()
         waiverVC.underAgeParticipant = false
         waiverVC.modalPresentationStyle = .fullScreen
         waiverVC.participantInformation = self.participantInformation
+        waiverVC.reservation = self.reservation
         presentDetail(waiverVC)
     }
     

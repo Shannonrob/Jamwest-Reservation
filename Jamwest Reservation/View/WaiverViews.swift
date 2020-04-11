@@ -14,7 +14,7 @@ class WaiverViews: UIView {
 
 //    MARK: - Properties
     
-    lazy var contentViewSize = CGSize(width: 1164, height: 4400 )
+    lazy var contentViewSize = CGSize(width: 1164, height: 4430 )
     var canvasContainerViewHeight: NSLayoutConstraint?
     var canvasViewHeight: NSLayoutConstraint?
     weak var waiverVCDelegate: WaiverVCDelegates?
@@ -64,7 +64,7 @@ class WaiverViews: UIView {
     }()
     
     let containerView: UIView = {
-        // the view inside the scrollView
+
         let view = UIView()
         view.backgroundColor = .clear
         return view
@@ -101,6 +101,19 @@ class WaiverViews: UIView {
     
 //    MARK: - UILabels
     
+    let nameLabel = JamwestWaiverLabelClass()
+    let dateLabel = JamwestWaiverLabelClass()
+    let voucherLabel = JamwestWaiverLabelClass()
+    let tourCompanyLabel = JamwestWaiverLabelClass()
+    let tourRepLabel = JamwestWaiverLabelClass()
+    let paxLabel = JamwestWaiverLabelClass()
+    let toursLabel = JamwestWaiverLabelClass()
+    let reservationTimeLabel = JamwestWaiverLabelClass()
+    let hotelLabel = JamwestWaiverLabelClass()
+    let phoneNumberLabel = JamwestWaiverLabelClass()
+    let emailLabel = JamwestWaiverLabelClass()
+    let countryLabel = JamwestWaiverLabelClass()
+    
     let navigationBarTitle: UILabel = {
         
         let label = UILabel()
@@ -118,69 +131,6 @@ class WaiverViews: UIView {
         return label
     }()
     
-    let nameLabel: JamwestWaiverLabelClass = {
-        
-        let label = JamwestWaiverLabelClass()
-        label.text = "Name :"
-        return label
-    }()
-    
-    let dateLabel: JamwestWaiverLabelClass = {
-        
-        let label = JamwestWaiverLabelClass()
-        label.text = "Date :"
-        return label
-    }()
-    
-    let voucherLabel: JamwestWaiverLabelClass = {
-        
-        let label = JamwestWaiverLabelClass()
-        label.text = "Voucher # :"
-        return label
-    }()
-    
-    let tourCompanyLabel: JamwestWaiverLabelClass = {
-        
-        let label = JamwestWaiverLabelClass()
-        label.text = "Tour Company :"
-        return label
-    }()
-    
-    let tourRepLabel: JamwestWaiverLabelClass = {
-        
-        let label = JamwestWaiverLabelClass()
-        label.text = "Tour Representative :"
-        return label
-    }()
-    
-    let paxLabel: JamwestWaiverLabelClass = {
-        
-        let label = JamwestWaiverLabelClass()
-        label.text = "Pax :"
-        return label
-    }()
-    
-    let toursLabel: JamwestWaiverLabelClass = {
-        
-        let label = JamwestWaiverLabelClass()
-        label.text = "Tour(s) :"
-        return label
-    }()
-    
-    let reservationTimeLabel: JamwestWaiverLabelClass = {
-        
-        let label = JamwestWaiverLabelClass()
-        label.text = "Time :"
-        return label
-    }()
-    
-    let hotelLabel: JamwestWaiverLabelClass = {
-        
-        let label = JamwestWaiverLabelClass()
-        label.text = "Hotel :"
-        return label
-    }()
-
     let agreeLabel: UILabel = {
         
         let label = UILabel()
@@ -305,16 +255,16 @@ class WaiverViews: UIView {
     
     func configureConstraints() {
         
-        // stackViews
+//        MARK: - Stackviews
         let participantInfoStackViews = UIStackView(arrangedSubviews: [leftParticipantInfoView, rightParticipantInfoView])
         participantInfoStackViews.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 5)
         participantInfoStackViews.axis = .horizontal
         
-        let leftLabelsStackViews = UIStackView(arrangedSubviews: [nameLabel, hotelLabel, dateLabel, reservationTimeLabel, paxLabel])
+        let leftLabelsStackViews = UIStackView(arrangedSubviews: [nameLabel, hotelLabel, reservationTimeLabel, emailLabel,  phoneNumberLabel, countryLabel])
         leftLabelsStackViews.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
         leftLabelsStackViews.axis = .vertical
         
-        let rightlabelsStackViews = UIStackView(arrangedSubviews: [toursLabel, voucherLabel, tourRepLabel, tourCompanyLabel])
+        let rightlabelsStackViews = UIStackView(arrangedSubviews: [dateLabel, voucherLabel, tourRepLabel, tourCompanyLabel, paxLabel, toursLabel])
         rightlabelsStackViews.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
         rightlabelsStackViews.axis = .vertical
         
@@ -332,7 +282,7 @@ class WaiverViews: UIView {
         confirmationStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 0)
         confirmationStackView.axis = .vertical
         
-        // subviews
+//        MARK: - ADDSubviews
         addSubview(navigationBarView)
         navigationBarView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 70)
         
@@ -356,7 +306,7 @@ class WaiverViews: UIView {
         headerImage.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
         
         containerView.addSubview(participantInfoStackViews)
-        participantInfoStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 170)
+        participantInfoStackViews.anchor(top: headerStackViews.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 200)
         
         leftParticipantInfoView.addSubview(leftLabelsStackViews)
         leftLabelsStackViews.anchor(top: leftParticipantInfoView.topAnchor, left: leftParticipantInfoView.leftAnchor, bottom: leftParticipantInfoView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 0, width: 0, height: 0)
@@ -392,7 +342,6 @@ class WaiverViews: UIView {
         addSubview(doneButton)
         doneButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 220, height: 60)
         doneButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
-
     }
 }
 

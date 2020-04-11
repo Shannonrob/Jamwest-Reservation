@@ -250,7 +250,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
                 let reservation = Reservation(reservationId: reservationIds, dictionary: dictionary)
                 
                 self.reservations.append(reservation)
-                
+    
                 // sort results in alphabetical order
                 self.reservations.sort { (reservation1, reservation2) -> Bool in
                     return reservation1.group < reservation2.group
