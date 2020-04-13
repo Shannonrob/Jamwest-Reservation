@@ -33,7 +33,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var heartProblemsAnsweredValue = Int()
     var questionsAnswered = Int()
     
-    
     var participantInformation = [ParticipantInformation]()
     var waiverVC = WaiverVC()
     var pickerViewData = [PickerViewData]()
@@ -156,6 +155,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             
         case participantInfoView.noAgeButton:
             handleAnimate(is: false)
+            participantInfoView.guardianRequiredLabel.isHidden = true
         default:
             break
         }
@@ -172,20 +172,30 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
        countryTextFieldFilled = textFieldValidation(with: participantInfoView.countryTextfield, label: participantInfoView.countryRequiredLabel)
         
+        
         // check if values are true
         updateRequiredTextFieldValue(with: firstNameTextFieldFilled, with: lastNameTextFieldFilled, with: countryTextFieldFilled)
         
         if questionsAnswered > 4 && requiredTextFieldsFilled {
+            
+            // check if textField has value
+            if !participantInfoView.guardianTextField.isHidden && !participantInfoView.guardianTextField.hasText {
+                
+               _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)
+                Alert.answersRequiredMessage(on: self, with: "Fill in required text fields!")
+            
+            } else {
+                
+                // pass data to WaiverVC
+                passData()
 
-            // pass data to WaiverVC
-            passData()
-
-            let waiverVC = WaiverVC()
-            waiverVC.underAgeParticipant = self.underAgeAnswer
-            waiverVC.modalPresentationStyle = .fullScreen
-            waiverVC.participantInformation = self.participantInformation
-            waiverVC.reservation = self.reservation
-            presentDetail(waiverVC)
+                let waiverVC = WaiverVC()
+                waiverVC.underAgeParticipant = self.underAgeAnswer
+                waiverVC.modalPresentationStyle = .fullScreen
+                waiverVC.participantInformation = self.participantInformation
+                waiverVC.reservation = self.reservation
+                presentDetail(waiverVC)
+            }
 
         } else if !requiredTextFieldsFilled {
 
@@ -433,6 +443,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         }
     }
     
+    // set ParticipantVC as textFields delegate
     func textFieldDelegates() {
         
         participantInfoView.firstNameTextfield.delegate = self
@@ -440,6 +451,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         participantInfoView.phoneNumberTextfield.delegate = self
         participantInfoView.emailTextfield.delegate = self
         participantInfoView.dateTextfield.delegate = self
+        participantInfoView.guardianTextField.delegate = self
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -452,18 +464,22 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             participantInfoView.phoneNumberTextfield.becomeFirstResponder()
         case participantInfoView.phoneNumberTextfield:
             participantInfoView.emailTextfield.becomeFirstResponder()
+        case participantInfoView.guardianTextField:
+            textField.resignFirstResponder()
         default:
             textField.resignFirstResponder()
         }
         return false
     }
     
+    // disable editing once certain textFields are editing
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         if participantInfoView.firstNameTextfield.isEditing ||
             participantInfoView.lastNameTextfield.isEditing ||
             participantInfoView.phoneNumberTextfield.isEditing ||
             participantInfoView.emailTextfield.isEditing ||
+            participantInfoView.guardianTextField.isEditing ||
             participantInfoView.countryTextfield.isEditing {
             participantInfoView.countryTextfield.isEnabled = false
             participantInfoView.groupCountTextfield.isEnabled = false
@@ -479,6 +495,10 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     
     // check if textFields are empty after editing
     func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if underAgeAnsweredValue == 1 {
+            _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)
+        }
         
        firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
        lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
