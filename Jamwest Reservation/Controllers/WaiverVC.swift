@@ -108,11 +108,11 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         // loop participant information and present it in waiver labels
         for data in participantInformation {
             
-            waiverViews.nameLabel.text = "Name:  \(data.firstName) \(data.lastName)"
-            waiverViews.phoneNumberLabel.text = "Phone# \(data.phoneNumber)"
-            waiverViews.dateLabel.text = "Date:  \(data.currentDate)"
-            waiverViews.emailLabel.text = "Email:  \(data.emailAddress)"
-            waiverViews.countryLabel.text = "Country:  \(data.country)"
+            waiverViews.nameLabel.attributedText = configureAttributes(with: "Name:  ", append: "\(data.firstName) \(data.lastName)")
+            waiverViews.phoneNumberLabel.attributedText = configureAttributes(with: "Phone#  ", append: "\(data.phoneNumber)")
+            waiverViews.dateLabel.attributedText = configureAttributes(with: "Date:  ", append: "\(data.currentDate)")
+            waiverViews.emailLabel.attributedText = configureAttributes(with: "Email:  ", append: "\(data.emailAddress)")
+            waiverViews.countryLabel.attributedText = configureAttributes(with: "Country:  ", append: "\(data.country)")
         }
         
         // loop reservation information and present it in waiver labels
@@ -134,14 +134,22 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             if let fourthTour = data?.fourthTour { tours.append(", \(fourthTour)") }
             
             // configure labels with data to present
-            waiverViews.hotelLabel.text = "Hotel:  \(hotel)"
-            waiverViews.reservationTimeLabel.text = "Time:  \(time)"
-            waiverViews.voucherLabel.text = "Voucher# \(voucher)"
-            waiverViews.tourRepLabel.text = "Tour Representative:  \(tourRep)"
-            waiverViews.tourCompanyLabel.text = "Tour Company:  \(tourComp)"
-            waiverViews.toursLabel.text = "Tour(s):  \(tours)"
-            waiverViews.paxLabel.text = "Pax:  \(groupCount)"
+            waiverViews.hotelLabel.attributedText = configureAttributes(with: "Hotel:  ", append: "\(hotel)")
+            waiverViews.reservationTimeLabel.attributedText = configureAttributes(with: "Time:  ", append: "\(time)")
+            waiverViews.voucherLabel.attributedText = configureAttributes(with: "Voucher#  "  , append: "\(voucher)")
+            waiverViews.tourRepLabel.attributedText = configureAttributes(with: "Tour Representative:  ", append: "\(tourRep)")
+            waiverViews.tourCompanyLabel.attributedText = configureAttributes(with: "Tour Company:  ", append: "\(tourComp)")
+            waiverViews.toursLabel.attributedText = configureAttributes(with: "Tour(s):  ", append: "\(tours)")
+            waiverViews.paxLabel.attributedText = configureAttributes(with: "Pax:  ", append: "\(groupCount)")
         }
+    }
+    
+    func configureAttributes(with title: String, append dataTitle: String) -> NSAttributedString {
+
+        let attributedTitle = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: helveticaNeue_Bold, size: 20)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        attributedTitle.append(NSAttributedString(string: dataTitle, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20), NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
+    
+        return attributedTitle
     }
     
     
