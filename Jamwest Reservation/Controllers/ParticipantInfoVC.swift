@@ -21,12 +21,19 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var underInfluenceAnswer = Bool()
     var backProblemsAnswer = Bool()
     var heartProblemsAnswer = Bool()
+    var firstNameTextFieldFilled = Bool()
+    var lastNameTextFieldFilled = Bool()
+    var countryTextFieldFilled = Bool()
+    var requiredTextFieldsFilled = Bool()
     
     var pregnantAnsweredValue = Int()
     var underAgeAnsweredValue = Int()
     var underInfluenceAnsweredValue = Int()
     var backProblemsAnsweredValue = Int()
     var heartProblemsAnsweredValue = Int()
+    var questionsAnswered = Int()
+    
+    
     var participantInformation = [ParticipantInformation]()
     var waiverVC = WaiverVC()
     var pickerViewData = [PickerViewData]()
@@ -134,6 +141,8 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         dismiss(animated: true) {
             self.participantInfoView.pickerView.selectRow(0, inComponent: 0, animated: true)
         }
+        // check if textField is empty
+       countryTextFieldFilled = textFieldValidation(with: participantInfoView.countryTextfield, label: participantInfoView.countryRequiredLabel)
     }
     
     func handleSelectedAnswers(for button: NSObject) {
@@ -144,28 +153,39 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     //    MARK: - Handlers
     
     @objc func handleNextButton() {
-       
+        
         updateQuestionsAnsweredValue()
+        
+        // check if textFields are empty
+        firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
+        lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
+       countryTextFieldFilled = textFieldValidation(with: participantInfoView.countryTextfield, label: participantInfoView.countryRequiredLabel)
+        
+        // check if values are true
+        updateRequiredTextFieldValue(with: firstNameTextFieldFilled, with: lastNameTextFieldFilled, with: countryTextFieldFilled)
+        
+        if questionsAnswered > 4 && requiredTextFieldsFilled {
 
-        if questionsAnswered > 4 {
-            
             // pass data to WaiverVC
             passData()
-            
+
             let waiverVC = WaiverVC()
             waiverVC.underAgeParticipant = self.underAgeAnswer
             waiverVC.modalPresentationStyle = .fullScreen
             waiverVC.participantInformation = self.participantInformation
             waiverVC.reservation = self.reservation
             presentDetail(waiverVC)
-            
+
+        } else if !requiredTextFieldsFilled {
+
+            Alert.showHasTextMessage(on: self, with: "Fill in required text fields!")
+
         } else {
-            
+
             Alert.answersRequiredMessage(on: self, with: "You must answer all questions to proceed!!!")
         }
-        
+
         questionsAnswered = 0
-        
     }
     
     //    MARK: - Helpers Functions
@@ -263,6 +283,28 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         questionsAnswered += underInfluenceAnsweredValue
         questionsAnswered += backProblemsAnsweredValue
         questionsAnswered += heartProblemsAnsweredValue
+    }
+    
+    // check if textField is empty
+    func textFieldValidation(with textField: UITextField, label: UILabel) -> Bool {
+        
+        if !textField.hasText {
+            label.isHidden = false
+            return false
+        } else {
+            label.isHidden = true
+            return true
+        }
+    }
+    
+    // update the boolean value if all labels are hidden
+    func updateRequiredTextFieldValue(with first: Bool, with second: Bool, with third: Bool) {
+        
+        if first && second && third {
+            requiredTextFieldsFilled = true
+        } else {
+            requiredTextFieldsFilled = false
+        }
     }
     
     // collects participant information
@@ -401,6 +443,13 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         participantInfoView.countryTextfield.isEnabled = true
         participantInfoView.groupCountTextfield.isEnabled = true
         return true
+    }
+    
+    // check if textFields are empty after editing
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+       firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
+       lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
     }
     
     func getCurrentDate(textField: UITextField) {
