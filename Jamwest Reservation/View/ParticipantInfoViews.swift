@@ -234,7 +234,21 @@ class ParticipantInfoViews: UIView {
         return textfield
     }()
     
-    
+    let guardianTextField: UITextField = {
+        
+        let textfield = UITextField()
+        textfield.placeholder = "Name of Parent/Guardian"
+        textfield.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
+        textfield.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        textfield.font?.withSize(18)
+        textfield.layer.borderWidth = 0.85
+        textfield.layer.cornerRadius = 4
+        textfield.layer.masksToBounds = true
+        textfield.borderStyle = .roundedRect
+        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.isHidden = true
+        return textfield
+    }()
     
     //    MARK: - Labels
     
@@ -566,7 +580,6 @@ class ParticipantInfoViews: UIView {
         pregnantStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 6)
         pregnantStackView.axis = .vertical
         
-        
         //        MARK: - Anchors
         addSubview(leftStackView)
         leftStackView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 80, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -600,6 +613,9 @@ class ParticipantInfoViews: UIView {
         questionView.addSubview(heartProblemStackView)
         heartProblemStackView.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 39, width: 0, height: 0)
         heartProblemStackView.centerYAnchor.constraint(equalTo: ageStackView.centerYAnchor).isActive = true
+        
+        questionView.addSubview(guardianTextField)
+        guardianTextField.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 280, height: 51)
      
         addSubview(firstNameRequiredLabel)
         firstNameRequiredLabel.anchor(top: firstNameTextfield.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 80, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

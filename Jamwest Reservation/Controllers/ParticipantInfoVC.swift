@@ -148,6 +148,17 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     func handleSelectedAnswers(for button: NSObject) {
         
         updateSelectedAnswer(sender: button as! UIButton)
+        
+        switch button {
+            
+        case participantInfoView.yesAgeButton:
+            handleAnimate(is: true)
+            
+        case participantInfoView.noAgeButton:
+            handleAnimate(is: false)
+        default:
+            break
+        }
     }
     
     //    MARK: - Handlers
@@ -295,6 +306,27 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             label.isHidden = true
             return true
         }
+    }
+    
+    // presents or hides guardianTextField based on answer tapped
+    func handleAnimate(is condition: Bool) {
+        
+        if condition {
+            participantInfoView.guardianTextField.topAnchor.constraint(equalTo: participantInfoView.yesHeartProblemButton.bottomAnchor).isActive = true
+            participantInfoView.guardianTextField.isHidden = false
+            
+        } else {
+            
+            participantInfoView.guardianTextField.isHidden = true
+            participantInfoView.guardianTextField.topAnchor.constraint(equalTo: participantInfoView.yesHeartProblemButton.bottomAnchor).isActive = false
+            participantInfoView.guardianTextField.text = nil
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
+            self.view.layoutIfNeeded()
+            
+        }, completion: nil)
     }
     
     // update the boolean value if all labels are hidden
