@@ -165,44 +165,46 @@ class ParticipantInfoViews: UIView {
     
     
     //    MARK: - Textfields
-    lazy var firstNameTextfield: JamwestTextfieldClass = {
+    let firstNameTextfield: JamwestTextfieldClass = {
+        
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("First name", #imageLiteral(resourceName: "orangeName"))
-        //        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
-    lazy var lastNameTextfield: JamwestTextfieldClass = {
+    let lastNameTextfield: JamwestTextfieldClass = {
+        
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("Last name", #imageLiteral(resourceName: "orangeName"))
-        //        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
-    lazy var emailTextfield: JamwestTextfieldClass = {
+    let emailTextfield: JamwestTextfieldClass = {
+        
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("Email", #imageLiteral(resourceName: "orangeEmail "))
         textfield.keyboardType = .emailAddress
-        //        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
-    lazy var phoneNumberTextfield: JamwestTextfieldClass = {
+    let phoneNumberTextfield: JamwestTextfieldClass = {
+        
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("(xxx) xxx - xxxx", #imageLiteral(resourceName: "orangePhone "))
         textfield.keyboardType = .phonePad
         return textfield
     }()
     
-    lazy var dateTextfield: JamwestTextfieldClass = {
+    let dateTextfield: JamwestTextfieldClass = {
+        
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon(nil, #imageLiteral(resourceName: "orangeDate"))
         textfield.isEnabled = false
-        //        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
     lazy var countryTextfield: UITextField = {
+        
         let textfield = UITextField()
         textfield.design(placeHolder: "Country", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 235, height: 51)
         textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeCountry "))
@@ -217,6 +219,7 @@ class ParticipantInfoViews: UIView {
     }()
     
     lazy var groupCountTextfield: UITextField = {
+        
         let textfield = UITextField()
         textfield.design(placeHolder: nil, backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 140, height: 51)
         textfield.text = "1"
@@ -230,6 +233,8 @@ class ParticipantInfoViews: UIView {
         textfield.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(textfield:)), for: .editingDidBegin)
         return textfield
     }()
+    
+    
     
     //    MARK: - Labels
     
