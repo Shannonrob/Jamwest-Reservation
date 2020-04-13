@@ -58,6 +58,10 @@ struct Alert {
     static func answersRequiredMessage(on vc: UIViewController, with message: String) {
         showBasicAlert(on: vc, with: "", message: message)
     }
+    
+    static func showHasTextMessage(on vc: UIViewController, with message: String) {
+        showBasicAlert(on: vc, with: "", message: message)
+    }
 
 }
 

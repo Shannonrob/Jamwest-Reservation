@@ -12,17 +12,16 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     
     //    MARK: - Properties
     
-    var countryTextfieldBool = Bool()
-    var pickerViewData = [PickerViewData]()
-    var reservation: Reservation?
-    var groupCounter = [Int]()
+//    var groupCounter = [Int]()
     var pickerViewSelection: String?
-    var participantInfoView = ParticipantInfoViews()
+    
+    var countryTextfieldBool = Bool()
     var pregnantAnswer = Bool()
     var underAgeAnswer = Bool()
     var underInfluenceAnswer = Bool()
     var backProblemsAnswer = Bool()
     var heartProblemsAnswer = Bool()
+    
     var pregnantAnsweredValue = Int()
     var underAgeAnsweredValue = Int()
     var underInfluenceAnsweredValue = Int()
@@ -30,7 +29,10 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var heartProblemsAnsweredValue = Int()
     var participantInformation = [ParticipantInformation]()
     var waiverVC = WaiverVC()
-    var questionsAnswered = Int()
+    var pickerViewData = [PickerViewData]()
+    var reservation: Reservation?
+    var participantInfoView = ParticipantInfoViews()
+    
     
     //    MARK: - Init
     
@@ -47,7 +49,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         view.addGestureRecognizer(tap)
-        
     }
     
     // show custom UIView and comform to protocol
@@ -148,6 +149,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
 
         if questionsAnswered > 4 {
             
+            // pass data to WaiverVC
             passData()
             
             let waiverVC = WaiverVC()
@@ -158,13 +160,16 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             presentDetail(waiverVC)
             
         } else {
+            
             Alert.answersRequiredMessage(on: self, with: "You must answer all questions to proceed!!!")
         }
         
         questionsAnswered = 0
+        
     }
     
     //    MARK: - Helpers Functions
+    
     // updates selected/unselected button icons
     func updateSelectedAnswer(sender tapped: UIButton) {
         
@@ -250,6 +255,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         }
     }
     
+    //updates the value of questionsAnswered
     func updateQuestionsAnsweredValue() {
         
         questionsAnswered += pregnantAnsweredValue

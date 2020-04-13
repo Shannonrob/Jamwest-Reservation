@@ -10,10 +10,10 @@ import UIKit
 
 class ParticipantInfoViews: UIView {
     
-   weak var participantInfoDelegate: ParticipantInfoViewsDelegate?
+    weak var participantInfoDelegate: ParticipantInfoViewsDelegate?
     
     
-//    MARK: - Init
+    //    MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -31,19 +31,19 @@ class ParticipantInfoViews: UIView {
     }
     
     
-//    MARK: - UIView
+    //    MARK: - UIView
     let questionView = JamwestDefaultView()
     
-//    MARK: - Picker
+    //    MARK: - Picker
     
     let pickerView: UIPickerView = {
-       
+        
         let picker = UIPickerView()
         picker.backgroundColor = .white
         picker.setValue(UIColor.black, forKey: "textColor")
         return picker
     }()
-
+    
     let popoverView: UIView = {
         
         let view = UIView()
@@ -57,7 +57,7 @@ class ParticipantInfoViews: UIView {
         return vc
     }()
     
-//    MARK: - Buttons
+    //    MARK: - Buttons
     
     let toolBar: UIToolbar = {
         
@@ -72,25 +72,25 @@ class ParticipantInfoViews: UIView {
     }()
     
     let space: UIBarButtonItem = {
-       
+        
         let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         return space
     }()
     
     lazy var doneButton: UIBarButtonItem = {
-     
+        
         let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDoneTapped(sender:)))
         return button
     }()
     
     lazy var yesAgeButton: UIButton = {
-            
+        
         let button = UIButton(type: .system)
         button.unSelectedPackageButtonState(icon: "green_radio_unselected_small", font: nil, enabled: true)
         button.addTarget(self, action: #selector(answerButtonTapped(sender:)), for: .touchUpInside)
         return button
     }()
-        
+    
     lazy var noAgeButton: UIButton = {
         
         let button = UIButton(type: .system)
@@ -164,18 +164,18 @@ class ParticipantInfoViews: UIView {
     }()
     
     
-//    MARK: - Textfields
+    //    MARK: - Textfields
     lazy var firstNameTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("First name", #imageLiteral(resourceName: "orangeName"))
-//        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
+        //        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
     lazy var lastNameTextfield: JamwestTextfieldClass = {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("Last name", #imageLiteral(resourceName: "orangeName"))
-//        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
+        //        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
@@ -183,7 +183,7 @@ class ParticipantInfoViews: UIView {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon("Email", #imageLiteral(resourceName: "orangeEmail "))
         textfield.keyboardType = .emailAddress
-//        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
+        //        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
@@ -198,7 +198,7 @@ class ParticipantInfoViews: UIView {
         let textfield = JamwestTextfieldClass()
         textfield.configurePlaceHolderWithIcon(nil, #imageLiteral(resourceName: "orangeDate"))
         textfield.isEnabled = false
-//        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
+        //        textfield.addTarget(self, action: #selector(ParticipantInfoVC.handleFormValidation), for: .editingChanged)
         return textfield
     }()
     
@@ -231,58 +231,63 @@ class ParticipantInfoViews: UIView {
         return textfield
     }()
     
-//    MARK: - Labels
+    //    MARK: - Labels
+    
+    let firstNameRequiredLabel = RequiredLabelClass()
+    let lastNameRequiredLabel = RequiredLabelClass()
+    let countryRequiredLabel = RequiredLabelClass()
+    
     let firstNameLabel: UILabel = {
-
-         let label = UILabel()
-         label.labelConfigurations(text: " First name", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
-         return label
-        }()
-
-        let lastNameLabel: UILabel = {
-
-         let label = UILabel()
-         label.labelConfigurations(text: " Last name", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
-         return label
-        }()
         
-        let emailLabel: UILabel = {
-
-         let label = UILabel()
-         label.labelConfigurations(text: " Email", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
-         return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: " First name", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        return label
+    }()
+    
+    let lastNameLabel: UILabel = {
         
-        let countryLabel: UILabel = {
-
-         let label = UILabel()
-         label.labelConfigurations(text: " Country of residence", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
-         return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: " Last name", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        return label
+    }()
+    
+    let emailLabel: UILabel = {
         
-        let phoneNumberLabel: UILabel = {
-
-         let label = UILabel()
-         label.labelConfigurations(text: " Phone number", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
-         return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: " Email", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        return label
+    }()
+    
+    let countryLabel: UILabel = {
         
-        let dateLabel: UILabel = {
-            
-         let label = UILabel()
-         label.labelConfigurations(text: " Date", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
-         return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: " Country of residence", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        return label
+    }()
+    
+    let phoneNumberLabel: UILabel = {
         
-        let groupCountLabel: UILabel = {
-            
-         let label = UILabel()
-         label.labelConfigurations(text: " Group Count", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
-         return label
-        }()
+        let label = UILabel()
+        label.labelConfigurations(text: " Phone number", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        return label
+    }()
+    
+    let dateLabel: UILabel = {
         
-//    MARK: - Question labels
+        let label = UILabel()
+        label.labelConfigurations(text: " Date", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        return label
+    }()
+    
+    let groupCountLabel: UILabel = {
         
+        let label = UILabel()
+        label.labelConfigurations(text: " Group Count", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        return label
+    }()
+    
+    //    MARK: - Question labels
+    
     let questionaireLabel: UILabel = {
         
         let label = UILabel()
@@ -332,9 +337,9 @@ class ParticipantInfoViews: UIView {
         return label
     }()
     
-//    MARK: - Answers labels
+    //    MARK: - Answers labels
     
-        
+    
     let ageYesAnswerLabel: UILabel = {
         
         let label = UILabel()
@@ -405,7 +410,7 @@ class ParticipantInfoViews: UIView {
         return label
     }()
     
-//    MARK: - Handlers
+    //    MARK: - Handlers
     
     @objc func handlePickerViewTextFieldTapped(textfield : UITextField) {
         participantInfoDelegate?.handlePresentPickerView(for: textfield)
@@ -419,14 +424,14 @@ class ParticipantInfoViews: UIView {
         participantInfoDelegate?.handleSelectedAnswers(for: sender)
     }
     
-//    MARK: - Constraints
+    //    MARK: - Constraints
     
     func pickerViewContraints() {
         popoverView.addSubview(toolBar)
         popoverView.addSubview(pickerView)
         
-    toolBar.anchor(top: popoverView.topAnchor, left: popoverView.leftAnchor, bottom: nil, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
-    pickerView.anchor(top: toolBar.bottomAnchor, left: popoverView.leftAnchor, bottom: popoverView.bottomAnchor, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        toolBar.anchor(top: popoverView.topAnchor, left: popoverView.leftAnchor, bottom: nil, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 60)
+        pickerView.anchor(top: toolBar.bottomAnchor, left: popoverView.leftAnchor, bottom: popoverView.bottomAnchor, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     func configureConstraints() {
@@ -590,9 +595,14 @@ class ParticipantInfoViews: UIView {
         questionView.addSubview(heartProblemStackView)
         heartProblemStackView.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 39, width: 0, height: 0)
         heartProblemStackView.centerYAnchor.constraint(equalTo: ageStackView.centerYAnchor).isActive = true
+     
+        addSubview(firstNameRequiredLabel)
+        firstNameRequiredLabel.anchor(top: firstNameTextfield.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 80, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
+        addSubview(lastNameRequiredLabel)
+        lastNameRequiredLabel.anchor(top: lastNameTextfield.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 402, width: 0, height: 0)
+        
+        addSubview(countryRequiredLabel)
+        countryRequiredLabel.anchor(top: countryTextfield.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 402, width: 0, height: 0)
     }
-    
-    
-    
 }
