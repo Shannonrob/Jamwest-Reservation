@@ -237,9 +237,10 @@ class ParticipantInfoViews: UIView {
     let guardianTextField: UITextField = {
         
         let textfield = UITextField()
-        textfield.placeholder = "Name of Parent/Guardian"
         textfield.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
         textfield.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        textfield.attributedPlaceholder =  NSAttributedString(string: "Name of Parent/Guardian",
+                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         textfield.font?.withSize(18)
         textfield.layer.borderWidth = 0.85
         textfield.layer.cornerRadius = 4
