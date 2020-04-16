@@ -146,6 +146,7 @@ class WaiverViews: UIView {
         label.text = "I parentName is signing this waiver of liability on the behalf of minorName"
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .black
+        label.isHidden = true
         return label
     }()
     
@@ -195,6 +196,7 @@ class WaiverViews: UIView {
         let button = UIButton(type: .system)
         button.updateButtonIcon("grayUnselectedCheckMark_Medium")
         button.addTarget(self, action: #selector(guardianAcceptTapped), for: .touchUpInside)
+        button.isHidden = true
         return button
     }()
     

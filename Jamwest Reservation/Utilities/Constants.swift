@@ -15,8 +15,6 @@ let USER_REF = DB_REF.child("users")
 let RESERVATION_REF = DB_REF.child("reservations")
 let RESERVATION_DATE_REF = DB_REF.child("reservation-Date")
 
-
-
 enum Constant {
     
     static let hotelName = "hotel"
@@ -45,7 +43,6 @@ enum Font {
     static let helveticaNeueMedium = "HelveticaNeue-Medium"
     static let helveticaNeueBold = "HelveticaNeue-Bold"
 }
-
 
 enum ButtonTitle {
     

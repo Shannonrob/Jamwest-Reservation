@@ -17,8 +17,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     let image = #imageLiteral(resourceName: "greenJamwestLogo").withRenderingMode(.alwaysOriginal)
     var pkCanvasView: PKCanvasView!
     var reservation : Reservation!
-    var underAgeParticipant: Bool?
-    
+    var isUnderAge: Bool?
     
     //    MARK: - Init
     
@@ -26,8 +25,8 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         super.viewDidLoad()
         
         configureUI()
-        enableGaurdianButton(with: underAgeParticipant!)
         presentData()
+        shouldShowGaurdianAgreement(if: isUnderAge!)
         pkCanvasView = waiverViews.canvasView
     }
     
@@ -41,7 +40,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     func handleAgreeButton() {
         waiverViews.agreeButton.updateButtonIcon("greenSelectedCheckMark")
-        handleAnimate()
+        animateSignatureCanvas()
     }
     
     func handleGuardianAcceptButton() {
@@ -74,7 +73,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     //    MARK:- Helper Functions
     
     // animate canvasContainerView to show upon agree button tapped
-    func handleAnimate() {
+    func animateSignatureCanvas() {
         
         waiverViews.canvasContainerViewHeight = waiverViews.canvasContainerView.heightAnchor.constraint(equalToConstant: 280)
         waiverViews.canvasContainerViewHeight?.isActive = true
@@ -92,13 +91,18 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         }, completion: nil)
     }
     
-    // enables guardianButton if participant is underAge
-    func enableGaurdianButton(with condition: Bool) {
+    
+    // enables and show guardianButton if participant is underAge
+    func shouldShowGaurdianAgreement(if condition: Bool) {
         
         switch condition {
         case true:
+            waiverViews.guardianAcceptButton.isHidden = false
+            waiverViews.guardianLabel.isHidden = false
             waiverViews.guardianAcceptButton.isEnabled = true
         case false:
+            waiverViews.guardianAcceptButton.isHidden = true
+            waiverViews.guardianLabel.isHidden = true
             waiverViews.guardianAcceptButton.isEnabled = false
         }
     }
@@ -113,6 +117,9 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             waiverViews.dateLabel.attributedText = configureAttributes(with: "Date:  ", append: "\(data.currentDate)")
             waiverViews.emailLabel.attributedText = configureAttributes(with: "Email:  ", append: "\(data.emailAddress)")
             waiverViews.countryLabel.attributedText = configureAttributes(with: "Country:  ", append: "\(data.country)")
+            
+            // pass boolean
+            isUnderAge = data.ageAnswer
         }
         
         // loop reservation information and present it in waiver labels

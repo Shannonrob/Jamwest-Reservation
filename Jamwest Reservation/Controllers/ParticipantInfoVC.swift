@@ -151,11 +151,14 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         switch button {
             
         case participantInfoView.yesAgeButton:
-            handleAnimate(is: true)
             
+            handleAnimate(is: true)
+        
         case participantInfoView.noAgeButton:
+            
             handleAnimate(is: false)
             participantInfoView.guardianRequiredLabel.isHidden = true
+            
         default:
             break
         }
@@ -190,7 +193,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
                 passData()
 
                 let waiverVC = WaiverVC()
-                waiverVC.underAgeParticipant = self.underAgeAnswer
                 waiverVC.modalPresentationStyle = .fullScreen
                 waiverVC.participantInformation = self.participantInformation
                 waiverVC.reservation = self.reservation
