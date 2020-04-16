@@ -43,7 +43,7 @@ class PreviewImageVC: UIViewController {
         button.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.20)
         button.layer.cornerRadius = 20
         button.layer.borderWidth = 1.5
-        button.layer.borderColor = Color.Background.FadeGray.cgColor
+        button.layer.borderColor = Color.Background.fadeGray.cgColor
         return button
     }()
     
@@ -56,7 +56,7 @@ class PreviewImageVC: UIViewController {
         button.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.20)
         button.layer.cornerRadius = 20
         button.layer.borderWidth = 1.5
-        button.layer.borderColor = Color.Background.FadeGray.cgColor
+        button.layer.borderColor = Color.Background.fadeGray.cgColor
         return button
     }()
     

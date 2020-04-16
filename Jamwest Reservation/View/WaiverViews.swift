@@ -48,7 +48,7 @@ class WaiverViews: UIView {
     let navigationBarView: UIView = {
         
         let view = UIView()
-        view.backgroundColor = Color.Primary.HeavyGreen
+        view.backgroundColor = Color.Primary.heavyGreen
         return view
     }()
     
@@ -213,7 +213,7 @@ class WaiverViews: UIView {
         
         let button = JamwestCustomRoundedButton()
         button.setTitle("Cancel", for: .normal)
-        button.backgroundColor = Color.Primary.Orange
+        button.backgroundColor = Color.Primary.orange
         button.addTarget(self, action: #selector(handleCancelTapped), for: .touchUpInside)
         return button
     }()
@@ -223,7 +223,7 @@ class WaiverViews: UIView {
         let button = JamwestCustomRoundedButton()
         button.setTitle("Done", for: .normal)
         button.isEnabled = false
-        button.backgroundColor = Color.Primary.Green
+        button.backgroundColor = Color.Primary.green
         button.addTarget(self, action: #selector(handleDoneTapped), for: .touchUpInside)
         return button
     }()
@@ -321,7 +321,7 @@ class WaiverViews: UIView {
         confirmationStackView.anchor(top: textView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         scrollViewContainer.addSubview(canvasContainerView)
-        canvasContainerView.backgroundColor = Color.Background.FadeGray
+        canvasContainerView.backgroundColor = Color.Background.fadeGray
         canvasContainerView.anchor(top: scrollView.bottomAnchor, left: scrollViewContainer.leftAnchor, bottom: scrollViewContainer.bottomAnchor, right: scrollViewContainer.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         canvasContainerView.addSubview(canvasView)

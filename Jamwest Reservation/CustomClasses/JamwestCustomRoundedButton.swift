@@ -25,7 +25,7 @@ class JamwestCustomRoundedButton: UIButton {
         backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.20)
         layer.cornerRadius = 20
         layer.borderWidth = 1.5
-        layer.borderColor = Color.Background.FadeGray.cgColor
+        layer.borderColor = Color.Background.fadeGray.cgColor
         layer.shadowColor = UIColor.gray.cgColor
         layer.shadowOffset = CGSize(width: 2, height: 2)
         layer.shadowRadius = 2.75

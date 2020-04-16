@@ -20,7 +20,7 @@ class JamwestTextfieldClass: UITextField {
            layer.cornerRadius = 4
            layer.masksToBounds = true
            borderStyle = .roundedRect
-           layer.borderColor = Color.Border.Blue
+           layer.borderColor = Color.Border.blue
            widthAnchor.constraint(equalToConstant: 400).isActive = true
            heightAnchor.constraint(equalToConstant: 51).isActive = true
        }

@@ -112,7 +112,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         cell.backgroundColor = .white
         cell.layer.cornerRadius = 8
         cell.layer.borderWidth = 0.75
-        cell.layer.borderColor = Color.Primary.MarkerColor.cgColor
+        cell.layer.borderColor = Color.Primary.markerColor.cgColor
         
         // cell shadow
         cell.layer.shadowColor = UIColor.gray.cgColor
@@ -214,12 +214,12 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     func configureUI() {
         
-        view.backgroundColor = Color.Background.FadeGray
-        collectionView.backgroundColor = Color.Background.FadeGray
+        view.backgroundColor = Color.Background.fadeGray
+        collectionView.backgroundColor = Color.Background.fadeGray
         collectionView.showsVerticalScrollIndicator = false
        
         let reservation = UIFont.boldSystemFont(ofSize: 25)
-        navigationController?.navigationBar.barTintColor = Color.Primary.HeavyGreen
+        navigationController?.navigationBar.barTintColor = Color.Primary.heavyGreen
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.tintColor = .white

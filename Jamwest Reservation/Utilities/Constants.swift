@@ -16,40 +16,24 @@ let RESERVATION_REF = DB_REF.child("reservations")
 let RESERVATION_DATE_REF = DB_REF.child("reservation-Date")
 
 
-// Database parameters
-
-
-
-//let tour_Rep = "tourRep"
-//let tour_Company = "tourComp"
-//let pax_Count = "pax"
-//let tour_Package = "tourPackage"
-//let reservation_Time = "time"
-//let reservation_Date = "date"
-//let reservation_Id = "reservationId"
-//let first_Tour = "firstTour"
-//let second_Tour = "secondTour"
-//let third_Tour = "thirdTour"
-//let forth_Tour = "fourthTour"
 
 enum Constant {
     
-    static let hotel_Name = "hotel"
-    static let group_Name = "groupName"
-    static let voucher_Number = "voucherNum"
-    static let tour_Rep = "tourRep"
-    static let tour_Company = "tourComp"
-    static let pax_Count = "pax"
-    static let tour_Package = "tourPackage"
-    static let reservation_Time = "time"
-    static let reservation_Date = "date"
-    static let reservation_Id = "reservationId"
-    static let first_Tour = "firstTour"
-    static let second_Tour = "secondTour"
-    static let third_Tour = "thirdTour"
-    static let forth_Tour = "fourthTour"
+    static let hotelName = "hotel"
+    static let groupName = "groupName"
+    static let voucherNumber = "voucherNum"
+    static let tourRep = "tourRep"
+    static let tourCompany = "tourComp"
+    static let paxCount = "pax"
+    static let tourPackage = "tourPackage"
+    static let reservationTime = "time"
+    static let reservationDate = "date"
+    static let reservationId = "reservationId"
+    static let firstTour = "firstTour"
+    static let secondTour = "secondTour"
+    static let thirdTour = "thirdTour"
+    static let forthTour = "fourthTour"
 }
-
 
 enum Font {
     
@@ -87,28 +71,31 @@ enum Color {
     
     struct Primary {
         
-        static let Orange = UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1)
-        static let Purple = UIColor(displayP3Red: 17/255, green: 16/255, blue: 38/255, alpha: 95)
-        static let Green = UIColor(displayP3Red: 0/255, green: 162/255, blue: 138/255, alpha: 1)
-        static let HeavyGreen = UIColor(displayP3Red: 0/255, green: 81/255, blue: 82/255, alpha: 1)
-        static let LightPurple = UIColor(displayP3Red: 17/255, green: 16/255, blue: 95/255, alpha: 100)
-        static let MenuBlue = UIColor(displayP3Red: 17/255, green: 16/255, blue: 160/255, alpha: 100)
-        static let MarkerColor = UIColor(red: 0/255, green: 133/255, blue: 81/255, alpha: 1)
+        static let orange = UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1)
+        static let purple = UIColor(displayP3Red: 17/255, green: 16/255, blue: 38/255, alpha: 95)
+        static let green = UIColor(displayP3Red: 0/255, green: 162/255, blue: 138/255, alpha: 1)
+        static let heavyGreen = UIColor(displayP3Red: 0/255, green: 81/255, blue: 82/255, alpha: 1)
+        static let lightPurple = UIColor(displayP3Red: 17/255, green: 16/255, blue: 95/255, alpha: 100)
+        static let menuBlue = UIColor(displayP3Red: 17/255, green: 16/255, blue: 160/255, alpha: 100)
+        static let markerColor = UIColor(red: 0/255, green: 133/255, blue: 81/255, alpha: 1)
     }
     
     struct Border {
-        static let Orange = CGColor.init(srgbRed: 242/255, green: 125/255, blue: 15/255, alpha: 1)
-        static let Purple = CGColor.init(srgbRed: 17/255, green: 16/255, blue: 38/255, alpha: 95)
-        static let Blue = CGColor.init(srgbRed: 0.50, green: 0.66, blue: 0.66, alpha: 1)
+        
+        static let orange = CGColor.init(srgbRed: 242/255, green: 125/255, blue: 15/255, alpha: 1)
+        static let purple = CGColor.init(srgbRed: 17/255, green: 16/255, blue: 38/255, alpha: 95)
+        static let blue = CGColor.init(srgbRed: 0.50, green: 0.66, blue: 0.66, alpha: 1)
     }
     
     struct Background {
-        static let FadeGray = UIColor(red: 232/255, green: 232/255, blue: 232/255, alpha: 1)
+        
+        static let fadeGray = UIColor(red: 232/255, green: 232/255, blue: 232/255, alpha: 1)
     }
     
     struct Hue {
-        static let Green = UIColor(hue: 0.50, saturation: 0.66, brightness: 0.66, alpha: 1)
-        static let FadedGreen = UIColor(hue: 0.50, saturation: 0.20, brightness: 0.66, alpha: 1)
+        
+        static let green = UIColor(hue: 0.50, saturation: 0.66, brightness: 0.66, alpha: 1)
+        static let fadedGreen = UIColor(hue: 0.50, saturation: 0.20, brightness: 0.66, alpha: 1)
     }
 }
 

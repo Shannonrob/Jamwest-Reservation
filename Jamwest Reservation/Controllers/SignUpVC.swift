@@ -167,7 +167,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
     }
     
     func configureUI() {
-        view.backgroundColor = Color.Primary.HeavyGreen
+        view.backgroundColor = Color.Primary.heavyGreen
     }
 
     func configureStackViewComponents() {

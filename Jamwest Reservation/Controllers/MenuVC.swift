@@ -22,7 +22,7 @@ class MenuVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Color.Primary.HeavyGreen
+        view.backgroundColor = Color.Primary.heavyGreen
         
         configureTableView()
     }
@@ -35,7 +35,7 @@ class MenuVC: UIViewController {
         tableView.dataSource = self
         
         tableView.register(MenuOptionCell.self, forCellReuseIdentifier: reuseIdentifier)
-        tableView.backgroundColor = Color.Primary.HeavyGreen
+        tableView.backgroundColor = Color.Primary.heavyGreen
         
         
         tableView.separatorStyle = .none
@@ -54,7 +54,7 @@ extension MenuVC: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         let headerView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 160))
-        headerView.backgroundColor = Color.Primary.HeavyGreen
+        headerView.backgroundColor = Color.Primary.heavyGreen
         
 
         let logo = UIImageView()

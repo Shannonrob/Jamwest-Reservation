@@ -98,7 +98,7 @@ class ToursSelectionVC: UIViewController {
         button.setTitle("Submit", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.red, for: .selected)
-        button.backgroundColor = Color.Hue.FadedGreen
+        button.backgroundColor = Color.Hue.fadedGreen
         button.layer.cornerRadius = 8
         button.titleLabel?.font = .boldSystemFont(ofSize: 24)
         button.isEnabled = false
@@ -372,7 +372,7 @@ class ToursSelectionVC: UIViewController {
            reservationTours = [singleTourPackageSelection]
            
            //append tour to dictionary
-           reservationInfo.updateValue(reservationTours[0], forKey: Constant.first_Tour)
+           reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
            
            //method for pushing selected tours to database
            submitSelectedTours()
@@ -386,8 +386,8 @@ class ToursSelectionVC: UIViewController {
             checkSelectedTours(forArray: comboDealToursArray)
             
             //append tours to dictionary
-            reservationInfo.updateValue(reservationTours[0], forKey: Constant.first_Tour)
-            reservationInfo.updateValue(reservationTours[1], forKey: Constant.second_Tour)
+            reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
+            reservationInfo.updateValue(reservationTours[1], forKey: Constant.secondTour)
             
             //method for pushing selected tours to database
             submitSelectedTours()
@@ -402,9 +402,9 @@ class ToursSelectionVC: UIViewController {
             checkSelectedTours(forArray: superDealPackageArray)
             
             //append tours to dictionary
-            reservationInfo.updateValue(reservationTours[0], forKey: Constant.first_Tour)
-            reservationInfo.updateValue(reservationTours[1], forKey: Constant.second_Tour)
-            reservationInfo.updateValue(reservationTours[2], forKey: Constant.third_Tour)
+            reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
+            reservationInfo.updateValue(reservationTours[1], forKey: Constant.secondTour)
+            reservationInfo.updateValue(reservationTours[2], forKey: Constant.thirdTour)
             
             //method for pushing selected tours to database
             submitSelectedTours()
@@ -419,10 +419,10 @@ class ToursSelectionVC: UIViewController {
             checkSelectedTours(forArray: deluxePackageArray)
             
             //append tours to dictionary
-            reservationInfo.updateValue(reservationTours[0], forKey: Constant.first_Tour)
-            reservationInfo.updateValue(reservationTours[1], forKey: Constant.second_Tour)
-            reservationInfo.updateValue(reservationTours[2], forKey: Constant.third_Tour)
-            reservationInfo.updateValue(reservationTours[3], forKey: Constant.forth_Tour)
+            reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
+            reservationInfo.updateValue(reservationTours[1], forKey: Constant.secondTour)
+            reservationInfo.updateValue(reservationTours[2], forKey: Constant.thirdTour)
+            reservationInfo.updateValue(reservationTours[3], forKey: Constant.forthTour)
 
             //method for pushing selected tours to database
             submitSelectedTours()
@@ -434,7 +434,7 @@ class ToursSelectionVC: UIViewController {
     
     func updateTourLabel() {
         // get selected tour package
-        tourPackage = reservationInfo[Constant.tour_Package] as! String
+        tourPackage = reservationInfo[Constant.tourPackage] as! String
         
         if tourPackage == ButtonTitle.singleTour {
             tourLabel.text = "Please select reserved tour"
@@ -443,9 +443,9 @@ class ToursSelectionVC: UIViewController {
     
     func configureUI() {
         
-        view.backgroundColor = Color.Background.FadeGray
+        view.backgroundColor = Color.Background.fadeGray
         
-        navigationController?.navigationBar.barTintColor = Color.Primary.HeavyGreen
+        navigationController?.navigationBar.barTintColor = Color.Primary.heavyGreen
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black
@@ -530,14 +530,14 @@ class ToursSelectionVC: UIViewController {
     
     func activateSubmitButton() {
         submitButton.isEnabled = true
-        submitButton.backgroundColor = Color.Hue.Green
+        submitButton.backgroundColor = Color.Hue.green
     }
 
     func configureSingleTourPackageSelection() {
         
         activateSubmitButton()
         guard atvTourButton.isSelected || drivingExperienceButton.isSelected || horseBackRidingTourButton.isSelected || pushKartTourButton.isSelected || safariTourButton.isSelected || zipLineTourButton.isSelected == true else {
-        submitButton.backgroundColor = Color.Hue.FadedGreen
+        submitButton.backgroundColor = Color.Hue.fadedGreen
         submitButton.isEnabled = false
         return
         }
@@ -547,7 +547,7 @@ class ToursSelectionVC: UIViewController {
         
         activateSubmitButton()
         guard comboDealToursArray.count >= 2 else {
-        submitButton.backgroundColor = Color.Hue.FadedGreen
+        submitButton.backgroundColor = Color.Hue.fadedGreen
         submitButton.isEnabled = false
         return
         }
@@ -557,7 +557,7 @@ class ToursSelectionVC: UIViewController {
         
         activateSubmitButton()
         guard superDealPackageArray.count >= 3 else {
-        submitButton.backgroundColor = Color.Hue.FadedGreen
+        submitButton.backgroundColor = Color.Hue.fadedGreen
         submitButton.isEnabled = false
         return
         }
@@ -567,7 +567,7 @@ class ToursSelectionVC: UIViewController {
         
         activateSubmitButton()
         guard deluxePackageArray.count >= 4 else {
-        submitButton.backgroundColor = Color.Hue.FadedGreen
+        submitButton.backgroundColor = Color.Hue.fadedGreen
         submitButton.isEnabled = false
         return
         }
@@ -647,7 +647,7 @@ class ToursSelectionVC: UIViewController {
 
             let dateValue = [reservationID: 1] as [String: Any]
 
-            let date = RESERVATION_DATE_REF.child(self.reservationInfo[Constant.reservation_Date] as! String)
+            let date = RESERVATION_DATE_REF.child(self.reservationInfo[Constant.reservationDate] as! String)
             date.updateChildValues(dateValue)
             
             self.showAlertSheet(self.submitButton)

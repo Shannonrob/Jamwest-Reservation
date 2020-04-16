@@ -522,12 +522,12 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     
     func configureUI() {
         
-        view.backgroundColor = Color.Background.FadeGray
+        view.backgroundColor = Color.Background.fadeGray
         
         navigationItem.title = "Participant information"
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black
-        navigationController?.navigationBar.barTintColor = Color.Primary.HeavyGreen
+        navigationController?.navigationBar.barTintColor = Color.Primary.heavyGreen
         
         let navigationFont = UIFont.boldSystemFont(ofSize: 25)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: navigationFont]
