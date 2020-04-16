@@ -18,6 +18,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     var pkCanvasView: PKCanvasView!
     var reservation : Reservation!
     var isUnderAge: Bool?
+    var guardianAgreed = false
     
     //    MARK: - Init
     
@@ -39,12 +40,21 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     //    MARK: - Protocols
     
     func handleAgreeButton() {
-        waiverViews.agreeButton.updateButtonIcon("greenSelectedCheckMark")
-        animateSignatureCanvas()
+        
+        if waiverViews.guardianLabel.isHidden == false && guardianAgreed == false {
+            
+            Alert.showGuardianReqiuredMessage(on: self, with: "Parent/Gaurdian must accept signing on behalf of minor")
+            
+        } else {
+            
+            waiverViews.agreeButton.updateButtonIcon("greenSelectedCheckMark")
+            animateSignatureCanvas()
+        }
     }
     
     func handleGuardianAcceptButton() {
         waiverViews.guardianAcceptButton.updateButtonIcon("greenSelectedCheckMark")
+        guardianAgreed = true
     }
     
     func handleClearButton() {
