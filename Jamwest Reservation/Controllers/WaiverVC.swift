@@ -120,6 +120,8 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             
             // pass boolean
             isUnderAge = data.ageAnswer
+            
+            configureGuardianLabel(with: data.guardianName, of: "\(data.firstName) \(data.lastName)", if: data.ageAnswer)
         }
         
         // loop reservation information and present it in waiver labels
@@ -151,6 +153,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         }
     }
     
+    // configure text attributes
     func configureAttributes(with title: String, append dataTitle: String) -> NSAttributedString {
 
         let attributedTitle = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: Font.helveticaNeueBold, size: 20)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
@@ -159,6 +162,15 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         return attributedTitle
     }
     
+    //configure guardian agreement label
+    func configureGuardianLabel(with guardian: String, of minor: String, if state: Bool) {
+        
+//        if state {
+//            waiverViews.guardianLabel.text = "I \(guardian) is signing this waiver of liability on the behalf of \(minor)"
+//        }
+
+        state == true ? waiverViews.guardianLabel.text = "I \(guardian) is signing this waiver of liability on the behalf of \(minor)" : nil
+    }
     
     func configureUI() {
         

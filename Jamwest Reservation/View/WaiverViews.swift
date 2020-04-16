@@ -143,7 +143,7 @@ class WaiverViews: UIView {
     let guardianLabel: UILabel = {
         
         let label = UILabel()
-        label.text = "I parentName is signing this waiver of liability on the behalf of minorName"
+        label.text = ""
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .black
         label.isHidden = true

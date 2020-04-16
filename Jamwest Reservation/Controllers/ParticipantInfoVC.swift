@@ -360,7 +360,8 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             let email = participantInfoView.emailTextfield.text,
             let date = participantInfoView.dateTextfield.text,
             let country = participantInfoView.countryTextfield.text,
-            let groupCount = participantInfoView.groupCountTextfield.text else { return }
+            let groupCount = participantInfoView.groupCountTextfield.text,
+            let guardianName = participantInfoView.guardianTextField.text else { return }
         
         let pregnantAnswer = self.pregnantAnswer
         let underAgeAnswer = self.underAgeAnswer
@@ -368,7 +369,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         let backProblemsAnswer = self.backProblemsAnswer
         let heartProblemsAnswer = self.heartProblemsAnswer
         
-        self.participantInformation = [ParticipantInformation(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, groupCount: groupCount, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)]
+        self.participantInformation = [ParticipantInformation(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, groupCount: groupCount, guardianName: guardianName, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)]
     }
     
     // format textfield for phone number pattern
