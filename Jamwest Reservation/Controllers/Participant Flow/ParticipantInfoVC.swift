@@ -25,6 +25,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var lastNameTextFieldFilled = Bool()
     var countryTextFieldFilled = Bool()
     var requiredTextFieldsFilled = Bool()
+    var isUnderAge = Bool()
     
     var pregnantAnsweredValue = Int()
     var underAgeAnsweredValue = Int()
@@ -153,10 +154,12 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         case participantInfoView.yesAgeButton:
             
             handleAnimate(is: true)
+            isUnderAge = true
         
         case participantInfoView.noAgeButton:
             
             handleAnimate(is: false)
+            isUnderAge = false
             participantInfoView.guardianRequiredLabel.isHidden = true
             
         default:
@@ -499,7 +502,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     // check if textFields are empty after editing
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        if underAgeAnsweredValue == 1 {
+        if isUnderAge {
             _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)
         }
         
