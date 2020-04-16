@@ -33,34 +33,37 @@ let third_Tour = "thirdTour"
 let forth_Tour = "fourthTour"
 
 
-// Fonts
-let avenirNext_Demibold = "AvenirNext-DemiBold"
-let avenirNext_Heavy = "AvenirNext-Heavy"
-let helveticaNeue = "HelveticaNeue"
-let helveticaNeue_Medium = "HelveticaNeue-Medium"
-let helveticaNeue_Bold = "HelveticaNeue-Bold"
-let avenirNext_Medium = "AvenirNext-Medium"
-let avenirNext_Regular = "AvenirNext-Regular"
+enum Font {
+    
+    static let avenirNextRegular = "AvenirNext-Regular"
+    static let avenirNextMedium = "AvenirNext-Medium"
+    static let avenirNextDemibold = "AvenirNext-DemiBold"
+    static let avenirNextHeavy = "AvenirNext-Heavy"
+    static let helveticaNeue = "HelveticaNeue"
+    static let helveticaNeueMedium = "HelveticaNeue-Medium"
+    static let helveticaNeueBold = "HelveticaNeue-Bold"
+}
 
-// Button title
-let single_Tour = "Single Tour"
-let combo_Deal = "Combo Deal"
-let super_Deal = "Super Deal"
-let deluxe_Package = "Deluxe Pkg"
 
-// Image name
-let white_CheckMark = "whiteCheckMark"
-let clear_CheckMark = "hiddenCheckMark"
-let orange_Race_Flag_Icon = "orangeRaceFlagIcon"
+enum ButtonTitle {
+    
+    static let singleTour = "Single Tour"
+    static let comboDeal = "Combo Deal"
+    static let superDeal = "Super Deal"
+    static let deluxePackage = "Deluxe Pkg"
+}
 
-// Notification Keys
-let date_Changed_key = "NSCalendarDayChangedNotification"
+enum ImageName {
 
-// Notifying ToursSelectionVC which package was selected in AddReservationVC
-//var tour_Package_Selected = String()
+    static let whiteCheckMark = "whiteCheckMark"
+    static let clearCheckMark = "hiddenCheckMark"
+}
 
-// Catch the reservationId for each reservation and pass it to ToursSelectionVC
-//var reservation_ID = String()
+enum Listener {
+    
+    // Notification Keys
+   static let dateChangedKey = "NSCalendarDayChangedNotification"
+}
 
 struct Constants {
     

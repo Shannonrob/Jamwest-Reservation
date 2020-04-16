@@ -21,7 +21,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     var inSearchMode = false
  
     //notification key whatever
-    let dateChanged = Notification.Name(rawValue: date_Changed_key)
+    let dateChanged = Notification.Name(rawValue: Listener.dateChangedKey)
     
     // remove observers
     deinit {

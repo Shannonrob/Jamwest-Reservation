@@ -101,7 +101,7 @@ class PDFCreator: NSObject {
     
     func addWarningLabel(pageRect: CGRect, warningLabelTop: CGFloat) -> CGFloat {
       // 1
-        let titleFont = UIFont.init(name: helveticaNeue_Bold, size: 8)
+        let titleFont = UIFont.init(name: Font.helveticaNeueBold, size: 8)
         let titleColor = UIColor.darkText
       // 2
       let titleAttributes: [NSAttributedString.Key: Any] =
@@ -135,7 +135,7 @@ class PDFCreator: NSObject {
         let time = "Time : \(reservationTime)"
         let pax = "Pax : \(reservationPax)"
         
-        let titleFont = UIFont.init(name: helveticaNeue_Medium , size: 10)
+        let titleFont = UIFont.init(name: Font.helveticaNeueMedium , size: 10)
         let titleColor = UIColor.darkText
         
         let paragraphStyle = NSMutableParagraphStyle()
@@ -178,7 +178,7 @@ class PDFCreator: NSObject {
         let tourRep = "Tour Representative : \(tourRepresentative)"
         let tourComp = "Tour Company : \(tourCompany)"
         
-        let titleFont = UIFont.init(name: helveticaNeue_Medium , size: 10)
+        let titleFont = UIFont.init(name: Font.helveticaNeueMedium , size: 10)
         let titleColor = UIColor.darkText
         
         let paragraphStyle = NSMutableParagraphStyle()

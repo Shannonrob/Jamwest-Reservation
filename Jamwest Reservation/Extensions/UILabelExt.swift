@@ -43,7 +43,7 @@ extension UILabel {
         }
   
         if let font = fontSize {
-            self.font = UIFont.init(name: avenirNext_Demibold, size: font)
+            self.font = UIFont.init(name: Font.avenirNextDemibold, size: font)
         }        
     }
 }

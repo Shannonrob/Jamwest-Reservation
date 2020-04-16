@@ -27,7 +27,7 @@ class ToursSelectionVC: UIViewController {
         let label = UILabel()
         label.text = "Please select reserved tours"
         label.textColor = .darkText
-        label.font = UIFont(name: avenirNext_Regular, size: 32)
+        label.font = UIFont(name: Font.avenirNextRegular, size: 32)
         return label
     }()
     
@@ -85,7 +85,7 @@ class ToursSelectionVC: UIViewController {
     
     let drivingExperienceButton: UIButton = {
         let button = UIButton(type: .system)
-        button.configureButtonWithIcon(orange_Race_Flag_Icon, title: "Driving Experience", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
+        button.configureButtonWithIcon("orangeRaceFlagIcon", title: "Driving Experience", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
         button.titleLabel?.font = .systemFont(ofSize: 24)
         button.layer.borderWidth = 0.80
         button.layer.borderColor = UIColor.lightGray.cgColor
@@ -133,7 +133,7 @@ class ToursSelectionVC: UIViewController {
         
         switch tourPackage {
             
-        case single_Tour:
+        case ButtonTitle.singleTour:
             drivingExperienceButton.isSelected = false
             drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
             horseBackRidingTourButton.isSelected = false
@@ -147,15 +147,15 @@ class ToursSelectionVC: UIViewController {
             singleTourPackageSelection = atvTourButton.currentTitle!
             configureSingleTourPackageSelection()
         
-        case combo_Deal:
+        case ButtonTitle.comboDeal:
             updateComboDealArray(button: atvTourButton)
             configureComboDealPackageTours()
             
-        case super_Deal:
+        case ButtonTitle.superDeal:
             updateSuperDealArray(button: atvTourButton)
             configureSuperDealPackageTours()
             
-        case deluxe_Package:
+        case ButtonTitle.deluxePackage:
             updateDeluxePackageArray(button: atvTourButton)
             configureDeluxePackageTours()
             
@@ -170,7 +170,7 @@ class ToursSelectionVC: UIViewController {
           
           switch tourPackage {
               
-          case single_Tour:
+          case ButtonTitle.singleTour:
               atvTourButton.isSelected = false
               atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
               horseBackRidingTourButton.isSelected = false
@@ -182,15 +182,15 @@ class ToursSelectionVC: UIViewController {
               singleTourPackageSelection = drivingExperienceButton.currentTitle!
               configureSingleTourPackageSelection()
               
-          case combo_Deal:
+          case ButtonTitle.comboDeal:
               updateComboDealArray(button: drivingExperienceButton)
               configureComboDealPackageTours()
               
-          case super_Deal:
+          case ButtonTitle.superDeal:
               updateSuperDealArray(button: drivingExperienceButton)
               configureSuperDealPackageTours()
               
-          case deluxe_Package:
+          case ButtonTitle.deluxePackage:
               updateDeluxePackageArray(button: drivingExperienceButton)
               configureDeluxePackageTours()
               
@@ -205,7 +205,7 @@ class ToursSelectionVC: UIViewController {
     
         switch tourPackage {
             
-        case single_Tour:
+        case ButtonTitle.singleTour:
             atvTourButton.isSelected = false
             atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
             drivingExperienceButton.isSelected = false
@@ -219,15 +219,15 @@ class ToursSelectionVC: UIViewController {
             singleTourPackageSelection = horseBackRidingTourButton.currentTitle!
             configureSingleTourPackageSelection()
             
-        case combo_Deal:
+        case ButtonTitle.comboDeal:
             updateComboDealArray(button: horseBackRidingTourButton)
             configureComboDealPackageTours()
             
-        case super_Deal:
+        case ButtonTitle.superDeal:
             updateSuperDealArray(button: horseBackRidingTourButton)
             configureSuperDealPackageTours()
             
-        case deluxe_Package:
+        case ButtonTitle.deluxePackage:
             updateDeluxePackageArray(button: horseBackRidingTourButton)
             configureDeluxePackageTours()
             
@@ -242,7 +242,7 @@ class ToursSelectionVC: UIViewController {
         
         switch tourPackage {
             
-        case single_Tour:
+        case ButtonTitle.singleTour:
             atvTourButton.isSelected = false
             atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
             drivingExperienceButton.isSelected = false
@@ -256,15 +256,15 @@ class ToursSelectionVC: UIViewController {
             singleTourPackageSelection = pushKartTourButton.currentTitle!
             configureSingleTourPackageSelection()
             
-        case combo_Deal:
+        case ButtonTitle.comboDeal:
             updateComboDealArray(button: pushKartTourButton)
             configureComboDealPackageTours()
             
-        case super_Deal:
+        case ButtonTitle.superDeal:
             updateSuperDealArray(button: pushKartTourButton)
             configureSuperDealPackageTours()
             
-        case deluxe_Package:
+        case ButtonTitle.deluxePackage:
             updateDeluxePackageArray(button: pushKartTourButton)
             configureDeluxePackageTours()
             
@@ -279,7 +279,7 @@ class ToursSelectionVC: UIViewController {
         
         switch tourPackage {
             
-        case single_Tour:
+        case ButtonTitle.singleTour:
             atvTourButton.isSelected = false
             atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
             drivingExperienceButton.isSelected = false
@@ -293,15 +293,15 @@ class ToursSelectionVC: UIViewController {
             singleTourPackageSelection = safariTourButton.currentTitle!
             configureSingleTourPackageSelection()
         
-        case combo_Deal:
+        case ButtonTitle.comboDeal:
             updateComboDealArray(button: safariTourButton)
             configureComboDealPackageTours()
             
-        case super_Deal:
+        case ButtonTitle.superDeal:
             updateSuperDealArray(button: safariTourButton)
             configureSuperDealPackageTours()
             
-        case deluxe_Package:
+        case ButtonTitle.deluxePackage:
             updateDeluxePackageArray(button: safariTourButton)
             configureDeluxePackageTours()
             
@@ -316,7 +316,7 @@ class ToursSelectionVC: UIViewController {
         
         switch tourPackage {
             
-        case single_Tour:
+        case ButtonTitle.singleTour:
             atvTourButton.isSelected = false
             atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
             drivingExperienceButton.isSelected = false
@@ -330,15 +330,15 @@ class ToursSelectionVC: UIViewController {
             singleTourPackageSelection = zipLineTourButton.currentTitle!
             configureSingleTourPackageSelection()
             
-        case combo_Deal:
+        case ButtonTitle.comboDeal:
             updateComboDealArray(button: zipLineTourButton)
             configureComboDealPackageTours()
             
-        case super_Deal:
+        case ButtonTitle.superDeal:
             updateSuperDealArray(button: zipLineTourButton)
             configureSuperDealPackageTours()
             
-        case deluxe_Package:
+        case ButtonTitle.deluxePackage:
             updateDeluxePackageArray(button: zipLineTourButton)
             configureDeluxePackageTours()
             
@@ -367,7 +367,7 @@ class ToursSelectionVC: UIViewController {
    
        switch tourPackage {
            
-       case single_Tour:
+       case ButtonTitle.singleTour:
         // catching the selected tour
            reservationTours = [singleTourPackageSelection]
            
@@ -377,7 +377,7 @@ class ToursSelectionVC: UIViewController {
            //method for pushing selected tours to database
            submitSelectedTours()
         
-       case combo_Deal:
+       case ButtonTitle.comboDeal:
            
            // check if package selections is greater than package limit
            if comboDealToursArray.count > 2 {
@@ -393,7 +393,7 @@ class ToursSelectionVC: UIViewController {
             submitSelectedTours()
            }
            
-       case super_Deal:
+       case ButtonTitle.superDeal:
            
            // check if package selections is greater than package limit
            if superDealPackageArray.count > 3 {
@@ -410,7 +410,7 @@ class ToursSelectionVC: UIViewController {
             submitSelectedTours()
            }
            
-       case deluxe_Package:
+       case ButtonTitle.deluxePackage:
            
            // check if package selections is greater than package limit
            if deluxePackageArray.count > 4 {
@@ -436,7 +436,7 @@ class ToursSelectionVC: UIViewController {
         // get selected tour package
         tourPackage = reservationInfo[tour_Package] as! String
         
-        if tourPackage == single_Tour {
+        if tourPackage == ButtonTitle.singleTour {
             tourLabel.text = "Please select reserved tour"
         }
     }

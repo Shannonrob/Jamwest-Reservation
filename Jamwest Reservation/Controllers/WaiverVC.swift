@@ -146,7 +146,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     func configureAttributes(with title: String, append dataTitle: String) -> NSAttributedString {
 
-        let attributedTitle = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: helveticaNeue_Bold, size: 20)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        let attributedTitle = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: Font.helveticaNeueBold, size: 20)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
         attributedTitle.append(NSAttributedString(string: dataTitle, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20), NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
     
         return attributedTitle

@@ -126,7 +126,7 @@ class WaiverViews: UIView {
         
         let label = UILabel()
         label.text = "WARNING, ASSUMPTION OF RISK, LIABILITY RELEASE, INDEMNITY AND HOLD HARMLESS AGREEMENT"
-        label.font = UIFont.init(name: helveticaNeue_Bold, size: 14)
+        label.font = UIFont.init(name: Font.helveticaNeueBold, size: 14)
         label.textColor = .darkText
         return label
     }()
@@ -173,7 +173,7 @@ class WaiverViews: UIView {
         textView.textColor = .darkText
         textView.isEditable = false
         textView.isScrollEnabled = false
-        textView.font = UIFont.init(name: helveticaNeue_Medium, size: 18)
+        textView.font = UIFont.init(name: Font.helveticaNeueMedium, size: 18)
         textView.textAlignment = .center
         textView.attributedText = waiverText
         return textView
@@ -203,7 +203,7 @@ class WaiverViews: UIView {
         let button = UIButton(type: .system)
         button.setTitle("Clear", for: .normal)
         button.setTitleColor(.gray, for: .normal)
-        button.titleLabel?.font = UIFont(name: avenirNext_Demibold, size: 16)
+        button.titleLabel?.font = UIFont(name: Font.avenirNextDemibold, size: 16)
         button.isHidden = true
         button.addTarget(self, action: #selector(handleClearTapped), for: .touchUpInside)
         return button

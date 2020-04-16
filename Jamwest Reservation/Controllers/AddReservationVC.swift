@@ -23,7 +23,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.text = " Hotel"
         label.textColor = .darkGray
-        label.font = UIFont(name: avenirNext_Demibold, size: 16)
+        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
         return label
     }()
     
@@ -32,7 +32,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.text = " Tour Representative"
         label.textColor = .darkGray
-        label.font = UIFont(name: avenirNext_Demibold, size: 16)
+        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
         return label
        }()
     
@@ -41,7 +41,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.text = " Tour Company"
         label.textColor = .darkGray
-        label.font = UIFont(name: avenirNext_Demibold, size: 16)
+        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
         return label
        }()
     
@@ -50,7 +50,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.text = " Group Name"
         label.textColor = .darkGray
-        label.font = UIFont(name: avenirNext_Demibold, size: 16)
+        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
         return label
        }()
 
@@ -59,7 +59,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.text = " Voucher #"
         label.textColor = .darkGray
-        label.font = UIFont(name: avenirNext_Demibold, size: 16)
+        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
         return label
        }()
 
@@ -68,7 +68,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.text = " Date"
         label.textColor = .darkGray
-        label.font = UIFont(name: avenirNext_Demibold, size: 16)
+        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
         return label
        }()
     
@@ -77,7 +77,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
        let label = UILabel()
        label.text = " Select group package :"
        label.textColor = Constants.Design.Color.Primary.Purple
-       label.font = UIFont(name: avenirNext_Demibold, size: 26)
+       label.font = UIFont(name: Font.avenirNextDemibold, size: 26)
        return label
       }()
     
@@ -86,7 +86,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.text = "Pax Quantity :"
         label.textColor = Constants.Design.Color.Primary.Purple
-        label.font = UIFont(name: avenirNext_Demibold, size: 24)
+        label.font = UIFont(name: Font.avenirNextDemibold, size: 24)
         return label
        }()
     
@@ -95,7 +95,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.text = ""
         label.textColor = Constants.Design.Color.Primary.Purple
-        label.font = UIFont(name: helveticaNeue_Bold, size: 28)
+        label.font = UIFont(name: Font.helveticaNeueBold, size: 28)
         label.shadowColor = Constants.Design.Color.Primary.Purple
     
         return label
@@ -203,7 +203,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     
     let singleTourButton: UIButton = {
          let button = UIButton(type: .system)
-        button.configureButtonWithIcon("whiteCheckMark", title: single_Tour, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
+        button.configureButtonWithIcon("whiteCheckMark", title: ButtonTitle.singleTour, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
          button.titleLabel?.font = .boldSystemFont(ofSize: 20)
          button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
          button.isEnabled = false
@@ -212,7 +212,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         
     let comboDealButton: UIButton = {
         let button = UIButton(type: .system)
-        button.configureButtonWithIcon("hiddenCheckMark", title: combo_Deal, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
+        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.comboDeal, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
         button.titleLabel?.font = .systemFont(ofSize: 18)
         button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
         return button
@@ -220,7 +220,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     
     let superDealButton: UIButton = {
         let button = UIButton(type: .system)
-        button.configureButtonWithIcon("hiddenCheckMark", title: super_Deal, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
+        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.superDeal, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
         button.titleLabel?.font = .systemFont(ofSize: 18)
         button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
         return button
@@ -228,7 +228,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     
     let deluxePackageButton: UIButton = {
            let button = UIButton(type: .system)
-           button.configureButtonWithIcon("hiddenCheckMark", title: deluxe_Package, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
+        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.deluxePackage, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
            button.titleLabel?.font = .systemFont(ofSize: 18)
            button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
            return button
@@ -255,7 +255,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tourPackageSelected = single_Tour      // change this variable from being global
+        tourPackageSelected = ButtonTitle.singleTour      // change this variable from being global
         configureUI()
         configureStackViewComponents()
         configurePaxStepper()
@@ -349,31 +349,31 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         case singleTourButton:
             
             tourPackageSelected = singleTourButton.currentTitle!
-            singleTourButton.selectedPackageButtonState(icon: white_CheckMark, font: 20, enabled: false)
-            comboDealButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
-            superDealButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
-            deluxePackageButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
+            singleTourButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
+            comboDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+            superDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+            deluxePackageButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
  
         case comboDealButton:
             tourPackageSelected = comboDealButton.currentTitle!
-            singleTourButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
-            comboDealButton.selectedPackageButtonState(icon: white_CheckMark, font: 20, enabled: false)
-            superDealButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
-            deluxePackageButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
+            singleTourButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+            comboDealButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
+            superDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+            deluxePackageButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
             
         case superDealButton:
             tourPackageSelected = superDealButton.currentTitle!
-            singleTourButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
-            comboDealButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
-            superDealButton.selectedPackageButtonState(icon: white_CheckMark, font: 20, enabled: false)
-            deluxePackageButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
+            singleTourButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+            comboDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+            superDealButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
+            deluxePackageButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
             
         case deluxePackageButton:
             tourPackageSelected = deluxePackageButton.currentTitle!
-            singleTourButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
-            comboDealButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
-            superDealButton.unSelectedPackageButtonState(icon: clear_CheckMark, font: 18, enabled: true)
-            deluxePackageButton.selectedPackageButtonState(icon: white_CheckMark, font: 20, enabled: false)
+            singleTourButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+            comboDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+            superDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+            deluxePackageButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
             
         default:
             return
