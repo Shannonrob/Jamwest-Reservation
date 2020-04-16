@@ -553,15 +553,15 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
    
    let toursSelectionVC = ToursSelectionVC()
     
-    toursSelectionVC.reservationInfo = [ hotel_Name: hotel,
-                                         group_Name: group,
-                                         voucher_Number: voucherNumber,
-                                         tour_Rep: tourRep,
-                                         tour_Company: tourCompany,
-                                         reservation_Time: time,
-                                         tour_Package: tourPackageSelected,
-                                         reservation_Date: date,
-                                         pax_Count: paxQuantity] as [String: Any] 
+    toursSelectionVC.reservationInfo = [ Constant.hotel_Name: hotel,
+                                         Constant.group_Name: group,
+                                         Constant.voucher_Number: voucherNumber,
+                                         Constant.tour_Rep: tourRep,
+                                         Constant.tour_Company: tourCompany,
+                                         Constant.reservation_Time: time,
+                                         Constant.tour_Package: tourPackageSelected,
+                                         Constant.reservation_Date: date,
+                                         Constant.pax_Count: paxQuantity] as [String: Any] 
     
     navigationController?.pushViewController(toursSelectionVC, animated: true)
     

@@ -372,7 +372,7 @@ class ToursSelectionVC: UIViewController {
            reservationTours = [singleTourPackageSelection]
            
            //append tour to dictionary
-           reservationInfo.updateValue(reservationTours[0], forKey: first_Tour)
+           reservationInfo.updateValue(reservationTours[0], forKey: Constant.first_Tour)
            
            //method for pushing selected tours to database
            submitSelectedTours()
@@ -386,8 +386,8 @@ class ToursSelectionVC: UIViewController {
             checkSelectedTours(forArray: comboDealToursArray)
             
             //append tours to dictionary
-            reservationInfo.updateValue(reservationTours[0], forKey: first_Tour)
-            reservationInfo.updateValue(reservationTours[1], forKey: second_Tour)
+            reservationInfo.updateValue(reservationTours[0], forKey: Constant.first_Tour)
+            reservationInfo.updateValue(reservationTours[1], forKey: Constant.second_Tour)
             
             //method for pushing selected tours to database
             submitSelectedTours()
@@ -402,9 +402,9 @@ class ToursSelectionVC: UIViewController {
             checkSelectedTours(forArray: superDealPackageArray)
             
             //append tours to dictionary
-            reservationInfo.updateValue(reservationTours[0], forKey: first_Tour)
-            reservationInfo.updateValue(reservationTours[1], forKey: second_Tour)
-            reservationInfo.updateValue(reservationTours[2], forKey: third_Tour)
+            reservationInfo.updateValue(reservationTours[0], forKey: Constant.first_Tour)
+            reservationInfo.updateValue(reservationTours[1], forKey: Constant.second_Tour)
+            reservationInfo.updateValue(reservationTours[2], forKey: Constant.third_Tour)
             
             //method for pushing selected tours to database
             submitSelectedTours()
@@ -419,10 +419,10 @@ class ToursSelectionVC: UIViewController {
             checkSelectedTours(forArray: deluxePackageArray)
             
             //append tours to dictionary
-            reservationInfo.updateValue(reservationTours[0], forKey: first_Tour)
-            reservationInfo.updateValue(reservationTours[1], forKey: second_Tour)
-            reservationInfo.updateValue(reservationTours[2], forKey: third_Tour)
-            reservationInfo.updateValue(reservationTours[3], forKey: forth_Tour)
+            reservationInfo.updateValue(reservationTours[0], forKey: Constant.first_Tour)
+            reservationInfo.updateValue(reservationTours[1], forKey: Constant.second_Tour)
+            reservationInfo.updateValue(reservationTours[2], forKey: Constant.third_Tour)
+            reservationInfo.updateValue(reservationTours[3], forKey: Constant.forth_Tour)
 
             //method for pushing selected tours to database
             submitSelectedTours()
@@ -434,7 +434,7 @@ class ToursSelectionVC: UIViewController {
     
     func updateTourLabel() {
         // get selected tour package
-        tourPackage = reservationInfo[tour_Package] as! String
+        tourPackage = reservationInfo[Constant.tour_Package] as! String
         
         if tourPackage == ButtonTitle.singleTour {
             tourLabel.text = "Please select reserved tour"
@@ -647,7 +647,7 @@ class ToursSelectionVC: UIViewController {
 
             let dateValue = [reservationID: 1] as [String: Any]
 
-            let date = RESERVATION_DATE_REF.child(self.reservationInfo[reservation_Date] as! String)
+            let date = RESERVATION_DATE_REF.child(self.reservationInfo[Constant.reservation_Date] as! String)
             date.updateChildValues(dateValue)
             
             self.showAlertSheet(self.submitButton)

@@ -17,20 +17,38 @@ let RESERVATION_DATE_REF = DB_REF.child("reservation-Date")
 
 
 // Database parameters
-let hotel_Name = "hotel"
-let group_Name = "groupName"
-let voucher_Number = "voucherNum"
-let tour_Rep = "tourRep"
-let tour_Company = "tourComp"
-let pax_Count = "pax"
-let tour_Package = "tourPackage"
-let reservation_Time = "time"
-let reservation_Date = "date"
-let reservation_Id = "reservationId"
-let first_Tour = "firstTour"
-let second_Tour = "secondTour"
-let third_Tour = "thirdTour"
-let forth_Tour = "fourthTour"
+
+
+
+//let tour_Rep = "tourRep"
+//let tour_Company = "tourComp"
+//let pax_Count = "pax"
+//let tour_Package = "tourPackage"
+//let reservation_Time = "time"
+//let reservation_Date = "date"
+//let reservation_Id = "reservationId"
+//let first_Tour = "firstTour"
+//let second_Tour = "secondTour"
+//let third_Tour = "thirdTour"
+//let forth_Tour = "fourthTour"
+
+enum Constant {
+    
+    static let hotel_Name = "hotel"
+    static let group_Name = "groupName"
+    static let voucher_Number = "voucherNum"
+    static let tour_Rep = "tourRep"
+    static let tour_Company = "tourComp"
+    static let pax_Count = "pax"
+    static let tour_Package = "tourPackage"
+    static let reservation_Time = "time"
+    static let reservation_Date = "date"
+    static let reservation_Id = "reservationId"
+    static let first_Tour = "firstTour"
+    static let second_Tour = "secondTour"
+    static let third_Tour = "thirdTour"
+    static let forth_Tour = "fourthTour"
+}
 
 
 enum Font {
