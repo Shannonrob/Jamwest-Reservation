@@ -137,6 +137,45 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		8542E79F24490E9300707D66 /* Participant Flow */ = {
+			isa = PBXGroup;
+			children = (
+				855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */,
+				855D945B240E961600F50CB2 /* WaiverVC.swift */,
+				8524F51C2424F56D003173EF /* CameraVC.swift */,
+				8524F52024250E2F003173EF /* PreviewImageVC.swift */,
+			);
+			path = "Participant Flow";
+			sourceTree = "<group>";
+		};
+		8542E7A024490EDF00707D66 /* Add Reservation Flow */ = {
+			isa = PBXGroup;
+			children = (
+				855D944D240E95B600F50CB2 /* AddReservationVC.swift */,
+				855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */,
+			);
+			path = "Add Reservation Flow";
+			sourceTree = "<group>";
+		};
+		8542E7A124490F3A00707D66 /* Log In FLow */ = {
+			isa = PBXGroup;
+			children = (
+				855D9451240E95CD00F50CB2 /* LoginVC.swift */,
+				855D9457240E95FD00F50CB2 /* SignUpVC.swift */,
+			);
+			path = "Log In FLow";
+			sourceTree = "<group>";
+		};
+		8542E7A224490F7300707D66 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				855D944F240E95C400F50CB2 /* ContainerVC.swift */,
+				855D9424240E8EC800F50CB2 /* HomeVC.swift */,
+				855D9453240E95D600F50CB2 /* MenuVC.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		855D9403240E8AB900F50CB2 = {
 			isa = PBXGroup;
 			children = (
@@ -179,17 +218,10 @@
 		855D9423240E8E8A00F50CB2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				855D944D240E95B600F50CB2 /* AddReservationVC.swift */,
-				8524F51C2424F56D003173EF /* CameraVC.swift */,
-				855D944F240E95C400F50CB2 /* ContainerVC.swift */,
-				855D9451240E95CD00F50CB2 /* LoginVC.swift */,
-				855D9424240E8EC800F50CB2 /* HomeVC.swift */,
-				855D9453240E95D600F50CB2 /* MenuVC.swift */,
-				855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */,
-				8524F52024250E2F003173EF /* PreviewImageVC.swift */,
-				855D9457240E95FD00F50CB2 /* SignUpVC.swift */,
-				855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */,
-				855D945B240E961600F50CB2 /* WaiverVC.swift */,
+				8542E7A024490EDF00707D66 /* Add Reservation Flow */,
+				8542E79F24490E9300707D66 /* Participant Flow */,
+				8542E7A124490F3A00707D66 /* Log In FLow */,
+				8542E7A224490F7300707D66 /* Home */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
