@@ -65,7 +65,7 @@ class ParticipantInfoViews: UIView {
         toolBar.barStyle = UIBarStyle.default
         
         toolBar.barTintColor = .lightGray
-        toolBar.tintColor = Constants.Design.Color.Primary.HeavyGreen
+        toolBar.tintColor = Color.Primary.HeavyGreen
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         return toolBar
@@ -211,7 +211,7 @@ class ParticipantInfoViews: UIView {
         textfield.layer.borderWidth = 0.85
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.layer.borderColor = Color.Border.Blue
         textfield.allowsEditingTextAttributes = false
         textfield.textAlignment = .center
         textfield.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(textfield:)), for: .editingDidBegin)
@@ -229,7 +229,7 @@ class ParticipantInfoViews: UIView {
         textfield.layer.borderWidth = 0.85
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.layer.borderColor = Color.Border.Blue
         textfield.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(textfield:)), for: .editingDidBegin)
         return textfield
     }()
@@ -246,7 +246,7 @@ class ParticipantInfoViews: UIView {
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
         textfield.borderStyle = .roundedRect
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.layer.borderColor = Color.Border.Blue
         textfield.isHidden = true
         return textfield
     }()
@@ -315,7 +315,7 @@ class ParticipantInfoViews: UIView {
         let attributedTitle = NSMutableAttributedString(string: "Answer the following questions accurately", attributes: [NSAttributedString.Key.font : UIFont(name: Font.helveticaNeueBold, size: 24) ?? UIFont.boldSystemFont(ofSize: 26), NSAttributedString.Key.foregroundColor: UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1), NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue])
         
         label.attributedText = attributedTitle
-        label.textColor = Constants.Design.Color.Primary.MarkerColor
+        label.textColor = Color.Primary.MarkerColor
         label.layer.shadowColor = UIColor.gray.cgColor
         label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         label.layer.shadowRadius = 0.25

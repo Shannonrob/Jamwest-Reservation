@@ -155,7 +155,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     func configureUI() {
         
-        view.backgroundColor = Constants.Design.Color.Background.FadeGray
+        view.backgroundColor = Color.Background.FadeGray
     }
 }
 

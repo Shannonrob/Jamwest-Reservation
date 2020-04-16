@@ -76,7 +76,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
 
        let label = UILabel()
        label.text = " Select group package :"
-       label.textColor = Constants.Design.Color.Primary.Purple
+       label.textColor = Color.Primary.Purple
        label.font = UIFont(name: Font.avenirNextDemibold, size: 26)
        return label
       }()
@@ -85,7 +85,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
 
         let label = UILabel()
         label.text = "Pax Quantity :"
-        label.textColor = Constants.Design.Color.Primary.Purple
+        label.textColor = Color.Primary.Purple
         label.font = UIFont(name: Font.avenirNextDemibold, size: 24)
         return label
        }()
@@ -94,9 +94,9 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
 
         let label = UILabel()
         label.text = ""
-        label.textColor = Constants.Design.Color.Primary.Purple
+        label.textColor = Color.Primary.Purple
         label.font = UIFont(name: Font.helveticaNeueBold, size: 28)
-        label.shadowColor = Constants.Design.Color.Primary.Purple
+        label.shadowColor = Color.Primary.Purple
     
         return label
        }()
@@ -132,7 +132,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         textfield.layer.borderWidth = 0.85
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.layer.borderColor = Color.Border.Blue
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .allTouchEvents)
         return textfield
     }()
@@ -144,7 +144,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         textfield.layer.borderWidth = 0.85
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.layer.borderColor = Color.Border.Blue
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
         return textfield
     }()
@@ -156,7 +156,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         textfield.layer.borderWidth = 0.85
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.layer.borderColor = Color.Border.Blue
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
         return textfield
     }()
@@ -168,7 +168,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         textfield.layer.borderWidth = 0.85
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.layer.borderColor = Color.Border.Blue
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
         return textfield
     }()
@@ -180,7 +180,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         textfield.layer.borderWidth = 0.85
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.layer.borderColor = Color.Border.Blue
         textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
         textfield.keyboardType = .numberPad
         return textfield
@@ -194,7 +194,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         textfield.layer.borderWidth = 1
         textfield.layer.cornerRadius = 4
         textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Constants.Design.Color.Border.Blue
+        textfield.layer.borderColor = Color.Border.Blue
         textfield.addTarget(self, action: #selector(configureDatePicker), for: .editingDidBegin)
         return textfield
     }()
@@ -203,7 +203,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     
     let singleTourButton: UIButton = {
          let button = UIButton(type: .system)
-        button.configureButtonWithIcon("whiteCheckMark", title: ButtonTitle.singleTour, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
+        button.configureButtonWithIcon("whiteCheckMark", title: ButtonTitle.singleTour, titleColor: .white, buttonColor: Color.Hue.Green, cornerRadius: 8)
          button.titleLabel?.font = .boldSystemFont(ofSize: 20)
          button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
          button.isEnabled = false
@@ -212,7 +212,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         
     let comboDealButton: UIButton = {
         let button = UIButton(type: .system)
-        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.comboDeal, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
+        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.comboDeal, titleColor: .white, buttonColor: Color.Hue.Green, cornerRadius: 8)
         button.titleLabel?.font = .systemFont(ofSize: 18)
         button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
         return button
@@ -220,7 +220,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     
     let superDealButton: UIButton = {
         let button = UIButton(type: .system)
-        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.superDeal, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
+        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.superDeal, titleColor: .white, buttonColor: Color.Hue.Green, cornerRadius: 8)
         button.titleLabel?.font = .systemFont(ofSize: 18)
         button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
         return button
@@ -228,7 +228,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     
     let deluxePackageButton: UIButton = {
            let button = UIButton(type: .system)
-        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.deluxePackage, titleColor: .white, buttonColor: Constants.Design.Color.Hue.Green, cornerRadius: 8)
+        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.deluxePackage, titleColor: .white, buttonColor: Color.Hue.Green, cornerRadius: 8)
            button.titleLabel?.font = .systemFont(ofSize: 18)
            button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
            return button
@@ -292,7 +292,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(handleDateSelection))
         toolBar.barTintColor = .lightGray
-        toolBar.tintColor = Constants.Design.Color.Primary.Purple
+        toolBar.tintColor = Color.Primary.Purple
         toolBar.setItems([space, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
@@ -477,12 +477,12 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
    
     func configureUI() {
         
-        view.backgroundColor = Constants.Design.Color.Background.FadeGray
+        view.backgroundColor = Color.Background.FadeGray
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "Add Reservation"
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black
-        navigationController?.navigationBar.barTintColor = Constants.Design.Color.Primary.HeavyGreen
+        navigationController?.navigationBar.barTintColor = Color.Primary.HeavyGreen
         
         let reservation = UIFont.boldSystemFont(ofSize: 25)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]

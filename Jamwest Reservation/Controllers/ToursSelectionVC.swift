@@ -98,7 +98,7 @@ class ToursSelectionVC: UIViewController {
         button.setTitle("Submit", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.red, for: .selected)
-        button.backgroundColor = Constants.Design.Color.FadedHue.Green
+        button.backgroundColor = Color.Hue.FadedGreen
         button.layer.cornerRadius = 8
         button.titleLabel?.font = .boldSystemFont(ofSize: 24)
         button.isEnabled = false
@@ -443,9 +443,9 @@ class ToursSelectionVC: UIViewController {
     
     func configureUI() {
         
-        view.backgroundColor = Constants.Design.Color.Background.FadeGray
+        view.backgroundColor = Color.Background.FadeGray
         
-        navigationController?.navigationBar.barTintColor = Constants.Design.Color.Primary.HeavyGreen
+        navigationController?.navigationBar.barTintColor = Color.Primary.HeavyGreen
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black
@@ -530,14 +530,14 @@ class ToursSelectionVC: UIViewController {
     
     func activateSubmitButton() {
         submitButton.isEnabled = true
-        submitButton.backgroundColor = Constants.Design.Color.Hue.Green
+        submitButton.backgroundColor = Color.Hue.Green
     }
 
     func configureSingleTourPackageSelection() {
         
         activateSubmitButton()
         guard atvTourButton.isSelected || drivingExperienceButton.isSelected || horseBackRidingTourButton.isSelected || pushKartTourButton.isSelected || safariTourButton.isSelected || zipLineTourButton.isSelected == true else {
-        submitButton.backgroundColor = Constants.Design.Color.FadedHue.Green
+        submitButton.backgroundColor = Color.Hue.FadedGreen
         submitButton.isEnabled = false
         return
         }
@@ -547,7 +547,7 @@ class ToursSelectionVC: UIViewController {
         
         activateSubmitButton()
         guard comboDealToursArray.count >= 2 else {
-        submitButton.backgroundColor = Constants.Design.Color.FadedHue.Green
+        submitButton.backgroundColor = Color.Hue.FadedGreen
         submitButton.isEnabled = false
         return
         }
@@ -557,7 +557,7 @@ class ToursSelectionVC: UIViewController {
         
         activateSubmitButton()
         guard superDealPackageArray.count >= 3 else {
-        submitButton.backgroundColor = Constants.Design.Color.FadedHue.Green
+        submitButton.backgroundColor = Color.Hue.FadedGreen
         submitButton.isEnabled = false
         return
         }
@@ -567,7 +567,7 @@ class ToursSelectionVC: UIViewController {
         
         activateSubmitButton()
         guard deluxePackageArray.count >= 4 else {
-        submitButton.backgroundColor = Constants.Design.Color.FadedHue.Green
+        submitButton.backgroundColor = Color.Hue.FadedGreen
         submitButton.isEnabled = false
         return
         }
