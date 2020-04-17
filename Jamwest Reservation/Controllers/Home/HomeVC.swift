@@ -153,7 +153,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
 //    MARK: - ReservationCell Delegate Protocol
     
     func handleMenuTapped(for cell: ReservationCell) {
-        print("Menu tapped")
+        
+        guard let reservation = cell.reservation else { return }
     }
     
     //    MARK: - Handlers
