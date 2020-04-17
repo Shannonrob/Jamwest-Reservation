@@ -11,7 +11,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, ReservationCellDelegate {
   
  //    MARK: - Properties
     var delegate: HomeVcDelegate?
@@ -123,6 +123,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         
         var reservation: Reservation!
         
+        cell.reservationCellDelegate = self
+        
         if inSearchMode {
             reservation = filteredReservations[indexPath.row]
         } else {
@@ -146,6 +148,12 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         let participantInfoVC = ParticipantInfoVC()
         participantInfoVC.reservation = reservation
         navigationController?.pushViewController(participantInfoVC, animated: true)
+    }
+    
+//    MARK: - ReservationCell Delegate Protocol
+    
+    func handleMenuTapped(for cell: ReservationCell) {
+        print("Menu tapped")
     }
     
     //    MARK: - Handlers

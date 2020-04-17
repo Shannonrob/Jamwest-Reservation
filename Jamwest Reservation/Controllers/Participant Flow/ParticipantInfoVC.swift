@@ -40,7 +40,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var reservation: Reservation?
     var participantInfoView = ParticipantInfoViews()
     
-    
     //    MARK: - Init
     
     override func viewDidLoad() {
