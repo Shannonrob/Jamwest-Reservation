@@ -13,7 +13,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     //    MARK: - Properties
     
 //    var groupCounter = [Int]()
-    var pickerViewSelection: String?
+//    var pickerViewSelection: String?
     
     var pregnantAnswer = Bool()
     var underAgeAnswer = Bool()
@@ -99,11 +99,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     // handle done button on pickerView toolBar
     func handlePickerViewDoneButton() {
         
-        pickerViewSelection = participantInfoView.countryTextfield.text
-        
-        dismiss(animated: true) {
-            self.participantInfoView.pickerView.selectRow(0, inComponent: 0, animated: true)
-        }
+        dismiss(animated: true)
     }
     
     func handleSelectedAnswers(for button: NSObject) {
@@ -481,6 +477,6 @@ extension ParticipantInfoVC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        pickerViewSelection = String(pickerViewData[row].title)
+        participantInfoView.countryTextfield.text = pickerViewData[row].title
     }
 }
