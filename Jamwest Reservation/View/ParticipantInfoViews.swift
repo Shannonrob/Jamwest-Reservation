@@ -12,7 +12,6 @@ class ParticipantInfoViews: UIView {
     
     weak var participantInfoDelegate: ParticipantInfoViewsDelegate?
     
-    
     //    MARK: - Init
     
     override init(frame: CGRect) {
@@ -195,10 +194,11 @@ class ParticipantInfoViews: UIView {
         return textfield
     }()
     
-    let dateTextfield: JamwestTextfieldClass = {
-        
-        let textfield = JamwestTextfieldClass()
+    let dateTextfield: ParticipantTextField = {
+
+        let textfield = ParticipantTextField()
         textfield.configurePlaceHolderWithIcon(nil, #imageLiteral(resourceName: "orangeDate"))
+        textfield.widthAnchor.constraint(equalToConstant: 170).isActive = true
         textfield.isEnabled = false
         return textfield
     }()
@@ -234,23 +234,16 @@ class ParticipantInfoViews: UIView {
         return textfield
     }()
     
-    let guardianTextField: UITextField = {
+    let guardianTextField: ParticipantTextField = {
         
-        let textfield = UITextField()
-        textfield.backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
+        let textfield = ParticipantTextField()
         textfield.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         textfield.attributedPlaceholder =  NSAttributedString(string: "Name of Parent/Guardian",
-                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        textfield.font?.withSize(18)
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.borderStyle = .roundedRect
-        textfield.layer.borderColor = Color.Border.blue
+                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         textfield.isHidden = true
         return textfield
     }()
-    
+
     //    MARK: - Labels
     
     let firstNameRequiredLabel = RequiredLabelClass()
@@ -616,8 +609,9 @@ class ParticipantInfoViews: UIView {
         heartProblemStackView.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 39, width: 0, height: 0)
         heartProblemStackView.centerYAnchor.constraint(equalTo: ageStackView.centerYAnchor).isActive = true
         
-        questionView.addSubview(guardianTextField)
-        guardianTextField.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 280, height: 51)
+        addSubview(guardianTextField)
+        guardianTextField.anchor(top: nil, left: dateTextfield.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 240, height: 0)
+        guardianTextField.centerYAnchor.constraint(equalTo: dateTextfield.centerYAnchor).isActive = true
      
         addSubview(firstNameRequiredLabel)
         firstNameRequiredLabel.anchor(top: firstNameTextfield.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 80, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -629,6 +623,7 @@ class ParticipantInfoViews: UIView {
         countryRequiredLabel.anchor(top: countryTextfield.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 402, width: 0, height: 0)
         
         addSubview(guardianRequiredLabel)
-        guardianRequiredLabel.anchor(top: guardianTextField.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 320, width: 0, height: 0)
+        guardianRequiredLabel.anchor(top: guardianTextField.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        guardianRequiredLabel.leadingAnchor.constraint(equalTo: guardianTextField.leadingAnchor).isActive = true
     }
 }

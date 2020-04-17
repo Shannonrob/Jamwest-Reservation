@@ -327,13 +327,12 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     func handleAnimate(is condition: Bool) {
         
         if condition {
-            participantInfoView.guardianTextField.topAnchor.constraint(equalTo: participantInfoView.yesHeartProblemButton.bottomAnchor).isActive = true
+            
             participantInfoView.guardianTextField.isHidden = false
             
         } else {
             
             participantInfoView.guardianTextField.isHidden = true
-            participantInfoView.guardianTextField.topAnchor.constraint(equalTo: participantInfoView.yesHeartProblemButton.bottomAnchor).isActive = false
             participantInfoView.guardianTextField.text = nil
         }
         
@@ -524,7 +523,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         textField.text = currentDateFormatter.string(from: currentDate)
     }
-    
     
     func configureUI() {
         
