@@ -248,7 +248,6 @@ class ParticipantInfoViews: UIView {
     
     let firstNameRequiredLabel = RequiredLabelClass()
     let lastNameRequiredLabel = RequiredLabelClass()
-    let countryRequiredLabel = RequiredLabelClass()
     let guardianRequiredLabel = RequiredLabelClass()
     
     let firstNameLabel: UILabel = {
@@ -618,9 +617,6 @@ class ParticipantInfoViews: UIView {
         
         addSubview(lastNameRequiredLabel)
         lastNameRequiredLabel.anchor(top: lastNameTextfield.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 402, width: 0, height: 0)
-        
-        addSubview(countryRequiredLabel)
-        countryRequiredLabel.anchor(top: countryTextfield.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 402, width: 0, height: 0)
         
         addSubview(guardianRequiredLabel)
         guardianRequiredLabel.anchor(top: guardianTextField.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

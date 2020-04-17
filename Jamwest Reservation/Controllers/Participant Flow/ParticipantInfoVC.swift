@@ -23,7 +23,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     var heartProblemsAnswer = Bool()
     var firstNameTextFieldFilled = Bool()
     var lastNameTextFieldFilled = Bool()
-    var countryTextFieldFilled = Bool()
     var requiredTextFieldsFilled = Bool()
     var isUnderAge = Bool()
     
@@ -140,8 +139,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         dismiss(animated: true) {
             self.participantInfoView.pickerView.selectRow(0, inComponent: 0, animated: true)
         }
-        // check if textField is empty
-       countryTextFieldFilled = textFieldValidation(with: participantInfoView.countryTextfield, label: participantInfoView.countryRequiredLabel)
     }
     
     func handleSelectedAnswers(for button: NSObject) {
@@ -175,11 +172,10 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         // check if textFields are empty
         firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
         lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
-       countryTextFieldFilled = textFieldValidation(with: participantInfoView.countryTextfield, label: participantInfoView.countryRequiredLabel)
-        
+       
         
         // check if values are true
-        updateRequiredTextFieldValue(with: firstNameTextFieldFilled, with: lastNameTextFieldFilled, with: countryTextFieldFilled)
+        updateRequiredTextFieldValue(with: firstNameTextFieldFilled, with: lastNameTextFieldFilled)
         
         if questionsAnswered > 4 && requiredTextFieldsFilled {
             
@@ -343,9 +339,9 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     }
     
     // update the boolean value if all labels are hidden
-    func updateRequiredTextFieldValue(with first: Bool, with second: Bool, with third: Bool) {
+    func updateRequiredTextFieldValue(with first: Bool, with second: Bool) {
         
-        if first && second && third {
+        if first && second {
             requiredTextFieldsFilled = true
         } else {
             requiredTextFieldsFilled = false
