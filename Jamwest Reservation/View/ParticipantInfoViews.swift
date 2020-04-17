@@ -214,23 +214,7 @@ class ParticipantInfoViews: UIView {
         textfield.layer.borderColor = Color.Border.blue
         textfield.allowsEditingTextAttributes = false
         textfield.textAlignment = .center
-        textfield.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(textfield:)), for: .editingDidBegin)
-        return textfield
-    }()
-    
-    lazy var groupCountTextfield: UITextField = {
-        
-        let textfield = UITextField()
-        textfield.design(placeHolder: nil, backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 140, height: 51)
-        textfield.text = "1"
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeGroup"))
-        textfield.allowsEditingTextAttributes = false
-        textfield.textAlignment = .center
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Color.Border.blue
-        textfield.addTarget(self, action: #selector(handlePickerViewTextFieldTapped(textfield:)), for: .editingDidBegin)
+        textfield.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .editingDidBegin)
         return textfield
     }()
     
@@ -289,13 +273,6 @@ class ParticipantInfoViews: UIView {
         
         let label = UILabel()
         label.labelConfigurations(text: " Date", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
-        return label
-    }()
-    
-    let groupCountLabel: UILabel = {
-        
-        let label = UILabel()
-        label.labelConfigurations(text: " Group Count", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
         return label
     }()
     
@@ -425,8 +402,8 @@ class ParticipantInfoViews: UIView {
     
     //    MARK: - Handlers
     
-    @objc func handlePickerViewTextFieldTapped(textfield : UITextField) {
-        participantInfoDelegate?.handlePresentPickerView(for: textfield)
+    @objc func handlePickerViewTextFieldTapped() {
+        participantInfoDelegate?.handlePresentPickerView()
     }
     
     @objc func handleDoneTapped(sender: UIButton) {
@@ -473,10 +450,6 @@ class ParticipantInfoViews: UIView {
         countryStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         countryStackView.axis = .vertical
         
-        let groupCountStackView = UIStackView(arrangedSubviews: [groupCountLabel, groupCountTextfield])
-        groupCountStackView.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: nil)
-        groupCountStackView.axis = .vertical
-        
         let leftStackView = UIStackView(arrangedSubviews: [firstNameStackView, phoneNumberStackView, dateStackView])
         leftStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
         leftStackView.axis = .vertical
@@ -485,7 +458,7 @@ class ParticipantInfoViews: UIView {
         rightStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
         rightStackView.axis = .vertical
         
-        let bottomRightStackView = UIStackView(arrangedSubviews: [countryStackView, groupCountStackView])
+        let bottomRightStackView = UIStackView(arrangedSubviews: [countryStackView])
         bottomRightStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 25)
         bottomRightStackView.axis = .horizontal
         
@@ -585,7 +558,7 @@ class ParticipantInfoViews: UIView {
         bottomRightStackView.anchor(top: rightStackView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 0, height: 0)
         
         addSubview(questionView)
-        questionView.anchor(top: bottomRightStackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 80, paddingBottom: 25, paddingRight: 80, width: 0, height: 0)
+        questionView.anchor(top: leftStackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 80, paddingBottom: 25, paddingRight: 80, width: 0, height: 0)
         
         questionView.addSubview(questionaireLabel)
         questionaireLabel.anchor(top: questionView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

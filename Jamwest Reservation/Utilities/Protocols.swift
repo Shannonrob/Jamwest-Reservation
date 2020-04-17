@@ -20,7 +20,7 @@ protocol ReservationCellDelegate {
 
 protocol ParticipantInfoViewsDelegate: class {
     
-    func handlePresentPickerView(for textfield: NSObject)
+    func handlePresentPickerView()
     func handlePickerViewDoneButton()
     func handleSelectedAnswers(for button: NSObject)
 }

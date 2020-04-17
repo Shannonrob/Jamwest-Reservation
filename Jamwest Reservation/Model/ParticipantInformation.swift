@@ -16,7 +16,6 @@ class ParticipantInformation {
     var emailAddress: String
     var currentDate: String
     var country: String
-    var groupCount: String
     var guardianName: String
     
     var pregnantAnswer: Bool
@@ -25,7 +24,7 @@ class ParticipantInformation {
     var backProblemAnswer: Bool
     var heartProblemAnswer: Bool
     
-    init(firstName: String, lastName: String, phoneNumber: String, emailAddress: String, currentDate: String, country: String, groupCount: String, guardianName: String, pregnantAnswer: Bool, ageAnswer: Bool, underInfluenceAnswer: Bool, backProblemAnswer: Bool, heartProblemAnswer: Bool) {
+    init(firstName: String, lastName: String, phoneNumber: String, emailAddress: String, currentDate: String, country: String, guardianName: String, pregnantAnswer: Bool, ageAnswer: Bool, underInfluenceAnswer: Bool, backProblemAnswer: Bool, heartProblemAnswer: Bool) {
         
         self.firstName = firstName
         self.lastName = lastName
@@ -33,7 +32,6 @@ class ParticipantInformation {
         self.emailAddress = emailAddress
         self.currentDate = currentDate
         self.country = country
-        self.groupCount = groupCount
         self.guardianName = guardianName
         self.pregnantAnswer = pregnantAnswer
         self.ageAnswer = ageAnswer
