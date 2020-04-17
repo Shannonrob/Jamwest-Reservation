@@ -72,25 +72,25 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     // present picker view
     func handlePresentPickerView() {
         
-        var selectedTextfield: UITextField?
+        var textfield: UITextField?
         
         participantInfoView.countryTextfield.resignFirstResponder()
-        selectedTextfield = participantInfoView.countryTextfield
+        textfield = participantInfoView.countryTextfield
         pickerViewDataLoop()
         
         // configure pickerView to fit textfield dimensions
         participantInfoView.toolBar.setItems([participantInfoView.space, participantInfoView.doneButton], animated: false)
         
         // the dimensions of the pickerview size
-        let groupCountPickerSize = CGSize(width: (selectedTextfield!.frame.width) - 20, height: 200)
+        let groupCountPickerSize = CGSize(width: (textfield!.frame.width) - 20, height: 200)
         
         participantInfoView.popoverViewController.view = participantInfoView.popoverView
         participantInfoView.popoverViewController.modalPresentationStyle = .popover
         participantInfoView.popoverViewController.view.frame = CGRect(x: 0, y: 0, width: groupCountPickerSize.width, height: groupCountPickerSize.height)
         participantInfoView.popoverViewController.preferredContentSize = groupCountPickerSize
-        participantInfoView.popoverViewController.popoverPresentationController?.sourceView = selectedTextfield
+        participantInfoView.popoverViewController.popoverPresentationController?.sourceView = textfield
         participantInfoView.popoverViewController.popoverPresentationController?.permittedArrowDirections = .up
-        participantInfoView.popoverViewController.popoverPresentationController?.sourceRect = CGRect(x: (selectedTextfield!.bounds.width) / 2, y: selectedTextfield!.bounds.height + 1, width: 0, height: 0)
+        participantInfoView.popoverViewController.popoverPresentationController?.sourceRect = CGRect(x: (textfield!.bounds.width) / 2, y: textfield!.bounds.height + 1, width: 0, height: 0)
         participantInfoView.popoverViewController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
         
         self.present(participantInfoView.popoverViewController, animated: true, completion: nil)
@@ -114,12 +114,10 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             
         case participantInfoView.yesAgeButton:
             
-            handleAnimate(is: true)
             isUnderAge = true
         
         case participantInfoView.noAgeButton:
             
-            handleAnimate(is: false)
             isUnderAge = false
             participantInfoView.guardianRequiredLabel.isHidden = true
             
@@ -281,26 +279,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             label.isHidden = true
             return true
         }
-    }
-    
-    // presents or hides guardianTextField based on answer tapped
-    func handleAnimate(is condition: Bool) {
-        
-        if condition {
-            
-            participantInfoView.guardianTextField.isHidden = false
-            
-        } else {
-            
-            participantInfoView.guardianTextField.isHidden = true
-            participantInfoView.guardianTextField.text = nil
-        }
-        
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            
-            self.view.layoutIfNeeded()
-            
-        }, completion: nil)
     }
     
     // update the boolean value if all labels are hidden

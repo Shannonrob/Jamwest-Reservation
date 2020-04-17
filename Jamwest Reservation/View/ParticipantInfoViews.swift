@@ -203,28 +203,26 @@ class ParticipantInfoViews: UIView {
         return textfield
     }()
     
-    lazy var countryTextfield: UITextField = {
+    lazy var countryTextfield: ParticipantTextField = {
         
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Country", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 235, height: 51)
+        let textfield = ParticipantTextField()
         textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeCountry "))
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Color.Border.blue
         textfield.allowsEditingTextAttributes = false
         textfield.textAlignment = .center
+        textfield.attributedPlaceholder =  NSAttributedString(string: "Country",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        textfield.widthAnchor.constraint(equalToConstant: 220).isActive = true
         textfield.addTarget(self, action: #selector(handlePickerViewTextFieldTapped), for: .editingDidBegin)
         return textfield
     }()
     
-    let guardianTextField: ParticipantTextField = {
+    let guardianTextField: JamwestTextfieldClass = {
         
-        let textfield = ParticipantTextField()
+        let textfield = JamwestTextfieldClass()
         textfield.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        textfield.attributedPlaceholder =  NSAttributedString(string: "Name of Parent/Guardian",
+        textfield.placeholder = "Name"
+        textfield.attributedPlaceholder =  NSAttributedString(string: "Name",
                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        textfield.isHidden = true
         return textfield
     }()
 
@@ -273,6 +271,13 @@ class ParticipantInfoViews: UIView {
         
         let label = UILabel()
         label.labelConfigurations(text: " Date", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
+        return label
+    }()
+    
+    let guardianLabel: UILabel = {
+        
+        let label = UILabel()
+        label.labelConfigurations(text: " Parent/Guardian", textColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), fontSize: 16)
         return label
     }()
     
@@ -450,17 +455,20 @@ class ParticipantInfoViews: UIView {
         countryStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         countryStackView.axis = .vertical
         
-        let leftStackView = UIStackView(arrangedSubviews: [firstNameStackView, phoneNumberStackView, dateStackView])
+        let guardianStackView = UIStackView(arrangedSubviews: [guardianLabel, guardianTextField])
+        guardianStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
+        guardianStackView.axis = .vertical
+        
+        let bottomLeftStackView = UIStackView(arrangedSubviews: [dateStackView, countryStackView])
+        bottomLeftStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 10)
+            
+        let leftStackView = UIStackView(arrangedSubviews: [firstNameStackView, phoneNumberStackView, bottomLeftStackView])
         leftStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
         leftStackView.axis = .vertical
         
-        let rightStackView = UIStackView(arrangedSubviews: [lastNameStackView, emailStackView])
+        let rightStackView = UIStackView(arrangedSubviews: [lastNameStackView, emailStackView, guardianStackView])
         rightStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
         rightStackView.axis = .vertical
-        
-        let bottomRightStackView = UIStackView(arrangedSubviews: [countryStackView])
-        bottomRightStackView.configureStackView(alignment: .center, distribution: .equalSpacing, spacing: 25)
-        bottomRightStackView.axis = .horizontal
         
         //        MARK: - Age question constraints
         let ageYesStackView = UIStackView(arrangedSubviews: [yesAgeButton ,ageYesAnswerLabel])
@@ -554,9 +562,6 @@ class ParticipantInfoViews: UIView {
         addSubview(rightStackView)
         rightStackView.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 0, height: 0)
         
-        addSubview(bottomRightStackView)
-        bottomRightStackView.anchor(top: rightStackView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 0, height: 0)
-        
         addSubview(questionView)
         questionView.anchor(top: leftStackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 80, paddingBottom: 25, paddingRight: 80, width: 0, height: 0)
         
@@ -580,10 +585,6 @@ class ParticipantInfoViews: UIView {
         questionView.addSubview(heartProblemStackView)
         heartProblemStackView.anchor(top: nil, left: nil, bottom: nil, right: questionView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 39, width: 0, height: 0)
         heartProblemStackView.centerYAnchor.constraint(equalTo: ageStackView.centerYAnchor).isActive = true
-        
-        addSubview(guardianTextField)
-        guardianTextField.anchor(top: nil, left: dateTextfield.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 240, height: 0)
-        guardianTextField.centerYAnchor.constraint(equalTo: dateTextfield.centerYAnchor).isActive = true
      
         addSubview(firstNameRequiredLabel)
         firstNameRequiredLabel.anchor(top: firstNameTextfield.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 80, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
