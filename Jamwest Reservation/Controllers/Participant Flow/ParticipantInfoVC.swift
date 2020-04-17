@@ -139,7 +139,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         if questionsAnswered > 4 && requiredTextFieldsFilled {
             
             // check if textField has value
-            if !participantInfoView.guardianTextField.isHidden && !participantInfoView.guardianTextField.hasText {
+            if isUnderAge && !participantInfoView.guardianTextField.hasText {
                 
                _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)
                 Alert.answersRequiredMessage(on: self, with: "Fill in required text fields!")
@@ -292,11 +292,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         guard let firstName = participantInfoView.firstNameTextfield.text,
             let lastName = participantInfoView.lastNameTextfield.text,
+            let date = participantInfoView.dateTextfield.text,
+            let guardianName = participantInfoView.guardianTextField.text,
             let phoneNumber = participantInfoView.phoneNumberTextfield.text,
             let email = participantInfoView.emailTextfield.text,
-            let date = participantInfoView.dateTextfield.text,
-            let country = participantInfoView.countryTextfield.text,
-            let guardianName = participantInfoView.guardianTextField.text else { return }
+            let country = participantInfoView.countryTextfield.text else { return }
         
         let pregnantAnswer = self.pregnantAnswer
         let underAgeAnswer = self.underAgeAnswer
@@ -475,6 +475,7 @@ extension ParticipantInfoVC: UIPickerViewDelegate, UIPickerViewDataSource {
         return pickerViewData.count
     }
     
+    // handles the selected row
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         participantInfoView.countryTextfield.text = pickerViewData[row].title
