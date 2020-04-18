@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PreviewImageVC: UIViewController {
+class PreviewImageVC: UIViewController, PreviewImageDelegate {
     
     //    MARK: - Properties
     var previewImage: UIImage?
@@ -19,13 +19,10 @@ class PreviewImageVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        previewImageView.photoPreview.image = previewImage
-    }
-    
-    override func loadView() {
-        
-//        waiverViews.waiverVCDelegate = self
         view = previewImageView
+        
+        previewImageView.photoPreview.image = previewImage
+        previewImageView.previewImageDelegate = self
     }
     
     // hide navigationBar
@@ -37,17 +34,16 @@ class PreviewImageVC: UIViewController {
     
     //    MARK: - Handlers
     
+    
+    func handleRetakeButton(for vc: PreviewImageView) {
+        
+        _ = navigationController?.popViewController(animated: true)
+    }
+    
     // show navigationBar then pops to rootViewController
-    @objc func handleUsePhoto() {
+    func handleUsePhotoButton(for vc: PreviewImageView) {
         
         navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.popToRootViewController(animated: true)
     }
-    
-    @objc func handleDismiss() {
-        
-        _ = navigationController?.popViewController(animated: true)
-        
-    }
-        
 }

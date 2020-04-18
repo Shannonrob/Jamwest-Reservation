@@ -33,3 +33,9 @@ protocol WaiverVCDelegates: class {
     func handleDoneButton()
     func handleClearButton()
 }
+
+protocol PreviewImageDelegate {
+    
+    func handleRetakeButton(for vc: PreviewImageView)
+    func handleUsePhotoButton(for vc: PreviewImageView)
+}
