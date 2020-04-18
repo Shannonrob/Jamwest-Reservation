@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		85108448244A8E2300229791 /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85108447244A8E2300229791 /* PreviewImageView.swift */; };
 		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
 		8524F5172424E610003173EF /* ParticipantInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F5162424E610003173EF /* ParticipantInfoData.swift */; };
 		8524F51B2424F0DE003173EF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51A2424F0DE003173EF /* CameraView.swift */; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		298CE1659D48E687F3B38B25 /* Pods-Jamwest Reservation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.debug.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.debug.xcconfig"; sourceTree = "<group>"; };
 		4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.release.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.release.xcconfig"; sourceTree = "<group>"; };
+		85108447244A8E2300229791 /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
 		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		8524F5162424E610003173EF /* ParticipantInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoData.swift; sourceTree = "<group>"; };
 		8524F51A2424F0DE003173EF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -135,6 +137,16 @@
 				4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		85108446244A8DD800229791 /* Participant Flow */ = {
+			isa = PBXGroup;
+			children = (
+				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
+				855D929624299CE800084D9B /* WaiverViews.swift */,
+				85108447244A8E2300229791 /* PreviewImageView.swift */,
+			);
+			path = "Participant Flow";
 			sourceTree = "<group>";
 		};
 		8542E79F24490E9300707D66 /* Participant Flow */ = {
@@ -231,9 +243,8 @@
 			children = (
 				8524F51A2424F0DE003173EF /* CameraView.swift */,
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
-				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
-				855D929624299CE800084D9B /* WaiverViews.swift */,
+				85108446244A8DD800229791 /* Participant Flow */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -431,6 +442,7 @@
 				85D668E2242C2305002F1189 /* UIScrollViewExt.swift in Sources */,
 				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
 				855D9444240E94C100F50CB2 /* MenuOption.swift in Sources */,
+				85108448244A8E2300229791 /* PreviewImageView.swift in Sources */,
 				85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */,
 				85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */,
 				851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */,

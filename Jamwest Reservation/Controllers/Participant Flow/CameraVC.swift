@@ -142,7 +142,7 @@ class CameraVC: UIViewController {
     func presentPreviewVC() {
         
         let previewImageVC = PreviewImageVC()
-        previewImageVC.photoPreview.image = rotateImage(image: self.image!)
+        previewImageVC.previewImage = rotateImage(image: self.image!)
         navigationController?.pushViewController(previewImageVC, animated: true)
     }
     

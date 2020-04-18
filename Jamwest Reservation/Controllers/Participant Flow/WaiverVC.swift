@@ -183,10 +183,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     //configure guardian agreement label
     func configureGuardianLabel(with guardian: String, of minor: String, if state: Bool) {
         
-//        if state {
-//            waiverViews.guardianLabel.text = "I \(guardian) is signing this waiver of liability on the behalf of \(minor)"
-//        }
-
         state == true ? waiverViews.guardianLabel.text = "I \(guardian) is signing this waiver of liability on the behalf of \(minor)" : nil
     }
     
