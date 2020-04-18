@@ -40,16 +40,14 @@ extension UIViewController {
     }
 
     // remove child viewController
-    func remove() {
+    func remove(_ child: UIViewController) {
         // Just to be safe, we check that this view controller
         // is actually added to a parent before removing it.
         guard parent != nil else {
             return
         }
-
-        willMove(toParent: nil)
-        view.removeFromSuperview()
-        removeFromParent()
+        child.willMove(toParent: nil)
+        child.removeFromParent()
+        child.view.removeFromSuperview()
     }
-    
 }

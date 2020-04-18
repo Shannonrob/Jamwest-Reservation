@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		85108448244A8E2300229791 /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85108447244A8E2300229791 /* PreviewImageView.swift */; };
 		8510844C244A9B1100229791 /* LoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844B244A9B1100229791 /* LoadingVC.swift */; };
+		8510844E244A9F8700229791 /* PendingWaiversVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844D244A9F8700229791 /* PendingWaiversVC.swift */; };
 		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
 		8524F5172424E610003173EF /* ParticipantInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F5162424E610003173EF /* ParticipantInfoData.swift */; };
 		8524F51B2424F0DE003173EF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51A2424F0DE003173EF /* CameraView.swift */; };
@@ -62,6 +63,7 @@
 		4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.release.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.release.xcconfig"; sourceTree = "<group>"; };
 		85108447244A8E2300229791 /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
 		8510844B244A9B1100229791 /* LoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingVC.swift; sourceTree = "<group>"; };
+		8510844D244A9F8700229791 /* PendingWaiversVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingWaiversVC.swift; sourceTree = "<group>"; };
 		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		8524F5162424E610003173EF /* ParticipantInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoData.swift; sourceTree = "<group>"; };
 		8524F51A2424F0DE003173EF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				8542E7A124490F3A00707D66 /* Log In FLow */,
 				8542E7A224490F7300707D66 /* Home */,
 				8510844B244A9B1100229791 /* LoadingVC.swift */,
+				8510844D244A9F8700229791 /* PendingWaiversVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8510844E244A9F8700229791 /* PendingWaiversVC.swift in Sources */,
 				855D9452240E95CD00F50CB2 /* LoginVC.swift in Sources */,
 				855D9425240E8EC800F50CB2 /* HomeVC.swift in Sources */,
 				855D9432240E91EE00F50CB2 /* UIColorExt.swift in Sources */,

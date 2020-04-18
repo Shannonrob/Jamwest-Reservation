@@ -19,7 +19,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
     var reservations = [Reservation]()
     var filteredReservations = [Reservation]()
     var inSearchMode = false
- 
+    let loadingVC = LoadingVC()
+    
     //notification key whatever
     let dateChanged = Notification.Name(rawValue: Listener.dateChangedKey)
     
@@ -57,6 +58,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
         self.collectionView!.register(ReservationCell.self, forCellWithReuseIdentifier: reuseIdentifier)
             
         configureUI()
+        
+        add(loadingVC)
         observeDateChanged()
         fetchCurrentReservations()
      }
@@ -264,6 +267,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
                 self.reservations.sort { (reservation1, reservation2) -> Bool in
                     return reservation1.group < reservation2.group
                 }
+                self.remove(self.loadingVC)
                 self.collectionView.reloadData()
             }
         }

@@ -79,20 +79,22 @@ class ContainerVC: UIViewController {
     
     func presentWaiverVC () {
         
-        let waiverVC = WaiverVC()
-        let navigationController = UINavigationController(rootViewController: waiverVC)
+        let pendingWaiversVC = PendingWaiversVC()
+        let navigationController = UINavigationController(rootViewController: pendingWaiversVC)
         navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true)
+        presentDetail(navigationController)
+//        present(navigationController, animated: true)
     }
     
     func handleLogOut() {
-        
+    
         do
         {
             try Auth.auth().signOut()
             presentLoginVC()
         }
         catch let error as NSError {
+            
             print(error.localizedDescription)
         }
     }
