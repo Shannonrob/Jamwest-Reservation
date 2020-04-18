@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		85108448244A8E2300229791 /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85108447244A8E2300229791 /* PreviewImageView.swift */; };
+		8510844C244A9B1100229791 /* LoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844B244A9B1100229791 /* LoadingVC.swift */; };
 		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
 		8524F5172424E610003173EF /* ParticipantInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F5162424E610003173EF /* ParticipantInfoData.swift */; };
 		8524F51B2424F0DE003173EF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51A2424F0DE003173EF /* CameraView.swift */; };
@@ -60,6 +61,7 @@
 		298CE1659D48E687F3B38B25 /* Pods-Jamwest Reservation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.debug.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.debug.xcconfig"; sourceTree = "<group>"; };
 		4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.release.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.release.xcconfig"; sourceTree = "<group>"; };
 		85108447244A8E2300229791 /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
+		8510844B244A9B1100229791 /* LoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingVC.swift; sourceTree = "<group>"; };
 		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		8524F5162424E610003173EF /* ParticipantInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoData.swift; sourceTree = "<group>"; };
 		8524F51A2424F0DE003173EF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				8542E79F24490E9300707D66 /* Participant Flow */,
 				8542E7A124490F3A00707D66 /* Log In FLow */,
 				8542E7A224490F7300707D66 /* Home */,
+				8510844B244A9B1100229791 /* LoadingVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				8524F51B2424F0DE003173EF /* CameraView.swift in Sources */,
 				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,
 				8524F5172424E610003173EF /* ParticipantInfoData.swift in Sources */,
+				8510844C244A9B1100229791 /* LoadingVC.swift in Sources */,
 				855D9430240E91E000F50CB2 /* UIButtonExt.swift in Sources */,
 				85261260243621470009E2B2 /* PDFCreator.swift in Sources */,
 				855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */,
