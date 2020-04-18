@@ -10,8 +10,7 @@ import UIKit
 
 extension UIViewController {
 
-    // Present VC from the right to left
-    
+    // present VC from the right to left
     func presentDetail(_ viewControllerToPresent: UIViewController) {
         let transition = CATransition()
         transition.duration = 0.25
@@ -22,8 +21,7 @@ extension UIViewController {
         present(viewControllerToPresent, animated: false)
     }
 
-    // Dismiss VC from left to right
-    
+    // dismiss VC from left to right
     func dismissDetail() {
         let transition = CATransition()
         transition.duration = 0.25
@@ -33,4 +31,25 @@ extension UIViewController {
 
         dismiss(animated: false)
     }
+    
+    // add child viewController
+    func add(_ child: UIViewController) {
+        addChild(child)
+        view.addSubview(child.view)
+        child.didMove(toParent: self)
+    }
+
+    // remove child viewController
+    func remove() {
+        // Just to be safe, we check that this view controller
+        // is actually added to a parent before removing it.
+        guard parent != nil else {
+            return
+        }
+
+        willMove(toParent: nil)
+        view.removeFromSuperview()
+        removeFromParent()
+    }
+    
 }
