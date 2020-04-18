@@ -93,12 +93,20 @@ class CameraVC: UIViewController {
         countDownLabel.text = "\(startValue)"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        // hide navigationBar
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
 //    MARK: - Handlers
    
     @objc func handleCancelTapped() {
-        //extension used to dismiss like a viewController
         
-        dismissDetail()
+        // show navigationBar then pops to rootViewController
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     // start CADisplayLink
@@ -134,9 +142,8 @@ class CameraVC: UIViewController {
     func presentPreviewVC() {
         
         let previewImageVC = PreviewImageVC()
-        previewImageVC.modalPresentationStyle = .fullScreen
         previewImageVC.photoPreview.image = rotateImage(image: self.image!)
-        presentDetail(previewImageVC)
+        navigationController?.pushViewController(previewImageVC, animated: true)
     }
     
     // rotate image after capture session

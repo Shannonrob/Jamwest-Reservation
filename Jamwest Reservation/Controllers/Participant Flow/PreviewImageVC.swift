@@ -10,20 +10,20 @@ import UIKit
 
 class PreviewImageVC: UIViewController {
     
-//    MARK: - Properties
+    //    MARK: - Properties
     var image: UIImage?
     
-//    MARK: - UIImageView
+    //    MARK: - UIImageView
     var photoPreview: UIImageView = {
-
+        
         let imageView = UIImageView()
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFill
-
+        
         return imageView
     }()
     
-//    MARK: - UIView
+    //    MARK: - UIView
     
     let topView: UIView = {
         
@@ -33,7 +33,7 @@ class PreviewImageVC: UIViewController {
     }()
     
     
-//    MARK: - UIButton
+    //    MARK: - UIButton
     lazy var retakePhotoButton: UIButton = {
         
         let button = UIButton(type: .system)
@@ -60,30 +60,38 @@ class PreviewImageVC: UIViewController {
         return button
     }()
     
-//    MARK: - Init
-
+    //    MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureConstraints()
     }
     
-//    MARK: - Handlers
+    // hide navigationBar
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
     
+    //    MARK: - Handlers
+    
+    // show navigationBar then pops to rootViewController
     @objc func handleUsePhoto() {
         
-        let waiverVC = WaiverVC()
-        let navigationController = UINavigationController(rootViewController: waiverVC)
-        navigationController.modalPresentationStyle = .fullScreen
-        presentDetail(navigationController)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func handleDismiss() {
-        dismissDetail()
+       
+        _ = navigationController?.popViewController(animated: true)
+        
     }
     
-//    MARK: - Helper Functions
-
+    //    MARK: - Helper Functions
+    
     func configureConstraints() {
         
         view.addSubview(topView)

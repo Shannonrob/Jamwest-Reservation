@@ -31,6 +31,13 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         pkCanvasView = waiverViews.canvasView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        // hide navigationBar
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     override func loadView() {
         
         waiverViews.waiverVCDelegate = self
@@ -62,7 +69,10 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     }
     
     func handleCancelButton() {
-        dismissDetail()
+        
+        // return to previous ViewController and show navigationBar
+        _ = navigationController?.popViewController(animated: true)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     func handleDoneButton() {
@@ -71,14 +81,12 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         if !waiverViews.canvasView.drawing.bounds.isEmpty {
             
             let cameraVC = CameraVC()
-            cameraVC.modalPresentationStyle = .fullScreen
-            presentDetail(cameraVC)
+            navigationController?.pushViewController(cameraVC, animated: true)
             
         } else {
             Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability")
         }
     }
-    
     
     //    MARK:- Helper Functions
     

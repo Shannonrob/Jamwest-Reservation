@@ -148,12 +148,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
                 
                 // pass data to WaiverVC
                 passData()
-
+                
                 let waiverVC = WaiverVC()
-                waiverVC.modalPresentationStyle = .fullScreen
                 waiverVC.participantInformation = self.participantInformation
                 waiverVC.reservation = self.reservation
-                presentDetail(waiverVC)
+                navigationController?.pushViewController(waiverVC, animated: true)
             }
 
         } else if !requiredTextFieldsFilled {
