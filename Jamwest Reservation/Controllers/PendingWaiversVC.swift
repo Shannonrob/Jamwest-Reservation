@@ -13,7 +13,7 @@ class PendingWaiversVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = Color.Background.fadeGray
+        view.backgroundColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDismiss))
         
         let loadingVC = LoadingVC()

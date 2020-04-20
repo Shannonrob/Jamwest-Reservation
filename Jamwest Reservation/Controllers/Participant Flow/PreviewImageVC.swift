@@ -18,7 +18,8 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        view.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.2)
         view = previewImageView
         
         previewImageView.photoPreview.image = previewImage

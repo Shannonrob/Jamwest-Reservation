@@ -18,7 +18,7 @@ class LoadingVC: UIViewController {
         spinner.startAnimating()
         spinner.color = .white
         view.addSubview(spinner)
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         
         // Center our spinner both horizontally & vertically
         NSLayoutConstraint.activate([

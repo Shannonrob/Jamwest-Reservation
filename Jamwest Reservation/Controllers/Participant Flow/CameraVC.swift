@@ -91,6 +91,7 @@ class CameraVC: UIViewController {
         countDownLabel.isHidden = true
         startValue = 3
         countDownLabel.text = "\(startValue)"
+        takePhotoButton.isEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,6 +113,7 @@ class CameraVC: UIViewController {
     // start CADisplayLink
     @objc func handleStartTimer() {
         
+        takePhotoButton.isEnabled = false
         countDownLabel.isHidden = false
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
     }
