@@ -269,9 +269,11 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         if !textField.hasText {
             label.isHidden = false
+            textField.layer.borderColor = UIColor.red.cgColor
             return false
         } else {
             label.isHidden = true
+            textField.layer.borderColor = Color.Border.blue
             return true
         }
     }
