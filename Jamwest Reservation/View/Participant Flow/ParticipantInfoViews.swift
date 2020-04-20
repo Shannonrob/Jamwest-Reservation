@@ -278,7 +278,7 @@ class ParticipantInfoViews: UIView {
         
         let label = UILabel()
         let attributedTitle = NSMutableAttributedString(string: " Parent/Guardian", attributes: [NSAttributedString.Key.font : UIFont.init(name: Font.avenirNextDemibold, size: 16)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-        attributedTitle.append(NSAttributedString(string: " if under 18", attributes: [NSAttributedString.Key.font : UIFont.init(name: Font.avenirNextMedium, size: 16)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
+        attributedTitle.append(NSAttributedString(string: " (if under 18)", attributes: [NSAttributedString.Key.font : UIFont.init(name: Font.avenirNextMedium, size: 16)!, NSAttributedString.Key.foregroundColor: UIColor.gray]))
         
         label.attributedText = attributedTitle
         return label
