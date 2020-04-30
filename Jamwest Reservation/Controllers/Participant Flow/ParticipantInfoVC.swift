@@ -135,20 +135,20 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         // check if values are true
         updateRequiredTextFieldValue(with: firstNameTextFieldFilled, with: lastNameTextFieldFilled)
-        
+  
         if questionsAnswered > 4 && requiredTextFieldsFilled {
-            
+
             // check if textField has value
             if isUnderAge && !participantInfoView.guardianTextField.hasText {
-                
+
                _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)
                 Alert.answersRequiredMessage(on: self, with: "Fill in required text fields!")
-            
+
             } else {
-                
+
                 // pass data to WaiverVC
                 passData()
-                
+
                 let waiverVC = WaiverVC()
                 waiverVC.participantInformation = self.participantInformation
                 waiverVC.reservation = self.reservation

@@ -77,4 +77,16 @@ class Reservation {
             self.voucherNumber = voucherNumber
         }
     }
+    
+    func updateWaiverBalance() {
+        
+        
+        if pax > 0 {
+            pax = pax - 1
+        }
+        
+        RESERVATION_REF.child(reservationId).child(Constant.paxCount).setValue(pax)
+        
+        print("this is pax count \(String(describing: pax))")
+    }
 }

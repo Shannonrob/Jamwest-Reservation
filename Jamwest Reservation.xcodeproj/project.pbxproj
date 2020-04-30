@@ -158,6 +158,7 @@
 			children = (
 				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
 				855D929624299CE800084D9B /* WaiverViews.swift */,
+				8524F51A2424F0DE003173EF /* CameraView.swift */,
 				85108447244A8E2300229791 /* PreviewImageView.swift */,
 			);
 			path = "Participant Flow";
@@ -258,7 +259,6 @@
 			isa = PBXGroup;
 			children = (
 				85032619244DFD9300BCAEE7 /* Pending Waivers Flow */,
-				8524F51A2424F0DE003173EF /* CameraView.swift */,
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
 				85108446244A8DD800229791 /* Participant Flow */,

@@ -649,7 +649,7 @@ class ToursSelectionVC: UIViewController {
 
             let date = RESERVATION_DATE_REF.child(self.reservationInfo[Constant.reservationDate] as! String)
             date.updateChildValues(dateValue)
-            
+
             self.showAlertSheet(self.submitButton)
         }
     }

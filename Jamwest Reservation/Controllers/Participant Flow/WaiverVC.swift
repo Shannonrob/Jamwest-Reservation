@@ -8,6 +8,7 @@
 
 import UIKit
 import PencilKit
+import Firebase
 
 class WaiverVC: UIViewController, WaiverVCDelegates {
     
@@ -16,7 +17,9 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     var participantInformation = [ParticipantInformation]()
     let image = #imageLiteral(resourceName: "greenJamwestLogo").withRenderingMode(.alwaysOriginal)
     var pkCanvasView: PKCanvasView!
-    var reservation : Reservation!
+    var reservation: Reservation!
+    var reservationID: String!
+    var paxCount: Int!
     var isUnderAge: Bool?
     var guardianAgreed = false
     
@@ -79,6 +82,10 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         
         // check if canvasView has drawing then present CameraVC else shows alert
         if !waiverViews.canvasView.drawing.bounds.isEmpty {
+            
+//            reservation.updateWaiverBalance()
+            updatePaxValue()
+            
             
             let cameraVC = CameraVC()
             navigationController?.pushViewController(cameraVC, animated: true)
@@ -148,11 +155,15 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             var tours = String()
             // check if data is nil
             guard let hotel = data?.hotel,
+                let reservationID = data?.reservationId,
                 let time = data?.time,
                 let voucher = data?.voucherNumber,
                 let tourRep = data?.tourRep,
                 let groupCount = data?.pax,
                 let tourComp = data?.tourCompany else { return }
+            
+            self.reservationID = reservationID
+            self.paxCount = groupCount
             
             // check if tours are nill and append it to tours label
             if let firstTour = data?.firstTour { tours.append(firstTour) }
@@ -189,6 +200,20 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     func configureUI() {
         
         view.backgroundColor = Color.Background.fadeGray
+    }
+    
+//    MARK: - Api Calls
+    
+    func updatePaxValue() {
+        
+        let notificationPost = Notification.Name(rawValue: Listener.emptyArrayValue)
+        NotificationCenter.default.post(name: notificationPost, object: nil)
+        
+        if paxCount > 0 {
+            paxCount = paxCount - 1
+        }
+        
+        RESERVATION_REF.child(reservationID).child(Constant.paxCount).setValue(paxCount)
     }
 }
 
