@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 private let reuseIdentifier = "Cell"
 
@@ -246,53 +247,39 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
         add(loadingVC)
         reservations = []
         formatReservationDate()
-        
-//        // fetch reservationIDs for current date
+      
+        // fetch reservation using current date
         RESERVATION_DATE_REF.child(currentDate).observe(.childAdded) { (snapshot) in
-
-             let reservationIds = snapshot.key
-
-            RESERVATION_REF.child(reservationIds).observe(.value) { (reservationSnapshot) in
+            
+            let id = snapshot.key
+            
+            RESERVATION_REF.child(id).observe(.value) { (reservationSnapshot) in
                 
                 guard let dictionary = reservationSnapshot.value as? Dictionary<String, AnyObject> else { return }
-
-                let reservationID = reservationSnapshot.key
-
-                let reservation = Reservation(reservationId: reservationID, dictionary: dictionary)
                 
-                self.reservations.append(reservation)
-
+                let reservation = Reservation(reservationId: id, dictionary: dictionary)
+                
+                if let existingIndex = self.reservations.firstIndex(where: { $0.reservationId == id }) {
+                    
+                    self.reservations[existingIndex] = reservation
+                    
+                } else {
+                    
+                    self.reservations.append(reservation)
+                }
+                
                 // sort results in alphabetical order
                 self.reservations.sort { (reservation1, reservation2) -> Bool in
                     return reservation1.group < reservation2.group
                 }
+                
                 self.remove(self.loadingVC)
                 self.collectionView.reloadData()
             }
-            
-            
-            
-//            // fetch reservations for current reservationIDs
-//            RESERVATION_REF.child(reservationIds).observeSingleEvent(of: .value) { (reservationSnapshot) in
-//
-//                guard let dictionary = reservationSnapshot.value as? Dictionary<String, AnyObject> else { return }
-//
-//                let reservationID = reservationSnapshot.key
-//
-//                let reservation = Reservation(reservationId: reservationID, dictionary: dictionary)
-//
-//                self.reservations.append(reservation)
-//
-//                // sort results in alphabetical order
-//                self.reservations.sort { (reservation1, reservation2) -> Bool in
-//                    return reservation1.group < reservation2.group
-//                }
-//                self.remove(self.loadingVC)
-//                self.collectionView.reloadData()
-//            }
         }
     }
 }
+
 
 extension HomeVC: UISearchBarDelegate {
     

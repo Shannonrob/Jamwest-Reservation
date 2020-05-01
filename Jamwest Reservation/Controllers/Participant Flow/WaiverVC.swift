@@ -206,9 +206,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     func updatePaxValue() {
         
-        let notificationPost = Notification.Name(rawValue: Listener.emptyArrayValue)
-        NotificationCenter.default.post(name: notificationPost, object: nil)
-        
         if paxCount > 0 {
             paxCount = paxCount - 1
         }
