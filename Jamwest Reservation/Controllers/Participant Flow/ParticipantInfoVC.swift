@@ -311,8 +311,19 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     // format textfield for phone number pattern
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+        // get the current text, or use an empty string if that failed
+        let currentText = textField.text ?? ""
+        
+        // attempt to read the range they are trying to change, or exit if we can't
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        
+        // add their new text to the existing text
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        
         switch textField {
             
+        // configure phone number textfield to phone number format
         case participantInfoView.phoneNumberTextfield:
             var fullString = textField.text ?? ""
             fullString.append(string)
@@ -322,10 +333,13 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
                 textField.text = format(phoneNumber: fullString)
             }
             return false
+            
+            // limits textfield to return character count 
+        case participantInfoView.firstNameTextfield,participantInfoView.lastNameTextfield:
+            return updatedText.count <= 20
         default:
-            break
+            return updatedText.count <= 36
         }
-        return true
     }
     
     // format textfield for phone number pattern

@@ -485,7 +485,17 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
         // make sure the result is under 16 characters
-        return updatedText.count <= 36
+        switch textField {
+        case hotelNameTextField,groupNameTextfield,vourcherTextfield:
+            return updatedText.count <= 36
+        case tourRepTextfield:
+            return updatedText.count <= 27
+        case tourCompanyTextfield:
+            return updatedText.count <= 30
+        default:
+            break
+        }
+        return true
     }
     
 //    MARK: - Configuration
