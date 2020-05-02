@@ -22,6 +22,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     var paxCount: Int!
     var isUnderAge: Bool?
     var guardianAgreed = false
+    var currentDate: String!
     
     //    MARK: - Init
     
@@ -83,8 +84,8 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         // check if canvasView has drawing then present CameraVC else shows alert
         if !waiverViews.canvasView.drawing.bounds.isEmpty {
             
-            // update pax value
-            reservation.updateWaiverBalance()
+            // update pax value or delete reservation
+            reservation.updateWaiverBalance(for: currentDate)
         
             let cameraVC = CameraVC()
             navigationController?.pushViewController(cameraVC, animated: true)
@@ -144,6 +145,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             
             // pass boolean
             isUnderAge = data.ageAnswer
+            currentDate = data.currentDate
             
             configureGuardianLabel(with: data.guardianName, of: "\(data.firstName) \(data.lastName)", if: data.ageAnswer)
         }
