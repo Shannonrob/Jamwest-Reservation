@@ -13,11 +13,6 @@ protocol HomeVcDelegate {
     func handleMenuToggle(forMenuOption menuOption: MenuOption?)
 }
 
-protocol ReservationCellDelegate {
-    
-    func handleMenuTapped(for cell: ReservationCell)
-}
-
 protocol ParticipantInfoViewsDelegate: class {
     
     func handlePresentPickerView()

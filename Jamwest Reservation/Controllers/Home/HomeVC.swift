@@ -11,7 +11,7 @@ import Firebase
 
 private let reuseIdentifier = "Cell"
 
-class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, ReservationCellDelegate {
+class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
   
  //    MARK: - Properties
     var delegate: HomeVcDelegate?
@@ -125,8 +125,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
         
         var reservation: Reservation!
         
-        cell.reservationCellDelegate = self
-        
         if inSearchMode {
             reservation = filteredReservations[indexPath.row]
         } else {
@@ -150,13 +148,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
         let participantInfoVC = ParticipantInfoVC()
         participantInfoVC.reservation = reservation
         navigationController?.pushViewController(participantInfoVC, animated: true)
-    }
-    
-//    MARK: - ReservationCell Delegate Protocol
-    
-    func handleMenuTapped(for cell: ReservationCell) {
-        
-        guard let reservation = cell.reservation else { return }
     }
     
     //    MARK: - Handlers

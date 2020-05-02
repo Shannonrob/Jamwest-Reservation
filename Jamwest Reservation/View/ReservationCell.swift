@@ -10,8 +10,6 @@ import UIKit
 
 class ReservationCell: UICollectionViewCell {
     
-    var reservationCellDelegate: ReservationCellDelegate?
-    
     var reservation: Reservation? {
         
         didSet {
@@ -104,15 +102,6 @@ class ReservationCell: UICollectionViewCell {
         return label
     }()
     
-    //    MARK: - Buttons
-    
-    lazy var menuButton: UIButton = {
-        
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "grayMenuButton ").withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(handleMenutapped), for: .touchUpInside)
-        return button
-    }()
     
     //    MARK: - Init
     
@@ -126,11 +115,6 @@ class ReservationCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Handlers
-    
-    @objc func handleMenutapped() {
-        reservationCellDelegate?.handleMenuTapped(for: self)
-    }
     
     //    MARK: - Configure Cell Constraints
     
@@ -156,11 +140,8 @@ class ReservationCell: UICollectionViewCell {
         
         //stackView anchors
         addSubview(groupStackView)
-        groupStackView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        groupStackView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         groupStackView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        
-        addSubview(menuButton)
-        menuButton.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: -5, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
         
         addSubview(timeStackView)
         timeStackView.anchor(top: groupStackView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: (frame.width / 2) - 20, height: 50)
