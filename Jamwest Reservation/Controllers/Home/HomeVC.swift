@@ -259,6 +259,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
                 
                 let reservation = Reservation(reservationId: id, dictionary: dictionary)
                 
+                // filter array to prevent duplicate
                 if let existingIndex = self.reservations.firstIndex(where: { $0.reservationId == id }) {
                     
                     self.reservations[existingIndex] = reservation
