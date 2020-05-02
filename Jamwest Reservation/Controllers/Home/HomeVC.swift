@@ -60,6 +60,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
         configureUI()
         observeDateChanged()
         fetchCurrentReservations()
+        handleDeletedReservation()
      }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -243,13 +244,14 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
 //    MARK: - API
     
     @objc func fetchCurrentReservations() {
-
-        add(loadingVC)
+        
         reservations = []
         formatReservationDate()
       
         // fetch reservation using current date
         RESERVATION_DATE_REF.child(currentDate).observe(.childAdded) { (snapshot) in
+            
+            self.add(self.loadingVC)
             
             let id = snapshot.key
             
@@ -279,8 +281,20 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Re
             }
         }
     }
+    
+    // removes reservation from collectionView
+    func handleDeletedReservation() {
+        
+        RESERVATION_DATE_REF.child(currentDate).observe(.childRemoved) { (snapshot) in
+            
+            self.add(self.loadingVC)
+            self.reservations.removeAll(keepingCapacity: true)
+            self.fetchCurrentReservations()
+            self.remove(self.loadingVC)
+            self.collectionView.reloadData()
+        }
+    }
 }
-
 
 extension HomeVC: UISearchBarDelegate {
     
