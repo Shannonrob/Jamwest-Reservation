@@ -10,7 +10,7 @@ import Foundation
 
 class Reservation {
     
-//    var date: String!
+    //    var date: String!
     var time: String!
     var group: String!
     var hotel: String!
@@ -39,7 +39,7 @@ class Reservation {
         
         if let hotel = dictionary[Constant.hotelName] as? String {
             self.hotel = hotel
-       }
+        }
         
         if let firstTour = dictionary[Constant.firstTour] as? String {
             self.firstTour = firstTour
@@ -80,13 +80,10 @@ class Reservation {
     
     func updateWaiverBalance() {
         
-        
+        // update pax value after each waiver is signed
         if pax > 0 {
             pax = pax - 1
         }
-        
         RESERVATION_REF.child(reservationId).child(Constant.paxCount).setValue(pax)
-        
-        print("this is pax count \(String(describing: pax))")
     }
 }

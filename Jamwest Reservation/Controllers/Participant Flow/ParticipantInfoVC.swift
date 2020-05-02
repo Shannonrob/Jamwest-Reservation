@@ -11,10 +11,6 @@ import UIKit
 class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoViewsDelegate {
     
     //    MARK: - Properties
-    
-//    var groupCounter = [Int]()
-//    var pickerViewSelection: String?
-    
     var pregnantAnswer = Bool()
     var underAgeAnswer = Bool()
     var underInfluenceAnswer = Bool()
@@ -111,7 +107,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         case participantInfoView.yesAgeButton:
             
             isUnderAge = true
-        
+            
         case participantInfoView.noAgeButton:
             
             isUnderAge = false
@@ -131,39 +127,39 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         // check if textFields are empty
         firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
         lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
-       
+        
         
         // check if values are true
         updateRequiredTextFieldValue(with: firstNameTextFieldFilled, with: lastNameTextFieldFilled)
-  
+        
         if questionsAnswered > 4 && requiredTextFieldsFilled {
-
+            
             // check if textField has value
             if isUnderAge && !participantInfoView.guardianTextField.hasText {
-
-               _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)
+                
+                _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)
                 Alert.answersRequiredMessage(on: self, with: "Fill in required text fields!")
-
+                
             } else {
-
+                
                 // pass data to WaiverVC
                 passData()
-
+                
                 let waiverVC = WaiverVC()
                 waiverVC.participantInformation = self.participantInformation
                 waiverVC.reservation = self.reservation
                 navigationController?.pushViewController(waiverVC, animated: true)
             }
-
+            
         } else if !requiredTextFieldsFilled {
-
+            
             Alert.showHasTextMessage(on: self, with: "Fill in required text fields!")
-
+            
         } else {
-
+            
             Alert.answersRequiredMessage(on: self, with: "You must answer all questions to proceed!!!")
         }
-
+        
         questionsAnswered = 0
     }
     
@@ -234,7 +230,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         
         if !participantInfoView.yesPregnantButton.isEnabled ||
             !participantInfoView.noPregnantButton.isEnabled {
-           pregnantAnsweredValue = 1
+            pregnantAnsweredValue = 1
         }
         if !participantInfoView.yesAgeButton.isEnabled ||
             !participantInfoView.noAgeButton.isEnabled {
@@ -308,7 +304,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         self.participantInformation = [ParticipantInformation(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, guardianName: guardianName, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)]
     }
     
-    // format textfield for phone number pattern
+    // format textfield for phone number pattern & limits the text counts
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         // get the current text, or use an empty string if that failed
@@ -334,7 +330,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             }
             return false
             
-            // limits textfield to return character count 
+        // limits textfield to return character count
         case participantInfoView.firstNameTextfield,participantInfoView.lastNameTextfield:
             return updatedText.count <= 20
         default:
@@ -438,8 +434,8 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)
         }
         
-       firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
-       lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
+        firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
+        lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
     }
     
     func getCurrentDate(textField: UITextField) {

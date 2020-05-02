@@ -83,10 +83,9 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         // check if canvasView has drawing then present CameraVC else shows alert
         if !waiverViews.canvasView.drawing.bounds.isEmpty {
             
-//            reservation.updateWaiverBalance()
-            updatePaxValue()
-            
-            
+            // update pax value
+            reservation.updateWaiverBalance()
+        
             let cameraVC = CameraVC()
             navigationController?.pushViewController(cameraVC, animated: true)
             
@@ -201,17 +200,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         
         view.backgroundColor = Color.Background.fadeGray
     }
-    
-//    MARK: - Api Calls
-    
-    func updatePaxValue() {
-        
-        if paxCount > 0 {
-            paxCount = paxCount - 1
-        }
-        
-        RESERVATION_REF.child(reservationID).child(Constant.paxCount).setValue(paxCount)
-    }
 }
 
 // extension to manually opperate scrollView
@@ -220,3 +208,4 @@ extension UIScrollView {
         self.setContentOffset(direction.contentOffsetWith(scrollView: self), animated: animated)
     }
 }
+
