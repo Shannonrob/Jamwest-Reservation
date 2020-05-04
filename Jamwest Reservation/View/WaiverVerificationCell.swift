@@ -28,8 +28,12 @@ class WaiverVerificationCell: UITableViewCell {
     let reviewButton: UIButton = {
         
         let button = UIButton(type: .system)
-        button.configureButtonWithIcon(nil, title: "Review", titleColor: .darkText, buttonColor: Color.Background.fadeGray, cornerRadius: 8)
+        button.configureButtonWithIcon(nil, title: "Review", titleColor: .black, buttonColor: Color.Background.fadeGray, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
+        button.layer.shadowColor = UIColor.lightGray.cgColor
+        button.layer.shadowOffset = CGSize(width: 2, height: 2)
+        button.layer.shadowRadius = 2.75
+        button.layer.shadowOpacity = 1.0
         //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
         return button
     }()
@@ -39,6 +43,10 @@ class WaiverVerificationCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Approve", titleColor: .white, buttonColor: Color.Primary.orange, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
+        button.layer.shadowColor = UIColor.lightGray.cgColor
+        button.layer.shadowOffset = CGSize(width: 2, height: 2)
+        button.layer.shadowRadius = 2.75
+        button.layer.shadowOpacity = 1.0
         //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
         return button
     }()
