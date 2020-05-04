@@ -145,7 +145,7 @@ class ContainerVC: UIViewController {
             print("Submit email")
             
         case .Verification:
-            handlePresentVC(with: PendingWaiversVC(), fullscreen: true)
+            handlePresentVC(with: WaiverVerificationVC(), fullscreen: true)
             
         case .LogOut:
             handleLogOut()

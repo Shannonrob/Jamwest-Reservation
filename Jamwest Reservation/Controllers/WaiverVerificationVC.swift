@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PendingWaiversVC: UITableViewController {
+class WaiverVerificationVC: UITableViewController {
 
     
 //    MARK: - Init
@@ -47,7 +47,7 @@ class PendingWaiversVC: UITableViewController {
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.tintColor = .white
 
-        navigationItem.title = ""
+        navigationItem.title = "Waiver Verification"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDismiss))

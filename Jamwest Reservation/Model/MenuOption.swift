@@ -22,7 +22,7 @@ enum MenuOption: Int, CustomStringConvertible {
         case.Reservations: return "ADD RESERVATIONS"
         case.Modification: return "MODIFY RESERVATION"
         case.Submit: return "SUBMIT EMAILS"
-        case.Verification: return "WAIVERS VERIFICATION"
+        case.Verification: return "WAIVER VERIFICATION"
         case.LogOut: return "SIGN OUT"
         }
     }
