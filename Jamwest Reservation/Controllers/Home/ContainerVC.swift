@@ -131,7 +131,7 @@ class ContainerVC: UIViewController {
         handleMenuToggle(forMenuOption: menuOption)
     }
     
-    //handle selected menu options 
+    //handle selected menu options
     func didSelectMenuOption(menuOption: MenuOption){
         switch menuOption{
            
@@ -139,13 +139,13 @@ class ContainerVC: UIViewController {
             let addReservationVC = AddReservationVC()
             present(UINavigationController(rootViewController: addReservationVC), animated: true, completion: nil)
             
-        case.Modify:
+        case.Modification:
             print("modify waiver tapped")
             
         case .Submit:
             print("Submit email")
             
-        case .Waivers:
+        case .Verification:
             presentWaiverVC()
             
         case .LogOut:

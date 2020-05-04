@@ -11,18 +11,18 @@ import UIKit
 enum MenuOption: Int, CustomStringConvertible {
     
     case Reservations
-    case Modify
+    case Modification
     case Submit
-    case Waivers
+    case Verification
     case LogOut
     
     var description: String{
         
         switch self {
         case.Reservations: return "ADD RESERVATIONS"
-        case.Modify: return "MODIFY RESERVATION"
+        case.Modification: return "MODIFY RESERVATION"
         case.Submit: return "SUBMIT EMAILS"
-        case.Waivers: return "WAIVERS VERIFICATION"
+        case.Verification: return "WAIVERS VERIFICATION"
         case.LogOut: return "SIGN OUT"
         }
     }
@@ -31,9 +31,9 @@ enum MenuOption: Int, CustomStringConvertible {
         
         switch self {
         case.Reservations: return UIImage(named: "Calender") ?? UIImage()
-        case.Modify: return UIImage(named: "Waivers" ) ?? UIImage()
+        case.Modification: return UIImage(named: "Waivers" ) ?? UIImage()
         case.Submit: return UIImage(named: "Email") ?? UIImage()
-        case.Waivers: return UIImage(named: "verification_Icon") ?? UIImage()
+        case.Verification: return UIImage(named: "verification_Icon") ?? UIImage()
         case.LogOut: return UIImage(named: "Settings") ?? UIImage()
         }
     }
