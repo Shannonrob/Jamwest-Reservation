@@ -10,15 +10,15 @@ import UIKit
 import Firebase
 
 class ContainerVC: UIViewController {
- 
-//    MARK: - Properties
-
+    
+    //    MARK: - Properties
+    
     var menuVC: MenuVC!
     var menuOption: MenuOption!
     var centerController: UIViewController!
     var isExpanded = false
-
-//    MARK: - Init
+    
+    //    MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,13 +44,13 @@ class ContainerVC: UIViewController {
         return  isExpanded
     }
     
-//    MARK: - Handlers
+    //    MARK: - Handlers
     
     func presentHomeVC() {
         let homeVC = HomeVC(collectionViewLayout: UICollectionViewFlowLayout())
         homeVC.delegate = self
         centerController = UINavigationController(rootViewController: homeVC)
-
+        
         view.addSubview(centerController.view)
         addChild(centerController)
         centerController.didMove(toParent: self)
@@ -59,16 +59,25 @@ class ContainerVC: UIViewController {
     func presentLoginVC() {
         let loginVC = LoginVC()
         centerController = UINavigationController(rootViewController: loginVC)
-
+        
         view.addSubview(centerController.view)
         addChild(centerController)
         centerController.didMove(toParent: self)
     }
     
+    // present viewController with or without fullScreen
+    func handlePresentVC(with vc: UIViewController, fullscreen yes: Bool = true) {
+        
+        let viewController = vc
+        let navigationController = UINavigationController(rootViewController: viewController)
+        yes == true ? navigationController.modalPresentationStyle = .fullScreen : nil
+        present(navigationController, animated: true)
+    }
+    
     
     func configureMenuVC() {
+        
         if menuVC == nil {
-//            add menu controller here
             menuVC = MenuVC()
             menuVC.delegate = self
             view.insertSubview(menuVC.view, at: 0)
@@ -77,24 +86,14 @@ class ContainerVC: UIViewController {
         }
     }
     
-    func presentWaiverVC () {
-        
-        let pendingWaiversVC = PendingWaiversVC()
-        let navigationController = UINavigationController(rootViewController: pendingWaiversVC)
-        navigationController.modalPresentationStyle = .fullScreen
-        presentDetail(navigationController)
-//        present(navigationController, animated: true)
-    }
-    
     func handleLogOut() {
-    
+        
         do
         {
             try Auth.auth().signOut()
             presentLoginVC()
         }
         catch let error as NSError {
-            
             print(error.localizedDescription)
         }
     }
@@ -102,20 +101,21 @@ class ContainerVC: UIViewController {
     func animatePanel(shouldExpand: Bool,menuOption: MenuOption?) {
         
         if shouldExpand {
-//         show menu
+            
+            //show menu
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.centerController.view.frame.origin.x = self.centerController.view.frame.width - 780
             }, completion: nil)
             
             //disable HomeVC() and close menu with tap gesture
             let tap = UITapGestureRecognizer(target: self, action: #selector(handleCenterControllerVCTapped(_:)))
-           centerController.view.addGestureRecognizer(tap)
+            centerController.view.addGestureRecognizer(tap)
             
         } else {
-
+            
             centerController.view.gestureRecognizers?.removeAll()
             
-//            hide menu
+            //hide menu
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.centerController.view.frame.origin.x = 0
             }) { (_) in
@@ -127,17 +127,16 @@ class ContainerVC: UIViewController {
     }
     
     @objc func handleCenterControllerVCTapped(_ sender: UITapGestureRecognizer? = nil) {
-        
         handleMenuToggle(forMenuOption: menuOption)
     }
     
     //handle selected menu options
     func didSelectMenuOption(menuOption: MenuOption){
+        
         switch menuOption{
-           
+            
         case .Reservations:
-            let addReservationVC = AddReservationVC()
-            present(UINavigationController(rootViewController: addReservationVC), animated: true, completion: nil)
+            handlePresentVC(with: AddReservationVC(), fullscreen: false)
             
         case.Modification:
             print("modify waiver tapped")
@@ -146,17 +145,17 @@ class ContainerVC: UIViewController {
             print("Submit email")
             
         case .Verification:
-            presentWaiverVC()
+            handlePresentVC(with: PendingWaiversVC(), fullscreen: true)
             
         case .LogOut:
-           handleLogOut()
+            handleLogOut()
         }
     }
     
     func animateStatusBar() {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
             self.setNeedsStatusBarAppearanceUpdate()
-      }, completion: nil)
+        }, completion: nil)
     }
     
     func addShadow() {
@@ -173,15 +172,15 @@ class ContainerVC: UIViewController {
 }
 
 extension ContainerVC: HomeVcDelegate {
-   
+    
     func handleMenuToggle(forMenuOption menuOption: MenuOption?) {
         if !isExpanded {
-        configureMenuVC()
-    }
+            configureMenuVC()
+        }
         isExpanded = !isExpanded
         animatePanel(shouldExpand: isExpanded, menuOption: menuOption)
         
-    
+        
     }
 }
 

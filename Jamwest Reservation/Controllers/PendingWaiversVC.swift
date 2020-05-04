@@ -32,8 +32,7 @@ class PendingWaiversVC: UITableViewController {
     
 //    MARK: - Handlers
     @objc func handleDismiss() {
-        
-       dismissDetail()
+        dismiss(animated: true, completion: nil)
     }
     
 //    MARK: - Helper functions
