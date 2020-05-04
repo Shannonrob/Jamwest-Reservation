@@ -12,6 +12,7 @@
 		8510844C244A9B1100229791 /* LoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844B244A9B1100229791 /* LoadingVC.swift */; };
 		8510844E244A9F8700229791 /* WaiverVerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844D244A9F8700229791 /* WaiverVerificationVC.swift */; };
 		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
+		8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */; };
 		8524F5172424E610003173EF /* ParticipantInfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F5162424E610003173EF /* ParticipantInfoData.swift */; };
 		8524F51B2424F0DE003173EF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51A2424F0DE003173EF /* CameraView.swift */; };
 		8524F51D2424F56D003173EF /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51C2424F56D003173EF /* CameraVC.swift */; };
@@ -68,6 +69,7 @@
 		8510844B244A9B1100229791 /* LoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingVC.swift; sourceTree = "<group>"; };
 		8510844D244A9F8700229791 /* WaiverVerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerificationVC.swift; sourceTree = "<group>"; };
 		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
+		8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerificationCell.swift; sourceTree = "<group>"; };
 		8524F5162424E610003173EF /* ParticipantInfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoData.swift; sourceTree = "<group>"; };
 		8524F51A2424F0DE003173EF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		8524F51C2424F56D003173EF /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				85032619244DFD9300BCAEE7 /* Pending Waivers Flow */,
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
+				8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */,
 				85108446244A8DD800229791 /* Participant Flow */,
 			);
 			path = View;
@@ -444,6 +447,7 @@
 				855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */,
 				855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */,
 				855D9442240E94B500F50CB2 /* Alert.swift in Sources */,
+				8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */,
 				855D944E240E95B600F50CB2 /* AddReservationVC.swift in Sources */,
 				858F23AF245B4B86003115BF /* DataBaseExt.swift in Sources */,
 				855D9440240E940E00F50CB2 /* Countries.swift in Sources */,

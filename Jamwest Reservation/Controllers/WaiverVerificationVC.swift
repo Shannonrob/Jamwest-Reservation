@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let reuseIdentifier = "SearchUserCell"
+
 class WaiverVerificationVC: UITableViewController {
 
     
@@ -16,19 +18,37 @@ class WaiverVerificationVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // register cell class
+        tableView.register(WaiverVerificationCell.self, forCellReuseIdentifier: reuseIdentifier)
+        
+        // separator insets
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 140, bottom: 0, right: 0)
+    
         configureUI()
+    }
+    
+//    MARK: - TableView flow layout
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 130
     }
     
 //    MARK: - TableView data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-       return 0
+       return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return 5
     }
     
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! WaiverVerificationCell
+        
+        cell.backgroundColor = .clear
+        return cell
+    }
     
 //    MARK: - Handlers
     @objc func handleDismiss() {
@@ -38,7 +58,7 @@ class WaiverVerificationVC: UITableViewController {
 //    MARK: - Helper functions
     
     func configureUI() {
-        
+    
         view.backgroundColor = .white
         
         let reservation = UIFont.boldSystemFont(ofSize: 25)

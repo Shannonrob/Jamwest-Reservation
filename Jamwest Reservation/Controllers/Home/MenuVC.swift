@@ -92,5 +92,4 @@ extension MenuVC: UITableViewDelegate,UITableViewDataSource {
         let menuOption = MenuOption(rawValue: indexPath.row)
         delegate?.handleMenuToggle(forMenuOption: menuOption)
     }
-    
 }
