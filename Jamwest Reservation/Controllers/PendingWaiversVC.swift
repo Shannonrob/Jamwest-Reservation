@@ -8,20 +8,49 @@
 
 import UIKit
 
-class PendingWaiversVC: UIViewController {
+class PendingWaiversVC: UITableViewController {
 
+    
+//    MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDismiss))
-        
-        let loadingVC = LoadingVC()
-        add(loadingVC)
+        configureUI()
     }
     
+//    MARK: - TableView data source
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+       return 0
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    
+//    MARK: - Handlers
     @objc func handleDismiss() {
         
        dismissDetail()
+    }
+    
+//    MARK: - Helper functions
+    
+    func configureUI() {
+        
+        view.backgroundColor = .white
+        
+        let reservation = UIFont.boldSystemFont(ofSize: 25)
+        navigationController?.navigationBar.barTintColor = Color.Primary.heavyGreen
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.tintColor = .white
+
+        navigationItem.title = ""
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDismiss))
     }
 }
