@@ -14,9 +14,11 @@ let DB_REF = Database.database().reference()
 let USER_REF = DB_REF.child("users")
 let RESERVATION_REF = DB_REF.child("reservations")
 let RESERVATION_DATE_REF = DB_REF.child("reservation-Date")
+let PARTICIPANT_WAIVER_REF = DB_REF.child("participant-Waiver")
 
 enum Constant {
     
+    static let name = "name"
     static let hotelName = "hotel"
     static let groupName = "groupName"
     static let voucherNumber = "voucherNum"
@@ -30,7 +32,12 @@ enum Constant {
     static let firstTour = "firstTour"
     static let secondTour = "secondTour"
     static let thirdTour = "thirdTour"
-    static let forthTour = "fourthTour"
+    static let fourthTour = "fourthTour"
+    static let prenantAnswer = "pregnantAnswer"
+    static let minorAnswer = "minorAnswer"
+    static let underInfluenceAnswer = "influenceAnswer"
+    static let heartAnswer = "heartAnswer"
+    static let backAnswer = "backAnswer"
 }
 
 enum Font {

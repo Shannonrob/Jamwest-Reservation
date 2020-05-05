@@ -295,12 +295,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             let email = participantInfoView.emailTextfield.text,
             let country = participantInfoView.countryTextfield.text else { return }
         
-        let pregnantAnswer = self.pregnantAnswer
-        let underAgeAnswer = self.underAgeAnswer
-        let underInfluenceAnswer = self.underInfluenceAnswer
-        let backProblemsAnswer = self.backProblemsAnswer
-        let heartProblemsAnswer = self.heartProblemsAnswer
-        
         self.participantInformation = [ParticipantInformation(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, guardianName: guardianName, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)]
     }
     

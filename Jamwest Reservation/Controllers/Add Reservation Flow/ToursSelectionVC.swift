@@ -422,7 +422,7 @@ class ToursSelectionVC: UIViewController {
             reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
             reservationInfo.updateValue(reservationTours[1], forKey: Constant.secondTour)
             reservationInfo.updateValue(reservationTours[2], forKey: Constant.thirdTour)
-            reservationInfo.updateValue(reservationTours[3], forKey: Constant.forthTour)
+            reservationInfo.updateValue(reservationTours[3], forKey: Constant.fourthTour)
 
             //method for pushing selected tours to database
             submitSelectedTours()

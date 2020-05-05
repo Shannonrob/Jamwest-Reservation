@@ -53,8 +53,8 @@ class Reservation {
             self.thirdTour = thirdTour
         }
         
-        if let forthTour = dictionary[Constant.forthTour] as? String {
-            self.fourthTour = forthTour
+        if let fourthTour = dictionary[Constant.fourthTour] as? String {
+            self.fourthTour = fourthTour
         }
         
         if let package = dictionary[Constant.tourPackage] as? String {

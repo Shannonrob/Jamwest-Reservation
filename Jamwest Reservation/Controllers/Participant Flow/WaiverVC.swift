@@ -23,6 +23,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     var isUnderAge: Bool?
     var guardianAgreed = false
     var currentDate: String!
+    var participantWaiver = [String:Any]()
     
     //    MARK: - Init
     
@@ -81,18 +82,20 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     func handleDoneButton() {
         
-        // check if canvasView has drawing then present CameraVC else shows alert
-        if !waiverViews.canvasView.drawing.bounds.isEmpty {
-            
-            // update pax value or delete reservation
-            reservation.updateWaiverBalance(for: currentDate)
+        uploadParticipantWaiver()
         
-            let cameraVC = CameraVC()
-            navigationController?.pushViewController(cameraVC, animated: true)
-            
-        } else {
-            Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability")
-        }
+//        // check if canvasView has drawing then present CameraVC else shows alert
+//        if !waiverViews.canvasView.drawing.bounds.isEmpty {
+//
+//            // update pax value or delete reservation
+//            reservation.updateWaiverBalance(for: currentDate)
+//
+//            let cameraVC = CameraVC()
+//            navigationController?.pushViewController(cameraVC, animated: true)
+//
+//        } else {
+//            Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability")
+//        }
     }
     
     //    MARK:- Helper Functions
@@ -148,6 +151,14 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             currentDate = data.currentDate
             
             configureGuardianLabel(with: data.guardianName, of: "\(data.firstName) \(data.lastName)", if: data.ageAnswer)
+            
+            // append participant information to dictionary
+            participantWaiver[Constant.name] = "\(data.firstName) \(data.lastName)"
+            participantWaiver[Constant.prenantAnswer] = data.pregnantAnswer
+            participantWaiver[Constant.minorAnswer] = data.ageAnswer
+            participantWaiver[Constant.underInfluenceAnswer] = data.underInfluenceAnswer
+            participantWaiver[Constant.heartAnswer] = data.heartProblemAnswer
+            participantWaiver[Constant.backAnswer] = data.backProblemAnswer
         }
         
         // loop reservation information and present it in waiver labels
@@ -180,6 +191,12 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             waiverViews.tourCompanyLabel.attributedText = configureAttributes(with: "Tour Company:  ", append: "\(tourComp)")
             waiverViews.toursLabel.attributedText = configureAttributes(with: "Tour(s):  ", append: "\(tours)")
             waiverViews.paxLabel.attributedText = configureAttributes(with: "Pax:  ", append: "\(groupCount)")
+            
+            // append participant information to dictionary
+            participantWaiver[Constant.firstTour] = data?.firstTour
+            participantWaiver[Constant.secondTour] = data?.secondTour
+            participantWaiver[Constant.thirdTour] = data?.thirdTour
+            participantWaiver[Constant.fourthTour] = data?.fourthTour
         }
     }
     
@@ -199,8 +216,17 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     }
     
     func configureUI() {
-        
         view.backgroundColor = Color.Background.fadeGray
+    }
+    
+//    MARK: - API
+    
+    func uploadParticipantWaiver() {
+        
+        for tj in participantWaiver {
+            print(tj.value)
+        }
+//        PARTICIPANT_WAIVER_REF.child(<#T##pathString: String##String#>)
     }
 }
 
