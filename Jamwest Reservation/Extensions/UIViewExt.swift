@@ -39,6 +39,15 @@ extension UIView {
         }
     }
     
+    func setShadow() {
+        
+        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowOffset = CGSize(width: 2, height: 2)
+        layer.shadowRadius = 2.75
+        layer.shadowOpacity = 1.0
+    }
+    
+    
     
     // do not delete
 //    func customPDF() {

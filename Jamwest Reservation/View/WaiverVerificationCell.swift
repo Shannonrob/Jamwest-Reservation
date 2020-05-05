@@ -10,7 +10,16 @@ import UIKit
 
 class WaiverVerificationCell: UITableViewCell {
     
-//    MARK: - Properties
+    //    MARK: - Properties
+    
+    let cellView: UIView = {
+        
+        let view = UIView()
+        view.setShadow()
+        view.layer.cornerRadius = 4
+        view.backgroundColor = .white
+        return view
+    }()
     
     let participantImageView: UIImageView = {
         
@@ -23,6 +32,26 @@ class WaiverVerificationCell: UITableViewCell {
         return imageView
     }()
     
+    //    MARK: - Label
+    
+    let participantLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Participant name"
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
+    let toursLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Tours"
+        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 18)
+        return label
+    }()
+    
     //    MARK: - Button
     
     let reviewButton: UIButton = {
@@ -30,10 +59,7 @@ class WaiverVerificationCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Review", titleColor: .black, buttonColor: Color.Background.fadeGray, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
-        button.layer.shadowColor = UIColor.lightGray.cgColor
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        button.layer.shadowRadius = 2.75
-        button.layer.shadowOpacity = 1.0
+        button.setShadow()
         //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
         return button
     }()
@@ -43,53 +69,46 @@ class WaiverVerificationCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Approve", titleColor: .white, buttonColor: Color.Primary.orange, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
-        button.layer.shadowColor = UIColor.lightGray.cgColor
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        button.layer.shadowRadius = 2.75
-        button.layer.shadowOpacity = 1.0
+        button.setShadow()
         //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
         return button
     }()
     
-//    MARK: - Init
+    //    MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureCell()
-        
-        textLabel?.text = "Participant name"
-        detailTextLabel?.text = "Tours"
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        textLabel?.frame = CGRect(x: 140, y: (textLabel?.frame.origin.y)! - 2, width: (frame.width) / 2, height: ((textLabel?.frame.height)!))
-        textLabel?.textColor = .black
-        textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        
-        detailTextLabel?.frame = CGRect(x: 140, y: (detailTextLabel?.frame.origin.y)!, width: (frame.width) / 2, height: (detailTextLabel?.frame.height)!)
-        detailTextLabel?.textColor = .lightGray
-        detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
-    }
-    
-//    MARK: - Constraints
+    //    MARK: - Constraints
     
     func configureCell() {
         
         let buttonStackView = UIStackView(arrangedSubviews: [reviewButton, acceptButton])
         buttonStackView.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 10)
         
-        addSubview(participantImageView)
-        participantImageView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 96, height: 96)
+        let labelsStackView = UIStackView(arrangedSubviews: [participantLabel, toursLabel])
+        labelsStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
+        labelsStackView.axis = .vertical
+        
+        addSubview(cellView)
+        cellView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 12, paddingBottom: 8, paddingRight: 12, width: 0, height: 0)
+        
+        cellView.addSubview(participantImageView)
+        participantImageView.anchor(top: nil, left: cellView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 96, height: 96)
         participantImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
-        addSubview(buttonStackView)
-        buttonStackView.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 240, height: 45)
+        cellView.addSubview(buttonStackView)
+        buttonStackView.anchor(top: nil, left: nil, bottom: nil, right: cellView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 240, height: 45)
         buttonStackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        
+        cellView.addSubview(labelsStackView)
+        labelsStackView.anchor(top: nil, left: participantImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        labelsStackView.centerYAnchor.constraint(equalTo: participantImageView.centerYAnchor).isActive = true
     }
 }

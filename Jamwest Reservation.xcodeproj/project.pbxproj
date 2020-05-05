@@ -262,11 +262,11 @@
 		855D9428240E915E00F50CB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				85108446244A8DD800229791 /* Participant Flow */,
 				85032619244DFD9300BCAEE7 /* Pending Waivers Flow */,
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
 				8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */,
-				85108446244A8DD800229791 /* Participant Flow */,
 			);
 			path = View;
 			sourceTree = "<group>";

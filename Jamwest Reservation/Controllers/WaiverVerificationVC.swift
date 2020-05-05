@@ -21,16 +21,15 @@ class WaiverVerificationVC: UITableViewController {
         // register cell class
         tableView.register(WaiverVerificationCell.self, forCellReuseIdentifier: reuseIdentifier)
         
-        // separator insets
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 140, bottom: 0, right: 0)
-    
+        tableView.separatorColor = .clear
+        
         configureUI()
     }
     
 //    MARK: - TableView flow layout
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
+        return 150
     }
     
 //    MARK: - TableView data source
@@ -40,7 +39,7 @@ class WaiverVerificationVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 20
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
