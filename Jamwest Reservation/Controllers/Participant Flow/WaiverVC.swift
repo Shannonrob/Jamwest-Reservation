@@ -82,20 +82,16 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     func handleDoneButton() {
         
-        uploadParticipantWaiver()
-        
-//        // check if canvasView has drawing then present CameraVC else shows alert
-//        if !waiverViews.canvasView.drawing.bounds.isEmpty {
-//
-//            // update pax value or delete reservation
-//            reservation.updateWaiverBalance(for: currentDate)
-//
-//            let cameraVC = CameraVC()
-//            navigationController?.pushViewController(cameraVC, animated: true)
-//
-//        } else {
-//            Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability")
-//        }
+        // check if canvasView has drawing then present CameraVC else shows alert
+        if !waiverViews.canvasView.drawing.bounds.isEmpty {
+            
+            // handles the data
+            uploadParticipantWaiver()
+            waiverViews.doneButton.isEnabled = false
+            
+        } else {
+            Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability")
+        }
     }
     
     //    MARK:- Helper Functions
@@ -222,11 +218,19 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
 //    MARK: - API
     
     func uploadParticipantWaiver() {
+
+        // post ID
+        let waiver = PARTICIPANT_WAIVER_REF.childByAutoId()
         
-        for tj in participantWaiver {
-            print(tj.value)
-        }
-//        PARTICIPANT_WAIVER_REF.child(<#T##pathString: String##String#>)
+        // upload information to database
+        waiver.updateChildValues(participantWaiver)
+        
+        // update pax value or delete reservation
+        self.reservation.updateWaiverBalance(for: self.currentDate)
+
+        // transition to cameraVC
+        let cameraVC = CameraVC()
+        self.navigationController?.pushViewController(cameraVC, animated: true)
     }
 }
 
