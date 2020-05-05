@@ -11,10 +11,12 @@ import UIKit
 
 // Database Refences
 let DB_REF = Database.database().reference()
+let STORAGE_REF = Storage.storage().reference()
 let USER_REF = DB_REF.child("users")
 let RESERVATION_REF = DB_REF.child("reservations")
 let RESERVATION_DATE_REF = DB_REF.child("reservation-Date")
 let PARTICIPANT_WAIVER_REF = DB_REF.child("participant-Waiver")
+let WAIVER_IMAGE_REF = STORAGE_REF.child("waiverImage")
 
 enum Constant {
     
@@ -38,6 +40,9 @@ enum Constant {
     static let underInfluenceAnswer = "influenceAnswer"
     static let heartAnswer = "heartAnswer"
     static let backAnswer = "backAnswer"
+    static let creationDate = "creationDate"
+    static let waiverImage = "waiverImage"
+    static let imageURL = "imageURL"
 }
 
 enum Font {

@@ -21,6 +21,7 @@ class CameraVC: UIViewController {
     var photoOutput: AVCapturePhotoOutput?
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     var image: UIImage?
+    var waiverID: String?
     
     // values for Timer
     var startValue = Int()
@@ -74,7 +75,7 @@ class CameraVC: UIViewController {
 //    MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .black
         configureConstraints()
         
@@ -144,6 +145,7 @@ class CameraVC: UIViewController {
     func presentPreviewVC() {
         
         let previewImageVC = PreviewImageVC()
+        previewImageVC.waiverID = self.waiverID
         previewImageVC.previewImage = rotateImage(image: self.image!)
         navigationController?.pushViewController(previewImageVC, animated: true)
     }

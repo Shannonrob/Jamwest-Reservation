@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import Firebase
 
 class PreviewImageVC: UIViewController, PreviewImageDelegate {
     
     //    MARK: - Properties
     var previewImage: UIImage?
     var previewImageView = PreviewImageView()
+    var waiverID: String!
     
     //    MARK: - Init
     
@@ -35,16 +37,57 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
     
     //    MARK: - Handlers
     
-    
+    // pop navigation controller back to previous viewController
     func handleRetakeButton(for vc: PreviewImageView) {
-        
         _ = navigationController?.popViewController(animated: true)
     }
     
     // show navigationBar then pops to rootViewController
     func handleUsePhotoButton(for vc: PreviewImageView) {
         
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationController?.popToRootViewController(animated: true)
+        // disable buttons after tapped
+        previewImageView.usePhotoButton.isEnabled = false
+        previewImageView.retakePhotoButton.isEnabled = false
+        
+        uploadWaiverPhoto()
+    }
+    
+    //    MARK: - API
+    
+    func uploadWaiverPhoto() {
+        
+        // image upload data
+        guard let uploadData = previewImage?.jpegData(compressionQuality: 0.75) else { return }
+        
+        // update storage
+        WAIVER_IMAGE_REF.child(waiverID!).putData(uploadData, metadata: nil) { (metadata, error) in
+            
+            if let error = error {
+                
+                Alert.showErrorMessage(on: self, with: "Failed to upload image to storage with error \(error.localizedDescription)")
+                return
+            }
+            
+            // download image url
+            WAIVER_IMAGE_REF.child(self.waiverID!).downloadURL { (url, error) in
+                
+                if let error = error {
+                    
+                    Alert.showErrorMessage(on: self, with: "Failed to upload image to storage with error \(error.localizedDescription)")
+                    return
+                    
+                } else {
+                    
+                    // save url as string
+                    guard let url = url?.absoluteString else { return }
+                    
+                    // pass image url to waiver
+                    PARTICIPANT_WAIVER_REF.child(self.waiverID).child(Constant.imageURL).setValue(url)
+                    
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+        }
     }
 }

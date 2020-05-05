@@ -219,6 +219,10 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     func uploadParticipantWaiver() {
 
+        // creation date
+        let creation = Int(NSDate().timeIntervalSince1970)
+        participantWaiver[Constant.creationDate] = creation
+        
         // post ID
         let waiver = PARTICIPANT_WAIVER_REF.childByAutoId()
         
@@ -230,6 +234,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
 
         // transition to cameraVC
         let cameraVC = CameraVC()
+        cameraVC.waiverID = waiver.key
         self.navigationController?.pushViewController(cameraVC, animated: true)
     }
 }
