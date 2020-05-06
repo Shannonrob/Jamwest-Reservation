@@ -34,3 +34,9 @@ protocol PreviewImageDelegate {
     func handleRetakeButton(for vc: PreviewImageView)
     func handleUsePhotoButton(for vc: PreviewImageView)
 }
+
+protocol WaiverVerificationCellDelegate {
+    
+    func handleReviewButtonTapped(for cell: WaiverVerificationCell)
+    func handleApproveButtonTapped(for cell: WaiverVerificationCell)
+}

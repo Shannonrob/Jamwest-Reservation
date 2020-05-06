@@ -12,6 +12,7 @@ class WaiverVerificationCell: UITableViewCell {
     
     //    MARK: - Properties
 
+    var verificationCellDelegate: WaiverVerificationCellDelegate?
     var tours: String!
     
     var waiver: WaiverVerification? {
@@ -84,25 +85,26 @@ class WaiverVerificationCell: UITableViewCell {
     
     //    MARK: - Button
     
-    let reviewButton: UIButton = {
+    lazy var reviewButton: UIButton = {
         
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Review", titleColor: .black, buttonColor: Color.Background.fadeGray, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
         button.setShadow()
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleReviewButton), for: .touchUpInside)
         return button
     }()
     
-    let acceptButton: UIButton = {
+    lazy var acceptButton: UIButton = {
         
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Approve", titleColor: .white, buttonColor: Color.Primary.orange, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
         button.setShadow()
-        //        button.addTarget(self, action: #selector(<#handleSelectedTourPackage#>), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleApproveButton), for: .touchUpInside)
         return button
     }()
+    
     
     //    MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -113,6 +115,16 @@ class WaiverVerificationCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+//    MARK: - Handlers
+    
+    @objc func handleReviewButton() {
+        verificationCellDelegate?.handleReviewButtonTapped(for: self)
+    }
+    
+    @objc func handleApproveButton() {
+        verificationCellDelegate?.handleApproveButtonTapped(for: self)
     }
     
     //    MARK: - Constraints

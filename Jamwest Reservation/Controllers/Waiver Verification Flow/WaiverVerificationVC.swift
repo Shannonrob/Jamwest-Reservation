@@ -10,8 +10,8 @@ import UIKit
 
 private let reuseIdentifier = "SearchUserCell"
 
-class WaiverVerificationVC: UITableViewController {
-
+class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegate{
+    
 //    MARK: - Properties
     
     // array of custom object
@@ -50,6 +50,7 @@ class WaiverVerificationVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! WaiverVerificationCell
         
+        cell.verificationCellDelegate = self
         cell.waiver = waivers[indexPath.row]
         cell.backgroundColor = .clear
         return cell
@@ -58,6 +59,24 @@ class WaiverVerificationVC: UITableViewController {
 //    MARK: - Handlers
     @objc func handleDismiss() {
         dismiss(animated: true, completion: nil)
+    }
+    
+//    MARK: -  WaiverVerificationCell Delegate Protocols
+    
+    func handleReviewButtonTapped(for cell: WaiverVerificationCell) {
+        
+//        guard let reservation = cell.reservation else { return }
+//        guard let participantName = cell. else { return }
+//        print("\(participantName) will be reviewed")
+        
+        print("review button tapped")
+    }
+    
+    func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
+        
+//        guard let participantName = cell.name else { return }
+//        print("\(participantName) will be approved")
+        print("approve button tapped")
     }
     
 //    MARK: - API

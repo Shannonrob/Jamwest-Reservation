@@ -20,6 +20,7 @@
 		85261260243621470009E2B2 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526125F243621470009E2B2 /* PDFCreator.swift */; };
 		85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA22462EE9F00D970E8 /* WaiverVerification.swift */; };
 		85558CA7246335D400D970E8 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA6246335D400D970E8 /* CustomImageView.swift */; };
+		85558CAC246340EE00D970E8 /* WaiverReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CAB246340EE00D970E8 /* WaiverReviewVC.swift */; };
 		855D929724299CE800084D9B /* WaiverViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D929624299CE800084D9B /* WaiverViews.swift */; };
 		855D92992429A5AA00084D9B /* JamwestWaiverLabelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */; };
 		855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D940F240E8AB900F50CB2 /* AppDelegate.swift */; };
@@ -78,6 +79,7 @@
 		8526125F243621470009E2B2 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		85558CA22462EE9F00D970E8 /* WaiverVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerification.swift; sourceTree = "<group>"; };
 		85558CA6246335D400D970E8 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		85558CAB246340EE00D970E8 /* WaiverReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverReviewVC.swift; sourceTree = "<group>"; };
 		855D929624299CE800084D9B /* WaiverViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverViews.swift; sourceTree = "<group>"; };
 		855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestWaiverLabelClass.swift; sourceTree = "<group>"; };
 		855D940C240E8AB900F50CB2 /* Jamwest Reservation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jamwest Reservation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,6 +211,15 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		85558CAA24633F9E00D970E8 /* Waiver Verification Flow */ = {
+			isa = PBXGroup;
+			children = (
+				8510844D244A9F8700229791 /* WaiverVerificationVC.swift */,
+				85558CAB246340EE00D970E8 /* WaiverReviewVC.swift */,
+			);
+			path = "Waiver Verification Flow";
+			sourceTree = "<group>";
+		};
 		855D9403240E8AB900F50CB2 = {
 			isa = PBXGroup;
 			children = (
@@ -251,12 +262,12 @@
 		855D9423240E8E8A00F50CB2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8542E7A024490EDF00707D66 /* Add Reservation Flow */,
-				8542E79F24490E9300707D66 /* Participant Flow */,
-				8542E7A124490F3A00707D66 /* Log In FLow */,
-				8542E7A224490F7300707D66 /* Home */,
 				8510844B244A9B1100229791 /* LoadingVC.swift */,
-				8510844D244A9F8700229791 /* WaiverVerificationVC.swift */,
+				8542E7A024490EDF00707D66 /* Add Reservation Flow */,
+				8542E7A224490F7300707D66 /* Home */,
+				8542E7A124490F3A00707D66 /* Log In FLow */,
+				8542E79F24490E9300707D66 /* Participant Flow */,
+				85558CAA24633F9E00D970E8 /* Waiver Verification Flow */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -442,6 +453,7 @@
 				855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */,
 				8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */,
 				8524F51B2424F0DE003173EF /* CameraView.swift in Sources */,
+				85558CAC246340EE00D970E8 /* WaiverReviewVC.swift in Sources */,
 				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,
 				85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */,
 				8510844C244A9B1100229791 /* LoadingVC.swift in Sources */,
