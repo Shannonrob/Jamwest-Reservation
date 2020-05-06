@@ -18,9 +18,10 @@
 		8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F52024250E2F003173EF /* PreviewImageVC.swift */; };
 		8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */; };
 		85261260243621470009E2B2 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526125F243621470009E2B2 /* PDFCreator.swift */; };
+		8526322024634E9F00DAEA65 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526321F24634E9F00DAEA65 /* ReviewView.swift */; };
 		85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA22462EE9F00D970E8 /* WaiverVerification.swift */; };
 		85558CA7246335D400D970E8 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA6246335D400D970E8 /* CustomImageView.swift */; };
-		85558CAC246340EE00D970E8 /* WaiverReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CAB246340EE00D970E8 /* WaiverReviewVC.swift */; };
+		85558CAC246340EE00D970E8 /* ReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CAB246340EE00D970E8 /* ReviewVC.swift */; };
 		855D929724299CE800084D9B /* WaiverViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D929624299CE800084D9B /* WaiverViews.swift */; };
 		855D92992429A5AA00084D9B /* JamwestWaiverLabelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */; };
 		855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D940F240E8AB900F50CB2 /* AppDelegate.swift */; };
@@ -77,9 +78,10 @@
 		8524F52024250E2F003173EF /* PreviewImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageVC.swift; sourceTree = "<group>"; };
 		8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestCustomRoundedButton.swift; sourceTree = "<group>"; };
 		8526125F243621470009E2B2 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
+		8526321F24634E9F00DAEA65 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		85558CA22462EE9F00D970E8 /* WaiverVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerification.swift; sourceTree = "<group>"; };
 		85558CA6246335D400D970E8 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
-		85558CAB246340EE00D970E8 /* WaiverReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverReviewVC.swift; sourceTree = "<group>"; };
+		85558CAB246340EE00D970E8 /* ReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewVC.swift; sourceTree = "<group>"; };
 		855D929624299CE800084D9B /* WaiverViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverViews.swift; sourceTree = "<group>"; };
 		855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestWaiverLabelClass.swift; sourceTree = "<group>"; };
 		855D940C240E8AB900F50CB2 /* Jamwest Reservation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jamwest Reservation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,6 +174,15 @@
 			path = "Participant Flow";
 			sourceTree = "<group>";
 		};
+		8526322124634EAF00DAEA65 /* Verification Flow */ = {
+			isa = PBXGroup;
+			children = (
+				8526321F24634E9F00DAEA65 /* ReviewView.swift */,
+				8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */,
+			);
+			path = "Verification Flow";
+			sourceTree = "<group>";
+		};
 		8542E79F24490E9300707D66 /* Participant Flow */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,8 +225,8 @@
 		85558CAA24633F9E00D970E8 /* Waiver Verification Flow */ = {
 			isa = PBXGroup;
 			children = (
+				85558CAB246340EE00D970E8 /* ReviewVC.swift */,
 				8510844D244A9F8700229791 /* WaiverVerificationVC.swift */,
-				85558CAB246340EE00D970E8 /* WaiverReviewVC.swift */,
 			);
 			path = "Waiver Verification Flow";
 			sourceTree = "<group>";
@@ -279,7 +290,7 @@
 				85032619244DFD9300BCAEE7 /* Pending Waivers Flow */,
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
-				8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */,
+				8526322124634EAF00DAEA65 /* Verification Flow */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -453,7 +464,7 @@
 				855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */,
 				8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */,
 				8524F51B2424F0DE003173EF /* CameraView.swift in Sources */,
-				85558CAC246340EE00D970E8 /* WaiverReviewVC.swift in Sources */,
+				85558CAC246340EE00D970E8 /* ReviewVC.swift in Sources */,
 				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,
 				85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */,
 				8510844C244A9B1100229791 /* LoadingVC.swift in Sources */,
@@ -462,6 +473,7 @@
 				855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */,
 				855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */,
 				855D9442240E94B500F50CB2 /* Alert.swift in Sources */,
+				8526322024634E9F00DAEA65 /* ReviewView.swift in Sources */,
 				8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */,
 				855D944E240E95B600F50CB2 /* AddReservationVC.swift in Sources */,
 				858F23AF245B4B86003115BF /* DataBaseExt.swift in Sources */,

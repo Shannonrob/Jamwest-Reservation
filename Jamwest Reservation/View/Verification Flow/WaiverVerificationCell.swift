@@ -56,7 +56,6 @@ class WaiverVerificationCell: UITableViewCell {
         
         let imageView = CustomImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         imageView.backgroundColor = .lightGray
         imageView.layer.cornerRadius = 96 / 2
         imageView.clipsToBounds = true

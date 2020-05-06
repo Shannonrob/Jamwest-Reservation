@@ -65,17 +65,23 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
     
     func handleReviewButtonTapped(for cell: WaiverVerificationCell) {
         
-//        guard let reservation = cell.reservation else { return }
-//        guard let participantName = cell. else { return }
-//        print("\(participantName) will be reviewed")
+        guard let waiverDetails = cell.waiver else { return }
         
-        print("review button tapped")
+//        var waivers: WaiverVerification!
+//
+        let popoverViewController = ReviewVC()
+
+        popoverViewController.waivers = waiverDetails
+        popoverViewController.modalPresentationStyle = .custom
+        self.present(popoverViewController, animated: true, completion: nil)
+        
+//        presentReviewVC()
+        
+        
     }
     
     func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
         
-//        guard let participantName = cell.name else { return }
-//        print("\(participantName) will be approved")
         print("approve button tapped")
     }
     
