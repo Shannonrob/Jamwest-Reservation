@@ -14,8 +14,8 @@ class WaiverVerificationVC: UITableViewController {
 
 //    MARK: - Properties
     
+    // array of custom object
     var waivers = [WaiverVerification]()
-    
     
 //    MARK: - Init
     
@@ -44,11 +44,13 @@ class WaiverVerificationVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return waivers.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! WaiverVerificationCell
+        
+        cell.waiver = waivers[indexPath.row]
         
         cell.backgroundColor = .clear
         return cell
@@ -65,15 +67,19 @@ class WaiverVerificationVC: UITableViewController {
         
         PARTICIPANT_WAIVER_REF.observe(.childAdded) { (snapshot) in
             
+            // waiverID
             let waiverID = snapshot.key
+            
+            // snapshot value cast as dictionary
             guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
             
+            // construct waiver
             let waiver = WaiverVerification(waiverID: waiverID, dictionary: dictionary)
             
+            // append waiver to data source
             self.waivers.append(waiver)
             
-            print("waiver name is \(waiver.name)")
-        }
+            self.tableView.reloadData()        }
     }
     
 //    MARK: - Helper functions

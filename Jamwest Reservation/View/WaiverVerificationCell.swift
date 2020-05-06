@@ -11,6 +11,36 @@ import UIKit
 class WaiverVerificationCell: UITableViewCell {
     
     //    MARK: - Properties
+
+    var tours: String!
+    
+    var waiver: WaiverVerification? {
+        
+        didSet {
+            
+            guard let participantImageUrl = waiver?.imageURL else { return }
+            guard let participantName = waiver?.name else { return }
+            guard let firstTour = waiver?.firstTour else { return }
+            
+            tours = firstTour
+
+            if let secondTour = waiver?.secondTour {
+                tours.append(", \(secondTour)")
+            }
+            
+            if let thirdTour = waiver?.thirdTour {
+                tours.append(", \(thirdTour)")
+            }
+            
+            if let fourthTour = waiver?.fourthTour {
+                tours.append(", \(fourthTour)")
+            }
+           
+            participantImageView.loadImage(with: participantImageUrl)
+            participantNameLabel.text = participantName
+            toursLabel.text = tours
+        }
+    }
     
     let cellView: UIView = {
         
@@ -34,7 +64,7 @@ class WaiverVerificationCell: UITableViewCell {
     
     //    MARK: - Label
     
-    let participantLabel: UILabel = {
+    let participantNameLabel: UILabel = {
         
         let label = UILabel()
         label.text = "Participant name"
@@ -92,7 +122,7 @@ class WaiverVerificationCell: UITableViewCell {
         let buttonStackView = UIStackView(arrangedSubviews: [reviewButton, acceptButton])
         buttonStackView.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 10)
         
-        let labelsStackView = UIStackView(arrangedSubviews: [participantLabel, toursLabel])
+        let labelsStackView = UIStackView(arrangedSubviews: [participantNameLabel, toursLabel])
         labelsStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
         labelsStackView.axis = .vertical
         

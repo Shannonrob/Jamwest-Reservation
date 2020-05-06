@@ -12,6 +12,7 @@ import Foundation
 class WaiverVerification {
     
     var name: String!
+    var imageURL: String!
     var firstTour: String!
     var secondTour: String!
     var thirdTour: String!
@@ -27,6 +28,10 @@ class WaiverVerification {
     init(waiverID: String!, dictionary: Dictionary<String, AnyObject>) {
         
         self.waiverID = waiverID
+        
+        if let imageURL = dictionary[Constant.imageURL] as? String {
+            self.imageURL = imageURL
+        }
         
         if let name = dictionary[Constant.name] as? String {
             self.name = name
