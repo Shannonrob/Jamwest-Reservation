@@ -35,6 +35,13 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        
+        let loadingVC = LoadingVC()
+        remove(loadingVC)
+    }
+    
     //    MARK: - Handlers
     
     // pop navigation controller back to previous viewController
@@ -56,6 +63,9 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
     
     func uploadWaiverPhoto() {
         
+        let loadingVC = LoadingVC()
+        add(loadingVC)
+        
         // image upload data
         guard let uploadData = previewImage?.jpegData(compressionQuality: 0.75) else { return }
         
@@ -63,6 +73,8 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
         WAIVER_IMAGE_REF.child(waiverID!).putData(uploadData, metadata: nil) { (metadata, error) in
             
             if let error = error {
+               
+                self.remove(loadingVC)
                 
                 Alert.showErrorMessage(on: self, with: "Failed to upload image to storage with error \(error.localizedDescription)")
                 return
@@ -72,6 +84,8 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
             WAIVER_IMAGE_REF.child(self.waiverID!).downloadURL { (url, error) in
                 
                 if let error = error {
+                    
+                    self.remove(loadingVC)
                     
                     Alert.showErrorMessage(on: self, with: "Failed to upload image to storage with error \(error.localizedDescription)")
                     return
