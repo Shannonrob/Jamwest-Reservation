@@ -6,8 +6,6 @@
 //  Copyright © 2020 Wurllink. All rights reserved.
 //
 
-import Foundation
-
 class Reservation {
     
     //    var date: String!

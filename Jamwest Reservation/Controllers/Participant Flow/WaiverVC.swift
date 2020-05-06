@@ -150,7 +150,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             
             // append participant information to dictionary
             participantWaiver[Constant.name] = "\(data.firstName) \(data.lastName)"
-            participantWaiver[Constant.prenantAnswer] = data.pregnantAnswer
+            participantWaiver[Constant.pregnantAnswer] = data.pregnantAnswer
             participantWaiver[Constant.minorAnswer] = data.ageAnswer
             participantWaiver[Constant.underInfluenceAnswer] = data.underInfluenceAnswer
             participantWaiver[Constant.heartAnswer] = data.heartProblemAnswer

@@ -35,7 +35,7 @@ enum Constant {
     static let secondTour = "secondTour"
     static let thirdTour = "thirdTour"
     static let fourthTour = "fourthTour"
-    static let prenantAnswer = "pregnantAnswer"
+    static let pregnantAnswer = "pregnantAnswer"
     static let minorAnswer = "minorAnswer"
     static let underInfluenceAnswer = "influenceAnswer"
     static let heartAnswer = "heartAnswer"
