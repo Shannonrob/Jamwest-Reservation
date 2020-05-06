@@ -12,6 +12,10 @@ private let reuseIdentifier = "SearchUserCell"
 
 class WaiverVerificationVC: UITableViewController {
 
+//    MARK: - Properties
+    
+    var waivers = [WaiverVerification]()
+    
     
 //    MARK: - Init
     
@@ -24,6 +28,7 @@ class WaiverVerificationVC: UITableViewController {
         tableView.separatorColor = .clear
         
         configureUI()
+        fetchWaivers()
     }
     
 //    MARK: - TableView flow layout
@@ -52,6 +57,23 @@ class WaiverVerificationVC: UITableViewController {
 //    MARK: - Handlers
     @objc func handleDismiss() {
         dismiss(animated: true, completion: nil)
+    }
+    
+//    MARK: - API
+    
+    func fetchWaivers() {
+        
+        PARTICIPANT_WAIVER_REF.observe(.childAdded) { (snapshot) in
+            
+            let waiverID = snapshot.key
+            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            
+            let waiver = WaiverVerification(waiverID: waiverID, dictionary: dictionary)
+            
+            self.waivers.append(waiver)
+            
+            print("waiver name is \(waiver.name)")
+        }
     }
     
 //    MARK: - Helper functions

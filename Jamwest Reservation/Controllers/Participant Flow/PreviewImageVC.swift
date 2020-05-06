@@ -81,7 +81,7 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
                     // save url as string
                     guard let url = url?.absoluteString else { return }
                     
-                    // pass image url to waiver
+                    // update participant waiver with image URL
                     PARTICIPANT_WAIVER_REF.child(self.waiverID).child(Constant.imageURL).setValue(url)
                     
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
