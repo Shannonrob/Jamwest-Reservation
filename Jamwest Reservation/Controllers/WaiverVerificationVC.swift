@@ -51,7 +51,6 @@ class WaiverVerificationVC: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! WaiverVerificationCell
         
         cell.waiver = waivers[indexPath.row]
-        
         cell.backgroundColor = .clear
         return cell
     }
@@ -78,6 +77,11 @@ class WaiverVerificationVC: UITableViewController {
             
             // append waiver to data source
             self.waivers.append(waiver)
+            
+            // sort results in alphabetical order
+            self.waivers.sort { (waiver1, waiver2) -> Bool in
+                return waiver1.name < waiver2.name
+            }
             
             self.tableView.reloadData()        }
     }
