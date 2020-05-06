@@ -89,7 +89,7 @@ class CameraVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        countDownLabel.isHidden = true
+        
         startValue = 3
         countDownLabel.text = "\(startValue)"
         takePhotoButton.isEnabled = true
@@ -100,6 +100,7 @@ class CameraVC: UIViewController {
         
         // hide navigationBar
         navigationController?.setNavigationBarHidden(true, animated: true)
+        countDownLabel.isHidden = true
     }
     
 //    MARK: - Handlers
