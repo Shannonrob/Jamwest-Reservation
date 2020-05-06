@@ -1,5 +1,5 @@
 //
-//  UIImageExt.swift
+//  CustomImageView.swift
 //  Jamwest Reservation
 //
 //  Created by Shannon Robinson on 5/6/20.
@@ -10,9 +10,17 @@ import UIKit
 
 var imageCache = [String: UIImage]()
 
-extension UIImageView {
+class CustomImageView: UIImageView {
+    
+    var lastImageUrlUsedToLoad: String?
     
     func loadImage(with urlString: String) {
+        
+        // set image to nil
+        self.image = nil
+        
+        // set last imageUrlUsedToLoadImage
+        lastImageUrlUsedToLoad = urlString
         
         // check if image exists in cache
         if let cachedImage = imageCache[urlString] {
@@ -30,6 +38,10 @@ extension UIImageView {
             if let error = error {
                 
                 print("Failed to load image with error", error.localizedDescription)
+            }
+            
+            if self.lastImageUrlUsedToLoad != url.absoluteString {
+                return
             }
             
             // image data

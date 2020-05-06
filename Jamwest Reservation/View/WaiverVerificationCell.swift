@@ -51,9 +51,9 @@ class WaiverVerificationCell: UITableViewCell {
         return view
     }()
     
-    let participantImageView: UIImageView = {
+    let participantImageView: CustomImageView = {
         
-        let imageView = UIImageView()
+        let imageView = CustomImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = .lightGray

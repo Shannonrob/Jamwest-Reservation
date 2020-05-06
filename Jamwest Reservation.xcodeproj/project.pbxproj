@@ -19,7 +19,7 @@
 		8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */; };
 		85261260243621470009E2B2 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526125F243621470009E2B2 /* PDFCreator.swift */; };
 		85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA22462EE9F00D970E8 /* WaiverVerification.swift */; };
-		85558CA524630BEA00D970E8 /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA424630BEA00D970E8 /* UIImageViewExt.swift */; };
+		85558CA7246335D400D970E8 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA6246335D400D970E8 /* CustomImageView.swift */; };
 		855D929724299CE800084D9B /* WaiverViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D929624299CE800084D9B /* WaiverViews.swift */; };
 		855D92992429A5AA00084D9B /* JamwestWaiverLabelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */; };
 		855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D940F240E8AB900F50CB2 /* AppDelegate.swift */; };
@@ -77,7 +77,7 @@
 		8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestCustomRoundedButton.swift; sourceTree = "<group>"; };
 		8526125F243621470009E2B2 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		85558CA22462EE9F00D970E8 /* WaiverVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerification.swift; sourceTree = "<group>"; };
-		85558CA424630BEA00D970E8 /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
+		85558CA6246335D400D970E8 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		855D929624299CE800084D9B /* WaiverViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverViews.swift; sourceTree = "<group>"; };
 		855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestWaiverLabelClass.swift; sourceTree = "<group>"; };
 		855D940C240E8AB900F50CB2 /* Jamwest Reservation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jamwest Reservation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -313,7 +313,6 @@
 				855D9433240E91F700F50CB2 /* UILabelExt.swift */,
 				855D9435240E920600F50CB2 /* UIStackviewExt.swift */,
 				855D9437240E921200F50CB2 /* UITextfieldExt.swift */,
-				85558CA424630BEA00D970E8 /* UIImageViewExt.swift */,
 				855D9439240E921B00F50CB2 /* UIViewExt.swift */,
 				851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */,
 				85D668E1242C2305002F1189 /* UIScrollViewExt.swift */,
@@ -329,6 +328,7 @@
 				85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */,
 				855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */,
 				8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */,
+				85558CA6246335D400D970E8 /* CustomImageView.swift */,
 			);
 			path = CustomClasses;
 			sourceTree = "<group>";
@@ -460,7 +460,6 @@
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */,
 				855D92992429A5AA00084D9B /* JamwestWaiverLabelClass.swift in Sources */,
-				85558CA524630BEA00D970E8 /* UIImageViewExt.swift in Sources */,
 				855D9448240E94E000F50CB2 /* Reservation.swift in Sources */,
 				855D9454240E95D600F50CB2 /* MenuVC.swift in Sources */,
 				8503261B244DFDC400BCAEE7 /* PendingWaiverViews.swift in Sources */,
@@ -469,6 +468,7 @@
 				8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */,
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
 				855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */,
+				85558CA7246335D400D970E8 /* CustomImageView.swift in Sources */,
 				855D944A240E954600F50CB2 /* MenuOptionCell.swift in Sources */,
 				855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */,
 				85D668E2242C2305002F1189 /* UIScrollViewExt.swift in Sources */,
