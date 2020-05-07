@@ -11,6 +11,7 @@ import UIKit
 class ReviewView: UIView {
     
 //    MARK: - Properties
+    var reviewWaiverDelegate: ReviewWaiverDelegate?
 
     //    MARK: - Init
     
@@ -33,9 +34,9 @@ class ReviewView: UIView {
     
 //    MARK: - ImageView
     
-    let profileImageView: UIImageView = {
+    let profileImageView: CustomImageView = {
         
-        let imageView = UIImageView()
+        let imageView = CustomImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 192 / 2
@@ -47,11 +48,7 @@ class ReviewView: UIView {
 
 //    MARK: - View
     
-    let waiverView: JamwestDefaultView = {
-        
-        let view = JamwestDefaultView()
-        return view
-    }()
+    let waiverView = JamwestDefaultView()
     
 //    MARK: - labels
     
@@ -63,8 +60,26 @@ class ReviewView: UIView {
         return label
     }()
     
+//    MARK: - Buttons
+    
+    // this button is temporary while working on the project, afterwards the screen will be swipe down to delete 
+    lazy var dismissButton: UIButton = {
+        
+        let button = UIButton()
+        button.setTitle("Dismiss", for: .normal)
+        button.setTitleColor(Color.Primary.markerColor, for: .normal)
+        button.addTarget(self, action: #selector(handleDismissButton), for: .touchUpInside)
+        return button
+    }()
+    
+//    MARK: - Handlers
+    
+    @objc func handleDismissButton() {
+        reviewWaiverDelegate?.handleDismissButtonTapped(for: self)
+    }
     
 //    MARK: - Helper Functions
+    
     func configureConstraints() {
         
         addSubview(waiverView)
@@ -79,6 +94,9 @@ class ReviewView: UIView {
         waiverView.addSubview(nameLabel)
         nameLabel.anchor(top: profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         nameLabel.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
+        
+        waiverView.addSubview(dismissButton)
+        dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
         
 //        addSubview(label)

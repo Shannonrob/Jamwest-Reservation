@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ReviewVC: UIViewController {
+class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
     // array of custom object
     var waivers: WaiverVerification?
@@ -18,28 +18,27 @@ class ReviewVC: UIViewController {
         super.viewDidLoad()
 
         view = waiverReviewView
+        waiverReviewView.reviewWaiverDelegate = self
         presentData()
-        
-        print(waivers?.name)
-        print(waivers?.pregnantAnswer)
-        print(waivers?.minorAnswer)
-        print(waivers?.underInfluenceAnswer)
-        print(waivers?.heartAnswer)
-        print(waivers?.backAnswer)
-        
-        
     }
     
+//    MARK: - Protocol and delegate
+    func handleDismissButtonTapped(for vc: ReviewView) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+//    MARK: - Helper function
     func presentData() {
         
         guard let name = waivers?.name,
-//        let image = waivers?.imageURL,
+        let image = waivers?.imageURL,
         let pregnantAnswer = waivers?.pregnantAnswer,
         let minorAnser = waivers?.minorAnswer,
         let underInfluenceAnswer = waivers?.underInfluenceAnswer,
         let heartAnswer = waivers?.heartAnswer,
         let backAnser = waivers?.backAnswer else { return }
         
+        waiverReviewView.profileImageView.loadImage(with: image)
         waiverReviewView.nameLabel.text = name
     }
 }
