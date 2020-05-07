@@ -17,11 +17,11 @@ class WaiverVerification {
     var secondTour: String!
     var thirdTour: String!
     var fourthTour: String!
-    var pregnantAnswer: String!
-    var minorAnswer: String!
-    var underInfluenceAnswer: String!
-    var heartAnswer: String!
-    var backAnswer: String!
+    var pregnantAnswer: Bool!
+    var minorAnswer: Bool!
+    var underInfluenceAnswer: Bool!
+    var heartAnswer: Bool!
+    var backAnswer: Bool!
     var creationDate: Date!
     var waiverID: String!
     
@@ -53,23 +53,23 @@ class WaiverVerification {
             self.fourthTour = fourthTour
         }
         
-        if let pregnantAnswer = dictionary[Constant.pregnantAnswer] as? String {
+        if let pregnantAnswer = dictionary[Constant.pregnantAnswer] as? Bool {
             self.pregnantAnswer = pregnantAnswer
         }
         
-        if let minorAnswer = dictionary[Constant.minorAnswer] as? String {
+        if let minorAnswer = dictionary[Constant.minorAnswer] as? Bool {
             self.minorAnswer = minorAnswer
         }
         
-        if let underInfluenceAnswer = dictionary[Constant.underInfluenceAnswer] as? String {
+        if let underInfluenceAnswer = dictionary[Constant.underInfluenceAnswer] as? Bool {
             self.underInfluenceAnswer = underInfluenceAnswer
         }
         
-        if let heartAnswer = dictionary[Constant.heartAnswer] as? String {
+        if let heartAnswer = dictionary[Constant.heartAnswer] as? Bool {
             self.heartAnswer = heartAnswer
         }
         
-        if let backAnswer = dictionary[Constant.backAnswer] as? String {
+        if let backAnswer = dictionary[Constant.backAnswer] as? Bool {
             self.backAnswer = backAnswer
         }
         
