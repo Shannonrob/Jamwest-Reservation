@@ -26,6 +26,7 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
         tableView.register(WaiverVerificationCell.self, forCellReuseIdentifier: reuseIdentifier)
         
         tableView.separatorColor = .clear
+        tableView.allowsSelection = false
         
         configureUI()
         fetchWaivers()
@@ -67,8 +68,6 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
         
         guard let waiverDetails = cell.waiver else { return }
         
-//        var waivers: WaiverVerification!
-//
         let popoverViewController = ReviewVC()
 
         popoverViewController.waivers = waiverDetails
