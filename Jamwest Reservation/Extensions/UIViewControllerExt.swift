@@ -50,4 +50,13 @@ extension UIViewController {
         child.removeFromParent()
         child.view.removeFromSuperview()
     }
+    
+     // present viewController with or without fullScreen
+    func handlePresentVC(with vc: UIViewController, fullscreen yes: Bool = true) {
+         
+         let viewController = vc
+         let navigationController = UINavigationController(rootViewController: viewController)
+         yes == true ? navigationController.modalPresentationStyle = .fullScreen : nil
+        present(navigationController, animated: true)
+     }
 }
