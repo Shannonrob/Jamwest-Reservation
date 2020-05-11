@@ -19,11 +19,18 @@ class WaiverVerificationCell: UITableViewCell {
         
         didSet {
             
-            guard let participantImageUrl = waiver?.imageURL else { return }
+//            guard let participantImageUrl = waiver?.imageURL else { return }
             guard let participantName = waiver?.name else { return }
             guard let firstTour = waiver?.firstTour else { return }
             
             tours = firstTour
+            
+            if let participantImageUrl = waiver?.imageURL {
+                participantImageView.loadImage(with: participantImageUrl)
+                
+            } else {
+                participantImageView.image = #imageLiteral(resourceName: "gray_Avatar ").withRenderingMode(.alwaysOriginal).withTintColor(.white)
+            }
 
             if let secondTour = waiver?.secondTour {
                 tours.append(", \(secondTour)")
@@ -37,7 +44,7 @@ class WaiverVerificationCell: UITableViewCell {
                 tours.append(", \(fourthTour)")
             }
            
-            participantImageView.loadImage(with: participantImageUrl)
+//            participantImageView.loadImage(with: participantImageUrl)
             participantNameLabel.text = participantName
             toursLabel.text = tours
         }
