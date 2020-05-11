@@ -34,11 +34,17 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         let image = waivers?.imageURL,
         let pregnantAnswer = waivers?.pregnantAnswer,
         let minorAnser = waivers?.minorAnswer,
-        let underInfluenceAnswer = waivers?.underInfluenceAnswer,
+        let influenceAnswer = waivers?.underInfluenceAnswer,
         let heartAnswer = waivers?.heartAnswer,
-        let backAnser = waivers?.backAnswer else { return }
+        let backAnswer = waivers?.backAnswer else { return }
         
         waiverReviewView.profileImageView.loadImage(with: image)
         waiverReviewView.nameLabel.text = name
+        waiverReviewView.toursLabel.attributedText = UILabel.configureAttributes(with: "Tours: ", append: "Tours will be listed here!")
+        waiverReviewView.pregnantLabel.attributedText = UILabel.configureAttributes(with: "Pregnant: ", append: "\(pregnantAnswer)")
+        waiverReviewView.minorAnswerLabel.attributedText = UILabel.configureAttributes(with: "Minor: ", append: "\(minorAnser)")
+        waiverReviewView.influenceLabel.attributedText = UILabel.configureAttributes(with: "Under influence: ", append: "\(influenceAnswer)")
+        waiverReviewView.heartProblemLabel.attributedText = UILabel.configureAttributes(with: "Heart problem: ", append: "\(heartAnswer)")
+        waiverReviewView.backProblemLabel.attributedText = UILabel.configureAttributes(with: "Back problem: ", append: "\(backAnswer)")
     }
 }

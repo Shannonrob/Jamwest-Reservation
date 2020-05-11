@@ -70,7 +70,7 @@ class ReviewView: UIView {
         return label
     }()
     
-    let pregnantAnswerLabel: UILabel = {
+    let pregnantLabel: UILabel = {
         
         let label = UILabel()
         label.text = "Pregnant answer"
@@ -88,7 +88,7 @@ class ReviewView: UIView {
         return label
     }()
     
-    let underInfluenceAnswerLabel: UILabel = {
+    let influenceLabel: UILabel = {
         
         let label = UILabel()
         label.text = "Under influence answer"
@@ -97,7 +97,7 @@ class ReviewView: UIView {
         return label
     }()
     
-    let heartAnswerLabel: UILabel = {
+    let heartProblemLabel: UILabel = {
         
         let label = UILabel()
         label.text = "Heart answer"
@@ -106,7 +106,7 @@ class ReviewView: UIView {
         return label
     }()
     
-    let backProblemAnswerLabel: UILabel = {
+    let backProblemLabel: UILabel = {
         
         let label = UILabel()
         label.text = "Back problem answer"
@@ -170,11 +170,11 @@ class ReviewView: UIView {
         let buttonsStackView = UIStackView(arrangedSubviews: [rejectButton, approveButton])
         buttonsStackView.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 10)
         
-        let leftAnswersStackView = UIStackView(arrangedSubviews: [pregnantAnswerLabel, minorAnswerLabel, underInfluenceAnswerLabel])
+        let leftAnswersStackView = UIStackView(arrangedSubviews: [pregnantLabel, minorAnswerLabel, influenceLabel])
         leftAnswersStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 10)
         leftAnswersStackView.axis = .vertical
         
-        let rightAnswersStackView = UIStackView(arrangedSubviews: [heartAnswerLabel, backProblemAnswerLabel])
+        let rightAnswersStackView = UIStackView(arrangedSubviews: [heartProblemLabel, backProblemLabel])
         rightAnswersStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 10)
         rightAnswersStackView.axis = .vertical
         
