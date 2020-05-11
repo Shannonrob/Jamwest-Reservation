@@ -225,8 +225,8 @@ class ReviewView: UIView {
         buttonsStackView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 280, height: 45)
         buttonsStackView.centerXAnchor.constraint(equalTo: nameLabel.centerXAnchor).isActive = true
         
-//        waiverView.addSubview(dismissButton)
-//        dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        waiverView.addSubview(dismissButton)
+        dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         waiverView.addSubview(tourHeaderLabel)
         tourHeaderLabel.anchor(top: buttonsStackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 35, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

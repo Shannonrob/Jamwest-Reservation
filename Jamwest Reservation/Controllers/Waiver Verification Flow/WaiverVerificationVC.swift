@@ -112,7 +112,7 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
         }
     }
     
-    // removes reservation from collectionView
+    // removes waiver from tableView
     func handleRejectedWaiver() {
         
         let loadingVC = LoadingVC()
@@ -125,8 +125,6 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
             self.tableView.reloadData()
         }
     }
-    
-    
     
 //    MARK: - Helper functions
     
