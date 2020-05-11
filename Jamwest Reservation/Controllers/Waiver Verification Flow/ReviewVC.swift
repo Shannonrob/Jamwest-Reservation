@@ -28,23 +28,50 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     }
     
 //    MARK: - Helper function
+    
     func presentData() {
+        
+        var tours = String()
         
         guard let name = waivers?.name,
         let image = waivers?.imageURL,
         let pregnantAnswer = waivers?.pregnantAnswer,
-        let minorAnser = waivers?.minorAnswer,
+        let minorAnswer = waivers?.minorAnswer,
         let influenceAnswer = waivers?.underInfluenceAnswer,
         let heartAnswer = waivers?.heartAnswer,
         let backAnswer = waivers?.backAnswer else { return }
         
+        // check if tours are nill and append it to tours array
+        if let firstTour = waivers?.firstTour { tours.append(firstTour) }
+        if let secondTour = waivers?.secondTour { tours.append(", \(secondTour)") }
+        if let thirdTour = waivers?.thirdTour { tours.append(", \(thirdTour)") }
+        if let fourthTour = waivers?.fourthTour { tours.append(", \(fourthTour)") }
+        
+        // convert boolean answers to string
+        let newPregnantAnswer = updateAnswerValue(with: pregnantAnswer)
+        let newMinorAnswer = updateAnswerValue(with: minorAnswer)
+        let newInfluenceAnswer = updateAnswerValue(with: influenceAnswer)
+        let newHeartAnswer = updateAnswerValue(with: heartAnswer)
+        let newBackAnswer = updateAnswerValue(with: backAnswer)
+        
+        // update imageView and labels with data
         waiverReviewView.profileImageView.loadImage(with: image)
         waiverReviewView.nameLabel.text = name
-        waiverReviewView.toursLabel.attributedText = UILabel.configureAttributes(with: "Tours: ", append: "Tours will be listed here!")
-        waiverReviewView.pregnantLabel.attributedText = UILabel.configureAttributes(with: "Pregnant: ", append: "\(pregnantAnswer)")
-        waiverReviewView.minorAnswerLabel.attributedText = UILabel.configureAttributes(with: "Minor: ", append: "\(minorAnser)")
-        waiverReviewView.influenceLabel.attributedText = UILabel.configureAttributes(with: "Under influence: ", append: "\(influenceAnswer)")
-        waiverReviewView.heartProblemLabel.attributedText = UILabel.configureAttributes(with: "Heart problem: ", append: "\(heartAnswer)")
-        waiverReviewView.backProblemLabel.attributedText = UILabel.configureAttributes(with: "Back problem: ", append: "\(backAnswer)")
+        waiverReviewView.toursLabel.text = tours
+        waiverReviewView.pregnantLabel.attributedText = UILabel.configureAttributes(with: "Pregnant: ", append: "\(newPregnantAnswer)")
+        waiverReviewView.minorAnswerLabel.attributedText = UILabel.configureAttributes(with: "Minor: ", append: "\(newMinorAnswer)")
+        waiverReviewView.influenceLabel.attributedText = UILabel.configureAttributes(with: "Under influence: ", append: "\(newInfluenceAnswer)")
+        waiverReviewView.heartProblemLabel.attributedText = UILabel.configureAttributes(with: "Heart problem: ", append: "\(newHeartAnswer)")
+        waiverReviewView.backProblemLabel.attributedText = UILabel.configureAttributes(with: "Back problem: ", append: "\(newBackAnswer)")
+    }
+    
+    // method to convert answer to string
+    func updateAnswerValue(with answer: Bool) -> String {
+        
+        if answer {
+            return "Yes"
+        } else {
+            return "No"
+        }
     }
 }
