@@ -30,6 +30,7 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
         
         configureUI()
         fetchWaivers()
+        handleRejectedWaiver()
     }
     
 //    MARK: - TableView flow layout
@@ -107,8 +108,25 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
                 return waiver1.name < waiver2.name
             }
             
-            self.tableView.reloadData()        }
+            self.tableView.reloadData()
+        }
     }
+    
+    // removes reservation from collectionView
+    func handleRejectedWaiver() {
+        
+        let loadingVC = LoadingVC()
+
+        PARTICIPANT_WAIVER_REF.observe(.childRemoved) { (snapshot) in
+            self.add(loadingVC)
+            self.waivers.removeAll(keepingCapacity: true)
+            self.fetchWaivers()
+            self.remove(loadingVC)
+            self.tableView.reloadData()
+        }
+    }
+    
+    
     
 //    MARK: - Helper functions
     
