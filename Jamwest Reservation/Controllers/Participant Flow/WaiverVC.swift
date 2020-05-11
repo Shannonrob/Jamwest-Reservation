@@ -136,11 +136,11 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         // loop participant information and present it in waiver labels
         for data in participantInformation {
             
-            waiverViews.nameLabel.attributedText = configureAttributes(with: "Name:  ", append: "\(data.firstName) \(data.lastName)")
-            waiverViews.phoneNumberLabel.attributedText = configureAttributes(with: "Phone#  ", append: "\(data.phoneNumber)")
-            waiverViews.dateLabel.attributedText = configureAttributes(with: "Date:  ", append: "\(data.currentDate)")
-            waiverViews.emailLabel.attributedText = configureAttributes(with: "Email:  ", append: "\(data.emailAddress)")
-            waiverViews.countryLabel.attributedText = configureAttributes(with: "Country:  ", append: "\(data.country)")
+            waiverViews.nameLabel.attributedText = UILabel.configureAttributes(with: "Name:  ", append: "\(data.firstName) \(data.lastName)")
+            waiverViews.phoneNumberLabel.attributedText = UILabel.configureAttributes(with: "Phone#  ", append: "\(data.phoneNumber)")
+            waiverViews.dateLabel.attributedText = UILabel.configureAttributes(with: "Date:  ", append: "\(data.currentDate)")
+            waiverViews.emailLabel.attributedText = UILabel.configureAttributes(with: "Email:  ", append: "\(data.emailAddress)")
+            waiverViews.countryLabel.attributedText = UILabel.configureAttributes(with: "Country:  ", append: "\(data.country)")
             
             // pass boolean
             isUnderAge = data.ageAnswer
@@ -180,13 +180,13 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             if let fourthTour = data?.fourthTour { tours.append(", \(fourthTour)") }
             
             // configure labels with data to present
-            waiverViews.hotelLabel.attributedText = configureAttributes(with: "Hotel:  ", append: "\(hotel)")
-            waiverViews.reservationTimeLabel.attributedText = configureAttributes(with: "Time:  ", append: "\(time)")
-            waiverViews.voucherLabel.attributedText = configureAttributes(with: "Voucher#  "  , append: "\(voucher)")
-            waiverViews.tourRepLabel.attributedText = configureAttributes(with: "Tour Representative:  ", append: "\(tourRep)")
-            waiverViews.tourCompanyLabel.attributedText = configureAttributes(with: "Tour Company:  ", append: "\(tourComp)")
-            waiverViews.toursLabel.attributedText = configureAttributes(with: "Tour(s):  ", append: "\(tours)")
-            waiverViews.paxLabel.attributedText = configureAttributes(with: "Pax:  ", append: "\(groupCount)")
+            waiverViews.hotelLabel.attributedText = UILabel.configureAttributes(with: "Hotel:  ", append: "\(hotel)")
+            waiverViews.reservationTimeLabel.attributedText = UILabel.configureAttributes(with: "Time:  ", append: "\(time)")
+            waiverViews.voucherLabel.attributedText = UILabel.configureAttributes(with: "Voucher#  "  , append: "\(voucher)")
+            waiverViews.tourRepLabel.attributedText = UILabel.configureAttributes(with: "Tour Representative:  ", append: "\(tourRep)")
+            waiverViews.tourCompanyLabel.attributedText = UILabel.configureAttributes(with: "Tour Company:  ", append: "\(tourComp)")
+            waiverViews.toursLabel.attributedText = UILabel.configureAttributes(with: "Tour(s):  ", append: "\(tours)")
+            waiverViews.paxLabel.attributedText = UILabel.configureAttributes(with: "Pax:  ", append: "\(groupCount)")
             
             // append participant information to dictionary
             participantWaiver[Constant.firstTour] = data?.firstTour
@@ -196,14 +196,14 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         }
     }
     
-    // configure text attributes
-    func configureAttributes(with title: String, append dataTitle: String) -> NSAttributedString {
-
-        let attributedTitle = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: Font.helveticaNeueBold, size: 20)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-        attributedTitle.append(NSAttributedString(string: dataTitle, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20), NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
-    
-        return attributedTitle
-    }
+//    // configure text attributes
+//    func configureAttributes(with title: String, append dataTitle: String) -> NSAttributedString {
+//
+//        let attributedTitle = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: Font.helveticaNeueBold, size: 20)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+//        attributedTitle.append(NSAttributedString(string: dataTitle, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20), NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
+//
+//        return attributedTitle
+//    }
     
     //configure guardian agreement label
     func configureGuardianLabel(with guardian: String, of minor: String, if state: Bool) {

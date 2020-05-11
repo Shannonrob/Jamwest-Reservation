@@ -46,4 +46,13 @@ extension UILabel {
             self.font = UIFont.init(name: Font.avenirNextDemibold, size: font)
         }        
     }
+    
+    // configure text attributes
+    static func configureAttributes(with title: String, append dataTitle: String) -> NSAttributedString {
+
+        let attributedTitle = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.init(name: Font.helveticaNeueBold, size: 20)!, NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        attributedTitle.append(NSAttributedString(string: dataTitle, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20), NSAttributedString.Key.foregroundColor: UIColor.darkGray]))
+    
+        return attributedTitle
+    }
 }
