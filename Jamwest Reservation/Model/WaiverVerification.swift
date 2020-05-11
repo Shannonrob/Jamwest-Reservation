@@ -77,4 +77,11 @@ class WaiverVerification {
             self.creationDate = Date(timeIntervalSince1970: creationDate)
         }
     }
+    
+    func rejectWaiver(id waiverID: String) {
+        
+        PARTICIPANT_WAIVER_REF.child(waiverID).removeValue { (error, ref) in
+            WAIVER_IMAGE_REF.child(waiverID).delete(completion: nil)
+        }
+    }
 }
