@@ -32,6 +32,10 @@ class ReviewView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //    MARK: - View
+    
+    let waiverView = JamwestDefaultView()
+    
 //    MARK: - ImageView
     
     let profileImageView: CustomImageView = {
@@ -46,21 +50,102 @@ class ReviewView: UIView {
         return imageView
     }()
 
-//    MARK: - View
-    
-    let waiverView = JamwestDefaultView()
-    
 //    MARK: - labels
     
-    let nameLabel: JamwestWaiverLabelClass = {
+    let nameLabel: UILabel = {
         
-        let label = JamwestWaiverLabelClass()
+        let label = UILabel()
         label.text = "Test label"
         label.textColor = .black
+        label.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
+        return label
+    }()
+    
+    let toursLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Tours:"
+        label.textColor = .black
+        label.font = UIFont.init(name: Font.avenirNextDemibold, size: 24)
+        return label
+    }()
+    
+    let pregnantAnswerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Pregnant answer"
+        label.textColor = .black
+        label.font = UIFont.init(name: Font.avenirNextDemibold, size: 22)
+        return label
+    }()
+    
+    let minorAnswerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Minor answer"
+        label.textColor = .black
+        label.font = UIFont.init(name: Font.avenirNextDemibold, size: 22)
+        return label
+    }()
+    
+    let underInfluenceAnswerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Under influence answer"
+        label.textColor = .black
+        label.font = UIFont.init(name: Font.avenirNextDemibold, size: 22)
+        return label
+    }()
+    
+    let heartAnswerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Heart answer"
+        label.textColor = .black
+        label.font = UIFont.init(name: Font.avenirNextDemibold, size: 22)
+        return label
+    }()
+    
+    let backProblemAnswerLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Back problem answer"
+        label.textColor = .black
+        label.font = UIFont.init(name: Font.avenirNextDemibold, size: 22)
         return label
     }()
     
 //    MARK: - Buttons
+    
+    lazy var editButton: UIButton = {
+        
+        let button = UIButton(type: .system)
+        button.setTitle("edit", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
+        //        button.addTarget(self, action: #selector(handleReviewButton), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var rejectButton: UIButton = {
+        
+        let button = UIButton(type: .system)
+        button.configureButtonWithIcon(nil, title: "Reject", titleColor: .black, buttonColor: Color.Background.fadeGray, cornerRadius: 8)
+        button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 19)
+        button.setShadow()
+//        button.addTarget(self, action: #selector(handleReviewButton), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var approveButton: UIButton = {
+        
+        let button = UIButton(type: .system)
+        button.configureButtonWithIcon(nil, title: "Approve", titleColor: .white, buttonColor: Color.Primary.orange, cornerRadius: 8)
+        button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 19)
+        button.setShadow()
+//        button.addTarget(self, action: #selector(handleApproveButton), for: .touchUpInside)
+        return button
+    }()
     
     // this button is temporary while working on the project, afterwards the screen will be swipe down to delete 
     lazy var dismissButton: UIButton = {
@@ -82,26 +167,47 @@ class ReviewView: UIView {
     
     func configureConstraints() {
         
+        let buttonsStackView = UIStackView(arrangedSubviews: [rejectButton, approveButton])
+        buttonsStackView.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 10)
+        
+        let leftAnswersStackView = UIStackView(arrangedSubviews: [pregnantAnswerLabel, minorAnswerLabel, underInfluenceAnswerLabel])
+        leftAnswersStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 10)
+        leftAnswersStackView.axis = .vertical
+        
+        let rightAnswersStackView = UIStackView(arrangedSubviews: [heartAnswerLabel, backProblemAnswerLabel])
+        rightAnswersStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 10)
+        rightAnswersStackView.axis = .vertical
+        
         addSubview(waiverView)
         waiverView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 740, height: 570)
         waiverView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         waiverView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 80).isActive = true
+        
+        waiverView.addSubview(editButton)
+        editButton.anchor(top: waiverView.topAnchor, left: nil, bottom: nil, right: waiverView.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 0, height: 0)
         
         waiverView.addSubview(profileImageView)
         profileImageView.anchor(top: waiverView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: -96, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 192, height: 192)
         profileImageView.centerXAnchor.constraint(equalTo: waiverView.centerXAnchor).isActive = true
         
         waiverView.addSubview(nameLabel)
-        nameLabel.anchor(top: profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        nameLabel.anchor(top: profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         nameLabel.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
+        
+        waiverView.addSubview(buttonsStackView)
+        buttonsStackView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 280, height: 45)
+        buttonsStackView.centerXAnchor.constraint(equalTo: nameLabel.centerXAnchor).isActive = true
         
         waiverView.addSubview(dismissButton)
         dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
+        waiverView.addSubview(toursLabel)
+        toursLabel.anchor(top: buttonsStackView.bottomAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-//        addSubview(label)
-//        label.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-//        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-//        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        waiverView.addSubview(leftAnswersStackView)
+        leftAnswersStackView.anchor(top: toursLabel.bottomAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        waiverView.addSubview(rightAnswersStackView)
+        rightAnswersStackView.anchor(top: leftAnswersStackView.topAnchor, left: nil, bottom: nil, right: waiverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 0, height: 0)
     }
 }
