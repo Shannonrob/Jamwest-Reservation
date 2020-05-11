@@ -191,7 +191,7 @@ class ReviewView: UIView {
         answerStackView.configureStackView(alignment: .top, distribution: .equalCentering, spacing: 60)
         
         addSubview(waiverView)
-        waiverView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 740, height: 570)
+        waiverView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 640, height: 470)
         waiverView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         waiverView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 80).isActive = true
         
@@ -207,14 +207,14 @@ class ReviewView: UIView {
         nameLabel.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
         
         waiverView.addSubview(buttonsStackView)
-        buttonsStackView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 280, height: 45)
+        buttonsStackView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 280, height: 45)
         buttonsStackView.centerXAnchor.constraint(equalTo: nameLabel.centerXAnchor).isActive = true
         
-        waiverView.addSubview(dismissButton)
-        dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+//        waiverView.addSubview(dismissButton)
+//        dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         waiverView.addSubview(tourHeaderLabel)
-        tourHeaderLabel.anchor(top: buttonsStackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        tourHeaderLabel.anchor(top: buttonsStackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 35, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         tourHeaderLabel.centerXAnchor.constraint(equalTo: buttonsStackView.centerXAnchor).isActive = true
         
         waiverView.addSubview(toursLabel)
