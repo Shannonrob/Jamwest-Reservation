@@ -43,9 +43,9 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         
         // check if tours are nill and append it to tours array
         if let firstTour = waivers?.firstTour { tours.append(firstTour) }
-        if let secondTour = waivers?.secondTour { tours.append(", \(secondTour)") }
-        if let thirdTour = waivers?.thirdTour { tours.append(", \(thirdTour)") }
-        if let fourthTour = waivers?.fourthTour { tours.append(", \(fourthTour)") }
+        if let secondTour = waivers?.secondTour { tours.append("| \(secondTour)") }
+        if let thirdTour = waivers?.thirdTour { tours.append("| \(thirdTour)") }
+        if let fourthTour = waivers?.fourthTour { tours.append("| \(fourthTour)") }
         
         // convert boolean answers to string
         let newPregnantAnswer = updateAnswerValue(with: pregnantAnswer)
