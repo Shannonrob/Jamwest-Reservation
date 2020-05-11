@@ -132,7 +132,7 @@ class ReviewView: UIView {
         button.setTitle("edit", for: .normal)
         button.setTitleColor(.gray, for: .normal)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
-        //        button.addTarget(self, action: #selector(handleReviewButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleEditButton), for: .touchUpInside)
         return button
     }()
     
@@ -142,7 +142,7 @@ class ReviewView: UIView {
         button.configureButtonWithIcon(nil, title: "Reject", titleColor: .black, buttonColor: Color.Background.fadeGray, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 19)
         button.setShadow()
-        //        button.addTarget(self, action: #selector(handleReviewButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleRejectButton), for: .touchUpInside)
         return button
     }()
     
@@ -152,7 +152,7 @@ class ReviewView: UIView {
         button.configureButtonWithIcon(nil, title: "Approve", titleColor: .white, buttonColor: Color.Primary.orange, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 19)
         button.setShadow()
-        //        button.addTarget(self, action: #selector(handleApproveButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleApproveButton), for: .touchUpInside)
         return button
     }()
     
@@ -170,6 +170,21 @@ class ReviewView: UIView {
     
     @objc func handleDismissButton() {
         reviewWaiverDelegate?.handleDismissButtonTapped(for: self)
+    }
+    
+    
+//    MARK: - Protocols
+    
+    @objc func handleRejectButton() {
+        reviewWaiverDelegate?.handleRejectButton(for: self)
+    }
+    
+    @objc func handleApproveButton() {
+        reviewWaiverDelegate?.handleApproveButton(for: self)
+    }
+    
+    @objc func handleEditButton() {
+        reviewWaiverDelegate?.handleEditButton(for: self)
     }
     
     //    MARK: - Helper Functions

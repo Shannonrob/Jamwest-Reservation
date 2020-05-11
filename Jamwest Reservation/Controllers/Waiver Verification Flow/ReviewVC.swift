@@ -23,6 +23,19 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     }
     
 //    MARK: - Protocol and delegate
+    
+    func handleRejectButton(for vc: ReviewView) {
+        print("Reject button tapped")
+    }
+    
+    func handleApproveButton(for vc: ReviewView) {
+        print("Approve button tapped")
+    }
+    
+    func handleEditButton(for vc: ReviewView) {
+        print("Edit button tapped")
+    }
+    
     func handleDismissButtonTapped(for vc: ReviewView) {
         dismiss(animated: true, completion: nil)
     }

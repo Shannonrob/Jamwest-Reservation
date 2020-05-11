@@ -43,5 +43,8 @@ protocol WaiverVerificationCellDelegate {
 
 protocol ReviewWaiverDelegate {
     
+    func handleRejectButton(for vc: ReviewView)
+    func handleApproveButton(for vc: ReviewView)
+    func handleEditButton(for vc: ReviewView)
     func handleDismissButtonTapped(for vc: ReviewView)
 }
