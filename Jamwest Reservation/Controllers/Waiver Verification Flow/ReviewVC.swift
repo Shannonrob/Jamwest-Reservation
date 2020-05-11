@@ -25,7 +25,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
 //    MARK: - Protocol and delegate
     
     func handleRejectButton(for vc: ReviewView) {
-        print("Reject button tapped")
+        rejectWaiver()
     }
     
     func handleApproveButton(for vc: ReviewView) {
@@ -77,6 +77,31 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         waiverReviewView.heartProblemLabel.attributedText = UILabel.configureAttributes(with: "Heart problem: ", append: "\(newHeartAnswer)")
         waiverReviewView.backProblemLabel.attributedText = UILabel.configureAttributes(with: "Back problem: ", append: "\(newBackAnswer)")
     }
+    
+    // handles deletions of waiver
+    func rejectWaiver() {
+        
+        let alertController = UIAlertController(title: "Warning", message: "Waiver will be deleted!", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Continue", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+            
+            self.dismiss(animated: true) {
+                self.waivers?.rejectWaiver(id: self.waivers!.waiverID)
+            }
+        })
+
+       let deleteAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
+       })
+
+       alertController.addAction(defaultAction)
+       alertController.addAction(deleteAction)
+       
+       if let popoverController = alertController.popoverPresentationController {
+           popoverController.sourceView = self.view
+           popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+           popoverController.permittedArrowDirections = []
+       }
+       self.present(alertController, animated: true, completion: nil)
+   }
     
     // method to convert answer to string
     func updateAnswerValue(with answer: Bool) -> String {
