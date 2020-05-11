@@ -10,9 +10,9 @@ import UIKit
 
 class ReviewView: UIView {
     
-//    MARK: - Properties
+    //    MARK: - Properties
     var reviewWaiverDelegate: ReviewWaiverDelegate?
-
+    
     //    MARK: - Init
     
     override init(frame: CGRect) {
@@ -23,7 +23,7 @@ class ReviewView: UIView {
     convenience init() {
         self.init(frame: CGRect.zero)
         
-//        backgroundColor = .clear
+        //        backgroundColor = .clear
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
         configureConstraints()
     }
@@ -36,7 +36,7 @@ class ReviewView: UIView {
     
     let waiverView = JamwestDefaultView()
     
-//    MARK: - ImageView
+    //    MARK: - ImageView
     
     let profileImageView: CustomImageView = {
         
@@ -49,24 +49,33 @@ class ReviewView: UIView {
         imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
-
-//    MARK: - labels
+    
+    //    MARK: - labels
     
     let nameLabel: UILabel = {
         
         let label = UILabel()
         label.text = "Test label"
-        label.textColor = .black
-        label.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
+        label.textColor = .darkGray
+        label.font = UIFont.init(name: Font.helveticaNeueBold, size: 18)
+        return label
+    }()
+    
+    let tourHeaderLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Tours"
+        label.textColor = .darkGray
+        label.font = UIFont.init(name: Font.helveticaNeueBold, size: 20)
         return label
     }()
     
     let toursLabel: UILabel = {
         
         let label = UILabel()
-        label.text = "Tours:"
-        label.textColor = .black
-        label.font = UIFont.init(name: Font.avenirNextDemibold, size: 24)
+        label.text = "Tours"
+        label.textColor = .darkGray
+        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
     
@@ -115,7 +124,7 @@ class ReviewView: UIView {
         return label
     }()
     
-//    MARK: - Buttons
+    //    MARK: - Buttons
     
     lazy var editButton: UIButton = {
         
@@ -133,7 +142,7 @@ class ReviewView: UIView {
         button.configureButtonWithIcon(nil, title: "Reject", titleColor: .black, buttonColor: Color.Background.fadeGray, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 19)
         button.setShadow()
-//        button.addTarget(self, action: #selector(handleReviewButton), for: .touchUpInside)
+        //        button.addTarget(self, action: #selector(handleReviewButton), for: .touchUpInside)
         return button
     }()
     
@@ -143,7 +152,7 @@ class ReviewView: UIView {
         button.configureButtonWithIcon(nil, title: "Approve", titleColor: .white, buttonColor: Color.Primary.orange, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 19)
         button.setShadow()
-//        button.addTarget(self, action: #selector(handleApproveButton), for: .touchUpInside)
+        //        button.addTarget(self, action: #selector(handleApproveButton), for: .touchUpInside)
         return button
     }()
     
@@ -157,26 +166,29 @@ class ReviewView: UIView {
         return button
     }()
     
-//    MARK: - Handlers
+    //    MARK: - Handlers
     
     @objc func handleDismissButton() {
         reviewWaiverDelegate?.handleDismissButtonTapped(for: self)
     }
     
-//    MARK: - Helper Functions
+    //    MARK: - Helper Functions
     
     func configureConstraints() {
         
         let buttonsStackView = UIStackView(arrangedSubviews: [rejectButton, approveButton])
         buttonsStackView.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 10)
         
-        let leftAnswersStackView = UIStackView(arrangedSubviews: [pregnantLabel, minorAnswerLabel, influenceLabel])
+        let leftAnswersStackView = UIStackView(arrangedSubviews: [minorAnswerLabel, pregnantLabel, influenceLabel])
         leftAnswersStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 10)
         leftAnswersStackView.axis = .vertical
         
         let rightAnswersStackView = UIStackView(arrangedSubviews: [heartProblemLabel, backProblemLabel])
         rightAnswersStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 10)
         rightAnswersStackView.axis = .vertical
+        
+        let answerStackView = UIStackView(arrangedSubviews: [leftAnswersStackView, rightAnswersStackView])
+        answerStackView.configureStackView(alignment: .top, distribution: .equalCentering, spacing: 60)
         
         addSubview(waiverView)
         waiverView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 740, height: 570)
@@ -200,14 +212,17 @@ class ReviewView: UIView {
         
         waiverView.addSubview(dismissButton)
         dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-
+        
+        waiverView.addSubview(tourHeaderLabel)
+        tourHeaderLabel.anchor(top: buttonsStackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        tourHeaderLabel.centerXAnchor.constraint(equalTo: buttonsStackView.centerXAnchor).isActive = true
+        
         waiverView.addSubview(toursLabel)
-        toursLabel.anchor(top: buttonsStackView.bottomAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        toursLabel.anchor(top: tourHeaderLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        toursLabel.centerXAnchor.constraint(equalTo: tourHeaderLabel.centerXAnchor).isActive = true
         
-        waiverView.addSubview(leftAnswersStackView)
-        leftAnswersStackView.anchor(top: toursLabel.bottomAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 40, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
-        waiverView.addSubview(rightAnswersStackView)
-        rightAnswersStackView.anchor(top: leftAnswersStackView.topAnchor, left: nil, bottom: nil, right: waiverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 80, width: 0, height: 0)
+        waiverView.addSubview(answerStackView)
+        answerStackView.anchor(top: toursLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        answerStackView.centerXAnchor.constraint(equalTo: tourHeaderLabel.centerXAnchor).isActive = true
     }
 }

@@ -173,7 +173,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             self.reservationID = reservationID
             self.paxCount = groupCount
             
-            // check if tours are nill and append it to tours label
+            // check if tours are nill and append it to tours array
             if let firstTour = data?.firstTour { tours.append(firstTour) }
             if let secondTour = data?.secondTour { tours.append(", \(secondTour)") }
             if let thirdTour = data?.thirdTour { tours.append(", \(thirdTour)") }
