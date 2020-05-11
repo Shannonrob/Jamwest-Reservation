@@ -94,7 +94,7 @@ class WaiverVerificationCell: UITableViewCell {
         return button
     }()
     
-    lazy var acceptButton: UIButton = {
+    lazy var approveButton: UIButton = {
         
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Approve", titleColor: .white, buttonColor: Color.Primary.orange, cornerRadius: 8)
@@ -130,7 +130,7 @@ class WaiverVerificationCell: UITableViewCell {
     
     func configureCell() {
         
-        let buttonStackView = UIStackView(arrangedSubviews: [reviewButton, acceptButton])
+        let buttonStackView = UIStackView(arrangedSubviews: [reviewButton, approveButton])
         buttonStackView.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 10)
         
         let labelsStackView = UIStackView(arrangedSubviews: [participantNameLabel, toursLabel])
