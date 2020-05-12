@@ -16,13 +16,13 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view = waiverReviewView
         waiverReviewView.reviewWaiverDelegate = self
         presentData()
     }
     
-//    MARK: - Protocol and delegate
+    //    MARK: - Protocol and delegate
     
     func handleRejectButton(for vc: ReviewView) {
         rejectWaiver()
@@ -40,18 +40,18 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-//    MARK: - Helper function
+    //    MARK: - Helper function
     
     func presentData() {
         
         var tours = String()
         
         guard let name = waivers?.name,
-        let pregnantAnswer = waivers?.pregnantAnswer,
-        let minorAnswer = waivers?.minorAnswer,
-        let influenceAnswer = waivers?.underInfluenceAnswer,
-        let heartAnswer = waivers?.heartAnswer,
-        let backAnswer = waivers?.backAnswer else { return }
+            let pregnantAnswer = waivers?.pregnantAnswer,
+            let minorAnswer = waivers?.minorAnswer,
+            let influenceAnswer = waivers?.underInfluenceAnswer,
+            let heartAnswer = waivers?.heartAnswer,
+            let backAnswer = waivers?.backAnswer else { return }
         
         // check if image exist else use avatar image
         if let image = waivers?.imageURL {
@@ -90,23 +90,29 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         let defaultAction = UIAlertAction(title: "Continue", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
             
             self.dismiss(animated: true) {
-                self.waivers?.rejectWaiver(id: self.waivers!.waiverID)
+                
+                if self.waivers?.imageURL != nil {
+                    
+                    self.waivers?.rejectWaiver(id: self.waivers!.waiverID, withImage: true)
+                } else {
+                    self.waivers?.rejectWaiver(id: self.waivers!.waiverID, withImage: false)
+                }
             }
         })
-
-       let deleteAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
-       })
-
-       alertController.addAction(defaultAction)
-       alertController.addAction(deleteAction)
-       
-       if let popoverController = alertController.popoverPresentationController {
-           popoverController.sourceView = self.view
-           popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-           popoverController.permittedArrowDirections = []
-       }
-       self.present(alertController, animated: true, completion: nil)
-   }
+        
+        let deleteAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
+        })
+        
+        alertController.addAction(defaultAction)
+        alertController.addAction(deleteAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
     
     // method to convert answer to string
     func updateAnswerValue(with answer: Bool) -> String {
