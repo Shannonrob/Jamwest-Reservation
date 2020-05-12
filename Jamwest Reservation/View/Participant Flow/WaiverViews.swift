@@ -224,7 +224,6 @@ class WaiverViews: UIView {
         
         let button = JamwestCustomRoundedButton()
         button.setTitle("Done", for: .normal)
-        button.isEnabled = false
         button.backgroundColor = Color.Primary.green
         button.addTarget(self, action: #selector(handleDoneTapped), for: .touchUpInside)
         return button

@@ -14,7 +14,7 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
     //    MARK: - Properties
     var previewImage: UIImage?
     var previewImageView = PreviewImageView()
-    var waiverID: String!
+    var participantWaiver = [String:Any]()
     
     //    MARK: - Init
     
@@ -56,6 +56,8 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
         previewImageView.usePhotoButton.isEnabled = false
         previewImageView.retakePhotoButton.isEnabled = false
         
+        Alert.showCompletionAlert(on: self, with: "Your waiver is complete!")
+        
         uploadWaiverPhoto()
     }
     
@@ -69,8 +71,15 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
         // image upload data
         guard let uploadData = previewImage?.jpegData(compressionQuality: 0.75) else { return }
         
+        // creation date
+        let creation = Int(NSDate().timeIntervalSince1970)
+        participantWaiver[Constant.creationDate] = creation
+        
+        // post ID
+        let waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
+   
         // update storage
-        WAIVER_IMAGE_REF.child(waiverID!).putData(uploadData, metadata: nil) { (metadata, error) in
+        WAIVER_IMAGE_REF.child("\(waiverID)").putData(uploadData, metadata: nil) { (metadata, error) in
             
             if let error = error {
                
@@ -81,7 +90,7 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
             }
             
             // download image url
-            WAIVER_IMAGE_REF.child(self.waiverID!).downloadURL { (url, error) in
+            WAIVER_IMAGE_REF.child("\(waiverID)").downloadURL { (url, error) in
                 
                 if let error = error {
                     
@@ -93,11 +102,14 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
                 } else {
                     
                     // save url as string
-                    guard let url = url?.absoluteString else { return }
+                    guard let imageUrl = url?.absoluteString else { return }
                     
-                    // update participant waiver with image URL
-                    PARTICIPANT_WAIVER_REF.child(self.waiverID).child(Constant.imageURL).setValue(url)
+                    self.participantWaiver[Constant.imageURL] = imageUrl
                     
+                    // upload information to database
+                    waiverID.updateChildValues(self.participantWaiver)
+                    
+                    // pop to root view controller
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     self.navigationController?.popToRootViewController(animated: true)
                 }

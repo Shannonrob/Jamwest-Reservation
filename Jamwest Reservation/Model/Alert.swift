@@ -66,6 +66,10 @@ struct Alert {
     static func showGuardianReqiuredMessage(on vc: UIViewController, with message: String) {
         showBasicAlert(on: vc, with: "", message: message)
     }
+    
+    static func showCompletionAlert(on vc: UIViewController, with message: String) {
+        showBasicAlert(on: vc, with: "", message: message)
+    }
 }
 
 
