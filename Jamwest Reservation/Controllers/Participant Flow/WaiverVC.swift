@@ -55,7 +55,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         
         if waiverViews.guardianLabel.isHidden == false && guardianAgreed == false {
             
-            Alert.showGuardianReqiuredMessage(on: self, with: "Parent/Gaurdian must accept signing on behalf of minor")
+            Alert.showGuardianReqiuredMessage(on: self, with: "Parent/Gaurdian must agree to signing on behalf of minor")
             
         } else {
             
@@ -85,10 +85,16 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         // check if canvasView has drawing then present CameraVC else shows alert
         if !waiverViews.canvasView.drawing.bounds.isEmpty {
             
-            // handles the data
-            uploadParticipantWaiver()
-            waiverViews.doneButton.isEnabled = false
+             waiverViews.doneButton.isEnabled = false
             
+            // update pax value or delete reservation
+            self.reservation.updateWaiverBalance(for: self.currentDate)
+
+            // transition to cameraVC
+            let cameraVC = CameraVC()
+            cameraVC.participantWaiver = self.participantWaiver
+            self.navigationController?.pushViewController(cameraVC, animated: true)
+           
         } else {
             Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability")
         }
@@ -206,29 +212,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     func configureUI() {
         view.backgroundColor = Color.Background.fadeGray
     }
-    
-//    MARK: - API
-    
-    func uploadParticipantWaiver() {
-
-        // creation date
-        let creation = Int(NSDate().timeIntervalSince1970)
-        participantWaiver[Constant.creationDate] = creation
-        
-        // post ID
-        let waiver = PARTICIPANT_WAIVER_REF.childByAutoId()
-        
-        // upload information to database
-        waiver.updateChildValues(participantWaiver)
-        
-        // update pax value or delete reservation
-        self.reservation.updateWaiverBalance(for: self.currentDate)
-
-        // transition to cameraVC
-        let cameraVC = CameraVC()
-        cameraVC.waiverID = waiver.key
-        self.navigationController?.pushViewController(cameraVC, animated: true)
-    }
 }
 
 // extension to manually opperate scrollView
@@ -237,4 +220,3 @@ extension UIScrollView {
         self.setContentOffset(direction.contentOffsetWith(scrollView: self), animated: animated)
     }
 }
-
