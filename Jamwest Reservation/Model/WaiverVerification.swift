@@ -78,11 +78,18 @@ class WaiverVerification {
         }
     }
     
-    func rejectWaiver(id waiverID: String) {
+    // delete image and waiver data if condition is true
+    func rejectWaiver(id waiverID: String, withImage answer: Bool) {
         
-        PARTICIPANT_WAIVER_REF.child(waiverID).removeValue { (error, ref) in
-//            WAIVER_IMAGE_REF.child(waiverID).delete(completion: nil)
-            Storage.storage().reference(forURL: self.imageURL).delete(completion: nil)
+        if answer {
+            
+            PARTICIPANT_WAIVER_REF.child(waiverID).removeValue { (err, ref) in
+                Storage.storage().reference(forURL: self.imageURL).delete(completion: nil)
+            }
+        } else {
+            
+            PARTICIPANT_WAIVER_REF.child(waiverID).removeValue()
         }
     }
 }
+
