@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Firebase
 
 class WaiverVerification {
     
@@ -81,7 +81,8 @@ class WaiverVerification {
     func rejectWaiver(id waiverID: String) {
         
         PARTICIPANT_WAIVER_REF.child(waiverID).removeValue { (error, ref) in
-            WAIVER_IMAGE_REF.child(waiverID).delete(completion: nil)
+//            WAIVER_IMAGE_REF.child(waiverID).delete(completion: nil)
+            Storage.storage().reference(forURL: self.imageURL).delete(completion: nil)
         }
     }
 }
