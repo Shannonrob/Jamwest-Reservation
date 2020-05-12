@@ -47,12 +47,18 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         var tours = String()
         
         guard let name = waivers?.name,
-        let image = waivers?.imageURL,
         let pregnantAnswer = waivers?.pregnantAnswer,
         let minorAnswer = waivers?.minorAnswer,
         let influenceAnswer = waivers?.underInfluenceAnswer,
         let heartAnswer = waivers?.heartAnswer,
         let backAnswer = waivers?.backAnswer else { return }
+        
+        // check if image exist else use avatar image
+        if let image = waivers?.imageURL {
+            waiverReviewView.profileImageView.loadImage(with: image)
+        } else {
+            waiverReviewView.profileImageView.image = #imageLiteral(resourceName: "gray_Avatar ").withRenderingMode(.alwaysOriginal).withTintColor(.white)
+        }
         
         // check if tours are nill and append it to tours array
         if let firstTour = waivers?.firstTour { tours.append(firstTour) }
@@ -68,7 +74,6 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         let newBackAnswer = updateAnswerValue(with: backAnswer)
         
         // update imageView and labels with data
-        waiverReviewView.profileImageView.loadImage(with: image)
         waiverReviewView.nameLabel.text = name
         waiverReviewView.toursLabel.text = tours
         waiverReviewView.pregnantLabel.attributedText = UILabel.configureAttributes(with: "Pregnant: ", append: "\(newPregnantAnswer)")
