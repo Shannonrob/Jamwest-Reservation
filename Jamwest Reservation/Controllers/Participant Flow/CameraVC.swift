@@ -21,7 +21,7 @@ class CameraVC: UIViewController {
     var photoOutput: AVCapturePhotoOutput?
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     var image: UIImage?
-    var waiverID: String?
+    var participantWaiver = [String:Any]()
     
     // values for Timer
     var startValue = Int()
@@ -107,9 +107,7 @@ class CameraVC: UIViewController {
    
     @objc func handleCancelTapped() {
         
-        // show navigationBar then pops to rootViewController
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationController?.popToRootViewController(animated: true)
+        presentAlert()
     }
     
     // start CADisplayLink
@@ -137,18 +135,46 @@ class CameraVC: UIViewController {
     
 //    MARK: - Helper Functions
     
-    func snapPhoto() {
-           
-        let settings = AVCapturePhotoSettings()
-        photoOutput?.capturePhoto(with: settings, delegate: self)
+    // alerts use when cancel is tapped
+    func presentAlert() {
+        
+        let alertController = UIAlertController(title: "Warning", message: "Waiver will be incomplete!", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Continue", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+          
+            // upload waiver details to backEnd
+            self.uploadWaiver()
+            
+            // show navigationBar then pops to rootViewController
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            self.navigationController?.popToRootViewController(animated: true)
+        })
+        
+        let deleteAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
+        })
+        
+        alertController.addAction(defaultAction)
+        alertController.addAction(deleteAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func presentPreviewVC() {
         
         let previewImageVC = PreviewImageVC()
-        previewImageVC.waiverID = self.waiverID
         previewImageVC.previewImage = rotateImage(image: self.image!)
+        previewImageVC.participantWaiver = self.participantWaiver
         navigationController?.pushViewController(previewImageVC, animated: true)
+    }
+    
+    func snapPhoto() {
+           
+        let settings = AVCapturePhotoSettings()
+        photoOutput?.capturePhoto(with: settings, delegate: self)
     }
     
     // rotate image after capture session
@@ -233,6 +259,21 @@ class CameraVC: UIViewController {
         view.addSubview(countDownLabel)
         countDownLabel.anchor(top: nil, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         countDownLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    //MARK: - Api
+    
+    func uploadWaiver() {
+        
+        // creation date
+        let creation = Int(NSDate().timeIntervalSince1970)
+        participantWaiver[Constant.creationDate] = creation
+        
+        // post ID
+        let waiver = PARTICIPANT_WAIVER_REF.childByAutoId()
+        
+        // upload information to database
+        waiver.updateChildValues(participantWaiver)
     }
 }
 
