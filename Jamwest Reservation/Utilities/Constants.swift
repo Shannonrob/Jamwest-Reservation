@@ -16,6 +16,7 @@ let USER_REF = DB_REF.child("users")
 let RESERVATION_REF = DB_REF.child("reservations")
 let RESERVATION_DATE_REF = DB_REF.child("reservation-Date")
 let PARTICIPANT_WAIVER_REF = DB_REF.child("participant-Waiver")
+let VERIFIED_WAIVER_REF = DB_REF.child("verified-Waiver")
 let WAIVER_IMAGE_REF = STORAGE_REF.child("waiverImage")
 
 enum Constant {
