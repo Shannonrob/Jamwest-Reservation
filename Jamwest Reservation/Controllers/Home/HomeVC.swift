@@ -279,7 +279,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         RESERVATION_DATE_REF.child(currentDate).observe(.childRemoved) { (snapshot) in
             
             self.add(self.loadingVC)
-            self.reservations.removeAll(keepingCapacity: true)
+            self.reservations.removeAll(keepingCapacity: false)
             self.fetchCurrentReservations()
             self.remove(self.loadingVC)
             self.collectionView.reloadData()

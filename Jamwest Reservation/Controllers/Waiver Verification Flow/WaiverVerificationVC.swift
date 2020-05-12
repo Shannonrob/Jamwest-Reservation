@@ -30,7 +30,8 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
         
         configureUI()
         fetchWaivers()
-        handleRejectedWaiver()
+        rejectedWaiver()
+        configureRefreshControl()
     }
     
 //    MARK: - TableView flow layout
@@ -63,6 +64,13 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func handleRefresh() {
+        waivers.removeAll(keepingCapacity: false)
+        fetchWaivers()
+        tableView.reloadData()
+    }
+    
+    
 //    MARK: -  WaiverVerificationCell Delegate Protocols
     
     func handleReviewButtonTapped(for cell: WaiverVerificationCell) {
@@ -70,14 +78,9 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
         guard let waiverDetails = cell.waiver else { return }
         
         let popoverViewController = ReviewVC()
-
         popoverViewController.waivers = waiverDetails
         popoverViewController.modalPresentationStyle = .custom
         self.present(popoverViewController, animated: true, completion: nil)
-        
-//        presentReviewVC()
-        
-        
     }
     
     func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
@@ -90,6 +93,8 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
     func fetchWaivers() {
         
         PARTICIPANT_WAIVER_REF.observe(.childAdded) { (snapshot) in
+            
+            self.tableView.refreshControl?.endRefreshing()
             
             // waiverID
             let waiverID = snapshot.key
@@ -113,20 +118,22 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
     }
     
     // removes waiver from tableView
-    func handleRejectedWaiver() {
-        
-        let loadingVC = LoadingVC()
-
+    func rejectedWaiver() {
+    
         PARTICIPANT_WAIVER_REF.observe(.childRemoved) { (snapshot) in
-            self.add(loadingVC)
-            self.waivers.removeAll(keepingCapacity: true)
-            self.fetchWaivers()
-            self.remove(loadingVC)
-            self.tableView.reloadData()
+            
+            self.handleRefresh()
         }
     }
     
 //    MARK: - Helper functions
+    
+    func configureRefreshControl() {
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+    }
     
     func configureUI() {
     
@@ -144,3 +151,4 @@ class WaiverVerificationVC: UITableViewController, WaiverVerificationCellDelegat
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDismiss))
     }
 }
+
