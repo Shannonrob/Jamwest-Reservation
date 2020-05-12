@@ -14,4 +14,9 @@ extension Array where Element: Equatable {
         guard let index = firstIndex(of: object) else {return}
         remove(at: index)
     }
+    
+    // Returns an array with items removed
+    func removing(_ obj: Element) -> [Element] {
+        return filter { $0 != obj }
+    }
 }
