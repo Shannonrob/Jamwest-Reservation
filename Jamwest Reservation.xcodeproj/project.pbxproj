@@ -19,6 +19,8 @@
 		8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */; };
 		85261260243621470009E2B2 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526125F243621470009E2B2 /* PDFCreator.swift */; };
 		8526322024634E9F00DAEA65 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526321F24634E9F00DAEA65 /* ReviewView.swift */; };
+		854B8E6B246CA212007D85B6 /* VerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B8E6A246CA212007D85B6 /* VerificationVC.swift */; };
+		854B8E6D246CA374007D85B6 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B8E6C246CA374007D85B6 /* VerificationView.swift */; };
 		85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA22462EE9F00D970E8 /* WaiverVerification.swift */; };
 		85558CA7246335D400D970E8 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA6246335D400D970E8 /* CustomImageView.swift */; };
 		85558CAC246340EE00D970E8 /* ReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CAB246340EE00D970E8 /* ReviewVC.swift */; };
@@ -79,6 +81,8 @@
 		8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestCustomRoundedButton.swift; sourceTree = "<group>"; };
 		8526125F243621470009E2B2 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		8526321F24634E9F00DAEA65 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
+		854B8E6A246CA212007D85B6 /* VerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationVC.swift; sourceTree = "<group>"; };
+		854B8E6C246CA374007D85B6 /* VerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
 		85558CA22462EE9F00D970E8 /* WaiverVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerification.swift; sourceTree = "<group>"; };
 		85558CA6246335D400D970E8 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		85558CAB246340EE00D970E8 /* ReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewVC.swift; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				8526321F24634E9F00DAEA65 /* ReviewView.swift */,
+				854B8E6C246CA374007D85B6 /* VerificationView.swift */,
 				8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */,
 			);
 			path = "Verification Flow";
@@ -227,6 +232,7 @@
 			children = (
 				85558CAB246340EE00D970E8 /* ReviewVC.swift */,
 				8510844D244A9F8700229791 /* WaiverVerificationVC.swift */,
+				854B8E6A246CA212007D85B6 /* VerificationVC.swift */,
 			);
 			path = "Waiver Verification Flow";
 			sourceTree = "<group>";
@@ -480,6 +486,7 @@
 				855D9440240E940E00F50CB2 /* Countries.swift in Sources */,
 				855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */,
 				85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */,
+				854B8E6D246CA374007D85B6 /* VerificationView.swift in Sources */,
 				8524F51D2424F56D003173EF /* CameraVC.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */,
@@ -501,6 +508,7 @@
 				85108448244A8E2300229791 /* PreviewImageView.swift in Sources */,
 				85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */,
 				85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */,
+				854B8E6B246CA212007D85B6 /* VerificationVC.swift in Sources */,
 				851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */,
 				855D943E240E940600F50CB2 /* Constants.swift in Sources */,
 			);
