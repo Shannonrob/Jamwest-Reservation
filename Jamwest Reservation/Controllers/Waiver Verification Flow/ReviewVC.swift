@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
@@ -29,7 +30,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     }
     
     func handleApproveButton(for vc: ReviewView) {
-        print("Approve button tapped")
+        uploadApprovedWaiver()
     }
     
     func handleEditButton(for vc: ReviewView) {
@@ -93,9 +94,9 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
                 
                 if self.waivers?.imageURL != nil {
                     
-                    self.waivers?.rejectWaiver(id: self.waivers!.waiverID, withImage: true)
+                    self.waivers?.removeWaiver(id: self.waivers!.waiverID, withImage: true)
                 } else {
-                    self.waivers?.rejectWaiver(id: self.waivers!.waiverID, withImage: false)
+                    self.waivers?.removeWaiver(id: self.waivers!.waiverID, withImage: false)
                 }
             }
         })
@@ -121,6 +122,42 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             return "Yes"
         } else {
             return "No"
+        }
+    }
+    
+//    MARK: - Api
+    
+    func uploadApprovedWaiver() {
+        
+        // check for image and name
+        guard let name = waivers?.name else { return }
+        guard let image = waivers?.imageURL else {
+            
+            Alert.showReqiuredMessage(on: self, with: "Participant photo is required!")
+            return
+        }
+        
+        // append values
+        var values = [String:Any]()
+        values[Constant.name] = name
+        values[Constant.imageURL] = image
+        
+        // get waiverID and upload approved waiver
+        let approvedWaiverID = APPROVED_WAIVER_REF.child(waivers!.waiverID)
+        
+        approvedWaiverID.updateChildValues(values) { (error, ref) in
+            
+            if let error = error {
+                
+                Alert.showErrorMessage(on: self , with: "Error \(error.localizedDescription)")
+            } else {
+                
+                self.dismiss(animated: true) {
+                    
+                    // delete waiver from pending
+                    self.waivers?.removeWaiver(id: approvedWaiverID.key!, withImage: true)
+                }
+            }
         }
     }
 }
