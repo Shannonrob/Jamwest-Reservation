@@ -55,7 +55,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         
         if waiverViews.guardianLabel.isHidden == false && guardianAgreed == false {
             
-            Alert.showGuardianReqiuredMessage(on: self, with: "Parent/Gaurdian must agree to signing on behalf of minor")
+            Alert.showReqiuredMessage(on: self, with: "Parent/Gaurdian must agree to signing on behalf of minor")
             
         } else {
             
