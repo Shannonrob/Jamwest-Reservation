@@ -13,13 +13,14 @@ class WaiverVerificationCell: UITableViewCell {
     //    MARK: - Properties
 
     var verificationCellDelegate: WaiverVerificationCellDelegate?
-    var tours: String!
+    
     
     var waiver: WaiverVerification? {
         
         didSet {
             
-//            guard let participantImageUrl = waiver?.imageURL else { return }
+            var tours: String!
+            
             guard let participantName = waiver?.name else { return }
             guard let firstTour = waiver?.firstTour else { return }
             
