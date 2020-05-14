@@ -9,7 +9,7 @@
 import Firebase
 
 extension Database {
-        
+    
     static func fetchReservation(for currentDate: String, completion: @escaping(Reservation) -> ()) {
         
         // fetch reservation using current date
@@ -25,6 +25,23 @@ extension Database {
                 
                 completion(reservation)
             }
+        }
+    }
+    
+    static func fetchWaiver(from reference: DatabaseReference, completion: @escaping(ApprovedWaiver) -> ()) {
+        
+        reference.observe(.childAdded) { (snapshot) in
+            
+            // waiverID
+            let waiverID = snapshot.key
+            
+            // snapshot value cast as dictionary
+            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            
+            // construct waiver
+            let waiver = ApprovedWaiver(waiverID: waiverID, dictionary: dictionary)
+            
+            completion(waiver)
         }
     }
 }
