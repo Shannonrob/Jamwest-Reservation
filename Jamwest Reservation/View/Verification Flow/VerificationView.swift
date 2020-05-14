@@ -10,6 +10,7 @@ import UIKit
 
 class VerificationView: UIView {
     
+    var verificationDelegate: VerificationDelegate?
     
     //    MARK: - Init
     
@@ -29,6 +30,8 @@ class VerificationView: UIView {
         
         let tableView = UITableView()
         tableView.backgroundColor = .clear
+        tableView.separatorColor = .clear
+        tableView.allowsSelection = false
         return tableView
     }()
     
@@ -37,9 +40,16 @@ class VerificationView: UIView {
         let control = UISegmentedControl(items: ["Pending", "Verified"])
         control.selectedSegmentIndex = 0
         control.selectedSegmentTintColor = Color.Primary.heavyGreen
-        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+//        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        control.addTarget(self, action: #selector(handleSegmentedControl), for: .valueChanged)
         return control
     }()
+    
+//    MARK: - Handlers
+    
+    @objc func handleSegmentedControl() {
+        verificationDelegate?.handleSegmentedControl(for: self)
+    }
     
     //    MARK: - Contraints
     
@@ -51,6 +61,5 @@ class VerificationView: UIView {
         
         addSubview(tableView)
         tableView.anchor(top: segmentedContol.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 3, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
     }
 }
