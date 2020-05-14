@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		8503261B244DFDC400BCAEE7 /* PendingWaiverViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8503261A244DFDC400BCAEE7 /* PendingWaiverViews.swift */; };
+		850BFECB246DC18E00BEAF1D /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFECA246DC18E00BEAF1D /* TestVC.swift */; };
+		850BFECF246DC35600BEAF1D /* ApprovedWaiverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFECE246DC35600BEAF1D /* ApprovedWaiverCell.swift */; };
+		850BFED1246DCCEA00BEAF1D /* ApprovedWaiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */; };
+		850BFED5246DE01900BEAF1D /* WaiverSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFED4246DE01900BEAF1D /* WaiverSelection.swift */; };
 		85108448244A8E2300229791 /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85108447244A8E2300229791 /* PreviewImageView.swift */; };
 		8510844C244A9B1100229791 /* LoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844B244A9B1100229791 /* LoadingVC.swift */; };
 		8510844E244A9F8700229791 /* WaiverVerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844D244A9F8700229791 /* WaiverVerificationVC.swift */; };
@@ -70,6 +74,10 @@
 		298CE1659D48E687F3B38B25 /* Pods-Jamwest Reservation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.debug.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.debug.xcconfig"; sourceTree = "<group>"; };
 		4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.release.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.release.xcconfig"; sourceTree = "<group>"; };
 		8503261A244DFDC400BCAEE7 /* PendingWaiverViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingWaiverViews.swift; sourceTree = "<group>"; };
+		850BFECA246DC18E00BEAF1D /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
+		850BFECE246DC35600BEAF1D /* ApprovedWaiverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedWaiverCell.swift; sourceTree = "<group>"; };
+		850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedWaiver.swift; sourceTree = "<group>"; };
+		850BFED4246DE01900BEAF1D /* WaiverSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverSelection.swift; sourceTree = "<group>"; };
 		85108447244A8E2300229791 /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
 		8510844B244A9B1100229791 /* LoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingVC.swift; sourceTree = "<group>"; };
 		8510844D244A9F8700229791 /* WaiverVerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerificationVC.swift; sourceTree = "<group>"; };
@@ -181,6 +189,7 @@
 		8526322124634EAF00DAEA65 /* Verification Flow */ = {
 			isa = PBXGroup;
 			children = (
+				850BFECE246DC35600BEAF1D /* ApprovedWaiverCell.swift */,
 				8526321F24634E9F00DAEA65 /* ReviewView.swift */,
 				854B8E6C246CA374007D85B6 /* VerificationView.swift */,
 				8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */,
@@ -233,6 +242,7 @@
 				85558CAB246340EE00D970E8 /* ReviewVC.swift */,
 				8510844D244A9F8700229791 /* WaiverVerificationVC.swift */,
 				854B8E6A246CA212007D85B6 /* VerificationVC.swift */,
+				850BFECA246DC18E00BEAF1D /* TestVC.swift */,
 			);
 			path = "Waiver Verification Flow";
 			sourceTree = "<group>";
@@ -306,10 +316,12 @@
 			children = (
 				855D9441240E94B500F50CB2 /* Alert.swift */,
 				855D9443240E94C100F50CB2 /* MenuOption.swift */,
+				850BFED4246DE01900BEAF1D /* WaiverSelection.swift */,
 				855D9445240E94D100F50CB2 /* PickerViewData.swift */,
 				85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */,
 				85558CA22462EE9F00D970E8 /* WaiverVerification.swift */,
 				855D9447240E94E000F50CB2 /* Reservation.swift */,
+				850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -467,6 +479,7 @@
 				855D929724299CE800084D9B /* WaiverViews.swift in Sources */,
 				855D9446240E94D100F50CB2 /* PickerViewData.swift in Sources */,
 				855D943A240E921B00F50CB2 /* UIViewExt.swift in Sources */,
+				850BFECF246DC35600BEAF1D /* ApprovedWaiverCell.swift in Sources */,
 				855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */,
 				8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */,
 				8524F51B2424F0DE003173EF /* CameraView.swift in Sources */,
@@ -490,12 +503,15 @@
 				8524F51D2424F56D003173EF /* CameraVC.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */,
+				850BFECB246DC18E00BEAF1D /* TestVC.swift in Sources */,
 				855D92992429A5AA00084D9B /* JamwestWaiverLabelClass.swift in Sources */,
 				855D9448240E94E000F50CB2 /* Reservation.swift in Sources */,
 				855D9454240E95D600F50CB2 /* MenuVC.swift in Sources */,
+				850BFED5246DE01900BEAF1D /* WaiverSelection.swift in Sources */,
 				8503261B244DFDC400BCAEE7 /* PendingWaiverViews.swift in Sources */,
 				855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */,
 				855D9434240E91F700F50CB2 /* UILabelExt.swift in Sources */,
+				850BFED1246DCCEA00BEAF1D /* ApprovedWaiver.swift in Sources */,
 				8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */,
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
 				855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */,
