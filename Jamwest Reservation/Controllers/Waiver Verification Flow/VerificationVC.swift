@@ -8,9 +8,9 @@
 
 import UIKit
 
-private let reuseIdentifier = "SearchUserCell"
+private let reuseIdentifier = "WaiverVerificationCell"
 
-class VerificationVC: UIViewController, WaiverVerificationCellDelegate{
+class VerificationVC: UIViewController, WaiverVerificationCellDelegate, VerificationDelegate {
     
     //    MARK: - Properties
     
@@ -28,11 +28,9 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate{
         
         // register cell class
         verificationView.tableView.register(WaiverVerificationCell.self, forCellReuseIdentifier: reuseIdentifier)
-        
-        verificationView.tableView.separatorColor = .clear
-        verificationView.tableView.allowsSelection = false
-        
+                
         view = verificationView
+        verificationView.verificationDelegate = self
         
         configureUI()
         fetchWaivers()
@@ -76,8 +74,20 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate{
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDismiss))
     }
     
-    //    MARK: -  WaiverVerificationCell Delegate Protocols
+    // operations for the enum
+    func waiverToDisplay(on tableView: Waivers) {
+        
+        switch tableView {
+        case .PendingWaivers:
+            print(" Pending")
+        case .ApprovedWaivers:
+            print(" Approved")
+        }
+    }
     
+    //    MARK: - Delegate Protocols
+    
+    // handle reviewButton
     func handleReviewButtonTapped(for cell: WaiverVerificationCell) {
         
         guard let waiverDetails = cell.waiver else { return }
@@ -88,9 +98,26 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate{
         self.present(popoverViewController, animated: true, completion: nil)
     }
     
+    // handle approvedButton
     func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
         
         print("approve button tapped")
+    }
+    
+    // handle segmentedControl
+    func handleSegmentedControl(for vc: VerificationView) {
+        
+        let control = verificationView.segmentedContol
+        
+        switch control.selectedSegmentIndex {
+            
+        case 0 :
+            waiverToDisplay(on: .PendingWaivers)
+        case 1 :
+            waiverToDisplay(on: .ApprovedWaivers)
+        default:
+            break
+        }
     }
     
     //    MARK: - API
@@ -99,7 +126,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate{
         
         PARTICIPANT_WAIVER_REF.observe(.childAdded) { (snapshot) in
             
-            //            self.tableView.refreshControl?.endRefreshing()
+            self.verificationView.tableView.refreshControl?.endRefreshing()
             
             // waiverID
             let waiverID = snapshot.key
@@ -131,7 +158,6 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate{
         }
     }
 }
-
 
 extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
     
