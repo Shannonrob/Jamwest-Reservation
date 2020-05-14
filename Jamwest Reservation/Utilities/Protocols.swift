@@ -48,3 +48,7 @@ protocol ReviewWaiverDelegate {
     func handleEditButton(for vc: ReviewView)
     func handleDismissButtonTapped(for vc: ReviewView)
 }
+
+protocol VerificationDelegate {
+    func handleSegmentedControl(for vc: VerificationView)
+}
