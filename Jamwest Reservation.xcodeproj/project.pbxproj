@@ -319,9 +319,8 @@
 				850BFED4246DE01900BEAF1D /* WaiverSelection.swift */,
 				855D9445240E94D100F50CB2 /* PickerViewData.swift */,
 				85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */,
-				85558CA22462EE9F00D970E8 /* WaiverVerification.swift */,
 				855D9447240E94E000F50CB2 /* Reservation.swift */,
-				850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */,
+				85ECB433246EEAB8005551A2 /* Verification Flow */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -371,6 +370,15 @@
 				85558CA6246335D400D970E8 /* CustomImageView.swift */,
 			);
 			path = CustomClasses;
+			sourceTree = "<group>";
+		};
+		85ECB433246EEAB8005551A2 /* Verification Flow */ = {
+			isa = PBXGroup;
+			children = (
+				850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */,
+				85558CA22462EE9F00D970E8 /* WaiverVerification.swift */,
+			);
+			path = "Verification Flow";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
