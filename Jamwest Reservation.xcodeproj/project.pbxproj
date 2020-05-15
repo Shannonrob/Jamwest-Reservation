@@ -65,6 +65,7 @@
 		85CFE0E6242A5A4F00A020CD /* JamwestWaiver.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85CFE0E5242A5A4F00A020CD /* JamwestWaiver.rtf */; };
 		85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */; };
 		85D668E2242C2305002F1189 /* UIScrollViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D668E1242C2305002F1189 /* UIScrollViewExt.swift */; };
+		85ECB436246EF89C005551A2 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECB435246EF89C005551A2 /* DateExt.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
 /* End PBXBuildFile section */
 
@@ -131,6 +132,7 @@
 		85CFE0E5242A5A4F00A020CD /* JamwestWaiver.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = JamwestWaiver.rtf; sourceTree = "<group>"; };
 		85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInformation.swift; sourceTree = "<group>"; };
 		85D668E1242C2305002F1189 /* UIScrollViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewExt.swift; sourceTree = "<group>"; };
+		85ECB435246EF89C005551A2 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -341,6 +343,8 @@
 			isa = PBXGroup;
 			children = (
 				855D942D240E91D100F50CB2 /* ArrayExt.swift */,
+				85ECB435246EF89C005551A2 /* DateExt.swift */,
+				858F23AE245B4B86003115BF /* DataBaseExt.swift */,
 				855D942F240E91E000F50CB2 /* UIButtonExt.swift */,
 				855D9431240E91EE00F50CB2 /* UIColorExt.swift */,
 				855D9433240E91F700F50CB2 /* UILabelExt.swift */,
@@ -349,7 +353,6 @@
 				855D9439240E921B00F50CB2 /* UIViewExt.swift */,
 				851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */,
 				85D668E1242C2305002F1189 /* UIScrollViewExt.swift */,
-				858F23AE245B4B86003115BF /* DataBaseExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */,
 				85D668E2242C2305002F1189 /* UIScrollViewExt.swift in Sources */,
 				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
+				85ECB436246EF89C005551A2 /* DateExt.swift in Sources */,
 				855D9444240E94C100F50CB2 /* MenuOption.swift in Sources */,
 				85108448244A8E2300229791 /* PreviewImageView.swift in Sources */,
 				85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */,

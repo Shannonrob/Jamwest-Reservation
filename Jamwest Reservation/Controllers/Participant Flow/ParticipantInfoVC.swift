@@ -42,7 +42,8 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         configureUI()
         
         participantInfoView.firstNameTextfield.becomeFirstResponder()
-        getCurrentDate(textField: participantInfoView.dateTextfield)
+        participantInfoView.dateTextfield.text = Date.CurrentDate()
+        
         textFieldDelegates()
         participantInfoView.pickerView.delegate = self
         participantInfoView.pickerView.dataSource = self
@@ -159,7 +160,6 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             
             Alert.answersRequiredMessage(on: self, with: "You must answer all questions to proceed!!!")
         }
-        
         questionsAnswered = 0
     }
     
@@ -431,22 +431,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
         lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
     }
-    
-    func getCurrentDate(textField: UITextField) {
         
-        var calendar: Calendar = Calendar.current
-        let currentDate: Date = Date()
-        var dateComponents: DateComponents = DateComponents()
-        
-        calendar.timeZone = TimeZone(identifier: "EST")!
-        dateComponents.calendar = calendar
-        
-        let currentDateFormatter = DateFormatter()
-        currentDateFormatter.dateStyle = .medium
-        
-        textField.text = currentDateFormatter.string(from: currentDate)
-    }
-    
     func configureUI() {
         
         view.backgroundColor = Color.Background.fadeGray
