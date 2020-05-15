@@ -8,13 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		8503261B244DFDC400BCAEE7 /* PendingWaiverViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8503261A244DFDC400BCAEE7 /* PendingWaiverViews.swift */; };
-		850BFECB246DC18E00BEAF1D /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFECA246DC18E00BEAF1D /* TestVC.swift */; };
 		850BFECF246DC35600BEAF1D /* ApprovedWaiverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFECE246DC35600BEAF1D /* ApprovedWaiverCell.swift */; };
 		850BFED1246DCCEA00BEAF1D /* ApprovedWaiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */; };
 		850BFED5246DE01900BEAF1D /* WaiverSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFED4246DE01900BEAF1D /* WaiverSelection.swift */; };
 		85108448244A8E2300229791 /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85108447244A8E2300229791 /* PreviewImageView.swift */; };
 		8510844C244A9B1100229791 /* LoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844B244A9B1100229791 /* LoadingVC.swift */; };
-		8510844E244A9F8700229791 /* WaiverVerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844D244A9F8700229791 /* WaiverVerificationVC.swift */; };
 		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
 		8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */; };
 		8524F51B2424F0DE003173EF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51A2424F0DE003173EF /* CameraView.swift */; };
@@ -74,13 +72,11 @@
 		298CE1659D48E687F3B38B25 /* Pods-Jamwest Reservation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.debug.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.debug.xcconfig"; sourceTree = "<group>"; };
 		4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.release.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.release.xcconfig"; sourceTree = "<group>"; };
 		8503261A244DFDC400BCAEE7 /* PendingWaiverViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingWaiverViews.swift; sourceTree = "<group>"; };
-		850BFECA246DC18E00BEAF1D /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
 		850BFECE246DC35600BEAF1D /* ApprovedWaiverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedWaiverCell.swift; sourceTree = "<group>"; };
 		850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedWaiver.swift; sourceTree = "<group>"; };
 		850BFED4246DE01900BEAF1D /* WaiverSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverSelection.swift; sourceTree = "<group>"; };
 		85108447244A8E2300229791 /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
 		8510844B244A9B1100229791 /* LoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingVC.swift; sourceTree = "<group>"; };
-		8510844D244A9F8700229791 /* WaiverVerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerificationVC.swift; sourceTree = "<group>"; };
 		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerificationCell.swift; sourceTree = "<group>"; };
 		8524F51A2424F0DE003173EF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -240,9 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				85558CAB246340EE00D970E8 /* ReviewVC.swift */,
-				8510844D244A9F8700229791 /* WaiverVerificationVC.swift */,
 				854B8E6A246CA212007D85B6 /* VerificationVC.swift */,
-				850BFECA246DC18E00BEAF1D /* TestVC.swift */,
 			);
 			path = "Waiver Verification Flow";
 			sourceTree = "<group>";
@@ -479,7 +473,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8510844E244A9F8700229791 /* WaiverVerificationVC.swift in Sources */,
 				855D9452240E95CD00F50CB2 /* LoginVC.swift in Sources */,
 				855D9425240E8EC800F50CB2 /* HomeVC.swift in Sources */,
 				855D9432240E91EE00F50CB2 /* UIColorExt.swift in Sources */,
@@ -511,7 +504,6 @@
 				8524F51D2424F56D003173EF /* CameraVC.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */,
-				850BFECB246DC18E00BEAF1D /* TestVC.swift in Sources */,
 				855D92992429A5AA00084D9B /* JamwestWaiverLabelClass.swift in Sources */,
 				855D9448240E94E000F50CB2 /* Reservation.swift in Sources */,
 				855D9454240E95D600F50CB2 /* MenuVC.swift in Sources */,
