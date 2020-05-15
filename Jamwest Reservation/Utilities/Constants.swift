@@ -42,6 +42,7 @@ enum Constant {
     static let underInfluenceAnswer = "influenceAnswer"
     static let heartAnswer = "heartAnswer"
     static let backAnswer = "backAnswer"
+    static let creationTime = "creationTime"
     static let creationDate = "creationDate"
     static let waiverImage = "waiverImage"
     static let imageURL = "imageURL"

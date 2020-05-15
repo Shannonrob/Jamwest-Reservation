@@ -22,7 +22,8 @@ class WaiverVerification {
     var underInfluenceAnswer: Bool!
     var heartAnswer: Bool!
     var backAnswer: Bool!
-    var creationDate: Date!
+    var creationDate: String!
+    var creationTime: Date!
     var waiverID: String!
     
     init(waiverID: String!, dictionary: Dictionary<String, AnyObject>) {
@@ -73,8 +74,12 @@ class WaiverVerification {
             self.backAnswer = backAnswer
         }
         
-        if let creationDate = dictionary[Constant.creationDate] as? Double {
-            self.creationDate = Date(timeIntervalSince1970: creationDate)
+        if let creationTime = dictionary[Constant.creationTime] as? Double {
+            self.creationTime = Date(timeIntervalSince1970: creationTime)
+        }
+        
+        if let creationDate = dictionary[Constant.creationDate] as? String {
+            self.creationDate = creationDate
         }
     }
     

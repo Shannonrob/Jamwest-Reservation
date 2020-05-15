@@ -15,11 +15,11 @@ class ApprovedWaiverCell: UITableViewCell {
         didSet {
             
             guard let name = approvedWaiver?.name else { return }
-            guard let imageURL = approvedWaiver?.imageURL else { return }
-//            guard let date = approvedWaiver.
+//            guard let imageURL = approvedWaiver?.imageURL else { return }
+            guard let date = approvedWaiver?.creationDate else { return}
             
             textLabel?.text = name
-            detailTextLabel?.text = imageURL
+            detailTextLabel?.text = date
         }
     }
     
