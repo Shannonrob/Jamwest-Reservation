@@ -118,6 +118,7 @@ class WaiverVerificationCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureCell()
+        backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
