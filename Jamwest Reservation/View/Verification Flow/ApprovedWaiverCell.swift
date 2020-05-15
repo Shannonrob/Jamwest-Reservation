@@ -9,18 +9,17 @@
 import UIKit
 
 class ApprovedWaiverCell: UITableViewCell {
-  
     
-    var waiver: ApprovedWaiver? {
+    var approvedWaiver: ApprovedWaiver? {
         
         didSet {
             
-            guard let name = waiver?.name else { return }
-            guard let imageURL = waiver?.imageURL else { return }
-            guard let date = waiver?.date else { return }
+            guard let name = approvedWaiver?.name else { return }
+            guard let imageURL = approvedWaiver?.imageURL else { return }
+//            guard let date = approvedWaiver.
             
             textLabel?.text = name
-            detailTextLabel?.text = date
+            detailTextLabel?.text = imageURL
         }
     }
     
@@ -28,7 +27,8 @@ class ApprovedWaiverCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
-//        textLabel?.text = "Shannon Robinson"
+        backgroundColor = .clear
+        textLabel?.text = "Shannon Robinson"
         detailTextLabel?.text = "May 13, 2020"
     }
     
@@ -42,13 +42,11 @@ class ApprovedWaiverCell: UITableViewCell {
         textLabel?.frame = CGRect(x: 40, y: (textLabel?.frame.origin.y)! - 2, width: (frame.width) / 2, height: ((textLabel?.frame.height)!))
         textLabel?.textColor = .black
         
-        //        textLabel?.backgroundColor = .green
         textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         
         detailTextLabel?.frame = CGRect(x: 40, y: (detailTextLabel?.frame.origin.y)!, width: (frame.width) / 2, height: (detailTextLabel?.frame.height)!)
         
         detailTextLabel?.textColor = .lightGray
-        //        detailTextLabel?.backgroundColor = .green
         detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
     }
 }
