@@ -15,10 +15,10 @@ private let approvedReuseIdentifier = "ApprovedWaiverCell"
 class VerificationVC: UIViewController, WaiverVerificationCellDelegate, VerificationDelegate {
     
     //    MARK: - Properties
-    
     var heightForRow = 150
     var isShowingPendingWaivers = true
     
+    // instantiate view
     var verificationView = VerificationView()
     
     // array of custom object
@@ -29,24 +29,19 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        verificationView.tableView.delegate = self
-        verificationView.tableView.dataSource = self
-                
-//        // register cell class
-//        verificationView.tableView.register(WaiverVerificationCell.self, forCellReuseIdentifier: reuseIdentifier)
-        
-        
         view = verificationView
         verificationView.verificationDelegate = self
+        verificationView.tableView.delegate = self
+        verificationView.tableView.dataSource = self
         
-        updateIdentifier(with: true)
+        switchIdentifier(with: true)
         
         configureUI()
-        fetchWaivers()
+        fetchPendingWaiver()
+        fetchApprovedWaiver()
         rejectedWaiver()
         configureRefreshControl()
     }
-    
     
     //    MARK: - Handlers
     
@@ -54,9 +49,19 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         dismiss(animated: true, completion: nil)
     }
     
+    // refresh based current cell
     @objc func handleRefresh() {
-        pendingWaivers.removeAll(keepingCapacity: false)
-        fetchWaivers()
+        
+        switch isShowingPendingWaivers {
+            
+        case true:
+            pendingWaivers.removeAll(keepingCapacity: false)
+            fetchPendingWaiver()
+            
+        default:
+            approvedWaivers.removeAll(keepingCapacity: false)
+            fetchApprovedWaiver()
+        }
         verificationView.tableView.reloadData()
     }
     
@@ -65,6 +70,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     func configureRefreshControl() {
         
         let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .gray
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         verificationView.tableView.refreshControl = refreshControl
     }
@@ -87,26 +93,24 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     func waiverToDisplay(on tableView: Waivers) {
         
         switch tableView {
-
+            
         case .PendingWaivers:
             
             heightForRow = 150
-            updateIdentifier(with: true)
+            switchIdentifier(with: true)
             isShowingPendingWaivers = true
-            
             
         case .ApprovedWaivers:
             
             heightForRow = 70
-            updateIdentifier(with: false)
+            switchIdentifier(with: false)
             isShowingPendingWaivers = false
-            
         }
-        
         self.verificationView.tableView.reloadData()
     }
     
-    func updateIdentifier(with condition: Bool) {
+    // register appropriate cell based on condition
+    func switchIdentifier(with condition: Bool) {
         
         if condition {
             verificationView.tableView.register(WaiverVerificationCell.self, forCellReuseIdentifier: reuseIdentifier)
@@ -152,7 +156,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     //    MARK: - API
     
-    func fetchWaivers() {
+    // fetch pending waivers
+    func fetchPendingWaiver() {
         
         PARTICIPANT_WAIVER_REF.observe(.childAdded) { (snapshot) in
             
@@ -177,9 +182,14 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             
             self.verificationView.tableView.reloadData()
         }
+    }
+    
+    // fetch approved waivers
+    func fetchApprovedWaiver() {
         
-        // fetch approved waivers
         Database.fetchWaiver(from: APPROVED_WAIVER_REF) { (waiver) in
+            
+            self.verificationView.tableView.refreshControl?.endRefreshing()
             
             // append waiver to data source
             self.approvedWaivers.append(waiver)
@@ -190,7 +200,6 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             }
             self.verificationView.tableView.reloadData()
         }
-
     }
     
     // removes waiver from tableView
@@ -232,12 +241,16 @@ extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
             
         case true:
             
+            tableView.allowsSelection = false
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! WaiverVerificationCell
             cell.verificationCellDelegate = self
             cell.waiver = pendingWaivers[indexPath.row]
             return cell
             
         default:
+            
+            tableView.allowsSelection = true
             
             let cell = tableView.dequeueReusableCell(withIdentifier: approvedReuseIdentifier, for: indexPath) as! ApprovedWaiverCell
             cell.approvedWaiver = approvedWaivers[indexPath.row]

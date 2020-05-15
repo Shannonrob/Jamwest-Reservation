@@ -31,7 +31,6 @@ class VerificationView: UIView {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
         tableView.separatorColor = .clear
-        tableView.allowsSelection = false
         return tableView
     }()
     
