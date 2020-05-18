@@ -135,7 +135,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         guard let name = waivers?.name else { return }
         guard let image = waivers?.imageURL else {
             
-            Alert.showReqiuredMessage(on: self, with: "Participant photo is required!")
+            Alert.showRequiredMessage(on: self, with: "Participant photo is required!")
             return
         }
         
