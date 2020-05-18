@@ -160,7 +160,7 @@ class ReviewView: UIView {
     lazy var dismissButton: UIButton = {
         
         let button = UIButton()
-        button.setTitle("Dismiss", for: .normal)
+        button.setImage(#imageLiteral(resourceName: "grayClearButtonMedium").withRenderingMode(.alwaysOriginal), for: .normal)
         button.setTitleColor(Color.Primary.markerColor, for: .normal)
         button.addTarget(self, action: #selector(handleDismissButton), for: .touchUpInside)
         return button
@@ -226,7 +226,8 @@ class ReviewView: UIView {
         buttonsStackView.centerXAnchor.constraint(equalTo: nameLabel.centerXAnchor).isActive = true
         
         waiverView.addSubview(dismissButton)
-        dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 25, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        dismissButton.centerYAnchor.constraint(equalTo: editButton.centerYAnchor).isActive = true
         
         waiverView.addSubview(tourHeaderLabel)
         tourHeaderLabel.anchor(top: buttonsStackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 35, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

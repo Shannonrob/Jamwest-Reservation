@@ -16,7 +16,6 @@ class MenuVC: UIViewController {
     var delegate: HomeVcDelegate?
     private let reuseIdentifier = "MenuOptionCell"
     
-    
 //    MARK: - Init
     
     override func viewDidLoad() {
@@ -55,7 +54,6 @@ extension MenuVC: UITableViewDelegate,UITableViewDataSource {
 
         let headerView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 160))
         headerView.backgroundColor = Color.Primary.heavyGreen
-        
 
         let logo = UIImageView()
         logo.contentMode = .scaleAspectFill
@@ -71,13 +69,11 @@ extension MenuVC: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 160
     }
-
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
 
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! MenuOptionCell
         
