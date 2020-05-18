@@ -86,7 +86,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         navigationItem.title = "Waiver Verification"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDismiss))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack ").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
     }
     
     // operations for the enum
