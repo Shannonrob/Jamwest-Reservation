@@ -39,10 +39,18 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // get current date else return to home VC
+        guard let currentDate = Date.CurrentDate() else {
+            Alert.showErrorMessage(on: self, with: "Error!")
+            
+            _ = navigationController?.popViewController(animated: true)
+            return
+        }
+        
         configureUI()
         
         participantInfoView.firstNameTextfield.becomeFirstResponder()
-        participantInfoView.dateTextfield.text = Date.CurrentDate()
+        participantInfoView.dateTextfield.text = currentDate
         
         textFieldDelegates()
         participantInfoView.pickerView.delegate = self
