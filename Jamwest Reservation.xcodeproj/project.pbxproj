@@ -59,6 +59,9 @@
 		855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */; };
 		855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D945B240E961600F50CB2 /* WaiverVC.swift */; };
 		858F23AF245B4B86003115BF /* DataBaseExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858F23AE245B4B86003115BF /* DataBaseExt.swift */; };
+		85948E0C247440F000C2E307 /* EditReservationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85948E0B247440F000C2E307 /* EditReservationVC.swift */; };
+		85948E0E2474437800C2E307 /* EditReservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85948E0D2474437800C2E307 /* EditReservationCell.swift */; };
+		85948E10247444E100C2E307 /* EditReservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85948E0F247444E100C2E307 /* EditReservation.swift */; };
 		8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */; };
 		85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */; };
 		85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */; };
@@ -126,6 +129,9 @@
 		855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToursSelectionVC.swift; sourceTree = "<group>"; };
 		855D945B240E961600F50CB2 /* WaiverVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVC.swift; sourceTree = "<group>"; };
 		858F23AE245B4B86003115BF /* DataBaseExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseExt.swift; sourceTree = "<group>"; };
+		85948E0B247440F000C2E307 /* EditReservationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReservationVC.swift; sourceTree = "<group>"; };
+		85948E0D2474437800C2E307 /* EditReservationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReservationCell.swift; sourceTree = "<group>"; };
+		85948E0F247444E100C2E307 /* EditReservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReservation.swift; sourceTree = "<group>"; };
 		8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoViews.swift; sourceTree = "<group>"; };
 		85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestDefaultView.swift; sourceTree = "<group>"; };
 		85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestTextfieldClass.swift; sourceTree = "<group>"; };
@@ -287,6 +293,7 @@
 			children = (
 				8510844B244A9B1100229791 /* LoadingVC.swift */,
 				8542E7A024490EDF00707D66 /* Add Reservation Flow */,
+				85948E0A24743FEB00C2E307 /* Edit Reservation Flow */,
 				8542E7A224490F7300707D66 /* Home */,
 				8542E7A124490F3A00707D66 /* Log In FLow */,
 				8542E79F24490E9300707D66 /* Participant Flow */,
@@ -303,6 +310,7 @@
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
 				855D944B240E955300F50CB2 /* ReservationCell.swift */,
 				8526322124634EAF00DAEA65 /* Verification Flow */,
+				85948E0D2474437800C2E307 /* EditReservationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -313,6 +321,7 @@
 				855D9441240E94B500F50CB2 /* Alert.swift */,
 				855D9443240E94C100F50CB2 /* MenuOption.swift */,
 				850BFED4246DE01900BEAF1D /* WaiverSelection.swift */,
+				85948E0F247444E100C2E307 /* EditReservation.swift */,
 				855D9445240E94D100F50CB2 /* PickerViewData.swift */,
 				85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */,
 				855D9447240E94E000F50CB2 /* Reservation.swift */,
@@ -355,6 +364,14 @@
 				85D668E1242C2305002F1189 /* UIScrollViewExt.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		85948E0A24743FEB00C2E307 /* Edit Reservation Flow */ = {
+			isa = PBXGroup;
+			children = (
+				85948E0B247440F000C2E307 /* EditReservationVC.swift */,
+			);
+			path = "Edit Reservation Flow";
 			sourceTree = "<group>";
 		};
 		85AC5FC52427E6CA00A36BE4 /* CustomClasses */ = {
@@ -487,6 +504,7 @@
 				855D9456240E95F100F50CB2 /* ParticipantInfoVC.swift in Sources */,
 				8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */,
 				8524F51B2424F0DE003173EF /* CameraView.swift in Sources */,
+				85948E0C247440F000C2E307 /* EditReservationVC.swift in Sources */,
 				85558CAC246340EE00D970E8 /* ReviewVC.swift in Sources */,
 				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,
 				85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */,
@@ -495,6 +513,7 @@
 				85261260243621470009E2B2 /* PDFCreator.swift in Sources */,
 				855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */,
 				855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */,
+				85948E0E2474437800C2E307 /* EditReservationCell.swift in Sources */,
 				855D9442240E94B500F50CB2 /* Alert.swift in Sources */,
 				8526322024634E9F00DAEA65 /* ReviewView.swift in Sources */,
 				8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */,
@@ -520,6 +539,7 @@
 				855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */,
 				85558CA7246335D400D970E8 /* CustomImageView.swift in Sources */,
 				855D944A240E954600F50CB2 /* MenuOptionCell.swift in Sources */,
+				85948E10247444E100C2E307 /* EditReservation.swift in Sources */,
 				855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */,
 				85D668E2242C2305002F1189 /* UIScrollViewExt.swift in Sources */,
 				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
