@@ -59,4 +59,11 @@ extension UIViewController {
          yes == true ? navigationController.modalPresentationStyle = .fullScreen : nil
         present(navigationController, animated: true)
      }
+    
+    // push viewController onto navigationStack
+    func pushVC(with vc: UIViewController) {
+        
+        let viewController = vc
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
 }

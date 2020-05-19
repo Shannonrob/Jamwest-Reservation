@@ -10,7 +10,7 @@ import UIKit
 
 extension Date {
     
-    static func CurrentDate() -> String {
+    static func CurrentDate() -> String? {
         
         var calendar: Calendar = Calendar.current
         let currentDate: Date = Date()

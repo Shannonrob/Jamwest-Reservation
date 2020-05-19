@@ -129,7 +129,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
     func uploadApprovedWaiver() {
         
-        let date = Date.CurrentDate()
+        guard let creationDate = Date.CurrentDate() else { return }
         
         // check for image and name
         guard let name = waivers?.name else { return }
@@ -143,7 +143,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         var values = [String:Any]()
         values[Constant.name] = name
         values[Constant.imageURL] = image
-        values[Constant.creationDate] = date
+        values[Constant.creationDate] = creationDate
         
         // get waiverID and upload approved waiver
         let approvedWaiverID = APPROVED_WAIVER_REF.child(waivers!.waiverID)

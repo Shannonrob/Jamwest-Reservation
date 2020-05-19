@@ -134,8 +134,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     // handle approvedButton
     func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
-        
-        print("approve button tapped")
+            
+        approvedWaiver(for: cell)
     }
     
     // handle segmentedControl
@@ -179,7 +179,6 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             self.pendingWaivers.sort { (waiver1, waiver2) -> Bool in
                 return waiver1.name < waiver2.name
             }
-            
             self.verificationView.tableView.reloadData()
         }
     }
@@ -208,6 +207,38 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         PARTICIPANT_WAIVER_REF.observe(.childRemoved) { (snapshot) in
             
             self.handleRefresh()
+        }
+    }
+    
+    func approvedWaiver(for cell: WaiverVerificationCell) {
+        
+        guard let creationDate = Date.CurrentDate() else { return }
+        guard let waiverId = cell.waiver?.waiverID else { return }
+        guard let name = cell.waiver?.name else { return }
+        guard let image = cell.waiver?.imageURL else {
+            
+            Alert.showRequiredMessage(on: self, with: "Participant photo is required!")
+            return
+        }
+        
+        var values = [String:Any]()
+        values[Constant.name] = name
+        values[Constant.imageURL] = image
+        values[Constant.creationDate] = creationDate
+        
+        // get waiverID and upload approved waiver
+        let approvedWaiverID = APPROVED_WAIVER_REF.child(waiverId)
+        
+        approvedWaiverID.updateChildValues(values) { (error, ref) in
+            
+            if let error = error {
+                
+                Alert.showErrorMessage(on: self , with: "Error \(error.localizedDescription)")
+            } else {
+                
+                // delete waiver from pending
+                cell.waiver?.removeWaiver(id: waiverId, withImage: true)
+            }
         }
     }
 }

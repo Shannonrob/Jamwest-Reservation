@@ -71,10 +71,6 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
         // image upload data
         guard let uploadData = previewImage?.jpegData(compressionQuality: 0.75) else { return }
         
-        // creation date
-        let creation = Int(NSDate().timeIntervalSince1970)
-        participantWaiver[Constant.creationDate] = creation
-        
         // post ID
         let waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
    

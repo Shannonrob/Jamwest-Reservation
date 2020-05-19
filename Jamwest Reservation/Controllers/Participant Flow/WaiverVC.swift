@@ -161,6 +161,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             participantWaiver[Constant.underInfluenceAnswer] = data.underInfluenceAnswer
             participantWaiver[Constant.heartAnswer] = data.heartProblemAnswer
             participantWaiver[Constant.backAnswer] = data.backProblemAnswer
+            participantWaiver[Constant.creationDate] = data.currentDate
         }
         
         // loop reservation information and present it in waiver labels
