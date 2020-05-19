@@ -44,6 +44,23 @@ extension Database {
             completion(waiver)
         }
     }
+    
+    static func fetchReservation(from reference: DatabaseReference, completion: @escaping(EditReservation) -> ()) {
+        
+        reference.observe(.childAdded) { (snapshot) in
+            
+            // waiverID
+            let waiverID = snapshot.key
+            
+            // snapshot value cast as dictionary
+            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            
+            // construct waiver
+            let reservation = EditReservation(reservationId: waiverID, dictionary: dictionary)
+            
+            completion(reservation)
+        }
+    }
 }
 
 
