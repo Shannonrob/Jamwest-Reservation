@@ -36,7 +36,7 @@ class VerificationView: UIView {
     
     let segmentedContol: UISegmentedControl = {
         
-        let control = UISegmentedControl(items: ["Pending", "Verified"])
+        let control = UISegmentedControl(items: ["Pending", "Approved"])
         control.selectedSegmentIndex = 0
         control.selectedSegmentTintColor = Color.Primary.heavyGreen
 //        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
