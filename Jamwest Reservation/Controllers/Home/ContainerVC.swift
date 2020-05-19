@@ -128,14 +128,14 @@ class ContainerVC: UIViewController {
         case .Reservations:
             handlePresentVC(with: AddReservationVC(), fullscreen: false)
             
-        case.Modification:
-            print("modify waiver tapped")
+        case.Edit:
+            handlePresentVC(with: EditReservationVC(), fullscreen: true)
+
             
         case .Submit:
             print("Submit email")
             
         case .Verification:
-    
             handlePresentVC(with: VerificationVC(), fullscreen: true)
             
         case .LogOut:
