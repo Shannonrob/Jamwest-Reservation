@@ -44,7 +44,7 @@ class ApprovedWaiverCell: UITableViewCell {
         
         textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         
-        detailTextLabel?.frame = CGRect(x: 40, y: (detailTextLabel?.frame.origin.y)!, width: (frame.width) / 2, height: (detailTextLabel?.frame.height)!)
+        detailTextLabel?.frame = CGRect(x: 40, y: (detailTextLabel?.frame.origin.y)!, width: (frame.width) / 2, height: (detailTextLabel?.frame.height)! + 5)
         
         detailTextLabel?.textColor = .lightGray
         detailTextLabel?.font = UIFont.systemFont(ofSize: 18)
