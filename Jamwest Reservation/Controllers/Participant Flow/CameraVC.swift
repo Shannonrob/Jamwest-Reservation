@@ -89,10 +89,10 @@ class CameraVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        
         startValue = 3
         countDownLabel.text = "\(startValue)"
         takePhotoButton.isEnabled = true
+        cancelButton.isEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,6 +114,7 @@ class CameraVC: UIViewController {
     @objc func handleStartTimer() {
         
         takePhotoButton.isEnabled = false
+        cancelButton.isEnabled = false
         countDownLabel.isHidden = false
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
     }
@@ -264,11 +265,7 @@ class CameraVC: UIViewController {
     //MARK: - Api
     
     func uploadWaiver() {
-        
-        // creation date
-        let creation = Int(NSDate().timeIntervalSince1970)
-        participantWaiver[Constant.creationDate] = creation
-        
+
         // post ID
         let waiver = PARTICIPANT_WAIVER_REF.childByAutoId()
         
