@@ -15,6 +15,7 @@ class EditReservationVC: UITableViewController {
 
 //    MARK: - Properties
     var editReservations = [EditReservation]()
+    let loadingVC = LoadingVC()
     
 //    MARK: - Init
     override func viewDidLoad() {
@@ -24,10 +25,20 @@ class EditReservationVC: UITableViewController {
         tableView.register(EditReservationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.backgroundColor = .white
         
+        // separator insets
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40)
+        
         configureUI()
         fetchReservation()
+        observeRemovedReservation()
     }
 
+    //     MARK: - TableView flow layout
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 65
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -105,6 +116,19 @@ class EditReservationVC: UITableViewController {
             self.editReservations.sort { (reservation1, reservation2) -> Bool in
                 return reservation1.group < reservation2.group
             }
+            self.tableView.reloadData()
+        }
+    }
+    
+    // updates tableView when reservation gets is removed
+    func observeRemovedReservation() {
+        
+        RESERVATION_REF.observe(.childRemoved) { (snapshot) in
+            
+            self.add(self.loadingVC)
+            self.editReservations.removeAll(keepingCapacity: false)
+            self.fetchReservation()
+            self.remove(self.loadingVC)
             self.tableView.reloadData()
         }
     }

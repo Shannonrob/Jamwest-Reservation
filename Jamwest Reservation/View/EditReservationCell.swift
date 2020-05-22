@@ -27,9 +27,6 @@ class EditReservationCell: UITableViewCell {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .clear
-        
-        // separator insets
-        separatorInset = UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40)
     }
     
     required init?(coder: NSCoder) {
@@ -44,7 +41,7 @@ class EditReservationCell: UITableViewCell {
         
         textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         
-        detailTextLabel?.frame = CGRect(x: 40, y: (detailTextLabel?.frame.origin.y)!, width: (frame.width) / 2, height: (detailTextLabel?.frame.height)!)
+        detailTextLabel?.frame = CGRect(x: 40, y: (detailTextLabel?.frame.origin.y)!, width: (frame.width) / 2, height: (detailTextLabel?.frame.height)! + 2)
         
         detailTextLabel?.textColor = .lightGray
         detailTextLabel?.font = UIFont.systemFont(ofSize: 16)
