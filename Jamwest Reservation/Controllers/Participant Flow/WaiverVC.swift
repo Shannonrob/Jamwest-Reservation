@@ -37,7 +37,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         
         // hide navigationBar
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -162,6 +162,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             participantWaiver[Constant.heartAnswer] = data.heartProblemAnswer
             participantWaiver[Constant.backAnswer] = data.backProblemAnswer
             participantWaiver[Constant.creationDate] = data.currentDate
+            participantWaiver[Constant.emailAddress] = data.emailAddress
         }
         
         // loop reservation information and present it in waiver labels
