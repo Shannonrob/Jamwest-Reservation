@@ -116,6 +116,12 @@ class ToursSelectionVC: UIViewController {
        setConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        submitButton.isEnabled = true
+    }
+    
 //    MARK: - Selectors
     
     @objc func handleCancelButton() {
@@ -349,6 +355,8 @@ class ToursSelectionVC: UIViewController {
     
     
     @objc func handleSubmitButton() {
+        
+        submitButton.isEnabled = false
         
         selectedTours()
     }
