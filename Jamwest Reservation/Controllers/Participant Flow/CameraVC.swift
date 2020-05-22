@@ -87,7 +87,7 @@ class CameraVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
         
         startValue = 3
         countDownLabel.text = "\(startValue)"
@@ -96,7 +96,7 @@ class CameraVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         
         // hide navigationBar
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -264,6 +264,7 @@ class CameraVC: UIViewController {
     
     //MARK: - Api
     
+    // upload waiver without image if user exits
     func uploadWaiver() {
 
         // post ID
@@ -271,6 +272,24 @@ class CameraVC: UIViewController {
         
         // upload information to database
         waiver.updateChildValues(participantWaiver)
+        
+        uploadEmailList()
+    }
+    
+    func uploadEmailList() {
+        
+        // check if values exist and upload email to list
+        guard let emailAddress = participantWaiver[Constant.emailAddress] as? String else { return }
+        guard let name = participantWaiver[Constant.name] else { return}
+        
+        // check for value and upload to database
+        if emailAddress != "" {
+           
+            let values = [Constant.emailAddress : emailAddress, Constant.name: name ]
+            
+            let participantEmail = PARTICIPANT_EMAIL_REF.childByAutoId()
+            participantEmail.updateChildValues(values)
+        }
     }
 }
 
