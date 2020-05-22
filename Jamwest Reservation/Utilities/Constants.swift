@@ -17,6 +17,7 @@ let RESERVATION_REF = DB_REF.child("reservations")
 let RESERVATION_DATE_REF = DB_REF.child("reservation-Date")
 let PARTICIPANT_WAIVER_REF = DB_REF.child("participant-Waiver")
 let APPROVED_WAIVER_REF = DB_REF.child("approved-Waiver")
+let PARTICIPANT_EMAIL_REF = DB_REF.child("participant-Email")
 let WAIVER_IMAGE_REF = STORAGE_REF.child("waiverImage")
 let APPROVED_IMAGE_REF = STORAGE_REF.child("approvedImage")
 
@@ -46,6 +47,7 @@ enum Constant {
     static let creationDate = "creationDate"
     static let waiverImage = "waiverImage"
     static let imageURL = "imageURL"
+    static let emailAddress = "emailAddress"
 }
 
 enum Font {
