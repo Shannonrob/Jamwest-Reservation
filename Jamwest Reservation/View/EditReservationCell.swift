@@ -39,12 +39,12 @@ class EditReservationCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        textLabel?.frame = CGRect(x: 40, y: (textLabel?.frame.origin.y)! - 2, width: (frame.width) / 2, height: ((textLabel?.frame.height)!))
+        textLabel?.frame = CGRect(x: 40, y: (textLabel?.frame.origin.y)! , width: (frame.width) / 2, height: ((textLabel?.frame.height)!))
         textLabel?.textColor = .black
         
         textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         
-        detailTextLabel?.frame = CGRect(x: 40, y: (detailTextLabel?.frame.origin.y)!, width: (frame.width) / 2, height: (detailTextLabel?.frame.height)! + 2)
+        detailTextLabel?.frame = CGRect(x: 40, y: (detailTextLabel?.frame.origin.y)!, width: (frame.width) / 2, height: (detailTextLabel?.frame.height)!)
         
         detailTextLabel?.textColor = .lightGray
         detailTextLabel?.font = UIFont.systemFont(ofSize: 16)
