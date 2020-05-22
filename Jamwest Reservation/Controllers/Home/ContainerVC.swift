@@ -129,11 +129,10 @@ class ContainerVC: UIViewController {
             handlePresentVC(with: AddReservationVC(), fullscreen: false)
             
         case.Edit:
-            handlePresentVC(with: EditReservationVC(), fullscreen: true)
-
+            presentEditReservationVC(index: 0)
             
         case .Submit:
-            print("Submit email")
+            presentEditReservationVC(index: 1)
             
         case .Verification:
             handlePresentVC(with: VerificationVC(), fullscreen: true)

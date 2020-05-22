@@ -60,6 +60,15 @@ extension UIViewController {
         present(navigationController, animated: true)
      }
     
+    func presentEditReservationVC(index: Int) {
+        
+        let editReservationVC = EditReservationVC()
+        let navigationController = UINavigationController(rootViewController: editReservationVC)
+        editReservationVC.showInformation = ShowInformation.init(index: index)
+        navigationController.modalPresentationStyle = .fullScreen
+       present(navigationController, animated: true)
+    }
+    
     // push viewController onto navigationStack
     func pushVC(with vc: UIViewController) {
         
