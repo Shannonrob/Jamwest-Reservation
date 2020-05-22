@@ -30,13 +30,13 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
     
     // hide navigationBar
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(true)
+        super.viewDidDisappear(animated)
         
         let loadingVC = LoadingVC()
         remove(loadingVC)
@@ -105,11 +105,29 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
                     // upload information to database
                     waiverID.updateChildValues(self.participantWaiver)
                     
+                    self.uploadEmailList()
+                    
                     // pop to root view controller
                     self.navigationController?.setNavigationBarHidden(false, animated: true)
                     self.navigationController?.popToRootViewController(animated: true)
                 }
             }
+        }
+    }
+    
+    func uploadEmailList() {
+        
+        // check if values exist and upload email to list
+        guard let emailAddress = participantWaiver[Constant.emailAddress] as? String else { return }
+        guard let name = participantWaiver[Constant.name] else { return}
+        
+        // check for value and upload to database
+        if emailAddress != "" {
+           
+            let values = [Constant.emailAddress : emailAddress, Constant.name: name ]
+            
+            let participantEmail = PARTICIPANT_EMAIL_REF.childByAutoId()
+            participantEmail.updateChildValues(values)
         }
     }
 }
