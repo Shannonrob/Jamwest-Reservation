@@ -59,6 +59,6 @@ class VerificationView: UIView {
         segmentedContol.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         addSubview(tableView)
-        tableView.anchor(top: segmentedContol.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 3, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        tableView.anchor(top: segmentedContol.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 6, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
 }
