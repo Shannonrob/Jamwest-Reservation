@@ -22,7 +22,6 @@ class Reservation {
     var tourRep: String!
     var voucherNumber: String!
     var reservationId: String!
-    var emailAddress: String!
     
     init(reservationId: String!, dictionary: Dictionary<String, AnyObject>) {
         
@@ -74,10 +73,6 @@ class Reservation {
         
         if let voucherNumber = dictionary[Constant.voucherNumber] as? String {
             self.voucherNumber = voucherNumber
-        }
-        
-        if let emailAddress = dictionary[Constant.emailAddress] as? String {
-            self.emailAddress = emailAddress
         }
     }
     
