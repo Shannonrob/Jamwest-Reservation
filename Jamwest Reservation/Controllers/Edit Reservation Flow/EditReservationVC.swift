@@ -10,29 +10,47 @@ import UIKit
 import Firebase
 
 private let reuseIdentifier = "EditReservationCell"
+private let emailReuseIdentifier = "EmailListCell"
 
 class EditReservationVC: UITableViewController {
-
-//    MARK: - Properties
-    var editReservations = [EditReservation]()
-    let loadingVC = LoadingVC()
     
-//    MARK: - Init
+    //    MARK: - Properties
+    var editReservations = [EditReservation]()
+    var emailsList = [EmailList]()
+    let loadingVC = LoadingVC()
+    var showInformation: ShowInformation!
+    
+    //    MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // register cell class
         tableView.register(EditReservationCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(EmailListCell.self, forCellReuseIdentifier: emailReuseIdentifier)
+        
         tableView.backgroundColor = .white
         
         // separator insets
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40)
         
         configureUI()
-        fetchReservation()
-        observeRemovedReservation()
+        
+        // fetch data based on enum case
+        showInformation == .EditReservation ? fetchReservation() : fetchEmailList()
+        showInformation == .EditReservation ? observeChildRemoved(RESERVATION_REF) : observeChildRemoved(PARTICIPANT_EMAIL_REF)
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if showInformation == .EmailList {
+            navigationItem.title = "Email List"
+        } else {
+            navigationItem.title = "Edit Reservation"
+        }
+    }
+    
     //     MARK: - TableView flow layout
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -40,54 +58,74 @@ class EditReservationVC: UITableViewController {
     }
     
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return editReservations.count
+        
+        switch showInformation {
+            
+        case .EmailList:
+            return emailsList.count
+        default:
+            return editReservations.count
+        }
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! EditReservationCell
-
-        // Configure the cell...
-        cell.reservation = editReservations[indexPath.row]
-        return cell
+        
+        // present cell based on case
+        switch showInformation {
+            
+        case .EmailList:
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: emailReuseIdentifier, for: indexPath) as! EmailListCell
+            
+            // Configure the cell...
+            cell.emailList = emailsList[indexPath.row]
+            return cell
+            
+        default:
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! EditReservationCell
+            
+            // Configure the cell...
+            cell.reservation = editReservations[indexPath.row]
+            return cell
+        }
     }
-
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
     
-//    MARK: - Handlers
+    
+    /*
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
+    /*
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
+    //    MARK: - Handlers
     
     @objc func handleDismiss() {
         dismiss(animated: true, completion: nil)
     }
-
-//    MARK: - Helper functions
+    
+    //    MARK: - Helper functions
     
     func configureUI() {
         
@@ -103,14 +141,14 @@ class EditReservationVC: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleDismiss))
     }
     
-//    MARK: - API
+    //    MARK: - API
     
     func fetchReservation() {
         
         Database.fetchReservation(from: RESERVATION_REF) { (reservation) in
             
             // append waiver to data source
-            self.editReservations.append(reservation)
+            self.editReservations.append(reservation as! EditReservation)
             
             // sort results in alphabetical order
             self.editReservations.sort { (reservation1, reservation2) -> Bool in
@@ -120,14 +158,42 @@ class EditReservationVC: UITableViewController {
         }
     }
     
-    // updates tableView when reservation gets is removed
-    func observeRemovedReservation() {
+    func fetchEmailList() {
         
-        RESERVATION_REF.observe(.childRemoved) { (snapshot) in
+        Database.fetchEmailList(from: PARTICIPANT_EMAIL_REF) { (email) in
+            
+            self.emailsList.append(email)
+            
+            self.emailsList.sort { (email1, email2) -> Bool in
+                return email1.name < email2.name
+            }
+            self.tableView.reloadData()
+        }
+    }
+    
+    // updates tableView when child is removed
+    func observeChildRemoved(_ reference: DatabaseReference) {
+        
+        reference.observe(.childRemoved) { (snapshot) in
             
             self.add(self.loadingVC)
-            self.editReservations.removeAll(keepingCapacity: false)
-            self.fetchReservation()
+            
+            // switch observer based on showInformation case
+            switch self.showInformation {
+                
+            case .EditReservation:
+                
+                self.editReservations.removeAll(keepingCapacity: false)
+                self.fetchReservation()
+                
+            case .EmailList:
+                
+                self.emailsList.removeAll(keepingCapacity: false)
+                self.fetchEmailList()
+                
+            default:
+                break
+            }
             self.remove(self.loadingVC)
             self.tableView.reloadData()
         }
