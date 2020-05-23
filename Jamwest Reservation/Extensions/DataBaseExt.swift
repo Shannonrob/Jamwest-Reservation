@@ -45,7 +45,7 @@ extension Database {
         }
     }
     
-    static func fetchReservation(from reference: DatabaseReference, completion: @escaping(EditReservation) -> ()) {
+    static func fetchReservation(from reference: DatabaseReference, completion: @escaping(Reservation) -> ()) {
         
         reference.observe(.childAdded) { (snapshot) in
             
@@ -59,6 +59,23 @@ extension Database {
             let reservation = EditReservation(reservationId: waiverID, dictionary: dictionary)
             
             completion(reservation)
+        }
+    }
+    
+    static func fetchEmailList(from reference: DatabaseReference, completion: @escaping(EmailList) -> ()) {
+        
+        reference.observe(.childAdded) { (snapshot) in
+            
+            // waiverID
+            let emailID = snapshot.key
+            
+            // snapshot value cast as dictionary
+            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+            
+            // construct waiver
+            let email = EmailList(waiverID: emailID, dictionary: dictionary)
+            
+            completion(email)
         }
     }
 }
