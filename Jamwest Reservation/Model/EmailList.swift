@@ -8,9 +8,9 @@
 
 import Foundation
 
-class EmailList: Reservation {
+class EmailList: WaiverVerification {
     
-    override init(reservationId: String!, dictionary: Dictionary<String, AnyObject>) {
-        super.init(reservationId: reservationId, dictionary: dictionary)
+    override init(waiverID: String!, dictionary: Dictionary<String, AnyObject>) {
+        super.init(waiverID: waiverID, dictionary: dictionary)
     }
 }

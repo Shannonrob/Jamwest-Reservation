@@ -14,7 +14,7 @@ class EmailListCell: UITableViewCell {
         
         didSet {
             
-            guard let name = emailList?.group,
+            guard let name = emailList?.name,
                 let email = emailList?.emailAddress else { return }
             
             textLabel?.text = name

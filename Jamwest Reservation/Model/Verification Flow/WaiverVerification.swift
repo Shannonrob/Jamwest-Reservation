@@ -25,6 +25,7 @@ class WaiverVerification {
     var creationDate: String!
     var creationTime: Date!
     var waiverID: String!
+    var emailAddress: String!
     
     init(waiverID: String!, dictionary: Dictionary<String, AnyObject>) {
         
@@ -80,6 +81,10 @@ class WaiverVerification {
         
         if let creationDate = dictionary[Constant.creationDate] as? String {
             self.creationDate = creationDate
+        }
+        
+        if let emailAddress = dictionary[Constant.emailAddress] as? String {
+            self.emailAddress = emailAddress
         }
     }
     
