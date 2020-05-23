@@ -64,6 +64,7 @@
 		85948E10247444E100C2E307 /* EditReservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85948E0F247444E100C2E307 /* EditReservation.swift */; };
 		8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */; };
 		85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */; };
+		85B70F8D2479AE8200580174 /* JamwestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B70F8C2479AE8200580174 /* JamwestCell.swift */; };
 		85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */; };
 		85CFE0E6242A5A4F00A020CD /* JamwestWaiver.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85CFE0E5242A5A4F00A020CD /* JamwestWaiver.rtf */; };
 		85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */; };
@@ -137,6 +138,7 @@
 		85948E0F247444E100C2E307 /* EditReservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReservation.swift; sourceTree = "<group>"; };
 		8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoViews.swift; sourceTree = "<group>"; };
 		85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestDefaultView.swift; sourceTree = "<group>"; };
+		85B70F8C2479AE8200580174 /* JamwestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestCell.swift; sourceTree = "<group>"; };
 		85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestTextfieldClass.swift; sourceTree = "<group>"; };
 		85CFE0E5242A5A4F00A020CD /* JamwestWaiver.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = JamwestWaiver.rtf; sourceTree = "<group>"; };
 		85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInformation.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 			children = (
 				85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */,
 				85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */,
+				85B70F8C2479AE8200580174 /* JamwestCell.swift */,
 				855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */,
 				8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */,
 				85558CA6246335D400D970E8 /* CustomImageView.swift */,
@@ -559,6 +562,7 @@
 				855D9444240E94C100F50CB2 /* MenuOption.swift in Sources */,
 				85108448244A8E2300229791 /* PreviewImageView.swift in Sources */,
 				85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */,
+				85B70F8D2479AE8200580174 /* JamwestCell.swift in Sources */,
 				85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */,
 				854B8E6B246CA212007D85B6 /* VerificationVC.swift in Sources */,
 				851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */,
