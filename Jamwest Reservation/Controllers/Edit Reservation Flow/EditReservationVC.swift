@@ -28,11 +28,10 @@ class EditReservationVC: UITableViewController {
         // register cell class
         tableView.register(EditReservationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(EmailListCell.self, forCellReuseIdentifier: emailReuseIdentifier)
+        tableView.contentInset = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
         
         tableView.backgroundColor = .white
-        
-        // separator insets
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40)
+        tableView.separatorColor = .clear
         
         configureUI()
         
@@ -54,7 +53,7 @@ class EditReservationVC: UITableViewController {
     //     MARK: - TableView flow layout
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
+        return 70
     }
     
     // MARK: - Table view data source
@@ -125,6 +124,15 @@ class EditReservationVC: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func shareList() {
+        
+        let item = "Russo look what I did!!!"
+        
+        let vc = UIActivityViewController(activityItems: [item], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
+    }
+    
     //    MARK: - Helper functions
     
     func configureUI() {
@@ -139,6 +147,8 @@ class EditReservationVC: UITableViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleDismiss))
+        
+        showInformation == .EmailList ? navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareList)) : nil
     }
     
     //    MARK: - API
