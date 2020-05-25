@@ -12,10 +12,11 @@ import Firebase
 class AddReservationVC: UIViewController, UITextFieldDelegate {
     
     //    MARK: - Properties
-    
     var reservationTime = String()
     var reservationDate = String()
     var tourPackageSelected = String()
+    var uploadAction: UploadAction!
+    var reservation: Reservation!
     
     //    MARK: - Labels
     let hotelNameLabel: UILabel = {
@@ -122,7 +123,6 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         
         return datePicker
     }()
-    
     
     //    MARK: - Textfields
     let hotelNameTextField: UITextField = {
@@ -269,6 +269,12 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         textFieldDelegates()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        uploadAction == .UploadReservation ? print("Will upload reservation") : configureEditMode()
+    }
+    
     //    MARK: - Selectors
     
     @objc func handleDismiss() {
@@ -397,7 +403,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     }
     
     //    MARK: - Helper Functions
-    
+        
     func textFieldDelegates() {
         
         hotelNameTextField.delegate = self
@@ -521,8 +527,9 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         paxStepper.tintColor = .gray
     }
     
+    // date formatter for reservation date and time selected
     func formatDate() {
-        //date formatter for reservation date and time selected
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
@@ -547,6 +554,17 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         reservationDate = reservationDateFormatter.string(from: datePicker.date)
     }
     
+    // converts string type to date
+    func convertToDate(with date: String) -> Date {
+        
+        let date = date
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.locale = Locale(identifier: "en_US")
+        return (formatter.date(from: date) ?? nil)!
+    }
+    
+    // check if all textfield has contents before
     func formValidation() {
         
         guard hotelNameTextField.hasText,
@@ -560,6 +578,31 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
                 return
         }
         navigationItem.rightBarButtonItem?.isEnabled = true
+    }
+    
+    // get data for reservation to be edited
+    func configureEditMode() {
+        
+        for info in [reservation] {
+            
+            guard let hotel = info?.hotel,
+                let group = info?.group,
+                let voucherNumber = info?.voucherNumber,
+                let tourRep = info?.tourRep,
+                let tourCompany = info?.tourCompany,
+                let date = info?.date,
+                let pax = info?.pax else { return }
+            
+            hotelNameTextField.text = hotel
+            reservationDateTextfield.text = date
+            datePicker.date = convertToDate(with: date)
+            groupNameTextfield.text = group
+            vourcherTextfield.text = voucherNumber
+            tourRepTextfield.text = tourRep
+            tourCompanyTextfield.text = tourCompany
+            paxStepper.value = Double(pax)
+            stepperValueLabel.text = "\((Int(paxStepper.value )))"
+        }
     }
     
     // passingData to ToursSelectionVC
