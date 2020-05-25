@@ -126,7 +126,7 @@ class ContainerVC: UIViewController {
         switch menuOption{
             
         case .Reservations:
-            handlePresentVC(with: AddReservationVC(), fullscreen: false)
+            presentAddReservationVC(index: 0, with: nil)
             
         case.Edit:
             presentEditReservationVC(index: 0)
