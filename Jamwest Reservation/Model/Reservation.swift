@@ -8,7 +8,6 @@
 
 class Reservation {
     
-    //    var date: String!
     var time: String!
     var group: String!
     var hotel: String!
@@ -22,6 +21,7 @@ class Reservation {
     var tourRep: String!
     var voucherNumber: String!
     var reservationId: String!
+    var date: String!
     
     init(reservationId: String!, dictionary: Dictionary<String, AnyObject>) {
         
@@ -73,6 +73,10 @@ class Reservation {
         
         if let voucherNumber = dictionary[Constant.voucherNumber] as? String {
             self.voucherNumber = voucherNumber
+        }
+        
+        if let date = dictionary[Constant.reservationDate ] as? String {
+            self.date = date
         }
     }
     

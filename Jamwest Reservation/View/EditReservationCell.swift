@@ -15,10 +15,12 @@ class EditReservationCell: JamwestCell {
         didSet {
             
             guard let name = reservation?.group,
-                let hotel = reservation?.hotel else { return }
+                let hotel = reservation?.hotel,
+                let date = reservation?.date else { return }
             
             headerLabel.text = name
             detailLabel.text = hotel
+            dateLabel.text = date
         }
     }
 }
