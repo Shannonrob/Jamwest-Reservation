@@ -19,7 +19,6 @@ enum ShowInformation: Int {
         case 0: self = .EditReservation
         case 1: self = .EmailList
         default: self = .EditReservation
-            
         }
     }
 }
