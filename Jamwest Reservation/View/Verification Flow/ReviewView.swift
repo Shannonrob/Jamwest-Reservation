@@ -18,16 +18,10 @@ class ReviewView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         configureConstraints()
-    }
-    
-    convenience init() {
-        self.init(frame: CGRect.zero)
         
-        //        backgroundColor = .clear
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        configureConstraints()
     }
-    
+        
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
