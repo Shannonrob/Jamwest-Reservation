@@ -52,3 +52,11 @@ protocol ReviewWaiverDelegate {
 protocol VerificationDelegate {
     func handleSegmentedControl(for vc: VerificationView)
 }
+
+protocol AddReservationDelegate {
+    
+    func handleFormValidation(for vc: AddReservationView, with sender: NSObject)
+    func handleShowDatePicker(for vc: AddReservationView)
+    func handleStepperTapped(for vc: AddReservationView)
+    func handleSegmentControl(for vc: AddReservationView)
+}
