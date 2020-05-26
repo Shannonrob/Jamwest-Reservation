@@ -39,7 +39,8 @@ class VerificationView: UIView {
         let control = UISegmentedControl(items: ["Pending", "Approved"])
         control.selectedSegmentIndex = 0
         control.selectedSegmentTintColor = Color.Primary.heavyGreen
-//        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
+        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)], for: .selected)
         control.addTarget(self, action: #selector(handleSegmentedControl), for: .valueChanged)
         return control
     }()
