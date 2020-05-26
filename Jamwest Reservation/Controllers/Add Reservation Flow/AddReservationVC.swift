@@ -267,12 +267,17 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         
         stepperValueLabel.text = "\((Int(paxStepper.value )))"
         textFieldDelegates()
+        
+        uploadAction == .SaveChanges ? changeAppearance(for:
+            [hotelNameTextField,
+             groupNameTextfield,
+             vourcherTextfield], and: paxStepper) : nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        uploadAction == .UploadReservation ? print("Will upload reservation") : configureEditMode()
+        uploadAction == .SaveChanges ? configureEditMode() : nil
     }
     
     //    MARK: - Selectors
@@ -578,6 +583,16 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
                 return
         }
         navigationItem.rightBarButtonItem?.isEnabled = true
+    }
+    
+    // method used to changed the appearance of the restricted UIComponent
+    func changeAppearance(for textfield: [UITextField], and stepper: UIStepper) {
+        
+        for item in textfield {
+            item.backgroundColor = UIColor.white.withAlphaComponent(0.60)
+            item.isEnabled = false
+        }
+        stepper.isEnabled = false
     }
     
     // get data for reservation to be edited

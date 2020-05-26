@@ -69,13 +69,13 @@ class JamwestCell: UITableViewCell {
         let labelStackView = UIStackView(arrangedSubviews: [headerLabel, detailLabel])
         labelStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
         labelStackView.axis = .vertical
-
+        
         addSubview(cellView)
         cellView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 35, paddingBottom: 4, paddingRight: 35, width: 0, height: 0)
-        
+    
         cellView.addSubview(labelStackView)
         labelStackView.anchor(top: cellView.topAnchor, left: cellView.leftAnchor, bottom: cellView.bottomAnchor, right: nil, paddingTop: 6, paddingLeft: 15, paddingBottom: 6, paddingRight: 0, width: 0, height: 0)
-        
+
         cellView.addSubview(dateLabel)
         dateLabel.anchor(top: nil, left: nil, bottom: nil, right: cellView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 40, width: 0, height: 0)
         dateLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true

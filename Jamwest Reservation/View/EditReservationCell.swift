@@ -21,6 +21,8 @@ class EditReservationCell: JamwestCell {
             headerLabel.text = name
             detailLabel.text = hotel
             dateLabel.text = date
+            
+            selectionStyle = .none
         }
     }
 }
