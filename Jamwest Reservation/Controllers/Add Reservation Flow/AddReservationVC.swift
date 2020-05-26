@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class AddReservationVC: UIViewController, UITextFieldDelegate {
+class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDelegate {
     
     //    MARK: - Properties
     var reservationTime = String()
@@ -17,90 +17,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     var tourPackageSelected = String()
     var uploadAction: UploadAction!
     var reservation: Reservation!
-    
-    //    MARK: - Labels
-    let hotelNameLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = " Hotel"
-        label.textColor = .darkGray
-        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
-        return label
-    }()
-    
-    let tourRepNameLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = " Tour Representative"
-        label.textColor = .darkGray
-        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
-        return label
-    }()
-    
-    let tourCompanyNameLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = " Tour Company"
-        label.textColor = .darkGray
-        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
-        return label
-    }()
-    
-    let groupNameLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = " Group Name"
-        label.textColor = .darkGray
-        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
-        return label
-    }()
-    
-    let voucherNumberLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = " Voucher #"
-        label.textColor = .darkGray
-        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
-        return label
-    }()
-    
-    let reservationDateLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = " Date"
-        label.textColor = .darkGray
-        label.font = UIFont(name: Font.avenirNextDemibold, size: 16)
-        return label
-    }()
-    
-    let selectPackageLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = " Select group package :"
-        label.textColor = Color.Primary.purple
-        label.font = UIFont(name: Font.avenirNextDemibold, size: 26)
-        return label
-    }()
-    
-    let paxQuantityLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = "Pax Quantity :"
-        label.textColor = Color.Primary.purple
-        label.font = UIFont(name: Font.avenirNextDemibold, size: 24)
-        return label
-    }()
-    
-    let stepperValueLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = ""
-        label.textColor = Color.Primary.purple
-        label.font = UIFont(name: Font.helveticaNeueBold, size: 28)
-        label.shadowColor = Color.Primary.purple
-        
-        return label
-    }()
+    var addReservationView = AddReservationView()
     
     let datePicker: UIDatePicker = {
         
@@ -124,154 +41,32 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         return datePicker
     }()
     
-    //    MARK: - Textfields
-    let hotelNameTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Hotel", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 300, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeHotel"))
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Color.Border.blue
-        textfield.addTarget(self, action: #selector(handleFormValidation), for: .allTouchEvents)
-        return textfield
-    }()
-    
-    let tourRepTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Representative", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 300, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeRepresentative"))
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Color.Border.blue
-        textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
-        return textfield
-    }()
-    
-    let groupNameTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Name", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 300, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeName"))
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Color.Border.blue
-        textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
-        return textfield
-    }()
-    
-    let tourCompanyTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Tour Company", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 300, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeBus"))
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Color.Border.blue
-        textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
-        return textfield
-    }()
-    
-    let vourcherTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.design(placeHolder: "Voucher", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 300, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeNumber"))
-        textfield.layer.borderWidth = 0.85
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Color.Border.blue
-        textfield.addTarget(self, action: #selector(handleFormValidation), for: .editingChanged)
-        textfield.keyboardType = .numberPad
-        return textfield
-    }()
-    
-    let reservationDateTextfield: UITextField = {
-        
-        let textfield = UITextField()
-        textfield.design(placeHolder: "mm/dd/yyyy", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 300, height: 51)
-        textfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeDate"))
-        textfield.layer.borderWidth = 1
-        textfield.layer.cornerRadius = 4
-        textfield.layer.masksToBounds = true
-        textfield.layer.borderColor = Color.Border.blue
-        textfield.addTarget(self, action: #selector(configureDatePicker), for: .editingDidBegin)
-        return textfield
-    }()
-    
-    //    MARK: - Buttons
-    
-    let singleTourButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configureButtonWithIcon("whiteCheckMark", title: ButtonTitle.singleTour, titleColor: .white, buttonColor: Color.Hue.green, cornerRadius: 8)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
-        button.isEnabled = false
-        return button
-    }()
-    
-    let comboDealButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.comboDeal, titleColor: .white, buttonColor: Color.Hue.green, cornerRadius: 8)
-        button.titleLabel?.font = .systemFont(ofSize: 18)
-        button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
-        return button
-    }()
-    
-    let superDealButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.superDeal, titleColor: .white, buttonColor: Color.Hue.green, cornerRadius: 8)
-        button.titleLabel?.font = .systemFont(ofSize: 18)
-        button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
-        return button
-    }()
-    
-    let deluxePackageButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configureButtonWithIcon("hiddenCheckMark", title: ButtonTitle.deluxePackage, titleColor: .white, buttonColor: Color.Hue.green, cornerRadius: 8)
-        button.titleLabel?.font = .systemFont(ofSize: 18)
-        button.addTarget(self, action: #selector(handleSelectedTourPackage), for: .touchUpInside)
-        return button
-    }()
-    
-    
-    //    MARK: - UIStepper
-    
-    let paxStepper: UIStepper = {
-        
-        let stepper: UIStepper = UIStepper()
-        stepper.tintColor = UIColor.white
-        stepper.setIncrementImage(#imageLiteral(resourceName: "greenPlus").withRenderingMode(.alwaysOriginal), for: .normal)
-        stepper.setDecrementImage(#imageLiteral(resourceName: "greenMinus ").withRenderingMode(.alwaysOriginal), for: .normal)
-        stepper.minimumValue = 1
-        stepper.maximumValue = 100
-        stepper.value = 1
-        stepper.stepValue = 1
-        stepper.addTarget(self, action: #selector(handleStepper), for: UIControl.Event.valueChanged)
-        return stepper
-    }()
-    
     //    MARK: - Init
+    
+    override func loadView() {
+        super.loadView()
+        
+        addReservationView.delegate = self
+        view = addReservationView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tourPackageSelected = ButtonTitle.singleTour      // change this variable from being global
-        configureUI()
-        configureStackViewComponents()
-        configurePaxStepper()
-        
-        hotelNameTextField.becomeFirstResponder()
         
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         view.addGestureRecognizer(tap)
         
-        stepperValueLabel.text = "\((Int(paxStepper.value )))"
-        textFieldDelegates()
+//        tourPackageSelected = ButtonTitle.singleTour      // change this variable from being global
+        configureUI()
         
-        uploadAction == .SaveChanges ? changeAppearance(for:
-            [hotelNameTextField,
-             groupNameTextfield,
-             vourcherTextfield], and: paxStepper) : nil
+        addReservationView.hotelNameTextField.becomeFirstResponder()
+
+        textFieldDelegates()
+
+        uploadAction == .SaveChanges ? restrictChanges(for:
+            [addReservationView.hotelNameTextField,
+             addReservationView.groupNameTextfield,
+             addReservationView.vourcherTextfield], and: addReservationView.paxStepper) : nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -296,7 +91,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     @objc func configureDatePicker() {
         //        Add datePicker to popover
         
-        reservationDateTextfield.resignFirstResponder()
+        addReservationView.reservationDateTextfield.resignFirstResponder()
         
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         toolBar.barStyle = UIBarStyle.default
@@ -321,13 +116,12 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         popoverViewController.modalPresentationStyle = .popover
         popoverViewController.view.frame = CGRect(x: 0, y: 0, width: datePickerSize.width, height: datePickerSize.height)
         popoverViewController.preferredContentSize = datePickerSize
-        popoverViewController.popoverPresentationController?.sourceView = reservationDateTextfield
-        popoverViewController.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 51, width: reservationDateTextfield.bounds.width, height: 0)
+        popoverViewController.popoverPresentationController?.sourceView = addReservationView.reservationDateTextfield
+        popoverViewController.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 51, width: addReservationView.reservationDateTextfield.bounds.width, height: 0)
         popoverViewController.popoverPresentationController?.delegate = self as? UIPopoverPresentationControllerDelegate
         
         toolBar.anchor(top: popoverView.topAnchor, left: popoverView.leftAnchor, bottom: nil, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: datePicker.frame.width, height: 60)
         datePicker.anchor(top: toolBar.bottomAnchor, left: popoverView.leftAnchor, bottom: popoverView.bottomAnchor, right: popoverView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
         
         self.present(popoverViewController, animated: true, completion: nil)
     }
@@ -336,98 +130,106 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         
         formatDate()
         formValidation()
-        reservationDateTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeDate"))
+        addReservationView.reservationDateTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeDate"))
         
-        if !groupNameTextfield.hasText {
-            groupNameTextfield.becomeFirstResponder()
+        if !addReservationView.groupNameTextfield.hasText {
+            addReservationView.groupNameTextfield.becomeFirstResponder()
         }
-    }
-    
-    @objc func handleStepper() {
-        
-        stepperValueLabel.text =  "\((Int(paxStepper.value )))"
-    }
-    
-    @objc func handleFormValidation() {
-        
-        formValidation()
     }
     
     @objc func handleSelectedTourPackage(_ sender: UIButton) {
         
-        switch sender {
-            
-        case singleTourButton:
-            
-            tourPackageSelected = singleTourButton.currentTitle!
-            singleTourButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
-            comboDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            superDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            deluxePackageButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            
-        case comboDealButton:
-            tourPackageSelected = comboDealButton.currentTitle!
-            singleTourButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            comboDealButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
-            superDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            deluxePackageButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            
-        case superDealButton:
-            tourPackageSelected = superDealButton.currentTitle!
-            singleTourButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            comboDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            superDealButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
-            deluxePackageButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            
-        case deluxePackageButton:
-            tourPackageSelected = deluxePackageButton.currentTitle!
-            singleTourButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            comboDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            superDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
-            deluxePackageButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
-            
-        default:
-            return
-        }
+//        switch sender {
+//
+//        case addReservationView.singleTourButton:
+//
+//            tourPackageSelected = addReservationView.singleTourButton.currentTitle!
+//            addReservationView.singleTourButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
+//            addReservationView.comboDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//            addReservationView.superDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//            addReservationView.deluxePackageButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//
+//        case addReservationView.comboDealButton:
+//            tourPackageSelected = addReservationView.comboDealButton.currentTitle!
+//            addReservationView.singleTourButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//            addReservationView.comboDealButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
+//            addReservationView.superDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//            addReservationView.deluxePackageButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//
+//        case addReservationView.superDealButton:
+//            tourPackageSelected = addReservationView.superDealButton.currentTitle!
+//            addReservationView.singleTourButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//            addReservationView.comboDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//            addReservationView.superDealButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
+//            addReservationView.deluxePackageButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//
+//        case addReservationView.deluxePackageButton:
+//            tourPackageSelected = addReservationView.deluxePackageButton.currentTitle!
+//            addReservationView.singleTourButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//            addReservationView.comboDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//            addReservationView.superDealButton.unSelectedPackageButtonState(icon: ImageName.clearCheckMark, font: 18, enabled: true)
+//            addReservationView.deluxePackageButton.selectedPackageButtonState(icon: ImageName.whiteCheckMark, font: 20, enabled: false)
+//
+//        default:
+//            return
+//        }
     }
     
     // delete contents of textfield
     @objc func handleClearTextField(textfield: Bool) {
         
-        if hotelNameTextField.isFirstResponder {
-            hotelNameTextField.text?.removeAll()
-        } else if groupNameTextfield.isFirstResponder {
-            groupNameTextfield.text?.removeAll()
-        } else if vourcherTextfield.isFirstResponder {
-            vourcherTextfield.text?.removeAll()
-        } else if tourRepTextfield.isFirstResponder {
-            tourRepTextfield.text?.removeAll()
+        if addReservationView.hotelNameTextField.isFirstResponder {
+            addReservationView.hotelNameTextField.text?.removeAll()
+        } else if addReservationView.groupNameTextfield.isFirstResponder {
+            addReservationView.groupNameTextfield.text?.removeAll()
+        } else if addReservationView.vourcherTextfield.isFirstResponder {
+            addReservationView.vourcherTextfield.text?.removeAll()
+        } else if addReservationView.tourRepTextfield.isFirstResponder {
+            addReservationView.tourRepTextfield.text?.removeAll()
         } else {
-            tourCompanyTextfield.text?.removeAll()
+            addReservationView.tourCompanyTextfield.text?.removeAll()
         }
+    }
+    
+//    MARK: - Protocols and delegates
+    
+    func handleFormValidation(for vc: AddReservationView, with sender: NSObject) {
+        formValidation()
+    }
+    
+    func handleShowDatePicker(for vc: AddReservationView) {
+        configureDatePicker()
+    }
+    
+    func handleStepperTapped(for vc: AddReservationView) {
+        vc.stepperValueLabel.text =  "\((Int(vc.paxStepper.value )))"
+    }
+    
+    func handleSegmentControl(for vc: AddReservationView) {
+        print(vc.segmentedContol.selectedSegmentIndex)
     }
     
     //    MARK: - Helper Functions
         
     func textFieldDelegates() {
         
-        hotelNameTextField.delegate = self
-        reservationDateTextfield.delegate = self
-        groupNameTextfield.delegate = self
-        tourRepTextfield.delegate = self
-        vourcherTextfield.delegate = self
-        tourCompanyTextfield.delegate = self
+        addReservationView.hotelNameTextField.delegate = self
+        addReservationView.reservationDateTextfield.delegate = self
+        addReservationView.groupNameTextfield.delegate = self
+        addReservationView.tourRepTextfield.delegate = self
+        addReservationView.vourcherTextfield.delegate = self
+        addReservationView.tourCompanyTextfield.delegate = self
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-        if hotelNameTextField.isEditing ||
-            groupNameTextfield.isEditing ||
-            vourcherTextfield.isEditing ||
-            tourRepTextfield.isEditing ||
-            tourCompanyTextfield.isEditing {
+        if addReservationView.hotelNameTextField.isEditing ||
+            addReservationView.groupNameTextfield.isEditing ||
+            addReservationView.vourcherTextfield.isEditing ||
+           addReservationView.tourRepTextfield.isEditing ||
+            addReservationView.tourCompanyTextfield.isEditing {
             
-            reservationDateTextfield.isEnabled = false
+            addReservationView.reservationDateTextfield.isEnabled = false
         }
         //adds clear button icon to textfield
         textField.textfieldClearButtonIcon(#imageLiteral(resourceName: "clearButtonSmall "))
@@ -440,23 +242,23 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         
-        reservationDateTextfield.isEnabled = true
+        addReservationView.reservationDateTextfield.isEnabled = true
         return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         // reinstantiate each icon after editing
         switch textField {
-        case hotelNameTextField:
-            hotelNameTextField.setTextfieldIcon(#imageLiteral(resourceName: "orangeHotel"))
-        case groupNameTextfield:
-            groupNameTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeName"))
-        case vourcherTextfield:
-            vourcherTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeNumber"))
-        case tourRepTextfield:
-            tourRepTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeRepresentative"))
-        case tourCompanyTextfield:
-            tourCompanyTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeBus"))
+        case addReservationView.hotelNameTextField:
+            addReservationView.hotelNameTextField.setTextfieldIcon(#imageLiteral(resourceName: "orangeHotel"))
+        case addReservationView.groupNameTextfield:
+            addReservationView.groupNameTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeName"))
+        case addReservationView.vourcherTextfield:
+            addReservationView.vourcherTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeNumber"))
+        case addReservationView.tourRepTextfield:
+            addReservationView.tourRepTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeRepresentative"))
+        case addReservationView.tourCompanyTextfield:
+            addReservationView.tourCompanyTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeBus"))
         default:
             break
         }
@@ -466,18 +268,18 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         
         switch textField {
             
-        case hotelNameTextField:
+        case addReservationView.hotelNameTextField:
             textField.resignFirstResponder()
-            reservationDateTextfield.becomeFirstResponder()
-        case reservationDateTextfield:
+            addReservationView.reservationDateTextfield.becomeFirstResponder()
+        case addReservationView.reservationDateTextfield:
             formatDate()
-            groupNameTextfield.becomeFirstResponder()
-        case groupNameTextfield:
-            vourcherTextfield.becomeFirstResponder()
-        case vourcherTextfield:
-            tourRepTextfield.becomeFirstResponder()
-        case tourRepTextfield:
-            tourCompanyTextfield.becomeFirstResponder()
+            addReservationView.groupNameTextfield.becomeFirstResponder()
+        case addReservationView.groupNameTextfield:
+            addReservationView.vourcherTextfield.becomeFirstResponder()
+        case addReservationView.vourcherTextfield:
+            addReservationView.tourRepTextfield.becomeFirstResponder()
+        case addReservationView.tourRepTextfield:
+            addReservationView.tourCompanyTextfield.becomeFirstResponder()
         default:
             textField.resignFirstResponder()
         }
@@ -497,11 +299,11 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         
         // make sure the result is under 16 characters
         switch textField {
-        case hotelNameTextField,groupNameTextfield,vourcherTextfield:
+        case addReservationView.hotelNameTextField,addReservationView.groupNameTextfield,addReservationView.vourcherTextfield:
             return updatedText.count <= 36
-        case tourRepTextfield:
+        case addReservationView.tourRepTextfield:
             return updatedText.count <= 27
-        case tourCompanyTextfield:
+        case addReservationView.tourCompanyTextfield:
             return updatedText.count <= 30
         default:
             break
@@ -513,7 +315,6 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     
     func configureUI() {
         
-        view.backgroundColor = Color.Background.fadeGray
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "Add Reservation"
         navigationController?.navigationBar.isTranslucent = false
@@ -528,17 +329,13 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         navigationItem.rightBarButtonItem?.tintColor = .white
     }
     
-    func configurePaxStepper() {
-        paxStepper.tintColor = .gray
-    }
-    
     // date formatter for reservation date and time selected
     func formatDate() {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
-        reservationDateTextfield.text = dateFormatter.string(from: datePicker.date)
+        addReservationView.reservationDateTextfield.text = dateFormatter.string(from: datePicker.date)
         
         dismiss(animated: true, completion: nil)
     }
@@ -572,12 +369,12 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     // check if all textfield has contents before
     func formValidation() {
         
-        guard hotelNameTextField.hasText,
-            reservationDateTextfield.hasText,
-            groupNameTextfield.hasText,
-            vourcherTextfield.hasText,
-            tourRepTextfield.hasText,
-            tourCompanyTextfield.hasText else {
+        guard addReservationView.hotelNameTextField.hasText,
+            addReservationView.reservationDateTextfield.hasText,
+            addReservationView.groupNameTextfield.hasText,
+            addReservationView.vourcherTextfield.hasText,
+            addReservationView.tourRepTextfield.hasText,
+            addReservationView.tourCompanyTextfield.hasText else {
                 
                 navigationItem.rightBarButtonItem?.isEnabled = false
                 return
@@ -586,10 +383,11 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     }
     
     // method used to changed the appearance of the restricted UIComponent
-    func changeAppearance(for textfield: [UITextField], and stepper: UIStepper) {
+    func restrictChanges(for textfield: [UITextField], and stepper: UIStepper) {
         
         for item in textfield {
             item.backgroundColor = UIColor.white.withAlphaComponent(0.60)
+            item.textColor = .gray
             item.isEnabled = false
         }
         stepper.isEnabled = false
@@ -608,15 +406,15 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
                 let date = info?.date,
                 let pax = info?.pax else { return }
             
-            hotelNameTextField.text = hotel
-            reservationDateTextfield.text = date
+            addReservationView.hotelNameTextField.text = hotel
+            addReservationView.reservationDateTextfield.text = date
             datePicker.date = convertToDate(with: date)
-            groupNameTextfield.text = group
-            vourcherTextfield.text = voucherNumber
-            tourRepTextfield.text = tourRep
-            tourCompanyTextfield.text = tourCompany
-            paxStepper.value = Double(pax)
-            stepperValueLabel.text = "\((Int(paxStepper.value )))"
+            addReservationView.groupNameTextfield.text = group
+            addReservationView.vourcherTextfield.text = voucherNumber
+            addReservationView.tourRepTextfield.text = tourRep
+            addReservationView.tourCompanyTextfield.text = tourCompany
+            addReservationView.paxStepper.value = Double(pax)
+            addReservationView.stepperValueLabel.text = "\((Int(addReservationView.paxStepper.value )))"
         }
     }
     
@@ -624,12 +422,12 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
     func presentToursSelectionVC() {
         
         guard
-            let hotel = hotelNameTextField.text,
-            let group = groupNameTextfield.text,
-            let voucherNumber = vourcherTextfield.text,
-            let tourRep = tourRepTextfield.text,
-            let tourCompany = tourCompanyTextfield.text else { return }
-        let paxQuantity = paxStepper.value
+            let hotel = addReservationView.hotelNameTextField.text,
+            let group = addReservationView.groupNameTextfield.text,
+            let voucherNumber = addReservationView.vourcherTextfield.text,
+            let tourRep = addReservationView.tourRepTextfield.text,
+            let tourCompany = addReservationView.tourCompanyTextfield.text else { return }
+        let paxQuantity = addReservationView.paxStepper.value
         let time = reservationTime
         let date = reservationDate
         
@@ -650,74 +448,3 @@ class AddReservationVC: UIViewController, UITextFieldDelegate {
         
     }
 }
-
-
-extension AddReservationVC {
-    
-    //    MARK: - Textfield StackViews
-    func configureStackViewComponents(){
-        
-        let hotelStackView = UIStackView(arrangedSubviews: [hotelNameLabel, hotelNameTextField])
-        hotelStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
-        hotelStackView.axis = .vertical
-        
-        let tourRepStackView = UIStackView(arrangedSubviews: [tourRepNameLabel, tourRepTextfield])
-        tourRepStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
-        tourRepStackView.axis = .vertical
-        
-        let tourCompanyStackView = UIStackView(arrangedSubviews: [tourCompanyNameLabel, tourCompanyTextfield])
-        tourCompanyStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
-        tourCompanyStackView.axis = .vertical
-        
-        let groupNameStackView = UIStackView(arrangedSubviews: [groupNameLabel, groupNameTextfield])
-        groupNameStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
-        groupNameStackView.axis = .vertical
-        
-        let voucherNumberStackView = UIStackView(arrangedSubviews: [voucherNumberLabel, vourcherTextfield])
-        voucherNumberStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
-        voucherNumberStackView.axis = .vertical
-        
-        let dateStackView = UIStackView(arrangedSubviews: [reservationDateLabel, reservationDateTextfield])
-        dateStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
-        dateStackView.axis = .vertical
-        
-        let leftStackView = UIStackView(arrangedSubviews: [hotelStackView, groupNameStackView, tourRepStackView])
-        leftStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
-        leftStackView.axis = .vertical
-        
-        let rightStackView = UIStackView(arrangedSubviews: [dateStackView, voucherNumberStackView, tourCompanyStackView])
-        rightStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
-        rightStackView.axis = .vertical
-        
-        view.addSubview(leftStackView)
-        leftStackView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 300, height: 276)
-        
-        view.addSubview(rightStackView)
-        rightStackView.anchor(top: view.topAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 300, height: 276)
-        
-        //        MARK: - Stepper Contraints
-        
-        let paxStackView = UIStackView(arrangedSubviews: [paxQuantityLabel, stepperValueLabel])
-        paxStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 15)
-        
-        let stepperStackView = UIStackView(arrangedSubviews: [paxStackView, paxStepper])
-        stepperStackView.configureStackView(alignment: .leading, distribution: .equalSpacing, spacing: 10)
-        stepperStackView.axis = .vertical
-        
-        view.addSubview(stepperStackView)
-        stepperStackView.anchor(top: leftStackView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
-        //        MARK: - Buttons StackViews
-        
-        let dealButtonsStackView = UIStackView(arrangedSubviews: [singleTourButton, comboDealButton, superDealButton, deluxePackageButton])
-        dealButtonsStackView.configureStackView(alignment: nil, distribution: .fillEqually, spacing: 8)
-        
-        let selectPackageStackView = UIStackView(arrangedSubviews: [selectPackageLabel, dealButtonsStackView])
-        selectPackageStackView.configureStackView(alignment: nil, distribution: .fillEqually, spacing: 0)
-        selectPackageStackView.axis = .vertical
-        
-        view.addSubview(selectPackageStackView)
-        selectPackageStackView.anchor(top: stepperStackView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 105)
-    }
-}
-
