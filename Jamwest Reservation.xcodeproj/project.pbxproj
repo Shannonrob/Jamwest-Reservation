@@ -58,6 +58,7 @@
 		855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9457240E95FD00F50CB2 /* SignUpVC.swift */; };
 		855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */; };
 		855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D945B240E961600F50CB2 /* WaiverVC.swift */; };
+		858EA987247D8123006DFCCA /* AddReservationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858EA986247D8123006DFCCA /* AddReservationView.swift */; };
 		858F23AF245B4B86003115BF /* DataBaseExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858F23AE245B4B86003115BF /* DataBaseExt.swift */; };
 		85948E0C247440F000C2E307 /* EditReservationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85948E0B247440F000C2E307 /* EditReservationVC.swift */; };
 		85948E0E2474437800C2E307 /* EditReservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85948E0D2474437800C2E307 /* EditReservationCell.swift */; };
@@ -133,6 +134,7 @@
 		855D9457240E95FD00F50CB2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToursSelectionVC.swift; sourceTree = "<group>"; };
 		855D945B240E961600F50CB2 /* WaiverVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVC.swift; sourceTree = "<group>"; };
+		858EA986247D8123006DFCCA /* AddReservationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReservationView.swift; sourceTree = "<group>"; };
 		858F23AE245B4B86003115BF /* DataBaseExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseExt.swift; sourceTree = "<group>"; };
 		85948E0B247440F000C2E307 /* EditReservationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReservationVC.swift; sourceTree = "<group>"; };
 		85948E0D2474437800C2E307 /* EditReservationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReservationCell.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 		855D9428240E915E00F50CB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				858EA986247D8123006DFCCA /* AddReservationView.swift */,
 				85108446244A8DD800229791 /* Participant Flow */,
 				85032619244DFD9300BCAEE7 /* Pending Waivers Flow */,
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
@@ -549,6 +552,7 @@
 				85E9C507247881D9000F6589 /* EmailList.swift in Sources */,
 				855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */,
 				855D9434240E91F700F50CB2 /* UILabelExt.swift in Sources */,
+				858EA987247D8123006DFCCA /* AddReservationView.swift in Sources */,
 				850BFED1246DCCEA00BEAF1D /* ApprovedWaiver.swift in Sources */,
 				85E9C50924788284000F6589 /* EmailListCell.swift in Sources */,
 				8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */,
