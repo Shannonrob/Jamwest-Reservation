@@ -27,15 +27,14 @@ class AddReservationView: UIView {
     let voucherNumberLabel = TextfieldHeaderLabel(text: " Voucher #")
     let tourCompanyNameLabel = TextfieldHeaderLabel(text: " Tour Company")
     
-    let selectPackageLabel = AddReservationLabel(text: " Select group package :", textColor: Color.Primary.purple,
-                                                 font: Font.avenirNextDemibold, fontSize: 26)
+    let selectPackageLabel = AddReservationLabel(text: "Reservation package :", textColor: .black,
+                                                 font: Font.avenirNextDemibold, fontSize: 20)
     
-    let paxQuantityLabel = AddReservationLabel(text: "Pax Quantity :", textColor: Color.Primary.purple,
-                                               font: Font.avenirNextDemibold, fontSize: 24)
+    let paxQuantityLabel = AddReservationLabel(text: "Pax Quantity :", textColor: .black,
+                                               font: Font.avenirNextDemibold, fontSize: 18)
     
-    let stepperValueLabel = AddReservationLabel(text: "1", textColor: Color.Primary.purple,
-                                                font: Font.helveticaNeueBold, fontSize: 28)
-    
+    let stepperValueLabel = AddReservationLabel(text: "1", textColor: .black,
+                                                font: Font.helveticaNeueBold, fontSize: 20)
     
     //    MARK: - UIStepper
     
@@ -61,7 +60,6 @@ class AddReservationView: UIView {
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)], for: .selected)
         control.addTarget(self, action: #selector(handleSegmentedControl), for: .valueChanged)
-        //        control.addTarget(self, action: #selector(handleSelectedTourPackage), for: .valueChanged)
         return control
     }()
     
@@ -168,9 +166,9 @@ class AddReservationView: UIView {
         rightStackView.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 300, height: 276)
         
         addSubview(stepperStackView)
-        stepperStackView.anchor(top: leftStackView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        stepperStackView.anchor(top: leftStackView.bottomAnchor, left: leftStackView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         addSubview(selectPackageStackView)
-        selectPackageStackView.anchor(top: stepperStackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 30, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 105)
+        selectPackageStackView.anchor(top: stepperStackView.bottomAnchor, left: leftStackView.leftAnchor, bottom: nil, right: rightStackView.rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 105)
     }
 }
