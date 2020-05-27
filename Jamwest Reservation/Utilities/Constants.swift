@@ -81,6 +81,14 @@ enum Listener {
    static let dateChangedKey = "NSCalendarDayChangedNotification"
 }
 
+// events for date formatter in AddReservationVC
+enum Event {
+    
+    static let date = "date"
+    static let time = "time"
+    static let full = "date-Time"
+}
+
 enum Color {
     
     struct Primary {
