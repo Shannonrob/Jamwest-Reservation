@@ -58,6 +58,8 @@
 		855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9457240E95FD00F50CB2 /* SignUpVC.swift */; };
 		855D945A240E960A00F50CB2 /* ToursSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */; };
 		855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855D945B240E961600F50CB2 /* WaiverVC.swift */; };
+		8561BB1F247F211A00A7C25A /* TourSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8561BB1E247F211A00A7C25A /* TourSelectionView.swift */; };
+		8561BB21247F231D00A7C25A /* TourSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8561BB20247F231D00A7C25A /* TourSelectionCell.swift */; };
 		858EA987247D8123006DFCCA /* AddReservationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858EA986247D8123006DFCCA /* AddReservationView.swift */; };
 		858F23AF245B4B86003115BF /* DataBaseExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858F23AE245B4B86003115BF /* DataBaseExt.swift */; };
 		85948E0C247440F000C2E307 /* EditReservationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85948E0B247440F000C2E307 /* EditReservationVC.swift */; };
@@ -133,6 +135,8 @@
 		855D9457240E95FD00F50CB2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		855D9459240E960A00F50CB2 /* ToursSelectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToursSelectionVC.swift; sourceTree = "<group>"; };
 		855D945B240E961600F50CB2 /* WaiverVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVC.swift; sourceTree = "<group>"; };
+		8561BB1E247F211A00A7C25A /* TourSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourSelectionView.swift; sourceTree = "<group>"; };
+		8561BB20247F231D00A7C25A /* TourSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourSelectionCell.swift; sourceTree = "<group>"; };
 		858EA986247D8123006DFCCA /* AddReservationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReservationView.swift; sourceTree = "<group>"; };
 		858F23AE245B4B86003115BF /* DataBaseExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseExt.swift; sourceTree = "<group>"; };
 		85948E0B247440F000C2E307 /* EditReservationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReservationVC.swift; sourceTree = "<group>"; };
@@ -315,7 +319,7 @@
 		855D9428240E915E00F50CB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				858EA986247D8123006DFCCA /* AddReservationView.swift */,
+				8561BB1D247F20ED00A7C25A /* AddReservation */,
 				85108446244A8DD800229791 /* Participant Flow */,
 				85032619244DFD9300BCAEE7 /* Pending Waivers Flow */,
 				855D9449240E954600F50CB2 /* MenuOptionCell.swift */,
@@ -378,6 +382,16 @@
 				85D668E1242C2305002F1189 /* UIScrollViewExt.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8561BB1D247F20ED00A7C25A /* AddReservation */ = {
+			isa = PBXGroup;
+			children = (
+				858EA986247D8123006DFCCA /* AddReservationView.swift */,
+				8561BB1E247F211A00A7C25A /* TourSelectionView.swift */,
+				8561BB20247F231D00A7C25A /* TourSelectionCell.swift */,
+			);
+			path = AddReservation;
 			sourceTree = "<group>";
 		};
 		85948E0A24743FEB00C2E307 /* Edit Reservation Flow */ = {
@@ -535,8 +549,10 @@
 				855D944E240E95B600F50CB2 /* AddReservationVC.swift in Sources */,
 				858F23AF245B4B86003115BF /* DataBaseExt.swift in Sources */,
 				855D9440240E940E00F50CB2 /* Countries.swift in Sources */,
+				8561BB21247F231D00A7C25A /* TourSelectionCell.swift in Sources */,
 				855D9458240E95FD00F50CB2 /* SignUpVC.swift in Sources */,
 				85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */,
+				8561BB1F247F211A00A7C25A /* TourSelectionView.swift in Sources */,
 				854B8E6D246CA374007D85B6 /* VerificationView.swift in Sources */,
 				8524F51D2424F56D003173EF /* CameraVC.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
