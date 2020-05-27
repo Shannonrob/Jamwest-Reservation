@@ -8,17 +8,4 @@
 
 import Foundation
 
-enum ShowInformation: Int {
-    
-    case EditReservation
-    case EmailList
-    
-    init(index: Int) {
-        
-        switch index {
-        case 0: self = .EditReservation
-        case 1: self = .EmailList
-        default: self = .EditReservation
-        }
-    }
-}
+
