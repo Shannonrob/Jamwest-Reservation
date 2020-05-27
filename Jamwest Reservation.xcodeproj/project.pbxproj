@@ -70,11 +70,10 @@
 		85CFE0E6242A5A4F00A020CD /* JamwestWaiver.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85CFE0E5242A5A4F00A020CD /* JamwestWaiver.rtf */; };
 		85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */; };
 		85D668E2242C2305002F1189 /* UIScrollViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D668E1242C2305002F1189 /* UIScrollViewExt.swift */; };
-		85E9C50524787A7D000F6589 /* ShowInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E9C50424787A7D000F6589 /* ShowInformation.swift */; };
 		85E9C507247881D9000F6589 /* EmailList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E9C506247881D9000F6589 /* EmailList.swift */; };
 		85E9C50924788284000F6589 /* EmailListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E9C50824788284000F6589 /* EmailListCell.swift */; };
 		85ECB436246EF89C005551A2 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECB435246EF89C005551A2 /* DateExt.swift */; };
-		85F04410247C18CF00277B9E /* UploadAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F0440F247C18CF00277B9E /* UploadAction.swift */; };
+		85F04410247C18CF00277B9E /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F0440F247C18CF00277B9E /* Enums.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
 /* End PBXBuildFile section */
 
@@ -146,11 +145,10 @@
 		85CFE0E5242A5A4F00A020CD /* JamwestWaiver.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = JamwestWaiver.rtf; sourceTree = "<group>"; };
 		85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInformation.swift; sourceTree = "<group>"; };
 		85D668E1242C2305002F1189 /* UIScrollViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewExt.swift; sourceTree = "<group>"; };
-		85E9C50424787A7D000F6589 /* ShowInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowInformation.swift; sourceTree = "<group>"; };
 		85E9C506247881D9000F6589 /* EmailList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailList.swift; sourceTree = "<group>"; };
 		85E9C50824788284000F6589 /* EmailListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailListCell.swift; sourceTree = "<group>"; };
 		85ECB435246EF89C005551A2 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
-		85F0440F247C18CF00277B9E /* UploadAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAction.swift; sourceTree = "<group>"; };
+		85F0440F247C18CF00277B9E /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -334,8 +332,7 @@
 			children = (
 				855D9441240E94B500F50CB2 /* Alert.swift */,
 				855D9443240E94C100F50CB2 /* MenuOption.swift */,
-				85E9C50424787A7D000F6589 /* ShowInformation.swift */,
-				85F0440F247C18CF00277B9E /* UploadAction.swift */,
+				85F0440F247C18CF00277B9E /* Enums.swift */,
 				850BFED4246DE01900BEAF1D /* WaiverSelection.swift */,
 				85948E0F247444E100C2E307 /* EditReservation.swift */,
 				855D9445240E94D100F50CB2 /* PickerViewData.swift */,
@@ -559,13 +556,12 @@
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
 				855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */,
 				85558CA7246335D400D970E8 /* CustomImageView.swift in Sources */,
-				85F04410247C18CF00277B9E /* UploadAction.swift in Sources */,
+				85F04410247C18CF00277B9E /* Enums.swift in Sources */,
 				855D944A240E954600F50CB2 /* MenuOptionCell.swift in Sources */,
 				85948E10247444E100C2E307 /* EditReservation.swift in Sources */,
 				855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */,
 				85D668E2242C2305002F1189 /* UIScrollViewExt.swift in Sources */,
 				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
-				85E9C50524787A7D000F6589 /* ShowInformation.swift in Sources */,
 				85ECB436246EF89C005551A2 /* DateExt.swift in Sources */,
 				855D9444240E94C100F50CB2 /* MenuOption.swift in Sources */,
 				85108448244A8E2300229791 /* PreviewImageView.swift in Sources */,
