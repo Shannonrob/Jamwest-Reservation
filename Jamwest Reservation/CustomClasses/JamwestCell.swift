@@ -33,6 +33,8 @@ class JamwestCell: UITableViewCell {
         view.setShadow()
         view.layer.cornerRadius = 4
         view.backgroundColor = .white
+        view.layer.borderWidth = 0.80
+        view.layer.borderColor = UIColor.lightGray.cgColor
         return view
     }()
     

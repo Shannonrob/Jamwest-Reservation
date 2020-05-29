@@ -60,3 +60,7 @@ protocol AddReservationDelegate {
     func handleStepperTapped(for vc: AddReservationView)
     func handleSegmentControl(for vc: AddReservationView)
 }
+
+protocol TourSelectionDelegate {
+    func handleSubmitButton(for vc: TourSelectionView)
+}

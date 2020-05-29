@@ -23,18 +23,14 @@ struct Alert {
         
     }
     
-    static func showOverLimitComboDealTourSelections(on vc: UIViewController) {
-        showBasicAlert(on: vc, with: "Exceeded Package Limit", message: "This package limits a maximum of 2 tours.")
+    static func showAlert(on vc: UIViewController, with message: String) {
+        showBasicAlert(on: vc, with: "", message: message)
+    }
+    
+    static func showExceedLimitAlert(on vc: UIViewController) {
+        showBasicAlert(on: vc, with: "Alert", message: "You have exceeded the amount of tours for this package!")
    }
-    
-    static func showOverLimitSuperDealTourSelections(on vc: UIViewController) {
-         showBasicAlert(on: vc, with: "Exceeded Package Limit", message: "This package limits a maximum of 3 tours.")
-    }
-    
-    static func showOverLimitDeluxePackageTourSelections(on vc: UIViewController) {
-         showBasicAlert(on: vc, with: "Exceeded Package Limit", message: "This package limits a maximum of 4 tours.")
-    }
-    
+   
     static func showSuccessfullyCreatedReservation(on vc: UIViewController) {
          showBasicAlert(on: vc, with: "Success", message: "Your reservation was created.")
     }
