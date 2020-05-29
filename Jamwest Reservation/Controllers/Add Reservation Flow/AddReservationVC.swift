@@ -54,6 +54,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         
         configureUI()
         
+        // default package in the case a package isn't selected
         reservedPackage = reservationPackage.SingleTour.description
         addReservationView.hotelNameTextField.becomeFirstResponder()
 
@@ -223,8 +224,9 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         return true
     }
     
+    // reinstantiate each icon after editing
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // reinstantiate each icon after editing
+        
         switch textField {
         case addReservationView.hotelNameTextField:
             addReservationView.hotelNameTextField.setTextfieldIcon(#imageLiteral(resourceName: "orangeHotel"))
@@ -332,16 +334,6 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         return result
     }
     
-    // converts string type to date
-    func convertToDate(with date: String) -> Date {
-        
-        let date = date
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.locale = Locale(identifier: "en_US")
-        return (formatter.date(from: date) ?? nil)!
-    }
-    
     // check if all textfield has contents before
     func formValidation() {
         
@@ -356,47 +348,6 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
                 return
         }
         navigationItem.rightBarButtonItem?.isEnabled = true
-    }
-    
-    // method used to changed the appearance of the restricted UIComponent
-    func restrictChanges(for textfield: [UITextField]) {
-        
-        for item in textfield {
-            item.backgroundColor = UIColor.white.withAlphaComponent(0.60)
-            item.textColor = .gray
-            item.isUserInteractionEnabled = false
-        }
-        addReservationView.paxStepper.isUserInteractionEnabled = false
-        addReservationView.segmentedContol.isUserInteractionEnabled = false
-    }
-    
-    // get data for reservation to be edited
-    func configureEditMode() {
-        
-        for info in [reservation] {
-            
-            guard let hotel = info?.hotel,
-                let group = info?.group,
-                let voucherNumber = info?.voucherNumber,
-                let tourRep = info?.tourRep,
-                let tourCompany = info?.tourCompany,
-                let date = info?.date,
-                let package = info?.package,
-                let pax = info?.pax else { return }
-            
-             let reservedPackage = convertPackageResult(from: package)
-                
-            datePicker.date = convertToDate(with: date)
-            addReservationView.paxStepper.value = Double(pax)
-            addReservationView.hotelNameTextField.text = hotel
-            addReservationView.reservationDateTextfield.text = date
-            addReservationView.groupNameTextfield.text = group
-            addReservationView.vourcherTextfield.text = voucherNumber
-            addReservationView.tourRepTextfield.text = tourRep
-            addReservationView.tourCompanyTextfield.text = tourCompany
-            addReservationView.segmentedContol.selectedSegmentIndex = reservedPackage
-            addReservationView.stepperValueLabel.text = "\((Int(addReservationView.paxStepper.value )))"
-        }
     }
     
     // converts selected package and return an int
@@ -443,5 +394,58 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
                                              Constant.paxCount: paxQuantity] as [String: Any]
         
         navigationController?.pushViewController(toursSelectionVC, animated: true)
+    }
+    
+//    MARK: - Edit reservation mode
+    
+    // converts string type to date
+       func convertToDate(with date: String) -> Date {
+           
+           let date = date
+           let formatter = DateFormatter()
+           formatter.dateStyle = .medium
+           formatter.locale = Locale(identifier: "en_US")
+           return (formatter.date(from: date) ?? nil)!
+       }
+    
+    // method used to changed the appearance of the restricted UIComponent
+    func restrictChanges(for textfield: [UITextField]) {
+        
+        for item in textfield {
+            item.backgroundColor = UIColor.white.withAlphaComponent(0.60)
+            item.textColor = .gray
+            item.isUserInteractionEnabled = false
+        }
+        addReservationView.paxStepper.isUserInteractionEnabled = false
+        addReservationView.segmentedContol.isUserInteractionEnabled = false
+    }
+    
+    // get data for reservation to be edited
+    func configureEditMode() {
+        
+        for info in [reservation] {
+            
+            guard let hotel = info?.hotel,
+                let group = info?.group,
+                let voucherNumber = info?.voucherNumber,
+                let tourRep = info?.tourRep,
+                let tourCompany = info?.tourCompany,
+                let date = info?.date,
+                let package = info?.package,
+                let pax = info?.pax else { return }
+            
+             let reservedPackage = convertPackageResult(from: package)
+                
+            datePicker.date = convertToDate(with: date)
+            addReservationView.paxStepper.value = Double(pax)
+            addReservationView.hotelNameTextField.text = hotel
+            addReservationView.reservationDateTextfield.text = date
+            addReservationView.groupNameTextfield.text = group
+            addReservationView.vourcherTextfield.text = voucherNumber
+            addReservationView.tourRepTextfield.text = tourRep
+            addReservationView.tourCompanyTextfield.text = tourCompany
+            addReservationView.segmentedContol.selectedSegmentIndex = reservedPackage
+            addReservationView.stepperValueLabel.text = "\((Int(addReservationView.paxStepper.value )))"
+        }
     }
 }
