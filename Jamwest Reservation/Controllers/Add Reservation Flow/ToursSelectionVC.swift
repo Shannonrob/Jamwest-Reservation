@@ -9,452 +9,146 @@
 import UIKit
 import Firebase
 
-class ToursSelectionVC: UIViewController {
+private let reuseIdentifier = "TourSelectionCell"
+
+class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     
-//    MARK: - Properties
+    //    MARK: - Properties
     
-    var singleTourPackageSelection = String()
-    var comboDealToursArray = [UIButton]()
-    var superDealPackageArray = [UIButton]()
-    var deluxePackageArray = [UIButton]()
-    var reservationTours = [String]()
-    lazy var tourPackage = String()
+    var reservedPackage: ReservationPackage!
+    var tourSelectionView = TourSelectionView()
+    var tourSelection = [TourSelection]()
+    var selectedToursArray = [TourSelection]()
     var reservationInfo = [String: Any]()
     
-//    MARK: - Labels
+    var tours = ["ATV Tour": #imageLiteral(resourceName: "orangeATV"),
+                 "Driving Experience": #imageLiteral(resourceName: "orangeRaceFlagIcon"),
+                 "Horseback Riding": #imageLiteral(resourceName: "orangeHorseRiding"),
+                 "Push Kart": #imageLiteral(resourceName: "orangeKart"),
+                 "Safari Tour": #imageLiteral(resourceName: "orangeCrocodile"),
+                 "Zip Line": #imageLiteral(resourceName: "orangeZipline")]
     
-    let tourLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Please select reserved tours"
-        label.textColor = .darkText
-        label.font = UIFont(name: Font.avenirNextRegular, size: 32)
-        return label
-    }()
     
-//    MARK: - Buttons
+    //    MARK: - Init
     
-   let atvTourButton: UIButton = {
-       let button = UIButton(type: .system)
-       button.configureButtonWithIcon("orangeATV", title: "ATV Tour", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
-       button.titleLabel?.font = .systemFont(ofSize: 24)
-       button.layer.borderWidth = 0.80
-       button.layer.borderColor = UIColor.lightGray.cgColor
-       button.addTarget(self, action: #selector(handleATVTour), for: .touchUpInside)
-       return button
-   }()
-   
-   let horseBackRidingTourButton: UIButton = {
-       let button = UIButton(type: .system)
-       button.configureButtonWithIcon("orangeHorseRiding", title: "Horseback", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
-       button.titleLabel?.font = .systemFont(ofSize: 24)
-       button.layer.borderWidth = 0.80
-       button.layer.borderColor = UIColor.lightGray.cgColor
-       button.addTarget(self, action: #selector(handleHorseBackRidingTour), for: .touchUpInside)
-       return button
-   }()
-   
-   let safariTourButton: UIButton = {
-       let button = UIButton(type: .system)
-       button.configureButtonWithIcon("orangeCrocodile", title: "Safari Tour", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
-       button.titleLabel?.font = .systemFont(ofSize: 24)
-       button.layer.borderWidth = 0.80
-       button.layer.borderColor = UIColor.lightGray.cgColor
-       button.addTarget(self, action: #selector(handleSafariTour), for: .touchUpInside)
-       return button
-   }()
-   
-   let zipLineTourButton: UIButton = {
-       let button = UIButton(type: .system)
-       button.configureButtonWithIcon("orangeZipline", title: "Zip Line", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
-       button.titleLabel?.font = .systemFont(ofSize: 24)
-       button.layer.borderWidth = 0.80
-       button.layer.borderColor = UIColor.lightGray.cgColor
-       button.addTarget(self, action: #selector(handleZiplineTour), for: .touchUpInside)
-       return button
-   }()
-   
-   let pushKartTourButton: UIButton = {
-       let button = UIButton(type: .system)
-       button.configureButtonWithIcon("orangeKart", title: "Push Kart", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
-       button.titleLabel?.font = .systemFont(ofSize: 24)
-       button.layer.borderWidth = 0.80
-       button.layer.borderColor = UIColor.lightGray.cgColor
-       button.addTarget(self, action: #selector(handlePushKartTour), for: .touchUpInside)
-       return button
-   }()
+    override func loadView() {
+        super.loadView()
+        tourSelectionView.delegate = self
+        view = tourSelectionView
+    }
     
-    let drivingExperienceButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configureButtonWithIcon("orangeRaceFlagIcon", title: "Driving Experience", titleColor: .gray, buttonColor: .white, cornerRadius: 6)
-        button.titleLabel?.font = .systemFont(ofSize: 24)
-        button.layer.borderWidth = 0.80
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.addTarget(self, action: #selector(handleDrivingExperienceTour), for: .touchUpInside)
-        return button
-    }()
-    
-    let submitButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Submit", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(.red, for: .selected)
-        button.backgroundColor = Color.Hue.fadedGreen
-        button.layer.cornerRadius = 8
-        button.titleLabel?.font = .boldSystemFont(ofSize: 24)
-        button.isEnabled = false
-        button.addTarget(self, action: #selector(handleSubmitButton), for: .touchUpInside)
-        return button
-   }()
-   
-    
-//    MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-
-       configureUI()
-       updateTourLabel()
-       setConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-        submitButton.isEnabled = true
+        tourSelectionView.tableView.delegate = self
+        tourSelectionView.tableView.dataSource = self
+        
+        // register cell class
+        tourSelectionView.tableView.register(TourSelectionCell.self, forCellReuseIdentifier: reuseIdentifier)
+        
+        loadTourDetails()
+        configureUI()
     }
     
-//    MARK: - Selectors
+    //    MARK: - Handlers
     
     @objc func handleCancelButton() {
-
-        dismissTourSelectionVC(navigationItem.leftBarButtonItem!)
+        
+        dismissTourSelectionVC()
     }
     
-    @objc func handleBackButton() {
-        _ = navigationController?.popViewController(animated: true)
-    }
+    //    MARK: - Protocols and delegate
     
-    @objc func handleATVTour() {
-    
-        updateSelectionFont(button: atvTourButton)
+    func handleSubmitButton(for vc: TourSelectionView) {
         
-        switch tourPackage {
-            
-        case ButtonTitle.singleTour:
-            drivingExperienceButton.isSelected = false
-            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
-            horseBackRidingTourButton.isSelected = false
-            horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            pushKartTourButton.isSelected = false
-            pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            safariTourButton.isSelected = false
-            safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            zipLineTourButton.isSelected = false
-            zipLineTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            singleTourPackageSelection = atvTourButton.currentTitle!
-            configureSingleTourPackageSelection()
+        reservedPackage = selectedPackage()()
         
-        case ButtonTitle.comboDeal:
-            updateComboDealArray(button: atvTourButton)
-            configureComboDealPackageTours()
+        switch reservedPackage {
+        case .SingleTour :
             
-        case ButtonTitle.superDeal:
-            updateSuperDealArray(button: atvTourButton)
-            configureSuperDealPackageTours()
+            selectedToursArray.isEmpty ? Alert.showAlert(on: self, with: "No tour selected") : nil
             
-        case ButtonTitle.deluxePackage:
-            updateDeluxePackageArray(button: atvTourButton)
-            configureDeluxePackageTours()
+        case .ComboDeal:
             
-        default:
-            return
+            checkTourCount(with: selectedToursArray, for: 2)
+            
+        case .SuperDeal:
+            
+            checkTourCount(with: selectedToursArray, for: 3)
+            
+        case .DeluxePackage:
+            checkTourCount(with: selectedToursArray, for: 4)
+            
+        default: break
         }
     }
     
-    @objc func handleDrivingExperienceTour() {
-          
-          updateSelectionFont(button: drivingExperienceButton)
-          
-          switch tourPackage {
-              
-          case ButtonTitle.singleTour:
-              atvTourButton.isSelected = false
-              atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-              horseBackRidingTourButton.isSelected = false
-              horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-              pushKartTourButton.isSelected = false
-              pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-              safariTourButton.isSelected = false
-              safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-              singleTourPackageSelection = drivingExperienceButton.currentTitle!
-              configureSingleTourPackageSelection()
-              
-          case ButtonTitle.comboDeal:
-              updateComboDealArray(button: drivingExperienceButton)
-              configureComboDealPackageTours()
-              
-          case ButtonTitle.superDeal:
-              updateSuperDealArray(button: drivingExperienceButton)
-              configureSuperDealPackageTours()
-              
-          case ButtonTitle.deluxePackage:
-              updateDeluxePackageArray(button: drivingExperienceButton)
-              configureDeluxePackageTours()
-              
-          default:
-              return
-          }
-      }
+    //    MARK: - Helper Function
     
-    @objc func handleHorseBackRidingTour() {
+    // closure that uses method from AddReservationVC to identify selected package
+    func selectedPackage() -> () -> ReservationPackage {
         
-        updateSelectionFont(button: horseBackRidingTourButton)
+        let addReservation = AddReservationVC()
+        let tourPackage = reservationInfo[Constant.tourPackage]
+        
+        let configuration = { () -> ReservationPackage in
+            
+            let index = ReservationPackage(rawValue: addReservation.convertPackageResult(from: tourPackage as! String))!
+            return index
+        }
+        return configuration
+    }
     
-        switch tourPackage {
+    // load available tours
+    func loadTourDetails() {
+        
+        for info in tours {
             
-        case ButtonTitle.singleTour:
-            atvTourButton.isSelected = false
-            atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            drivingExperienceButton.isSelected = false
-            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
-            pushKartTourButton.isSelected = false
-            pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            safariTourButton.isSelected = false
-            safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            zipLineTourButton.isSelected = false
-            zipLineTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            singleTourPackageSelection = horseBackRidingTourButton.currentTitle!
-            configureSingleTourPackageSelection()
+            let tour = TourSelection(title: info.key, image: info.value)
             
-        case ButtonTitle.comboDeal:
-            updateComboDealArray(button: horseBackRidingTourButton)
-            configureComboDealPackageTours()
+            tourSelection.append(tour)
             
-        case ButtonTitle.superDeal:
-            updateSuperDealArray(button: horseBackRidingTourButton)
-            configureSuperDealPackageTours()
-            
-        case ButtonTitle.deluxePackage:
-            updateDeluxePackageArray(button: horseBackRidingTourButton)
-            configureDeluxePackageTours()
-            
-        default:
-            return
+            self.tourSelection.sort { (tour1, tour2) -> Bool in
+                return tour1.title < tour2.title
+            }
+            tourSelectionView.tableView.reloadData()
         }
     }
     
-    @objc func handlePushKartTour() {
-    
-        updateSelectionFont(button: pushKartTourButton)
+    // check array count before submitting tours
+    func checkTourCount(with array: [TourSelection], for value: Int) {
         
-        switch tourPackage {
+        if array.isEmpty{
+            Alert.showAlert(on: self, with: "No tour selected")
+        } else if array.count < value {
+            Alert.showAlert(on: self, with: "Select tours")
+        } else if array.count > value {
+            Alert.showExceedLimitAlert(on: self)
+        } else {
             
-        case ButtonTitle.singleTour:
-            atvTourButton.isSelected = false
-            atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            drivingExperienceButton.isSelected = false
-            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
-            horseBackRidingTourButton.isSelected = false
-            horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            safariTourButton.isSelected = false
-            safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            zipLineTourButton.isSelected = false
-            zipLineTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            singleTourPackageSelection = pushKartTourButton.currentTitle!
-            configureSingleTourPackageSelection()
-            
-        case ButtonTitle.comboDeal:
-            updateComboDealArray(button: pushKartTourButton)
-            configureComboDealPackageTours()
-            
-        case ButtonTitle.superDeal:
-            updateSuperDealArray(button: pushKartTourButton)
-            configureSuperDealPackageTours()
-            
-        case ButtonTitle.deluxePackage:
-            updateDeluxePackageArray(button: pushKartTourButton)
-            configureDeluxePackageTours()
-            
-        default:
-            return
+            // handle submit tours here
+            print("Success")
         }
     }
     
-    @objc func handleSafariTour() {
-    
-        updateSelectionFont(button: safariTourButton)
+    // filter selected tours to prevent duplicate
+    func filterSelectedTours(with array: [TourSelection], for indexPath: IndexPath) {
         
-        switch tourPackage {
-            
-        case ButtonTitle.singleTour:
-            atvTourButton.isSelected = false
-            atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            drivingExperienceButton.isSelected = false
-            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
-            horseBackRidingTourButton.isSelected = false
-            horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            pushKartTourButton.isSelected = false
-            pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            zipLineTourButton.isSelected = false
-            zipLineTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            singleTourPackageSelection = safariTourButton.currentTitle!
-            configureSingleTourPackageSelection()
+        let tour = array[indexPath.row].title
         
-        case ButtonTitle.comboDeal:
-            updateComboDealArray(button: safariTourButton)
-            configureComboDealPackageTours()
+        if let existingIndex = selectedToursArray.firstIndex(where: { $0.title == tour }) {
             
-        case ButtonTitle.superDeal:
-            updateSuperDealArray(button: safariTourButton)
-            configureSuperDealPackageTours()
+            selectedToursArray[existingIndex] = tourSelection[indexPath.row]
             
-        case ButtonTitle.deluxePackage:
-            updateDeluxePackageArray(button: safariTourButton)
-            configureDeluxePackageTours()
+        } else {
             
-        default:
-            return
-        }
-    }
-    
-    @objc func handleZiplineTour() {
-    
-        updateSelectionFont(button: zipLineTourButton)
-        
-        switch tourPackage {
-            
-        case ButtonTitle.singleTour:
-            atvTourButton.isSelected = false
-            atvTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            drivingExperienceButton.isSelected = false
-            drivingExperienceButton.titleLabel?.font = .systemFont(ofSize: 24)
-            horseBackRidingTourButton.isSelected = false
-            horseBackRidingTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            pushKartTourButton.isSelected = false
-            pushKartTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            safariTourButton.isSelected = false
-            safariTourButton.titleLabel?.font = .systemFont(ofSize: 24)
-            singleTourPackageSelection = zipLineTourButton.currentTitle!
-            configureSingleTourPackageSelection()
-            
-        case ButtonTitle.comboDeal:
-            updateComboDealArray(button: zipLineTourButton)
-            configureComboDealPackageTours()
-            
-        case ButtonTitle.superDeal:
-            updateSuperDealArray(button: zipLineTourButton)
-            configureSuperDealPackageTours()
-            
-        case ButtonTitle.deluxePackage:
-            updateDeluxePackageArray(button: zipLineTourButton)
-            configureDeluxePackageTours()
-            
-        default:
-            return
-        }
-    }
-    
-    
-    @objc func handleSubmitButton() {
-        
-        submitButton.isEnabled = false
-        
-        selectedTours()
-    }
-    
-//    MARK: - Helper Functions
-  
-    // checking array for selected buttons
-    func checkSelectedTours(forArray array:Array<UIButton>) {
-        
-        for tours in array {
-        reservationTours.append(tours.currentTitle!)
-       }
-    }
-    
-    func selectedTours() {
-   
-       switch tourPackage {
-           
-       case ButtonTitle.singleTour:
-        // catching the selected tour
-           reservationTours = [singleTourPackageSelection]
-           
-           //append tour to dictionary
-           reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
-           
-           //method for pushing selected tours to database
-           submitSelectedTours()
-        
-       case ButtonTitle.comboDeal:
-           
-           // check if package selections is greater than package limit
-           if comboDealToursArray.count > 2 {
-               Alert.showOverLimitComboDealTourSelections(on: self)
-           } else {
-            checkSelectedTours(forArray: comboDealToursArray)
-            
-            //append tours to dictionary
-            reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
-            reservationInfo.updateValue(reservationTours[1], forKey: Constant.secondTour)
-            
-            //method for pushing selected tours to database
-            submitSelectedTours()
-           }
-           
-       case ButtonTitle.superDeal:
-           
-           // check if package selections is greater than package limit
-           if superDealPackageArray.count > 3 {
-               Alert.showOverLimitSuperDealTourSelections(on: self)
-           } else {
-            checkSelectedTours(forArray: superDealPackageArray)
-            
-            //append tours to dictionary
-            reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
-            reservationInfo.updateValue(reservationTours[1], forKey: Constant.secondTour)
-            reservationInfo.updateValue(reservationTours[2], forKey: Constant.thirdTour)
-            
-            //method for pushing selected tours to database
-            submitSelectedTours()
-           }
-           
-       case ButtonTitle.deluxePackage:
-           
-           // check if package selections is greater than package limit
-           if deluxePackageArray.count > 4 {
-               Alert.showOverLimitDeluxePackageTourSelections(on: self)
-           } else {
-            checkSelectedTours(forArray: deluxePackageArray)
-            
-            //append tours to dictionary
-            reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
-            reservationInfo.updateValue(reservationTours[1], forKey: Constant.secondTour)
-            reservationInfo.updateValue(reservationTours[2], forKey: Constant.thirdTour)
-            reservationInfo.updateValue(reservationTours[3], forKey: Constant.fourthTour)
-
-            //method for pushing selected tours to database
-            submitSelectedTours()
-           }
-       default:
-           return
-       }
-    }
-    
-    func updateTourLabel() {
-        // get selected tour package
-        tourPackage = reservationInfo[Constant.tourPackage] as! String
-        
-        if tourPackage == ButtonTitle.singleTour {
-            tourLabel.text = "Please select reserved tour"
+            selectedToursArray.append(tourSelection[indexPath.row])
         }
     }
     
     func configureUI() {
         
-        view.backgroundColor = Color.Background.fadeGray
-        
         navigationController?.navigationBar.barTintColor = Color.Primary.heavyGreen
-        navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.tintColor = .white
@@ -462,153 +156,31 @@ class ToursSelectionVC: UIViewController {
         
         let reservation = UIFont.boldSystemFont(ofSize: 25)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleBackButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelButton))
-    }
-    
-    
-    func setConstraints() {
-    
-        view.addSubview(tourLabel)
-        tourLabel.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        tourLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        let stackView = UIStackView(arrangedSubviews: [atvTourButton, drivingExperienceButton, horseBackRidingTourButton, pushKartTourButton, safariTourButton, zipLineTourButton])
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        view.addSubview(stackView)
-        stackView.anchor(top: tourLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 15, paddingLeft: 20, paddingBottom:0, paddingRight: 15, width: 0, height: 300)
-        
-        view.addSubview(submitButton)
-        submitButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 50, paddingRight: 15, width: 0, height: 60)
-    }
-    
-//    Function to update font style on button selection
-    func updateSelectionFont(button: UIButton) {
-       
-        if !button.isSelected == true {
-            button.isSelected = true
-            button.titleLabel?.font = .boldSystemFont(ofSize: 24)
-        } else {
-            button.isSelected = false
-            button.titleLabel?.font = .systemFont(ofSize: 24)
-        }
-    }
-    
-//    Function to add or remove from ComboDeal Array
-    func updateComboDealArray(button: UIButton) {
-        
-        if !comboDealToursArray.contains(button) {
-            comboDealToursArray.append(button)
-            button.isSelected = true
-        } else {
-            comboDealToursArray.remove(object: button)
-            button.isSelected = false
-            button.titleLabel?.font = .systemFont(ofSize: 24)
-        }
-    }
-    
-    //    Function to add or remove from SuperDeal Array
-    func updateSuperDealArray(button: UIButton) {
-        
-        if !superDealPackageArray.contains(button) {
-            superDealPackageArray.append(button)
-            button.isSelected = true
-        } else {
-            superDealPackageArray.remove(object: button)
-            button.isSelected = false
-            button.titleLabel?.font = .systemFont(ofSize: 24)
-        }
-    }
-    
-    //    Function to add or remove from SuperDeal Array
-       func updateDeluxePackageArray(button: UIButton) {
-           
-           if !deluxePackageArray.contains(button) {
-               deluxePackageArray.append(button)
-               button.isSelected = true
-           } else {
-               deluxePackageArray.remove(object: button)
-               button.isSelected = false
-               button.titleLabel?.font = .systemFont(ofSize: 24)
-           }
-       }
-    
-    func activateSubmitButton() {
-        submitButton.isEnabled = true
-        submitButton.backgroundColor = Color.Hue.green
-    }
-
-    func configureSingleTourPackageSelection() {
-        
-        activateSubmitButton()
-        guard atvTourButton.isSelected || drivingExperienceButton.isSelected || horseBackRidingTourButton.isSelected || pushKartTourButton.isSelected || safariTourButton.isSelected || zipLineTourButton.isSelected == true else {
-        submitButton.backgroundColor = Color.Hue.fadedGreen
-        submitButton.isEnabled = false
-        return
-        }
-    }
-    
-    func configureComboDealPackageTours() {
-        
-        activateSubmitButton()
-        guard comboDealToursArray.count >= 2 else {
-        submitButton.backgroundColor = Color.Hue.fadedGreen
-        submitButton.isEnabled = false
-        return
-        }
-    }
-    
-    func configureSuperDealPackageTours() {
-        
-        activateSubmitButton()
-        guard superDealPackageArray.count >= 3 else {
-        submitButton.backgroundColor = Color.Hue.fadedGreen
-        submitButton.isEnabled = false
-        return
-        }
-    }
-    
-    func configureDeluxePackageTours() {
-        
-        activateSubmitButton()
-        guard deluxePackageArray.count >= 4 else {
-        submitButton.backgroundColor = Color.Hue.fadedGreen
-        submitButton.isEnabled = false
-        return
-        }
-    }
-    
-    func showAddReservationVC() {
-        //
-        let addReservationVC = AddReservationVC()
-        
-        var vcArray = self.navigationController?.viewControllers
-        vcArray!.removeLast()
-        vcArray!.append(addReservationVC)
-        self.navigationController?.setViewControllers(vcArray!, animated: true)
     }
     
     // Action sheet
     func showAlertSheet(_ sender: UIButton) {
-
+        
         let alertController = UIAlertController(title: nil, message: "Would you like to create another reservation?", preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             // present AddReservationVC
-            self.showAddReservationVC()
+            let addReservationVC = AddReservationVC()
+            var vcArray = self.navigationController?.viewControllers
+            vcArray!.removeLast()
+            vcArray!.append(addReservationVC)
+            self.navigationController?.setViewControllers(vcArray!, animated: true)
         })
-
+        
         let deleteAction = UIAlertAction(title: "No", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
-
+            
             //dismiss all viewControllers back to rootVC
             self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
         })
-
+        
         alertController.addAction(defaultAction)
         alertController.addAction(deleteAction)
-
+        
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = self.view
             popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
@@ -618,17 +190,17 @@ class ToursSelectionVC: UIViewController {
     }
     
     // dismiss toursSelectionVC
-    func dismissTourSelectionVC(_ sender: UIBarButtonItem) {
+    func dismissTourSelectionVC() {
         
-        let alertController = UIAlertController(title: "Warning", message: "Reservation will be incomplete!", preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Leave", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+        let alertController = UIAlertController(title: "Warning", message: "Reservation will be deleted!", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Continue", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
             // dismiss tourSelectionVC
             self.dismiss(animated: true, completion: nil)
         })
-
+        
         let deleteAction = UIAlertAction(title: "Stay here", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
         })
-
+        
         alertController.addAction(defaultAction)
         alertController.addAction(deleteAction)
         
@@ -640,25 +212,81 @@ class ToursSelectionVC: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-//    MARK: - API
+    ////    MARK: - API
+    //
+    ////     submit tours to firebase
+    //    func submitSelectedTours() {
+    //
+    //        // create post ID
+    //        let reservation = RESERVATION_REF.childByAutoId()
+    //
+    //        //push reservation info to firebase
+    //        reservation.updateChildValues(reservationInfo) { (err, ref) in
+    //
+    //            guard let reservationID = reservation.key else { return }
+    //
+    //            let dateValue = [reservationID: 1] as [String: Any]
+    //
+    //            let date = RESERVATION_DATE_REF.child(self.reservationInfo[Constant.reservationDate] as! String)
+    //            date.updateChildValues(dateValue)
+    //
+    //            self.showAlertSheet(self.submitButton)
+    //        }
+    //    }
+}
+
+extension ToursSelectionVC: UITableViewDelegate, UITableViewDataSource {
     
-//     submit tours to firebase
-    func submitSelectedTours() {
+    //     MARK: - TableView flow layout
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    //    MARK: - TableView data source
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tourSelection.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! TourSelectionCell
         
-        // create post ID
-        let reservation = RESERVATION_REF.childByAutoId()
-
-        //push reservation info to firebase
-        reservation.updateChildValues(reservationInfo) { (err, ref) in
-
-            guard let reservationID = reservation.key else { return }
-
-            let dateValue = [reservationID: 1] as [String: Any]
-
-            let date = RESERVATION_DATE_REF.child(self.reservationInfo[Constant.reservationDate] as! String)
-            date.updateChildValues(dateValue)
-
-            self.showAlertSheet(self.submitButton)
+        cell.tourSelection = tourSelection[indexPath.row]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        reservedPackage = selectedPackage()()
+        
+        switch reservedPackage {
+            
+        // append the selected tours to array
+        case .SingleTour:
+            
+            selectedToursArray.append(tourSelection[indexPath.row])
+            selectedToursArray.count > 1 ? selectedToursArray.remove(at: 0) : nil
+            
+        case .ComboDeal:
+            filterSelectedTours(with: tourSelection, for: indexPath)
+            
+        case.SuperDeal:
+            filterSelectedTours(with: tourSelection, for: indexPath)
+            
+        case.DeluxePackage:
+            filterSelectedTours(with: tourSelection, for: indexPath)
+        default: break
         }
     }
 }
+
+//append tours to dictionary
+//            reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
+//            reservationInfo.updateValue(reservationTours[1], forKey: Constant.secondTour)
+//            reservationInfo.updateValue(reservationTours[2], forKey: Constant.thirdTour)
+//            reservationInfo.updateValue(reservationTours[3], forKey: Constant.fourthTour)

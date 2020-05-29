@@ -72,6 +72,7 @@
 		85CFE0E6242A5A4F00A020CD /* JamwestWaiver.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85CFE0E5242A5A4F00A020CD /* JamwestWaiver.rtf */; };
 		85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */; };
 		85D668E2242C2305002F1189 /* UIScrollViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D668E1242C2305002F1189 /* UIScrollViewExt.swift */; };
+		85E21216248059520085C497 /* TourSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E21215248059520085C497 /* TourSelection.swift */; };
 		85E9C507247881D9000F6589 /* EmailList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E9C506247881D9000F6589 /* EmailList.swift */; };
 		85E9C50924788284000F6589 /* EmailListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E9C50824788284000F6589 /* EmailListCell.swift */; };
 		85ECB436246EF89C005551A2 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECB435246EF89C005551A2 /* DateExt.swift */; };
@@ -149,6 +150,7 @@
 		85CFE0E5242A5A4F00A020CD /* JamwestWaiver.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = JamwestWaiver.rtf; sourceTree = "<group>"; };
 		85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInformation.swift; sourceTree = "<group>"; };
 		85D668E1242C2305002F1189 /* UIScrollViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewExt.swift; sourceTree = "<group>"; };
+		85E21215248059520085C497 /* TourSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourSelection.swift; sourceTree = "<group>"; };
 		85E9C506247881D9000F6589 /* EmailList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailList.swift; sourceTree = "<group>"; };
 		85E9C50824788284000F6589 /* EmailListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailListCell.swift; sourceTree = "<group>"; };
 		85ECB435246EF89C005551A2 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 				85E9C506247881D9000F6589 /* EmailList.swift */,
 				85D0FCAE242451A00069BFFF /* ParticipantInformation.swift */,
 				855D9447240E94E000F50CB2 /* Reservation.swift */,
+				85E21215248059520085C497 /* TourSelection.swift */,
 				85ECB433246EEAB8005551A2 /* Verification Flow */,
 			);
 			path = Model;
@@ -558,6 +561,7 @@
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */,
 				855D92992429A5AA00084D9B /* JamwestWaiverLabelClass.swift in Sources */,
+				85E21216248059520085C497 /* TourSelection.swift in Sources */,
 				855D9448240E94E000F50CB2 /* Reservation.swift in Sources */,
 				855D9454240E95D600F50CB2 /* MenuVC.swift in Sources */,
 				850BFED5246DE01900BEAF1D /* WaiverSelection.swift in Sources */,
