@@ -10,8 +10,21 @@ import UIKit
 
 class TourSelectionCell: UITableViewCell {
     
-    //    MARK: - Properties
+    var tourSelection: TourSelection! {
+        
+        didSet {
+            guard let title = tourSelection.title else { return }
+            guard let image = tourSelection.image else { return }
+            
+            tourLabel.text = title
+            icon.image = image
+        }
+    }
     
+    //    MARK: - Properties
+    let icon = UIImageView()
+    let backgrounView = UIView()
+ 
     let cellView: UIView = {
         
         let view = UIView()
@@ -27,24 +40,21 @@ class TourSelectionCell: UITableViewCell {
     let tourLabel: UILabel = {
         
         let label = UILabel()
-        label.textColor = .gray
+        label.textColor = .darkText
         label.font = .systemFont(ofSize: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let icon: UIImageView = {
-        
-        let icon = UIImageView()
-        icon.backgroundColor = .lightGray
-        return icon
-    }()
-    
     //    MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        
         configureConstraints()
         backgroundColor = .clear
+        
+        backgrounView.backgroundColor = Color.Primary.orange
+        selectedBackgroundView = backgrounView
         
         tourLabel.text = "Tour label"
     }
@@ -58,7 +68,9 @@ class TourSelectionCell: UITableViewCell {
     func configureConstraints() {
         
         addSubview(cellView)
-        cellView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 35, paddingBottom: 4, paddingRight: 35, width: 0, height: 0)
+        cellView.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 35, paddingBottom: 0, paddingRight: 35, width: 0, height: 44)
+        cellView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        cellView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         cellView.addSubview(tourLabel)
         tourLabel.centerYAnchor.constraint(equalTo: cellView.centerYAnchor).isActive = true
@@ -67,5 +79,6 @@ class TourSelectionCell: UITableViewCell {
         addSubview(icon)
         icon.anchor(top: nil, left: tourLabel.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
         icon.centerYAnchor.constraint(equalTo: cellView.centerYAnchor).isActive = true
+        
     }
 }

@@ -10,6 +10,8 @@ import UIKit
 
 class TourSelectionView: UIView {
 
+    var delegate: TourSelectionDelegate?
+    
     //    MARK: - Properties
     
     let tableView: UITableView = {
@@ -26,10 +28,10 @@ class TourSelectionView: UIView {
         button.setTitle("Submit", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.red, for: .selected)
-        button.backgroundColor = Color.Hue.fadedGreen
+        button.backgroundColor = Color.Hue.green
         button.layer.cornerRadius = 8
         button.titleLabel?.font = .boldSystemFont(ofSize: 24)
-        button.isEnabled = false
+        button.addTarget(self, action: #selector(handleSubmitTapped), for: .touchUpInside)
         return button
     }()
     
@@ -46,6 +48,13 @@ class TourSelectionView: UIView {
  
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+//    MARK: - Handlers
+    
+    @objc func handleSubmitTapped() {
+        delegate?.handleSubmitButton(for: self)
     }
     
 //    MARK: - Constraint
