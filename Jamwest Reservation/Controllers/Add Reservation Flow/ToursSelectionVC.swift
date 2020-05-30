@@ -16,6 +16,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     //    MARK: - Properties
     
     var reservedPackage: ReservationPackage!
+    var tourSelectionCell: TourSelectionCell!
     var tourSelectionView = TourSelectionView()
     var tourSelection = [TourSelection]()
     var selectedToursArray = [TourSelection]()
@@ -50,6 +51,12 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        reservedPackage == .ComboDeal ? tourSelectionView.tableView.allowsMultipleSelection = true : nil
+    }
+    
     //    MARK: - Handlers
     
     @objc func handleCancelButton() {
@@ -61,12 +68,14 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     
     func handleSubmitButton(for vc: TourSelectionView) {
         
-        reservedPackage = selectedPackage()()
+        reservedPackage = packageSelected()()
         
         switch reservedPackage {
         case .SingleTour :
             
             selectedToursArray.isEmpty ? Alert.showAlert(on: self, with: "No tour selected") : nil
+            
+            checkTourCount(with: selectedToursArray, for: 1)
             
         case .ComboDeal:
             
@@ -86,13 +95,13 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     //    MARK: - Helper Function
     
     // closure that uses method from AddReservationVC to identify selected package
-    func selectedPackage() -> () -> ReservationPackage {
-        
+    func packageSelected() -> () -> ReservationPackage {
+
         let addReservation = AddReservationVC()
         let tourPackage = reservationInfo[Constant.tourPackage]
-        
+
         let configuration = { () -> ReservationPackage in
-            
+
             let index = ReservationPackage(rawValue: addReservation.convertPackageResult(from: tourPackage as! String))!
             return index
         }
@@ -120,8 +129,9 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         
         if array.isEmpty{
             Alert.showAlert(on: self, with: "No tour selected")
+            return
         } else if array.count < value {
-            Alert.showAlert(on: self, with: "Select tours")
+            Alert.showAlert(on: self, with: "Add tours before continuing")
         } else if array.count > value {
             Alert.showExceedLimitAlert(on: self)
         } else {
@@ -131,17 +141,14 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         }
     }
     
-    // filter selected tours to prevent duplicate
+    // filter selected tours to prevent duplicate and append to array
     func filterSelectedTours(with array: [TourSelection], for indexPath: IndexPath) {
         
         let tour = array[indexPath.row].title
         
-        if let existingIndex = selectedToursArray.firstIndex(where: { $0.title == tour }) {
-            
-            selectedToursArray[existingIndex] = tourSelection[indexPath.row]
-            
+        if selectedToursArray.firstIndex(where: { $0.title == tour }) != nil {
+            selectedToursArray.removeAll{ $0.title == tour }
         } else {
-            
             selectedToursArray.append(tourSelection[indexPath.row])
         }
     }
@@ -212,6 +219,20 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    // highlight selected cell with custom color
+    func configureSelectedCell(for cell: TourSelectionCell) {
+        
+        if cell.cellView.backgroundColor == Color.Primary.orange {
+            cell.cellView.backgroundColor = .white
+            cell.tourLabel.textColor = .black
+            cell.tourLabel.font = UIFont.systemFont(ofSize: 24)
+        } else {
+            cell.cellView.backgroundColor = Color.Primary.orange
+            cell.tourLabel.textColor = .white
+            cell.tourLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        }
+    }
+    
     ////    MARK: - API
     //
     ////     submit tours to firebase
@@ -261,27 +282,10 @@ extension ToursSelectionVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCell: TourSelectionCell = tableView.cellForRow(at: indexPath) as! TourSelectionCell
         
-        reservedPackage = selectedPackage()()
-        
-        switch reservedPackage {
-            
-        // append the selected tours to array
-        case .SingleTour:
-            
-            selectedToursArray.append(tourSelection[indexPath.row])
-            selectedToursArray.count > 1 ? selectedToursArray.remove(at: 0) : nil
-            
-        case .ComboDeal:
-            filterSelectedTours(with: tourSelection, for: indexPath)
-            
-        case.SuperDeal:
-            filterSelectedTours(with: tourSelection, for: indexPath)
-            
-        case.DeluxePackage:
-            filterSelectedTours(with: tourSelection, for: indexPath)
-        default: break
-        }
+        configureSelectedCell(for: selectedCell)
+        filterSelectedTours(with: tourSelection, for: indexPath)
     }
 }
 
