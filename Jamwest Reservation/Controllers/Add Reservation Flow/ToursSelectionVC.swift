@@ -21,6 +21,8 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     var tourSelection = [TourSelection]()
     var selectedToursArray = [TourSelection]()
     var reservationInfo = [String: Any]()
+    var uploadAction: UploadAction!
+    var reservation: Reservation!
     
     var tours = ["ATV Tour": #imageLiteral(resourceName: "orangeATV"),
                  "Driving Experience": #imageLiteral(resourceName: "orangeRaceFlagIcon"),
@@ -72,22 +74,13 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         
         switch reservedPackage {
         case .SingleTour :
-            
-            selectedToursArray.isEmpty ? Alert.showAlert(on: self, with: "No tour selected") : nil
-            
             checkTourCount(with: selectedToursArray, for: 1)
-            
         case .ComboDeal:
-            
             checkTourCount(with: selectedToursArray, for: 2)
-            
         case .SuperDeal:
-            
             checkTourCount(with: selectedToursArray, for: 3)
-            
         case .DeluxePackage:
             checkTourCount(with: selectedToursArray, for: 4)
-            
         default: break
         }
     }
@@ -130,14 +123,33 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         if array.isEmpty{
             Alert.showAlert(on: self, with: "No tour selected")
             return
-        } else if array.count < value {
-            Alert.showAlert(on: self, with: "Add tours before continuing")
+        } else if array.count >= 1 && array.count < value {
+            Alert.showAlert(on: self, with: "More tours required to proceed with resevered tour package.")
         } else if array.count > value {
             Alert.showExceedLimitAlert(on: self)
         } else {
             
-            // handle submit tours here
-            print("Success")
+            // add selected tour(s) value to reservationInfo
+            switch reservedPackage {
+            case .SingleTour:
+                reservationInfo.updateValue(selectedToursArray[0].title as String, forKey: Constant.firstTour)
+            case .ComboDeal:
+                reservationInfo.updateValue(selectedToursArray[0].title as String, forKey: Constant.firstTour)
+                reservationInfo.updateValue(selectedToursArray[1].title as String, forKey: Constant.secondTour)
+            case .SuperDeal:
+                reservationInfo.updateValue(selectedToursArray[0].title as String, forKey: Constant.firstTour)
+                reservationInfo.updateValue(selectedToursArray[1].title as String, forKey: Constant.secondTour)
+                reservationInfo.updateValue(selectedToursArray[2].title as String, forKey: Constant.thirdTour)
+            case .DeluxePackage:
+                reservationInfo.updateValue(selectedToursArray[0].title as String, forKey: Constant.firstTour)
+                reservationInfo.updateValue(selectedToursArray[1].title as String, forKey: Constant.secondTour)
+                reservationInfo.updateValue(selectedToursArray[2].title as String, forKey: Constant.thirdTour)
+                reservationInfo.updateValue(selectedToursArray[3].title as String, forKey: Constant.fourthTour)
+            default: break
+            }
+            
+            // create or save reservation
+            uploadAction == .UploadReservation ? createReservation() : saveReservationChanges()
         }
     }
     
@@ -167,7 +179,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     }
     
     // Action sheet
-    func showAlertSheet(_ sender: UIButton) {
+    func showReservationCreatedAlert() {
         
         let alertController = UIAlertController(title: nil, message: "Would you like to create another reservation?", preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert: UIAlertAction!) -> Void in
@@ -233,27 +245,46 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         }
     }
     
-    ////    MARK: - API
-    //
-    ////     submit tours to firebase
-    //    func submitSelectedTours() {
-    //
-    //        // create post ID
-    //        let reservation = RESERVATION_REF.childByAutoId()
-    //
-    //        //push reservation info to firebase
-    //        reservation.updateChildValues(reservationInfo) { (err, ref) in
-    //
-    //            guard let reservationID = reservation.key else { return }
-    //
-    //            let dateValue = [reservationID: 1] as [String: Any]
-    //
-    //            let date = RESERVATION_DATE_REF.child(self.reservationInfo[Constant.reservationDate] as! String)
-    //            date.updateChildValues(dateValue)
-    //
-    //            self.showAlertSheet(self.submitButton)
-    //        }
-    //    }
+    //    MARK: - API
+    
+    func createReservation() {
+        
+        // create post ID
+        let reservation = RESERVATION_REF.childByAutoId()
+        
+        //push reservation info to firebase
+        reservation.updateChildValues(reservationInfo) { (err, ref) in
+            
+            guard let reservationID = reservation.key else { return }
+            
+            let dateValue = [reservationID: 1] as [String: Any]
+            
+            let date = RESERVATION_DATE_REF.child(self.reservationInfo[Constant.reservationDate] as! String)
+            
+            date.updateChildValues(dateValue) { (err, ref) in
+            
+                if let err = err {
+                    Alert.showAlert(on: self, with: err.localizedDescription)
+                } else {
+                    self.showReservationCreatedAlert()
+                }
+            }
+        }
+    }
+    
+    func saveReservationChanges() {
+        
+        guard let reservationId = reservation.reservationId else { return }
+        
+        RESERVATION_REF.child(reservationId).updateChildValues(reservationInfo) { (error, ref) in
+            
+            if let err = error {
+                Alert.showAlert(on: self, with: err.localizedDescription)
+            } else {
+                self.showReservationCreatedAlert()
+            }
+        }
+    }
 }
 
 extension ToursSelectionVC: UITableViewDelegate, UITableViewDataSource {
@@ -289,8 +320,3 @@ extension ToursSelectionVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//append tours to dictionary
-//            reservationInfo.updateValue(reservationTours[0], forKey: Constant.firstTour)
-//            reservationInfo.updateValue(reservationTours[1], forKey: Constant.secondTour)
-//            reservationInfo.updateValue(reservationTours[2], forKey: Constant.thirdTour)
-//            reservationInfo.updateValue(reservationTours[3], forKey: Constant.fourthTour)
