@@ -23,6 +23,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     var reservationInfo = [String: Any]()
     var uploadAction: UploadAction!
     var reservation: Reservation!
+    var dateChanged = [String: Any]()
     
     var tours = ["ATV Tour": #imageLiteral(resourceName: "orangeATV"),
                  "Driving Experience": #imageLiteral(resourceName: "orangeRaceFlagIcon"),
@@ -275,13 +276,26 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     func saveReservationChanges() {
         
         guard let reservationId = reservation.reservationId else { return }
+        guard let newDate = reservationInfo[Constant.reservationDate] else { return }
         
         RESERVATION_REF.child(reservationId).updateChildValues(reservationInfo) { (error, ref) in
             
             if let err = error {
                 Alert.showAlert(on: self, with: err.localizedDescription)
             } else {
-                self.showReservationCreatedAlert()
+                
+                if let isDateChanged = self.dateChanged[Constant.isDateChanged] {
+                    
+                    let previousDate = self.dateChanged[Constant.previousDate] as! String
+                    
+                    if isDateChanged as! Bool == true {
+                        self.reservation.updateReservationDate(from: previousDate, to: newDate as! String)
+                    }
+                }
+                self.dismiss(animated: true) {
+                    let editReservationVC = EditReservationVC()
+                    editReservationVC.tableView.reloadData()
+                }
             }
         }
     }

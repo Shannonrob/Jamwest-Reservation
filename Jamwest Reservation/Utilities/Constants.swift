@@ -48,6 +48,8 @@ enum Constant {
     static let waiverImage = "waiverImage"
     static let imageURL = "imageURL"
     static let emailAddress = "emailAddress"
+    static let isDateChanged = "isDateChanged"
+    static let previousDate = "previousDate"
 }
 
 enum Font {

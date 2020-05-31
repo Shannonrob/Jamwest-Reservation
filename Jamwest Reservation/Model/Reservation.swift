@@ -95,4 +95,13 @@ class Reservation {
             RESERVATION_REF.child(reservationId).child(Constant.paxCount).setValue(pax)
         }
     }
+    
+    // update reservation with new date
+    func updateReservationDate(from oldDate: String, to newDate: String) {
+        
+        let dateValue = [self.reservationId: 1] as [String: Any]
+        
+        RESERVATION_DATE_REF.child(oldDate).child(reservationId).removeValue()
+        RESERVATION_DATE_REF.child(newDate).updateChildValues(dateValue)
+    }
 }

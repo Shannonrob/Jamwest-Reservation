@@ -17,6 +17,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     var reservation: Reservation!
     var addReservationView = AddReservationView()
     let reservationPackage = ReservationPackage.self
+    var reservationDate: String!
     
     let datePicker: UIDatePicker = {
         
@@ -53,9 +54,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         super.viewDidLoad()
         
         configureUI()
-
         addReservationView.hotelNameTextField.becomeFirstResponder()
-
         textFieldDelegates()
         
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
@@ -69,7 +68,6 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         uploadAction == .SaveChanges ? configureEditMode() : nil
     }
     
@@ -400,9 +398,14 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
                                                  Constant.paxCount: paxQuantity ] as [String: Any]
             
         case .SaveChanges:
-            
-            // pass reservation to tourSelectionVC
+            // pass updated reservation info to tourSelectionVC
             guard let currentPackage = reservation.package else { return }
+            
+            // check if date was changed
+            if reservationDate != date {
+                toursSelectionVC.dateChanged[Constant.isDateChanged] = true
+                toursSelectionVC.dateChanged[Constant.previousDate] = reservationDate
+            }
             
             toursSelectionVC.uploadAction = UploadAction.init(index: 1)
             toursSelectionVC.reservation = reservation
@@ -455,11 +458,12 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
                 let pax = info?.pax else { return }
             
              let reservedPackage = convertPackageResult(from: package)
-                
+            
+            reservationDate = date
             datePicker.date = convertToDate(with: date)
+            addReservationView.reservationDateTextfield.text = date
             addReservationView.paxStepper.value = Double(pax)
             addReservationView.hotelNameTextField.text = hotel
-            addReservationView.reservationDateTextfield.text = date
             addReservationView.groupNameTextfield.text = group
             addReservationView.vourcherTextfield.text = voucherNumber
             addReservationView.tourRepTextfield.text = tourRep
