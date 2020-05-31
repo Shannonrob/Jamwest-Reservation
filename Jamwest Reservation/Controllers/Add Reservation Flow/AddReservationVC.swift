@@ -53,9 +53,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         super.viewDidLoad()
         
         configureUI()
-        
-        // default package in the case a package isn't selected
-        reservedPackage = reservationPackage.SingleTour.description
+
         addReservationView.hotelNameTextField.becomeFirstResponder()
 
         textFieldDelegates()
@@ -170,7 +168,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     }
     
     // handles selected package
-    func handleSegmentControl(for vc: AddReservationView) {
+    func handleSegmentControl(for vc: AddReservationView){
         
         switch vc.segmentedContol.selectedSegmentIndex {
             
@@ -383,16 +381,38 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         let time = dateFormatter(for: Event.time, with: datePicker.date)
         let date = dateFormatter(for: Event.date, with: datePicker.date)
         
-        toursSelectionVC.reservationInfo = [ Constant.hotelName: hotel,
-                                             Constant.groupName: group,
-                                             Constant.voucherNumber: voucherNumber,
-                                             Constant.tourRep: tourRep,
-                                             Constant.tourCompany: tourCompany,
-                                             Constant.reservationTime: time,
-                                             Constant.tourPackage: reservedPackage,
-                                             Constant.reservationDate: date,
-                                             Constant.paxCount: paxQuantity] as [String: Any]
+        // if empty add default tour
+        reservedPackage.isEmpty ? reservedPackage = reservationPackage.SingleTour.description : nil
         
+        // pass data based on condition
+        switch uploadAction {
+            
+        case .UploadReservation:
+            toursSelectionVC.uploadAction = UploadAction.init(index: 0)
+            toursSelectionVC.reservationInfo = [ Constant.hotelName: hotel,
+                                                 Constant.groupName: group,
+                                                 Constant.voucherNumber: voucherNumber,
+                                                 Constant.tourRep: tourRep,
+                                                 Constant.tourCompany: tourCompany,
+                                                 Constant.reservationTime: time,
+                                                 Constant.tourPackage: reservedPackage,
+                                                 Constant.reservationDate: date,
+                                                 Constant.paxCount: paxQuantity ] as [String: Any]
+            
+        case .SaveChanges:
+            
+            // pass reservation to tourSelectionVC
+            guard let currentPackage = reservation.package else { return }
+            
+            toursSelectionVC.uploadAction = UploadAction.init(index: 1)
+            toursSelectionVC.reservation = reservation
+            toursSelectionVC.reservationInfo = [ Constant.tourRep: tourRep,
+                                                 Constant.tourCompany: tourCompany,
+                                                 Constant.reservationTime: time,
+                                                 Constant.tourPackage: currentPackage,
+                                                 Constant.reservationDate: date] as [String: Any]
+        default: break
+        }
         navigationController?.pushViewController(toursSelectionVC, animated: true)
     }
     
