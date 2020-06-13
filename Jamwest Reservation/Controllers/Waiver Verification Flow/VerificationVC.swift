@@ -121,6 +121,12 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
     }
     
+    // presents cameraVC
+    func showCameraVC(for waiver: Dictionary<String, Any>) {
+        
+        presentCameraVC(for: .UpdateProfileImage, with: waiver)
+    }
+    
     //    MARK: - Delegate Protocols
     
     // handle reviewButton
@@ -129,6 +135,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         guard let waiverDetails = cell.waiver else { return }
         
         let popoverViewController = ReviewVC()
+        popoverViewController.verificationVC = self
         popoverViewController.waivers = waiverDetails
         popoverViewController.modalPresentationStyle = .custom
         self.present(popoverViewController, animated: true, completion: nil)

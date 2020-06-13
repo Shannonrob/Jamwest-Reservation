@@ -15,7 +15,8 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
     var previewImage: UIImage?
     var previewImageView = PreviewImageView()
     var participantWaiver = [String:Any]()
-    
+    var cameraAction: CameraAction!
+   
     //    MARK: - Init
     
     override func viewDidLoad() {
@@ -56,14 +57,13 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
         previewImageView.usePhotoButton.isEnabled = false
         previewImageView.retakePhotoButton.isEnabled = false
         
-        Alert.showCompletionAlert(on: self, with: "Your waiver is complete!")
-        
-        uploadWaiverPhoto()
+        // upload waiver
+        uploadWaiver()
     }
     
     //    MARK: - API
     
-    func uploadWaiverPhoto() {
+    func uploadWaiver() {
         
         let loadingVC = LoadingVC()
         add(loadingVC)
@@ -100,12 +100,28 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
                     // save url as string
                     guard let imageUrl = url?.absoluteString else { return }
                     
-                    self.participantWaiver[Constant.imageURL] = imageUrl
-                    
-                    // upload information to database
-                    waiverID.updateChildValues(self.participantWaiver)
-                    
-                    self.uploadEmailList()
+                    if self.cameraAction == .CaptureProfileImage {
+                        
+                        self.participantWaiver[Constant.imageURL] = imageUrl
+                        
+                        // upload information to database
+                        waiverID.updateChildValues(self.participantWaiver)
+                        
+                        self.uploadEmailList()
+                        
+                        Alert.showCompletionAlert(on: self, with: "Your waiver is complete!")
+                        
+                    } else {
+                        
+                        // update waiver image
+                        guard let waiverID = self.participantWaiver[Constant.waiverID] as? String else { return }
+                        
+                        let dictionary = [Constant.imageURL : imageUrl]
+                        
+                        PARTICIPANT_WAIVER_REF.child(waiverID).updateChildValues(dictionary)
+                        
+                        Alert.showCompletionAlert(on: self, with: "Waiver updated!")
+                    }
                     
                     // pop to root view controller
                     self.navigationController?.setNavigationBarHidden(false, animated: true)

@@ -8,32 +8,17 @@
 
 import Foundation
 
-enum ShowInformation: Int {
+enum CameraAction: Int{
     
-    case EditReservation
-    case EmailList
-    
-    init(index: Int) {
-        
-        switch index {
-        case 0: self = .EditReservation
-        case 1: self = .EmailList
-        default: self = .EditReservation
-        }
-    }
-}
-
-enum UploadAction: Int {
-    
-    case UploadReservation
-    case SaveChanges
+    case CaptureProfileImage
+    case UpdateProfileImage
     
     init(index: Int) {
         
         switch index {
-        case 0: self = .UploadReservation
-        case 1: self = .SaveChanges
-        default: self = .UploadReservation
+        case 0: self = .CaptureProfileImage
+        case 1: self = .UpdateProfileImage
+        default: self = .CaptureProfileImage
         }
     }
 }
@@ -66,3 +51,39 @@ enum ReservationPackage: Int, CustomStringConvertible {
         }
     }
 }
+
+enum ShowInformation: Int {
+    
+    case EditReservation
+    case EmailList
+    
+    init(index: Int) {
+        
+        switch index {
+        case 0: self = .EditReservation
+        case 1: self = .EmailList
+        default: self = .EditReservation
+        }
+    }
+}
+
+enum UploadAction: Int {
+    
+    case UploadReservation
+    case SaveChanges
+    
+    init(index: Int) {
+        
+        switch index {
+        case 0: self = .UploadReservation
+        case 1: self = .SaveChanges
+        default: self = .UploadReservation
+        }
+    }
+}
+
+enum Waivers {
+    case PendingWaivers
+    case ApprovedWaivers
+}
+

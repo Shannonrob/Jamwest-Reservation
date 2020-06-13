@@ -22,6 +22,7 @@ class CameraVC: UIViewController {
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
     var image: UIImage?
     var participantWaiver = [String:Any]()
+    var cameraAction: CameraAction!
     
     // values for Timer
     var startValue = Int()
@@ -143,7 +144,7 @@ class CameraVC: UIViewController {
         let defaultAction = UIAlertAction(title: "Continue", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
           
             // upload waiver details to backEnd
-            self.uploadWaiver()
+            self.cameraAction == .CaptureProfileImage ? self.uploadWaiver() : nil
             
             // show navigationBar then pops to rootViewController
             self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -169,6 +170,7 @@ class CameraVC: UIViewController {
         let previewImageVC = PreviewImageVC()
         previewImageVC.previewImage = rotateImage(image: self.image!)
         previewImageVC.participantWaiver = self.participantWaiver
+        previewImageVC.cameraAction = self.cameraAction
         navigationController?.pushViewController(previewImageVC, animated: true)
     }
     

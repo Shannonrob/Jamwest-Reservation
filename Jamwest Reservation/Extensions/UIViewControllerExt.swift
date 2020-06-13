@@ -79,6 +79,24 @@ extension UIViewController {
         present(navigationController, animated: true)
     }
     
+    // present cameraVC with selected case
+    func presentCameraVC(for selectedCase: CameraAction, with values: Dictionary<String, Any>) {
+        
+        if  selectedCase == .CaptureProfileImage {
+            let cameraVC = CameraVC()
+            cameraVC.cameraAction = selectedCase
+            cameraVC.participantWaiver = values
+            navigationController?.pushViewController(cameraVC, animated: true)
+            
+        } else {
+            
+            let cameraVC = CameraVC()
+            cameraVC.cameraAction = selectedCase
+            cameraVC.participantWaiver = values
+            navigationController?.pushViewController(cameraVC, animated: true)
+        }
+    }
+    
     // push viewController onto navigationStack
     func pushVC(with vc: UIViewController) {
         

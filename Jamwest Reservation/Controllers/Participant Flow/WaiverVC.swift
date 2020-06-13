@@ -91,10 +91,8 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             self.reservation.updateWaiverBalance(for: self.currentDate)
 
             // transition to cameraVC
-            let cameraVC = CameraVC()
-            cameraVC.participantWaiver = self.participantWaiver
-            self.navigationController?.pushViewController(cameraVC, animated: true)
-           
+            presentCameraVC(for: .CaptureProfileImage, with: self.participantWaiver)
+
         } else {
             Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability")
         }

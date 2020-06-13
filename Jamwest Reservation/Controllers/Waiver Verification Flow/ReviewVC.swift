@@ -14,6 +14,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     // array of custom object
     var waivers: WaiverVerification?
     var waiverReviewView = ReviewView()
+    var verificationVC: VerificationVC?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +34,16 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         uploadApprovedWaiver()
     }
     
-    func handleEditButton(for vc: ReviewView) {
-        print("Edit button tapped")
+    func handleCameraButton(for vc: ReviewView) {
+        
+        guard let waiverID = waivers?.waiverID else { return }
+        
+        // dismiss current vc and present camera vc
+        dismiss(animated: true) { [weak verificationVC] in
+            
+            let values = [Constant.waiverID : waiverID]
+            verificationVC?.showCameraVC(for: values)
+        }
     }
     
     func handleDismissButtonTapped(for vc: ReviewView) {

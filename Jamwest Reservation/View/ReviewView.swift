@@ -120,13 +120,12 @@ class ReviewView: UIView {
     
     //    MARK: - Buttons
     
-    lazy var editButton: UIButton = {
+    lazy var cameraButton: UIButton = {
         
         let button = UIButton(type: .system)
-        button.setTitle("edit", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
-        button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
-        button.addTarget(self, action: #selector(handleEditButton), for: .touchUpInside)
+        button.setImage(#imageLiteral(resourceName: "greenCamera").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addShadow()
+        button.addTarget(self, action: #selector(handleCameraTapped), for: .touchUpInside)
         return button
     }()
     
@@ -135,7 +134,7 @@ class ReviewView: UIView {
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Reject", titleColor: .black, buttonColor: Color.Background.fadeGray, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 19)
-        button.setShadow()
+        button.addShadow()
         button.addTarget(self, action: #selector(handleRejectButton), for: .touchUpInside)
         return button
     }()
@@ -145,7 +144,7 @@ class ReviewView: UIView {
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Approve", titleColor: .white, buttonColor: Color.Primary.orange, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 19)
-        button.setShadow()
+        button.addShadow()
         button.addTarget(self, action: #selector(handleApproveButton), for: .touchUpInside)
         return button
     }()
@@ -177,8 +176,8 @@ class ReviewView: UIView {
         reviewWaiverDelegate?.handleApproveButton(for: self)
     }
     
-    @objc func handleEditButton() {
-        reviewWaiverDelegate?.handleEditButton(for: self)
+    @objc func handleCameraTapped() {
+        reviewWaiverDelegate?.handleCameraButton(for: self)
     }
     
     //    MARK: - Helper Functions
@@ -204,8 +203,8 @@ class ReviewView: UIView {
         waiverView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         waiverView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 80).isActive = true
         
-        waiverView.addSubview(editButton)
-        editButton.anchor(top: waiverView.topAnchor, left: nil, bottom: nil, right: waiverView.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 0, height: 0)
+        waiverView.addSubview(cameraButton)
+        cameraButton.anchor(top: waiverView.topAnchor, left: nil, bottom: nil, right: waiverView.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 0, height: 0)
         
         waiverView.addSubview(profileImageView)
         profileImageView.anchor(top: waiverView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: -96, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 192, height: 192)
@@ -221,7 +220,7 @@ class ReviewView: UIView {
         
         waiverView.addSubview(dismissButton)
         dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        dismissButton.centerYAnchor.constraint(equalTo: editButton.centerYAnchor).isActive = true
+        dismissButton.centerYAnchor.constraint(equalTo: cameraButton.centerYAnchor).isActive = true
         
         waiverView.addSubview(tourHeaderLabel)
         tourHeaderLabel.anchor(top: buttonsStackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 35, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
