@@ -50,6 +50,7 @@ enum Constant {
     static let emailAddress = "emailAddress"
     static let isDateChanged = "isDateChanged"
     static let previousDate = "previousDate"
+    static let waiverID = "waiverID"
 }
 
 enum Font {

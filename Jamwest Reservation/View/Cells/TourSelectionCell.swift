@@ -9,7 +9,7 @@
 import UIKit
 
 class TourSelectionCell: UITableViewCell {
-    
+
     var tourSelection: TourSelection! {
         
         didSet {
@@ -23,12 +23,11 @@ class TourSelectionCell: UITableViewCell {
     
     //    MARK: - Properties
     let icon = UIImageView()
-    let backgrounView = UIView()
- 
+    
     let cellView: UIView = {
         
         let view = UIView()
-        view.setShadow()
+        view.addShadow()
         view.layer.cornerRadius = 4
         view.backgroundColor = .white
         view.layer.borderWidth = 0.80
@@ -52,9 +51,7 @@ class TourSelectionCell: UITableViewCell {
         
         configureConstraints()
         backgroundColor = .clear
-        
-        backgrounView.backgroundColor = Color.Primary.orange
-        selectedBackgroundView = backgrounView
+        selectionStyle = .none
         
         tourLabel.text = "Tour label"
     }

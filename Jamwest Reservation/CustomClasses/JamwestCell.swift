@@ -19,6 +19,7 @@ class JamwestCell: UITableViewCell {
         headerLabel.text = "Header"
         detailLabel.text = "Detail"
         backgroundColor = .clear
+        selectionStyle = .none
     }
 
     required init?(coder: NSCoder) {
@@ -30,7 +31,7 @@ class JamwestCell: UITableViewCell {
     let cellView: UIView = {
         
         let view = UIView()
-        view.setShadow()
+        view.addShadow()
         view.layer.cornerRadius = 4
         view.backgroundColor = .white
         view.layer.borderWidth = 0.80

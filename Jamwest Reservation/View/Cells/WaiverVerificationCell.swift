@@ -45,7 +45,6 @@ class WaiverVerificationCell: UITableViewCell {
                 tours.append(", \(fourthTour)")
             }
            
-//            participantImageView.loadImage(with: participantImageUrl)
             participantNameLabel.text = participantName
             toursLabel.text = tours
         }
@@ -54,7 +53,7 @@ class WaiverVerificationCell: UITableViewCell {
     let cellView: UIView = {
         
         let view = UIView()
-        view.setShadow()
+        view.addShadow()
         view.layer.cornerRadius = 4
         view.backgroundColor = .white
         return view
@@ -97,7 +96,7 @@ class WaiverVerificationCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Review", titleColor: .black, buttonColor: Color.Background.fadeGray, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
-        button.setShadow()
+        button.addShadow()
         button.addTarget(self, action: #selector(handleReviewButton), for: .touchUpInside)
         return button
     }()
@@ -107,7 +106,7 @@ class WaiverVerificationCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.configureButtonWithIcon(nil, title: "Approve", titleColor: .white, buttonColor: Color.Primary.orange, cornerRadius: 8)
         button.titleLabel?.font = UIFont.init(name: Font.avenirNextDemibold, size: 18)
-        button.setShadow()
+        button.addShadow()
         button.addTarget(self, action: #selector(handleApproveButton), for: .touchUpInside)
         return button
     }()
