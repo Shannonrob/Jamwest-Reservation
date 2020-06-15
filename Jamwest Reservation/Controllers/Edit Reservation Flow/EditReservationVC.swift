@@ -19,6 +19,7 @@ class EditReservationVC: UITableViewController {
     var emailsList = [EmailList]()
     let loadingVC = LoadingVC()
     var showInformation: ShowInformation!
+    var shareEmails = [EmailList]()
     
     //    MARK: - Init
     
@@ -98,30 +99,18 @@ class EditReservationVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+        
+        if showInformation == .EmailList {
+            
+            let selectedCell: EmailListCell = tableView.cellForRow(at: indexPath) as! EmailListCell
+            
+            configureSelectedCell(for: selectedCell, with: Color.Primary.markerColor)
+            filterSelectedTours(with: emailsList, for: indexPath)
+            return
+        }
         presentAddReservationVC(index: 1, with: editReservations[indexPath.row] )
     }
     
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
     
     //    MARK: - Handlers
     
@@ -129,13 +118,26 @@ class EditReservationVC: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    // append and share emails
     @objc func shareList() {
         
-        let item = "Russo look what I did!!!"
+        if shareEmails.isEmpty {
+            Alert.showAlert(on: self, with: "Select email to share.")
+        } else {
+  
+            var item = String()
+            var emails = [String]()
         
-        let vc = UIActivityViewController(activityItems: [item], applicationActivities: [])
-        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
-        present(vc, animated: true)
+            for email in shareEmails {
+
+                emails.append(email.emailAddress ?? "Error")
+                item = emails.joined(separator: "\n")
+            }
+
+            let vc = UIActivityViewController(activityItems: [item], applicationActivities: [])
+            vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+            present(vc, animated: true)
+        }
     }
     
     //    MARK: - Helper functions
@@ -156,14 +158,51 @@ class EditReservationVC: UITableViewController {
         showInformation == .EmailList ? navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareList)) : nil
     }
     
+    // highlight selected cell with custom color
+    func configureSelectedCell(for cell: JamwestCell, with color: UIColor) {
+        
+        if cell.cellView.backgroundColor == color {
+            cell.cellView.backgroundColor = .white
+            cell.headerLabel.textColor = .black
+            cell.detailLabel.textColor = .lightGray
+        } else {
+            cell.cellView.backgroundColor = color
+            cell.headerLabel.textColor = .white
+            cell.detailLabel.textColor = .white
+        }
+    }
+    
+    // filter selected emails to prevent duplicate and append to array
+    func filterSelectedTours(with array: [EmailList], for indexPath: IndexPath) {
+        
+        let email = array[indexPath.row].emailAddress
+        
+        if shareEmails.firstIndex(where: { $0.emailAddress == email }) != nil {
+            shareEmails.removeAll{ $0.emailAddress == email }
+        } else {
+            shareEmails.append(emailsList[indexPath.row])
+        }
+    }
+    
+    
     //    MARK: - API
     
     func fetchReservation() {
         
         Database.fetchReservation(from: RESERVATION_REF) { (reservation) in
             
-            // append waiver to data source
-            self.editReservations.append(reservation as! EditReservation)
+            let reservationID = reservation.reservationId
+            
+            if let existingReservation = self.editReservations.firstIndex(where: { $0.reservationId == reservationID }) {
+                
+                // replace existing reservation to data source
+                self.editReservations[existingReservation] = reservation as! EditReservation
+                
+            } else {
+                
+               // append reservation to data source
+                self.editReservations.append(reservation as! EditReservation)
+            }
             
             // sort results in alphabetical order
             self.editReservations.sort { (reservation1, reservation2) -> Bool in

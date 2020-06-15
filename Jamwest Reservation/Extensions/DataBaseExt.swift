@@ -47,18 +47,23 @@ extension Database {
     
     static func fetchReservation(from reference: DatabaseReference, completion: @escaping(Reservation) -> ()) {
         
-        reference.observe(.childAdded) { (snapshot) in
+        reference.observe(.value) { (snapshot) in
             
-            // waiverID
-            let waiverID = snapshot.key
+            guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
             
-            // snapshot value cast as dictionary
-            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-            
-            // construct waiver
-            let reservation = EditReservation(reservationId: waiverID, dictionary: dictionary)
-            
-            completion(reservation)
+            allObjects.forEach({(snapshot) in
+                
+                // waiverID
+                let waiverID = snapshot.key
+                
+                // snapshot value cast as dictionary
+                guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                
+                // construct waiver
+                let reservation = EditReservation(reservationId: waiverID, dictionary: dictionary)
+                
+                completion(reservation)
+            })
         }
     }
     
