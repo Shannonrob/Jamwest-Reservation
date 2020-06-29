@@ -22,9 +22,10 @@ class EditReservationVC: UITableViewController {
     var showInformation: ShowInformation!
     var shareEmails = [EmailList]()
     var inSearchMode = false
+    var isShowingReservations = true
     
     let searchBar: UISearchBar = {
-       
+        
         let searchBar = UISearchBar()
         searchBar.sizeToFit()
         searchBar.barStyle = .black
@@ -47,6 +48,7 @@ class EditReservationVC: UITableViewController {
         tableView.separatorColor = .clear
         
         configureUI()
+        configureRefreshControl()
         
         // fetch data based on enum case
         showInformation == .EditReservation ? fetchReservation() : fetchEmailList()
@@ -55,7 +57,6 @@ class EditReservationVC: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         
         if showInformation == .EmailList {
             navigationItem.title = "Email List"
@@ -92,7 +93,6 @@ class EditReservationVC: UITableViewController {
             }
         }
     }
-    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -149,7 +149,6 @@ class EditReservationVC: UITableViewController {
         handleCancelSearch()
     }
     
-    
     //    MARK: - Handlers
     
     @objc func handleSearch() {
@@ -158,7 +157,7 @@ class EditReservationVC: UITableViewController {
         searchBar.becomeFirstResponder()
         searchBar.delegate = self
     }
-
+    
     @objc func handleCancelSearch() {
         
         showSearchBar(shouldShow: false)
@@ -170,22 +169,38 @@ class EditReservationVC: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    // refresh based current cell
+    @objc func handleRefresh() {
+        
+        switch isShowingReservations {
+            
+        case true:
+            editReservations.removeAll(keepingCapacity: false)
+            fetchReservation()
+            
+        default:
+            emailsList.removeAll(keepingCapacity: false)
+            fetchEmailList()
+        }
+        tableView.reloadData()
+    }
+    
     // append and share emails
     @objc func shareList() {
         
         if shareEmails.isEmpty {
             Alert.showAlert(on: self, with: "Select email to share.")
         } else {
-  
+            
             var item = String()
             var emails = [String]()
-        
+            
             for email in shareEmails {
-
+                
                 emails.append(email.emailAddress ?? "Error")
                 item = emails.joined(separator: "\n")
             }
-
+            
             let vc = UIActivityViewController(activityItems: [item], applicationActivities: [])
             vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItems![2]
             present(vc, animated: true)
@@ -205,7 +220,7 @@ class EditReservationVC: UITableViewController {
         
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
-        
+            
             for email in self.shareEmails {
                 
                 let waiverId = email.waiverID
@@ -249,12 +264,12 @@ class EditReservationVC: UITableViewController {
         
         if shouldShow {
             navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleSearch))]
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleSearch))]
         } else {
             navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelSearch))]
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelSearch))]
         }
     }
     
@@ -262,6 +277,14 @@ class EditReservationVC: UITableViewController {
         // shows searchbar if true
         showSearchBarButton(shouldShow: !shouldShow)
         navigationItem.titleView = shouldShow ? searchBar : nil
+    }
+    
+    func configureRefreshControl() {
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .gray
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
     }
     
     // highlight selected cell with custom color
@@ -317,6 +340,8 @@ class EditReservationVC: UITableViewController {
         
         Database.fetchReservation(from: RESERVATION_REF) { (reservation) in
             
+            self.tableView.refreshControl?.endRefreshing()
+            
             let reservationID = reservation.reservationId
             
             if let existingReservation = self.editReservations.firstIndex(where: { $0.reservationId == reservationID }) {
@@ -326,7 +351,7 @@ class EditReservationVC: UITableViewController {
                 
             } else {
                 
-               // append reservation to data source
+                // append reservation to data source
                 self.editReservations.append(reservation as! EditReservation)
             }
             
@@ -341,6 +366,8 @@ class EditReservationVC: UITableViewController {
     func fetchEmailList() {
         
         Database.fetchEmailList(from: PARTICIPANT_EMAIL_REF) { (email) in
+            
+            self.tableView.refreshControl?.endRefreshing()
             
             self.emailsList.append(email)
             
