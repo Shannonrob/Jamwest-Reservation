@@ -17,13 +17,17 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     //    MARK: - Properties
     var heightForRow = 150
     var isShowingPendingWaivers = true
+    var inSearchMode = false
     
     // instantiate view
     var verificationView = VerificationView()
     
     // array of custom object
     var pendingWaivers = [WaiverVerification]()
+    var filteredPendingWaivers = [WaiverVerification]()
     var approvedWaivers = [ApprovedWaiver]()
+    var filteredApprovedWaivers = [ApprovedWaiver]()
+    let searchBar = JWSearchBar.init(placeHolder: "Search Waiver")
     
     //    MARK: - Init
     override func viewDidLoad() {
@@ -49,6 +53,20 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func handleSearch() {
+        
+        showSearchBar(shouldShow: true)
+        searchBar.becomeFirstResponder()
+        searchBar.delegate = self
+    }
+    
+    @objc func handleCancelSearch() {
+        
+        showSearchBar(shouldShow: false)
+        inSearchMode = false
+        verificationView.tableView.reloadData()
+    }
+    
     // refresh based current cell
     @objc func handleRefresh() {
         
@@ -66,6 +84,26 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     }
     
     //    MARK: - Helper functions
+    
+    // switches between searchBar to cancel button
+    func showSearchBarButton(shouldShow: Bool) {
+        
+        if shouldShow {
+            navigationItem.rightBarButtonItems = [
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleSearch))]
+        } else {
+            navigationItem.rightBarButtonItems = [
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelSearch))]
+        }
+    }
+    
+    func showSearchBar(shouldShow: Bool) {
+        // shows searchbar if true
+        showSearchBarButton(shouldShow: !shouldShow)
+        navigationItem.titleView = shouldShow ? searchBar : nil
+    }
     
     func configureRefreshControl() {
         
@@ -87,6 +125,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack ").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
+        
+        showSearchBarButton(shouldShow: true)
         
         verificationView.tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
     }
@@ -269,9 +309,21 @@ extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if isShowingPendingWaivers {
-            return pendingWaivers.count
+            
+            // pending waivers
+            if inSearchMode {
+                return filteredPendingWaivers.count
+            } else {
+                return pendingWaivers.count
+            }
         } else {
-            return approvedWaivers.count
+            
+            // approved waivers
+            if inSearchMode {
+                return filteredApprovedWaivers.count
+            } else {
+                return approvedWaivers.count
+            }
         }
     }
     
@@ -285,16 +337,71 @@ extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! WaiverVerificationCell
             cell.verificationCellDelegate = self
-            cell.waiver = pendingWaivers[indexPath.row]
+            
+            // Configure in search mode
+            var waiver: WaiverVerification!
+            
+            if inSearchMode {
+                waiver = filteredPendingWaivers[indexPath.row]
+            } else {
+                waiver = pendingWaivers[indexPath.row]
+            }
+            cell.waiver = waiver
             return cell
             
-        default:
+        case false:
             
             tableView.allowsSelection = true
             
             let cell = tableView.dequeueReusableCell(withIdentifier: approvedReuseIdentifier, for: indexPath) as! ApprovedWaiverCell
-            cell.approvedWaiver = approvedWaivers[indexPath.row]
+            
+            var waiver: ApprovedWaiver!
+            
+            if inSearchMode {
+                waiver = filteredApprovedWaivers[indexPath.row]
+            } else {
+                waiver = approvedWaivers[indexPath.row]
+            }
+            cell.approvedWaiver = waiver
             return cell
+        }
+    }
+}
+
+extension VerificationVC: UISearchBarDelegate {
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    // filters search
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        let searchText = searchText
+        
+        if searchText.isEmpty || searchText == " " {
+            inSearchMode = false
+            self.verificationView.tableView.reloadData()
+        } else {
+            
+            inSearchMode = true
+            
+            if isShowingPendingWaivers {
+              
+                filteredPendingWaivers = pendingWaivers.filter({ (reservation) -> Bool in
+                    return reservation.name.localizedCaseInsensitiveContains(searchText)
+                })
+            } else {
+                
+                filteredApprovedWaivers = approvedWaivers.filter({ (reservation) -> Bool in
+                    return reservation.name.localizedCaseInsensitiveContains(searchText)
+                })
+            }
+            self.verificationView.tableView.reloadData()
         }
     }
 }
