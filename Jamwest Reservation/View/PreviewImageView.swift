@@ -11,20 +11,11 @@ import UIKit
 class PreviewImageView: UIView {
 
 //    MARK: - Properties
-    
     var previewImageDelegate: PreviewImageDelegate?
     
 //    MARK: - Init
-    
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        configureConstraints()
-    }
-    
-    convenience init() {
-        self.init(frame: CGRect.zero)
-        
-        // initialize constraints/views here
         configureConstraints()
         backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.2)
     }
@@ -33,14 +24,12 @@ class PreviewImageView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     //    MARK: - UIImageView
     var photoPreview: UIImageView = {
         
         let imageView = UIImageView()
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFill
-        
         return imageView
     }()
     
@@ -107,5 +96,4 @@ class PreviewImageView: UIView {
         addSubview(photoPreview)
         photoPreview.anchor(top: navBarView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
-
 }
