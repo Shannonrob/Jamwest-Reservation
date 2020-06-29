@@ -16,10 +16,22 @@ class EditReservationVC: UITableViewController {
     
     //    MARK: - Properties
     var editReservations = [EditReservation]()
+    var filteredReservations = [EditReservation]()
     var emailsList = [EmailList]()
     let loadingVC = LoadingVC()
     var showInformation: ShowInformation!
     var shareEmails = [EmailList]()
+    var inSearchMode = false
+    
+    let searchBar: UISearchBar = {
+       
+        let searchBar = UISearchBar()
+        searchBar.sizeToFit()
+        searchBar.barStyle = .black
+        searchBar.searchTextField.textColor = .white
+        searchBar.placeholder = "Search group"
+        return searchBar
+    }()
     
     //    MARK: - Init
     
@@ -44,10 +56,13 @@ class EditReservationVC: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        
         if showInformation == .EmailList {
             navigationItem.title = "Email List"
+            configureEmailListBarButtons()
         } else {
             navigationItem.title = "Edit Reservation"
+            showSearchBarButton(shouldShow: true)
         }
     }
     
@@ -70,7 +85,11 @@ class EditReservationVC: UITableViewController {
         case .EmailList:
             return emailsList.count
         default:
-            return editReservations.count
+            if inSearchMode {
+                return filteredReservations.count
+            } else {
+                return editReservations.count
+            }
         }
     }
     
@@ -92,8 +111,16 @@ class EditReservationVC: UITableViewController {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! EditReservationCell
             
-            // Configure the cell...
-            cell.reservation = editReservations[indexPath.row]
+            // Configure reservation cell...
+            var reservation: EditReservation!
+            
+            if inSearchMode {
+                reservation = filteredReservations[indexPath.row]
+            } else {
+                reservation = editReservations[indexPath.row]
+            }
+            
+            cell.reservation = reservation
             return cell
         }
     }
@@ -106,13 +133,38 @@ class EditReservationVC: UITableViewController {
             
             configureSelectedCell(for: selectedCell, with: Color.Primary.markerColor)
             filterSelectedTours(with: emailsList, for: indexPath)
+            configureEmailListBarButtons()
             return
         }
-        presentAddReservationVC(index: 1, with: editReservations[indexPath.row] )
+        
+        var reservation: Reservation!
+        
+        if inSearchMode {
+            reservation = filteredReservations[indexPath.row]
+        } else {
+            reservation = editReservations[indexPath.row]
+        }
+        
+        presentAddReservationVC(index: 1, with: reservation)
+        handleCancelSearch()
     }
     
     
     //    MARK: - Handlers
+    
+    @objc func handleSearch() {
+        
+        showSearchBar(shouldShow: true)
+        searchBar.becomeFirstResponder()
+        searchBar.delegate = self
+    }
+
+    @objc func handleCancelSearch() {
+        
+        showSearchBar(shouldShow: false)
+        inSearchMode = false
+        tableView.reloadData()
+    }
     
     @objc func handleDismiss() {
         dismiss(animated: true, completion: nil)
@@ -135,9 +187,45 @@ class EditReservationVC: UITableViewController {
             }
 
             let vc = UIActivityViewController(activityItems: [item], applicationActivities: [])
-            vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+            vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItems![2]
             present(vc, animated: true)
         }
+    }
+    
+    // handles deletion of emails
+    @objc func handleDelete() {
+        
+        var message: String!
+        
+        if shareEmails.count >= 2 {
+            message = "These emails will be deleted"
+        } else {
+            message = "This email will be deleted"
+        }
+        
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+        
+            for email in self.shareEmails {
+                
+                let waiverId = email.waiverID
+                PARTICIPANT_EMAIL_REF.child(waiverId!).removeValue()
+                self.tableView.reloadData()
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
+        })
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        self.present(alertController, animated: true, completion: nil)
     }
     
     //    MARK: - Helper functions
@@ -154,8 +242,26 @@ class EditReservationVC: UITableViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleDismiss))
+    }
+    
+    // switches between searchBar to cancel button
+    func showSearchBarButton(shouldShow: Bool) {
         
-        showInformation == .EmailList ? navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareList)) : nil
+        if shouldShow {
+            navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleSearch))]
+        } else {
+            navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelSearch))]
+        }
+    }
+    
+    func showSearchBar(shouldShow: Bool) {
+        // shows searchbar if true
+        showSearchBarButton(shouldShow: !shouldShow)
+        navigationItem.titleView = shouldShow ? searchBar : nil
     }
     
     // highlight selected cell with custom color
@@ -184,6 +290,26 @@ class EditReservationVC: UITableViewController {
         }
     }
     
+    // handles share and trash button appearance
+    func configureEmailListBarButtons() {
+        
+        let trashIcon = UIImage(systemName: "trash")
+        let shareIcon = UIImage(systemName: "square.and.arrow.up")
+        
+        if shareEmails.count >= 1{
+            
+            navigationItem.rightBarButtonItems = [
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(image: trashIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleDelete)),
+                UIBarButtonItem(image: shareIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(shareList))]
+        } else {
+            
+            navigationItem.rightBarButtonItems = [
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(image: trashIcon?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), style: .plain, target: nil, action: nil),
+                UIBarButtonItem(image: shareIcon?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), style: .plain, target: nil, action: nil)]
+        }
+    }
     
     //    MARK: - API
     
@@ -206,7 +332,7 @@ class EditReservationVC: UITableViewController {
             
             // sort results in alphabetical order
             self.editReservations.sort { (reservation1, reservation2) -> Bool in
-                return reservation1.date > reservation2.date && reservation1.group < reservation2.group
+                return reservation1.date < reservation2.date
             }
             self.tableView.reloadData()
         }
@@ -250,6 +376,35 @@ class EditReservationVC: UITableViewController {
             }
             self.remove(self.loadingVC)
             self.tableView.reloadData()
+        }
+    }
+}
+
+
+extension EditReservationVC: UISearchBarDelegate {
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    // filters search
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        let searchText = searchText
+        
+        if searchText.isEmpty || searchText == " " {
+            inSearchMode = false
+            tableView.reloadData()
+        } else {
+            inSearchMode = true
+            filteredReservations = editReservations.filter({ (reservation) -> Bool in
+                return reservation.group.localizedCaseInsensitiveContains(searchText)
+            })
+            tableView.reloadData()
         }
     }
 }
