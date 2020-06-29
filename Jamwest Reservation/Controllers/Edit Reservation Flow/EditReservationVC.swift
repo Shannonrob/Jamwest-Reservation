@@ -23,16 +23,8 @@ class EditReservationVC: UITableViewController {
     var shareEmails = [EmailList]()
     var inSearchMode = false
     var isShowingReservations = true
+    let searchBar = JWSearchBar.init(placeHolder: "Search Group")
     
-    let searchBar: UISearchBar = {
-        
-        let searchBar = UISearchBar()
-        searchBar.sizeToFit()
-        searchBar.barStyle = .black
-        searchBar.searchTextField.textColor = .white
-        searchBar.placeholder = "Search group"
-        return searchBar
-    }()
     
     //    MARK: - Init
     

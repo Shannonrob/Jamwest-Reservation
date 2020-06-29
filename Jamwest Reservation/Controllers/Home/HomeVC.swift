@@ -20,6 +20,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     var filteredReservations = [Reservation]()
     var inSearchMode = false
     let loadingVC = LoadingVC()
+    let searchBar = JWSearchBar.init(placeHolder: "Search group")
+    
     
     //notification key whatever
     let dateChanged = Notification.Name(rawValue: Listener.dateChangedKey)
@@ -28,19 +30,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
-//    MARK: - SearchBar
-    
-    let searchBar: UISearchBar = {
-       
-        let searchBar = UISearchBar()
-        searchBar.sizeToFit()
-        searchBar.barStyle = .black
-        searchBar.searchTextField.textColor = .white
-        searchBar.placeholder = "Search group"
-        return searchBar
-    }()
-    
+        
 //    MARK: - BarButton
     
     let cancelButton: UIBarButtonItem = {
