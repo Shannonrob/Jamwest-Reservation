@@ -58,6 +58,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         showSearchBar(shouldShow: true)
         searchBar.becomeFirstResponder()
         searchBar.delegate = self
+        verificationView.segmentedContol.isEnabled = false
     }
     
     @objc func handleCancelSearch() {
@@ -65,6 +66,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         showSearchBar(shouldShow: false)
         inSearchMode = false
         verificationView.tableView.reloadData()
+        verificationView.segmentedContol.isEnabled = true
     }
     
     // refresh based current cell
