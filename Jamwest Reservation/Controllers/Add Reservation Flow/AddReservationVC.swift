@@ -446,6 +446,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     // get data for reservation to be edited
     func configureEditMode() {
         
+        navigationItem.title = "Reservation"
+        
         for info in [reservation] {
             
             guard let hotel = info?.hotel,

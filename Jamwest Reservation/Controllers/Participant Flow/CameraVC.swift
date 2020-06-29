@@ -270,15 +270,15 @@ class CameraVC: UIViewController {
     func uploadWaiver() {
 
         // post ID
-        let waiver = PARTICIPANT_WAIVER_REF.childByAutoId()
+        let waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
         
         // upload information to database
-        waiver.updateChildValues(participantWaiver)
+        waiverID.updateChildValues(participantWaiver)
         
-        uploadEmailList()
+        uploadEmailList(with: waiverID.key!)
     }
     
-    func uploadEmailList() {
+    func uploadEmailList(with waiverID: String) {
         
         // check if values exist and upload email to list
         guard let emailAddress = participantWaiver[Constant.emailAddress] as? String else { return }
@@ -289,8 +289,7 @@ class CameraVC: UIViewController {
            
             let values = [Constant.emailAddress : emailAddress, Constant.name: name ]
             
-            let participantEmail = PARTICIPANT_EMAIL_REF.childByAutoId()
-            participantEmail.updateChildValues(values)
+            PARTICIPANT_EMAIL_REF.child(waiverID).updateChildValues(values)
         }
     }
 }

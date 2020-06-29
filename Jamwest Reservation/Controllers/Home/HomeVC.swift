@@ -182,7 +182,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     func showSearchBarButton(shouldShow: Bool) {
         
         if shouldShow {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleSearchBar))
+            navigationItem.rightBarButtonItems = [
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleSearchBar))]
         } else {
             navigationItem.rightBarButtonItem = cancelButton
             cancelButton.target = self
