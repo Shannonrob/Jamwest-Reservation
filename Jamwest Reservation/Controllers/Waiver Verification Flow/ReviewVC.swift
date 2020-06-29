@@ -101,6 +101,8 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             
             self.dismiss(animated: true) {
                 
+                self.cancelSearchMode()
+                
                 if self.waivers?.imageURL != nil {
                     
                     self.waivers?.removeWaiver(id: self.waivers!.waiverID, withImage: true)
@@ -131,6 +133,14 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             return "Yes"
         } else {
             return "No"
+        }
+    }
+    
+    // cancels search mode for VerificationVC
+    func cancelSearchMode() {
+       
+        if verificationVC?.inSearchMode == true {
+            verificationVC?.handleCancelSearch()
         }
     }
     
@@ -168,6 +178,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
                     
                     // delete waiver from pending
                     self.waivers?.removeWaiver(id: approvedWaiverID.key!, withImage: true)
+                    self.cancelSearchMode()
                 }
             }
         }
