@@ -36,6 +36,8 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
     func handleCameraButton(for vc: ReviewView) {
         
+        verificationVC?.inSearchMode == true ? verificationVC?.handleCancelSearch() : nil
+        
         guard let waiverID = waivers?.waiverID else { return }
         
         // dismiss current vc and present camera vc
