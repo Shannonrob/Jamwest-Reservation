@@ -31,14 +31,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         NotificationCenter.default.removeObserver(self)
     }
         
-//    MARK: - BarButton
-    
-    let cancelButton: UIBarButtonItem = {
-        
-        let button = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
-        return button
-    }()
-    
  //    MARK: - Init
      
      override func viewDidLoad() {
@@ -176,9 +168,10 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
                 UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleSearchBar))]
         } else {
-            navigationItem.rightBarButtonItem = cancelButton
-            cancelButton.target = self
-            cancelButton.action = .some(#selector(handleCancel))
+            
+            navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))]
         }
     }
     
