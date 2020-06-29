@@ -183,7 +183,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     // handle approvedButton
     func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
-            
+        
         approvedWaiver(for: cell)
     }
     
@@ -208,21 +208,18 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     // fetch pending waivers
     func fetchPendingWaiver() {
         
-        PARTICIPANT_WAIVER_REF.observe(.childAdded) { (snapshot) in
+        Database.fetchPendingWaivers(from: PARTICIPANT_WAIVER_REF) { (waiver) in
             
             self.verificationView.tableView.refreshControl?.endRefreshing()
             
-            // waiverID
-            let waiverID = snapshot.key
+            let waiverID = waiver.waiverID
             
-            // snapshot value cast as dictionary
-            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-            
-            // construct waiver
-            let waiver = WaiverVerification(waiverID: waiverID, dictionary: dictionary)
-            
-            // append waiver to data source
-            self.pendingWaivers.append(waiver)
+            if let existingIndex = self.pendingWaivers.firstIndex(where: { $0.waiverID == waiverID }) {
+                
+                self.pendingWaivers[existingIndex] = waiver
+            } else {
+                self.pendingWaivers.append(waiver)
+            }
             
             // sort results in alphabetical order
             self.pendingWaivers.sort { (waiver1, waiver2) -> Bool in
@@ -391,7 +388,7 @@ extension VerificationVC: UISearchBarDelegate {
             inSearchMode = true
             
             if isShowingPendingWaivers {
-              
+                
                 filteredPendingWaivers = pendingWaivers.filter({ (reservation) -> Bool in
                     return reservation.name.localizedCaseInsensitiveContains(searchText)
                 })
