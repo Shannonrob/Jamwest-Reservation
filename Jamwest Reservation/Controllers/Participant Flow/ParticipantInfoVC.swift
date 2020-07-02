@@ -171,6 +171,22 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         questionsAnswered = 0
     }
     
+    // delete contents of textfield
+    @objc func handleClearTextField(textfield: Bool) {
+        
+        if participantInfoView.firstNameTextfield.isFirstResponder {
+            participantInfoView.firstNameTextfield.text?.removeAll()
+        } else if participantInfoView.lastNameTextfield.isFirstResponder {
+            participantInfoView.lastNameTextfield.text?.removeAll()
+        } else if participantInfoView.phoneNumberTextfield.isFirstResponder {
+            participantInfoView.phoneNumberTextfield.text?.removeAll()
+        } else if participantInfoView.emailTextfield.isFirstResponder {
+            participantInfoView.emailTextfield.text?.removeAll()
+        } else {
+            participantInfoView.guardianTextField.text?.removeAll()
+        }
+    }
+    
     //    MARK: - Helpers Functions
     
     // updates selected/unselected button icons
@@ -421,6 +437,14 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             participantInfoView.countryTextfield.isEditing {
             participantInfoView.countryTextfield.isEnabled = false
         }
+        
+        //adds clear button icon to textfield
+        textField.addClearButtonIcon()
+        
+        // add gesture to clear button icon
+        let clearTextfieldGesture = UITapGestureRecognizer(target: self, action: #selector(handleClearTextField))
+        clearTextfieldGesture.numberOfTapsRequired = 1
+        textField.rightView?.addGestureRecognizer(clearTextfieldGesture)
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
@@ -431,6 +455,19 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     
     // check if textFields are empty after editing
     func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        switch textField {
+        case participantInfoView.firstNameTextfield:
+            participantInfoView.firstNameTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeName"))
+        case participantInfoView.lastNameTextfield:
+            participantInfoView.lastNameTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeName"))
+        case participantInfoView.phoneNumberTextfield:
+            participantInfoView.phoneNumberTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeNumber"))
+        case participantInfoView.emailTextfield:
+            participantInfoView.emailTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeEmail "))
+        default:
+            break
+        }
         
         if isUnderAge {
             _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)

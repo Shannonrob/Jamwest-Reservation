@@ -10,9 +10,24 @@ import UIKit
 
 class JamwestTextfieldClass: UITextField {
     
-    convenience init() {
+    convenience init(icon: UIImage, placeholder: String, keyboardType: UIKeyboardType) {
         self.init(frame: .zero)
         
+        setTextfieldIcon(icon)
+        
+        attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+        self.keyboardType = keyboardType
+    }
+    
+    convenience init(placeholder: String) {
+        self.init(frame: .zero)
+        
+        attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+    }
+    
+    override init(frame: CGRect) {
+    super.init(frame: .zero)
+    
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         font?.withSize(18)
@@ -24,12 +39,16 @@ class JamwestTextfieldClass: UITextField {
         widthAnchor.constraint(equalToConstant: 400).isActive = true
         heightAnchor.constraint(equalToConstant: 51).isActive = true
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 class ParticipantTextField: UITextField {
-    
-    convenience init() {
-        self.init(frame: .zero)
+        
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
         
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -40,6 +59,10 @@ class ParticipantTextField: UITextField {
         borderStyle = .roundedRect
         layer.borderColor = Color.Border.blue
         heightAnchor.constraint(equalToConstant: 51).isActive = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -66,7 +89,6 @@ class AddReservationTextField: UITextField {
         layer.masksToBounds = true
         widthAnchor.constraint(equalToConstant: 300).isActive = true
         heightAnchor.constraint(equalToConstant: 51).isActive = true
-        
     }
     
     required init?(coder: NSCoder) {

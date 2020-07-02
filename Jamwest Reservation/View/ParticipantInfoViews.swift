@@ -164,35 +164,12 @@ class ParticipantInfoViews: UIView {
     
     
     //    MARK: - Textfields
-    let firstNameTextfield: JamwestTextfieldClass = {
-        
-        let textfield = JamwestTextfieldClass()
-        textfield.configurePlaceHolderWithIcon("First name", #imageLiteral(resourceName: "orangeName"))
-        return textfield
-    }()
     
-    let lastNameTextfield: JamwestTextfieldClass = {
-        
-        let textfield = JamwestTextfieldClass()
-        textfield.configurePlaceHolderWithIcon("Last name", #imageLiteral(resourceName: "orangeName"))
-        return textfield
-    }()
-    
-    let emailTextfield: JamwestTextfieldClass = {
-        
-        let textfield = JamwestTextfieldClass()
-        textfield.configurePlaceHolderWithIcon("Email", #imageLiteral(resourceName: "orangeEmail "))
-        textfield.keyboardType = .emailAddress
-        return textfield
-    }()
-    
-    let phoneNumberTextfield: JamwestTextfieldClass = {
-        
-        let textfield = JamwestTextfieldClass()
-        textfield.configurePlaceHolderWithIcon("(xxx) xxx - xxxx", #imageLiteral(resourceName: "orangePhone "))
-        textfield.keyboardType = .phonePad
-        return textfield
-    }()
+    let firstNameTextfield = JamwestTextfieldClass(icon: #imageLiteral(resourceName: "orangeName"), placeholder: "First Name", keyboardType: .default)
+    let lastNameTextfield = JamwestTextfieldClass(icon: #imageLiteral(resourceName: "orangeName"), placeholder: "Last name", keyboardType: .default)
+    let emailTextfield = JamwestTextfieldClass(icon: #imageLiteral(resourceName: "orangeEmail "), placeholder: "Email", keyboardType: .emailAddress)
+    let phoneNumberTextfield = JamwestTextfieldClass(icon: #imageLiteral(resourceName: "orangePhone "), placeholder: "(xxx) xxx - xxxx", keyboardType: .phonePad)
+    let guardianTextField = JamwestTextfieldClass(placeholder: "Name")
     
     let dateTextfield: ParticipantTextField = {
 
@@ -216,16 +193,6 @@ class ParticipantInfoViews: UIView {
         return textfield
     }()
     
-    let guardianTextField: JamwestTextfieldClass = {
-        
-        let textfield = JamwestTextfieldClass()
-        textfield.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        textfield.placeholder = "Name"
-        textfield.attributedPlaceholder =  NSAttributedString(string: "Name",
-                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        return textfield
-    }()
-
     //    MARK: - Labels
     
     let firstNameRequiredLabel = RequiredLabelClass()
