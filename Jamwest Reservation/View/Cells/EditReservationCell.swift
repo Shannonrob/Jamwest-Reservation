@@ -16,11 +16,12 @@ class EditReservationCell: JamwestCell {
             
             guard let name = reservation?.group,
                 let hotel = reservation?.hotel,
-                let date = reservation?.date else { return }
+                let date = reservation?.date,
+                let time = reservation?.time else { return }
             
             headerLabel.text = name
             detailLabel.text = hotel
-            dateLabel.text = date
+            dateLabel.text = "\(date) @ \(time)"
             
             selectionStyle = .none
         }

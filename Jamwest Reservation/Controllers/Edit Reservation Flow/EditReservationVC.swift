@@ -349,7 +349,7 @@ class EditReservationVC: UITableViewController {
             
             // sort results in alphabetical order
             self.editReservations.sort { (reservation1, reservation2) -> Bool in
-                return reservation1.date < reservation2.date
+                return reservation1.group < reservation2.group
             }
             self.tableView.reloadData()
         }

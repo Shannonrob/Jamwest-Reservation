@@ -457,13 +457,13 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
                 let tourCompany = info?.tourCompany,
                 let date = info?.date,
                 let package = info?.package,
+                let time = info?.time,
                 let pax = info?.pax else { return }
             
              let reservedPackage = convertPackageResult(from: package)
             
             reservationDate = date
-            datePicker.date = convertToDate(with: date)
-            addReservationView.reservationDateTextfield.text = date
+            addReservationView.reservationDateTextfield.text = "\(date) at \(time)"
             addReservationView.paxStepper.value = Double(pax)
             addReservationView.hotelNameTextField.text = hotel
             addReservationView.groupNameTextfield.text = group
