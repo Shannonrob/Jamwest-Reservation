@@ -61,7 +61,7 @@ class JamwestCell: UITableViewCell {
     let dateLabel: UILabel = {
         
         let label = UILabel()
-        label.textColor = .lightGray
+        label.textColor = .darkGray
         label.font = UIFont.systemFont(ofSize: 18)
         return label
     }()

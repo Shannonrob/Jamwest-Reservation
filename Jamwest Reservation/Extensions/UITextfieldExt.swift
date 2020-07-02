@@ -75,11 +75,14 @@ extension UITextField {
         
     }
     
-    // clearButton
-    func textfieldClearButtonIcon(_ image: UIImage) {
+    // presents clear icon within textfield
+    func addClearButtonIcon() {
+
+        let smallConfiguration = UIImage.SymbolConfiguration(scale: .small)
+        let smallIcon = UIImage(systemName: "xmark.circle", withConfiguration: smallConfiguration)?.withTintColor(.gray, renderingMode: .alwaysOriginal)
         
-        let iconView = UIImageView(frame: CGRect(x: -10, y: 0, width: 50, height: 50))
-        iconView.image = image
+        let iconView = UIImageView(frame: CGRect(x: 9, y: 11, width: 25, height: 25))
+        iconView.image = smallIcon
     
         let iconContainerView: UIView = UIView(frame: CGRect(x: 30, y: 0, width: 50, height: 50))
         iconContainerView.addSubview(iconView)

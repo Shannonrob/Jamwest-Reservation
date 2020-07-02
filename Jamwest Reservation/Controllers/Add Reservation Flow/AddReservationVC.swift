@@ -136,7 +136,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     }
    
     // delete contents of textfield
-    @objc func handleClearTextField(textfield: Bool) {
+    @objc func handleClearTextField() {
         
         if addReservationView.hotelNameTextField.isFirstResponder {
             addReservationView.hotelNameTextField.text?.removeAll()
@@ -206,7 +206,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
             addReservationView.reservationDateTextfield.isEnabled = false
         }
         //adds clear button icon to textfield
-        textField.textfieldClearButtonIcon(#imageLiteral(resourceName: "clearButtonSmall "))
+        textField.addClearButtonIcon()
         
         // add gesture to clear button icon
         let clearTextfieldGesture = UITapGestureRecognizer(target: self, action: #selector(handleClearTextField))

@@ -203,6 +203,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         default:
             break
         }
+        handleRefresh()
     }
     
     //    MARK: - API

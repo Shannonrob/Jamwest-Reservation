@@ -22,7 +22,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     let textfield = UITextField()
     textfield.design(placeHolder: "Email", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
     textfield.keyboardType = .emailAddress
-    textfield.textfieldClearButtonIcon(#imageLiteral(resourceName: "grayClearButtonMedium"))
+    textfield.addClearButtonIcon()
     return textfield
    }()
     
@@ -31,7 +31,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     let textfield = UITextField()
     textfield.design(placeHolder: "Password", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
     textfield.isSecureTextEntry = true
-    textfield.textfieldClearButtonIcon(#imageLiteral(resourceName: "grayClearButtonMedium"))
+    textfield.addClearButtonIcon()
     return textfield
     }()
     
