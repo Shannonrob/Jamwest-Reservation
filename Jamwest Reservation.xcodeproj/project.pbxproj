@@ -10,7 +10,6 @@
 		850BFECF246DC35600BEAF1D /* ApprovedWaiverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFECE246DC35600BEAF1D /* ApprovedWaiverCell.swift */; };
 		850BFED1246DCCEA00BEAF1D /* ApprovedWaiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */; };
 		85108448244A8E2300229791 /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85108447244A8E2300229791 /* PreviewImageView.swift */; };
-		8510844C244A9B1100229791 /* LoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8510844B244A9B1100229791 /* LoadingVC.swift */; };
 		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
 		8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */; };
 		8524F51B2424F0DE003173EF /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51A2424F0DE003173EF /* CameraView.swift */; };
@@ -85,7 +84,6 @@
 		850BFECE246DC35600BEAF1D /* ApprovedWaiverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedWaiverCell.swift; sourceTree = "<group>"; };
 		850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedWaiver.swift; sourceTree = "<group>"; };
 		85108447244A8E2300229791 /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
-		8510844B244A9B1100229791 /* LoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingVC.swift; sourceTree = "<group>"; };
 		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerificationCell.swift; sourceTree = "<group>"; };
 		8524F51A2424F0DE003173EF /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -289,7 +287,6 @@
 		855D9423240E8E8A00F50CB2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8510844B244A9B1100229791 /* LoadingVC.swift */,
 				8542E7A024490EDF00707D66 /* Add Reservation Flow */,
 				85948E0A24743FEB00C2E307 /* Edit Reservation Flow */,
 				8542E7A224490F7300707D66 /* Home */,
@@ -514,7 +511,6 @@
 				8530299924AA56C0003B52A0 /* JWSearchBar.swift in Sources */,
 				855D943C240E93FB00F50CB2 /* Protocols.swift in Sources */,
 				85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */,
-				8510844C244A9B1100229791 /* LoadingVC.swift in Sources */,
 				855D9430240E91E000F50CB2 /* UIButtonExt.swift in Sources */,
 				85261260243621470009E2B2 /* PDFCreator.swift in Sources */,
 				855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */,
