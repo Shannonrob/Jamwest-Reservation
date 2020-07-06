@@ -150,6 +150,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
     func uploadApprovedWaiver() {
         
+        showLoadingView()
         guard let creationDate = Date.CurrentDate() else { return }
         
         // check for image and name
@@ -169,7 +170,9 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         // get waiverID and upload approved waiver
         let approvedWaiverID = APPROVED_WAIVER_REF.child(waivers!.waiverID)
         
-        approvedWaiverID.updateChildValues(values) { (error, ref) in
+        approvedWaiverID.updateChildValues(values) { [weak self] (error, ref) in
+            guard let self = self else { return }
+            self.dismissLoadingView()
             
             if let error = error {
                 

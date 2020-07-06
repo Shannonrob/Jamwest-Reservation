@@ -13,7 +13,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     var window: UIWindow?
     var centerController: UIViewController!
-    var loadingVC = LoadingVC()
     
 //    MARK: - Textfields
     
@@ -86,7 +85,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @objc func handleLogin(textField: Bool) {
         
         view.endEditing(true)
-        add(loadingVC)
+        
         // present custom error messages for empty textFields then API call if success
         switch textField {
             
@@ -173,15 +172,17 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     
     func attempLogin() {
         
+        showLoadingView()
+        
         guard let email = emailTextField.text,
         let password = passwordTextField.text else { return }
             
-        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-                
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] (user, error) in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            
 //            handle error
         if let error = error {
-            
-            self.remove(self.loadingVC)
             
             switch error.localizedDescription{
             case "There is no user record corresponding to this identifier. The user may have been deleted.":
@@ -191,11 +192,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             default:
                 Alert.showErrorMessage(on: self, with: error.localizedDescription)
             }
-         
             return
         }
 //            handle success
-            self.remove(self.loadingVC)
             self.presenContainerVC()
         }
     }

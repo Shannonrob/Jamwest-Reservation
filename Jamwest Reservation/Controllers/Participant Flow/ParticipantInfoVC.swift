@@ -487,7 +487,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         navigationController?.navigationBar.barTintColor = Color.Primary.heavyGreen
         
         let navigationFont = UIFont.boldSystemFont(ofSize: 25)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: navigationFont]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: navigationFont,  NSAttributedString.Key.foregroundColor: UIColor.white]
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(handleNextButton))
     }

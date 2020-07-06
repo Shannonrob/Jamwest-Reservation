@@ -36,13 +36,6 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        let loadingVC = LoadingVC()
-        remove(loadingVC)
-    }
-    
     //    MARK: - Handlers
     
     // pop navigation controller back to previous viewController
@@ -64,9 +57,7 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
     //    MARK: - API
     
     func uploadWaiver() {
-        
-        let loadingVC = LoadingVC()
-        add(loadingVC)
+        showLoadingView()
         
         // image upload data
         guard let uploadData = previewImage?.jpegData(compressionQuality: 0.75) else { return }
@@ -75,12 +66,13 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
         let waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
    
         // update storage
-        WAIVER_IMAGE_REF.child("\(waiverID)").putData(uploadData, metadata: nil) { (metadata, error) in
+        WAIVER_IMAGE_REF.child("\(waiverID)").putData(uploadData, metadata: nil) { [weak self] (metadata, error) in
+            
+            guard let self = self else { return }
             
             if let error = error {
                
-                self.remove(loadingVC)
-                
+                self.dismissLoadingView()
                 Alert.showErrorMessage(on: self, with: "Failed to upload image to storage with error \(error.localizedDescription)")
                 return
             }
@@ -90,8 +82,7 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
                 
                 if let error = error {
                     
-                    self.remove(loadingVC)
-                    
+                    self.dismissLoadingView()
                     Alert.showErrorMessage(on: self, with: "Failed to upload image to storage with error \(error.localizedDescription)")
                     return
                     
@@ -108,7 +99,7 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
                         waiverID.updateChildValues(self.participantWaiver)
                         
                         self.uploadEmailList()
-                        
+                        self.dismissLoadingView()
                         Alert.showCompletionAlert(on: self, with: "Your waiver is complete!")
                         
                     } else {
@@ -120,6 +111,7 @@ class PreviewImageVC: UIViewController, PreviewImageDelegate {
                         
                         PARTICIPANT_WAIVER_REF.child(waiverID).updateChildValues(dictionary)
                         
+                        self.dismissLoadingView()
                         Alert.showCompletionAlert(on: self, with: "Waiver updated!")
                     }
                     

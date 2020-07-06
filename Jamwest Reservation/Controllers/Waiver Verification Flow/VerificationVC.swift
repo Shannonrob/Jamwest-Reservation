@@ -124,7 +124,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         navigationController?.navigationBar.tintColor = .white
         
         navigationItem.title = "Waiver Verification"
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation ,NSAttributedString.Key.foregroundColor: UIColor.white]
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack ").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
         
@@ -210,9 +211,12 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     // fetch pending waivers
     func fetchPendingWaiver() {
+        showLoadingView()
         
-        Database.fetchPendingWaivers(from: PARTICIPANT_WAIVER_REF) { (waiver) in
+        Database.fetchPendingWaivers(from: PARTICIPANT_WAIVER_REF) { [weak self] (waiver) in
             
+            guard let self = self else { return }
+            self.dismissLoadingView()
             self.verificationView.tableView.refreshControl?.endRefreshing()
             
             let waiverID = waiver.waiverID
@@ -235,8 +239,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     // fetch approved waivers
     func fetchApprovedWaiver() {
         
-        Database.fetchWaiver(from: APPROVED_WAIVER_REF) { (waiver) in
-            
+        Database.fetchWaiver(from: APPROVED_WAIVER_REF) { [weak self] (waiver) in
+            guard let self = self else { return }
             self.verificationView.tableView.refreshControl?.endRefreshing()
             
             // append waiver to data source
@@ -253,14 +257,15 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     // removes waiver from tableView
     func rejectedWaiver() {
         
-        PARTICIPANT_WAIVER_REF.observe(.childRemoved) { (snapshot) in
-            
+        PARTICIPANT_WAIVER_REF.observe(.childRemoved) { [weak self] (snapshot) in
+            guard let self = self else { return }
             self.handleRefresh()
         }
     }
     
     func approvedWaiver(for cell: WaiverVerificationCell) {
         
+        showLoadingView()
         guard let creationDate = Date.CurrentDate() else { return }
         guard let waiverId = cell.waiver?.waiverID else { return }
         guard let name = cell.waiver?.name else { return }
@@ -278,7 +283,9 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         // get waiverID and upload approved waiver
         let approvedWaiverID = APPROVED_WAIVER_REF.child(waiverId)
         
-        approvedWaiverID.updateChildValues(values) { (error, ref) in
+        approvedWaiverID.updateChildValues(values) { [weak self] (error, ref) in
+            guard let self = self else { return }
+            self.dismissLoadingView()
             
             if let error = error {
                 

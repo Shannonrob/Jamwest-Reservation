@@ -189,12 +189,16 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
 //    MARK: - API Call
     
     func attempSignUp() {
+        showLoadingView()
         
         guard let email = emailTextField.text,
               let password = passwordTextfield.text,
               let username = userNameTextfield.text else { return }
         
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] (user, error) in
+        
+            guard let self = self else { return }
+            self.dismissLoadingView()
             
 //            handle error
             if let error = error {
@@ -203,7 +207,6 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
             }
             
             guard let uid = user?.user.uid else { return }
-            
             let dictionaryValues = ["username": username]
             let values = [uid: dictionaryValues]
             

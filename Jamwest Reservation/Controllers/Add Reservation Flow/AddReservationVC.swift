@@ -296,7 +296,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         navigationController?.navigationBar.barTintColor = Color.Primary.heavyGreen
         
         let reservation = UIFont.boldSystemFont(ofSize: 25)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation, NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteDismiss ").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Next", style: .plain, target: self, action: #selector(handleNextButton))
         navigationItem.rightBarButtonItem?.isEnabled = false

@@ -18,7 +18,6 @@ class EditReservationVC: UITableViewController {
     var editReservations = [EditReservation]()
     var filteredReservations = [EditReservation]()
     var emailsList = [EmailList]()
-    let loadingVC = LoadingVC()
     var showInformation: ShowInformation!
     var shareEmails = [EmailList]()
     var inSearchMode = false
@@ -246,7 +245,7 @@ class EditReservationVC: UITableViewController {
         navigationController?.navigationBar.tintColor = .white
         
         navigationItem.title = "Edit Reservation"
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation ,NSAttributedString.Key.foregroundColor: UIColor.white]
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleDismiss))
     }
@@ -329,9 +328,11 @@ class EditReservationVC: UITableViewController {
     //    MARK: - API
     
     func fetchReservation() {
-        
-        Database.fetchReservation(from: RESERVATION_REF) { (reservation) in
+        showLoadingView()
+        Database.fetchReservation(from: RESERVATION_REF) { [weak self] (reservation) in
             
+            guard let self = self else { return }
+            self.dismissLoadingView()
             self.tableView.refreshControl?.endRefreshing()
             
             let reservationID = reservation.reservationId
@@ -357,8 +358,13 @@ class EditReservationVC: UITableViewController {
     
     func fetchEmailList() {
         
-        Database.fetchEmailList(from: PARTICIPANT_EMAIL_REF) { (email) in
+        showLoadingView()
+        
+        Database.fetchEmailList(from: PARTICIPANT_EMAIL_REF) { [weak self] (email) in
             
+            guard let self = self else { return }
+            
+            self.dismissLoadingView()
             self.tableView.refreshControl?.endRefreshing()
             
             self.emailsList.append(email)
@@ -373,9 +379,8 @@ class EditReservationVC: UITableViewController {
     // updates tableView when child is removed
     func observeChildRemoved(_ reference: DatabaseReference) {
         
-        reference.observe(.childRemoved) { (snapshot) in
-            
-            self.add(self.loadingVC)
+        reference.observe(.childRemoved) { [weak self] (snapshot) in
+            guard let self = self else { return }
             
             // switch observer based on showInformation case
             switch self.showInformation {
@@ -393,7 +398,6 @@ class EditReservationVC: UITableViewController {
             default:
                 break
             }
-            self.remove(self.loadingVC)
             self.tableView.reloadData()
         }
     }

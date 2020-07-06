@@ -81,8 +81,8 @@ class WaiverViews: UIView {
     lazy var canvasView: PKCanvasView = {
 
         let canvas = PKCanvasView()
-        canvas.backgroundColor = .white
-        canvas.tool = PKInkingTool(.pen, color: .white, width: 2.5)
+        canvas.backgroundColor = .systemBackground
+        canvas.tool = PKInkingTool(.pen, color: .black, width: 2.5)
         canvas.frame = canvasContainerView.bounds
         canvas.layer.borderWidth = 2
         canvas.layer.borderColor = UIColor.lightGray.cgColor
@@ -119,6 +119,7 @@ class WaiverViews: UIView {
         let label = UILabel()
         label.text = "Waiver & Release of Liability"
         label.font = .boldSystemFont(ofSize: 25)
+        label.textColor = .white
         return label
     }()
     

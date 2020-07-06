@@ -19,9 +19,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     var reservations = [Reservation]()
     var filteredReservations = [Reservation]()
     var inSearchMode = false
-    let loadingVC = LoadingVC()
     let searchBar = JWSearchBar.init(placeHolder: "Search group")
-    
     
     //notification key whatever
     let dateChanged = Notification.Name(rawValue: Listener.dateChangedKey)
@@ -212,7 +210,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         navigationController?.navigationBar.tintColor = .white
         
         navigationItem.title = "Reservations"
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation, NSAttributedString.Key.foregroundColor: UIColor.white]
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menuButton").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleMenuToggle))
         showSearchBar(shouldShow: false)
     }
@@ -221,29 +220,27 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     @objc func fetchCurrentReservations() {
         
+        showLoadingView()
         reservations = []
         formatReservationDate()
       
         // fetch reservation using current date
-        RESERVATION_DATE_REF.child(currentDate).observe(.childAdded) { (snapshot) in
+        RESERVATION_DATE_REF.child(currentDate).observe(.childAdded) { [weak self] (snapshot) in
             
-            self.add(self.loadingVC)
+            guard let self = self else { return }
+            self.dismissLoadingView()
             
             let id = snapshot.key
             
             RESERVATION_REF.child(id).observe(.value) { (reservationSnapshot) in
                 
                 guard let dictionary = reservationSnapshot.value as? Dictionary<String, AnyObject> else { return }
-                
                 let reservation = Reservation(reservationId: id, dictionary: dictionary)
                 
                 // filter array to prevent duplicate
                 if let existingIndex = self.reservations.firstIndex(where: { $0.reservationId == id }) {
-                    
                     self.reservations[existingIndex] = reservation
-                    
                 } else {
-                    
                     self.reservations.append(reservation)
                 }
                 
@@ -251,8 +248,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
                 self.reservations.sort { (reservation1, reservation2) -> Bool in
                     return reservation1.group < reservation2.group
                 }
-                
-                self.remove(self.loadingVC)
                 self.collectionView.reloadData()
             }
         }
@@ -261,12 +256,11 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     // removes reservation from collectionView
     func handleDeletedReservation() {
         
-        RESERVATION_DATE_REF.child(currentDate).observe(.childRemoved) { (snapshot) in
-            
-            self.add(self.loadingVC)
+        RESERVATION_DATE_REF.child(currentDate).observe(.childRemoved) { [weak self] (snapshot) in
+        
+            guard let self = self else { return }
             self.reservations.removeAll(keepingCapacity: false)
             self.fetchCurrentReservations()
-            self.remove(self.loadingVC)
             self.collectionView.reloadData()
         }
     }
