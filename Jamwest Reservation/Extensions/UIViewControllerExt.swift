@@ -9,6 +9,7 @@
 import UIKit
 
 fileprivate var containerView: UIView!
+fileprivate var emptyStateView: UIView!
 
 extension UIViewController {
     
@@ -17,11 +18,11 @@ extension UIViewController {
         containerView = UIView(frame: view.bounds)
         view.addSubview(containerView)
         
-        containerView.backgroundColor = .systemBackground
+        containerView.backgroundColor = .black
         containerView.alpha = 0
         
         UIView.animate(withDuration: 0.25) {
-            containerView.alpha = 0.3
+            containerView.alpha = 0.4
         }
         
         let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -38,13 +39,23 @@ extension UIViewController {
     }
     
     func dismissLoadingView() {
-        
         DispatchQueue.main.async {
             containerView.removeFromSuperview()
-            //                containerView = nil
         }
     }
     
+    func showEmptyStateView(with message: String, in view: UIView){
+        emptyStateView = JWEmptyStateView(message: message)
+        emptyStateView.frame = view.bounds
+        view.addSubview(emptyStateView)
+    }
+    
+    func dismissEmptyStateView() {
+        DispatchQueue.main.async {
+            guard let emptyStateView = emptyStateView else { return }
+            emptyStateView.removeFromSuperview()
+        }
+    }
     
     // present VC from the right to left
     func presentDetail(_ viewControllerToPresent: UIViewController) {

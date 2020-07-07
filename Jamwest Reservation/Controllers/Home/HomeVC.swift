@@ -223,15 +223,15 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         showLoadingView()
         reservations = []
         formatReservationDate()
-      
+    
         // fetch reservation using current date
         RESERVATION_DATE_REF.child(currentDate).observe(.childAdded) { [weak self] (snapshot) in
             
             guard let self = self else { return }
-            self.dismissLoadingView()
+            self.checkReservationState()
             
             let id = snapshot.key
-            
+        
             RESERVATION_REF.child(id).observe(.value) { (reservationSnapshot) in
                 
                 guard let dictionary = reservationSnapshot.value as? Dictionary<String, AnyObject> else { return }
@@ -251,8 +251,31 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
                 self.collectionView.reloadData()
             }
         }
+        
+        checkReservationState()
     }
     
+    func checkReservationState() {
+        RESERVATION_DATE_REF.child(currentDate).observeSingleEvent(of: .value) { [weak self] (snapshot) in
+            guard let self = self else { return}
+            self.dismissLoadingView()
+            
+            if !snapshot.exists(){
+               
+                if self.reservations.isEmpty {
+                    let message = "Jamwest Adventure Park has no reservation today."
+                    
+                    DispatchQueue.main.async {
+                        self.showEmptyStateView(with: message, in: self.view)
+                        return
+                    }
+                }
+            } else{
+                self.dismissEmptyStateView()
+            }
+        }
+    }
+
     // removes reservation from collectionView
     func handleDeletedReservation() {
         
