@@ -13,9 +13,9 @@ class JWEmptyStateView: UIView {
     let messageLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .secondaryLabel
+        label.textColor = .lightGray
         label.numberOfLines = 3
-        label.font = UIFont.systemFont(ofSize: 28)
+        label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
     

@@ -39,7 +39,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
             
         configureUI()
         observeDateChanged()
+        configureRefreshControl()
         fetchCurrentReservations()
+        checkReservationState()
         handleDeletedReservation()
      }
     
@@ -156,6 +158,27 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         collectionView.reloadData()
     }
     
+    // refresh based current cell
+    @objc func handleRefresh() {
+        
+        DispatchQueue.main.async {
+            self.reservations.removeAll(keepingCapacity: false)
+            self.fetchCurrentReservations()
+            self.collectionView.reloadData()
+            self.checkReservationState()
+        }
+    }
+    
+    func configureRefreshControl() {
+
+        DispatchQueue.main.async {
+            let refreshControl = UIRefreshControl()
+            refreshControl.tintColor = .gray
+            refreshControl.addTarget(self, action: #selector(self.handleRefresh), for: .valueChanged)
+            self.collectionView.refreshControl = refreshControl
+        }
+    }
+    
 //    MARK: - Helper functions
     
     // switches between searchBar to cancel button
@@ -183,12 +206,13 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     func observeDateChanged() {
         
         NotificationCenter.default.addObserver(self,
-        selector: #selector(HomeVC.fetchCurrentReservations),
-        name: dateChanged, object: nil)
+                                               selector: #selector(handleRefresh),
+                                               name: dateChanged, object: nil)
     }
 
+    
     // format reservation date
-    func formatReservationDate() {
+    @objc func formatReservationDate() {
         
         // gets the current date
         let date: Date = Date()
@@ -229,6 +253,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
             
             guard let self = self else { return }
             self.checkReservationState()
+            self.collectionView.refreshControl?.endRefreshing()
             
             let id = snapshot.key
         
@@ -251,8 +276,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
                 self.collectionView.reloadData()
             }
         }
-        
-        checkReservationState()
     }
     
     func checkReservationState() {
@@ -261,12 +284,13 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
             self.dismissLoadingView()
             
             if !snapshot.exists(){
-               
+               self.dismissEmptyStateView()
                 if self.reservations.isEmpty {
-                    let message = "Jamwest Adventure Park has no reservation today."
+                    let message = "No available reservation"
                     
                     DispatchQueue.main.async {
                         self.showEmptyStateView(with: message, in: self.view)
+                        self.collectionView.refreshControl?.endRefreshing()
                         return
                     }
                 }
@@ -282,6 +306,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         RESERVATION_DATE_REF.child(currentDate).observe(.childRemoved) { [weak self] (snapshot) in
         
             guard let self = self else { return }
+            self.checkReservationState()
             self.reservations.removeAll(keepingCapacity: false)
             self.fetchCurrentReservations()
             self.collectionView.reloadData()

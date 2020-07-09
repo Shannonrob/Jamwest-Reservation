@@ -177,7 +177,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         let reservation = UIFont.boldSystemFont(ofSize: 25)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation ,NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelButton))
-    }
+        }
     
     // Action sheet
     func showReservationCreatedAlert() {

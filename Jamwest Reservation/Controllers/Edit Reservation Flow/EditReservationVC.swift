@@ -162,13 +162,13 @@ class EditReservationVC: UITableViewController {
     
     // refresh based current cell
     @objc func handleRefresh() {
-        
+
         switch isShowingReservations {
-            
+
         case true:
             editReservations.removeAll(keepingCapacity: false)
             fetchReservation()
-            
+
         default:
             emailsList.removeAll(keepingCapacity: false)
             fetchEmailList()
@@ -271,7 +271,7 @@ class EditReservationVC: UITableViewController {
     }
     
     func configureRefreshControl() {
-        
+
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .gray
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
