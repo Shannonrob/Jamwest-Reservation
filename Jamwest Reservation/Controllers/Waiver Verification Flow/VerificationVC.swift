@@ -122,15 +122,13 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.tintColor = .white
-        
-        navigationItem.title = "Waiver Verification"
-        
+        navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation ,NSAttributedString.Key.foregroundColor: UIColor.white]
         
+        navigationItem.title = "Waiver Verification"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack ").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
         
         showSearchBarButton(shouldShow: true)
-        
         verificationView.tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
     }
     
