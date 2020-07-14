@@ -224,7 +224,7 @@ class WaiverViews: UIView {
     lazy var doneButton: JamwestCustomRoundedButton = {
         
         let button = JamwestCustomRoundedButton()
-        button.setTitle("Done", for: .normal)
+        button.setTitle("I Agree", for: .normal)
         button.backgroundColor = Color.Primary.green
         button.addTarget(self, action: #selector(handleDoneTapped), for: .touchUpInside)
         return button
@@ -241,7 +241,7 @@ class WaiverViews: UIView {
     }
     
     @objc func handleDoneTapped() {
-        waiverVCDelegate?.handleDoneButton()
+        waiverVCDelegate?.handleIAgreeButton()
     }
     
     @objc func handleCancelTapped() {

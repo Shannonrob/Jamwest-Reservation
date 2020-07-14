@@ -20,7 +20,7 @@ class JamwestCustomRoundedButton: UIButton {
     func configuration() {
         
 //        titleLabel?.font = .systemFont(ofSize: 20)
-        titleLabel?.font = UIFont(name: Font.avenirNextDemibold, size: 20)
+        titleLabel?.font = UIFont(name: Font.avenirNextDemibold, size: 24)
         titleLabel?.textColor = .white
         backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.20)
         layer.cornerRadius = 20

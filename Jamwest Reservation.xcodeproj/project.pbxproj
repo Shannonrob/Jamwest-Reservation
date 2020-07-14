@@ -11,6 +11,7 @@
 		850BFED1246DCCEA00BEAF1D /* ApprovedWaiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */; };
 		85108448244A8E2300229791 /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85108447244A8E2300229791 /* PreviewImageView.swift */; };
 		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
+		851F210824BCFC260068B10A /* ImagePreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F210724BCFC260068B10A /* ImagePreviewVC.swift */; };
 		8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */; };
 		8524F51D2424F56D003173EF /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51C2424F56D003173EF /* CameraVC.swift */; };
 		8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F52024250E2F003173EF /* PreviewImageVC.swift */; };
@@ -85,6 +86,7 @@
 		850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedWaiver.swift; sourceTree = "<group>"; };
 		85108447244A8E2300229791 /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
 		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
+		851F210724BCFC260068B10A /* ImagePreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewVC.swift; sourceTree = "<group>"; };
 		8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerificationCell.swift; sourceTree = "<group>"; };
 		8524F51C2424F56D003173EF /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
 		8524F52024250E2F003173EF /* PreviewImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageVC.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */,
 				8524F52024250E2F003173EF /* PreviewImageVC.swift */,
 				855D945B240E961600F50CB2 /* WaiverVC.swift */,
+				851F210724BCFC260068B10A /* ImagePreviewVC.swift */,
 			);
 			path = "Participant Flow";
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 				85E9C50924788284000F6589 /* EmailListCell.swift in Sources */,
 				8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */,
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
+				851F210824BCFC260068B10A /* ImagePreviewVC.swift in Sources */,
 				855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */,
 				85558CA7246335D400D970E8 /* CustomImageView.swift in Sources */,
 				85F04410247C18CF00277B9E /* Enums.swift in Sources */,

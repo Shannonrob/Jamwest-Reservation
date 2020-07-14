@@ -73,7 +73,7 @@ enum ButtonTitle {
 }
 
 enum ImageName {
-
+    
     static let whiteCheckMark = "whiteCheckMark"
     static let clearCheckMark = "hiddenCheckMark"
 }
