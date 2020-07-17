@@ -98,6 +98,43 @@ class NetworkManager {
         }
     }
     
+//    MARK: - TourSelectionVC Network Calls
+    
+    func createReservation(with values: Dictionary<String, Any>, completed: @escaping (Result<String? ,JWError>) -> Void) {
+        let reservation = RESERVATION_REF.childByAutoId()
+        reservation.updateChildValues(values) { (err, ref) in
+            
+            if let _ = err {
+                completed(.failure(.unableToComplete))
+            } else {
+                
+                guard let reservationId = reservation.key else { return }
+                let dateValue = [reservationId: 1] as [String: Any]
+                
+                let date = RESERVATION_DATE_REF.child(values[Constant.reservationDate] as! String)
+                date.updateChildValues(dateValue) { (err, ref) in
+                    
+                    if let _ = err {
+                        completed(.failure(.unableToComplete))
+                    } else {
+                        completed(.success(.none))
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateReservation(for reservation: String, values: Dictionary<String, Any>, completed: @escaping (Result<String? ,JWError>) -> Void) {
+        
+        RESERVATION_REF.child(reservation).updateChildValues(values) { (error, ref) in
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+            } else {
+                completed(.success(.none))
+            }
+        }
+    }
+    
     
     //    MARK: - VerifictionVC Network Calls
     

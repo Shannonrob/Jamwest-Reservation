@@ -304,8 +304,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     func handleDeletedReservation() {
         
         RESERVATION_DATE_REF.child(currentDate).observe(.childRemoved) { [weak self] (snapshot) in
-        
             guard let self = self else { return }
+            self.dismissLoadingView()
             self.checkReservationState()
             self.reservations.removeAll(keepingCapacity: false)
             self.fetchCurrentReservations()

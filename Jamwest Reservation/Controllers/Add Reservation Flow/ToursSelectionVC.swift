@@ -58,19 +58,18 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         super.viewWillAppear(animated)
         
         reservedPackage == .ComboDeal ? tourSelectionView.tableView.allowsMultipleSelection = true : nil
+        configureActionButton()
     }
     
     //    MARK: - Handlers
     
     @objc func handleCancelButton() {
-        
         dismissTourSelectionVC()
     }
     
     //    MARK: - Protocols and delegate
     
     func handleSubmitButton(for vc: TourSelectionView) {
-        
         reservedPackage = packageSelected()()
         
         switch reservedPackage {
@@ -87,6 +86,17 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     }
     
     //    MARK: - Helper Function
+    
+    func configureActionButton() {
+        let buttonTitle: String!
+        
+        if uploadAction == .SaveChanges {
+            buttonTitle = "Update"
+        } else {
+            buttonTitle = "Submit"
+        }
+        tourSelectionView.submitButton.setTitle(buttonTitle, for: .normal)
+    }
     
     // closure that uses method from AddReservationVC to identify selected package
     func packageSelected() -> () -> ReservationPackage {
@@ -150,7 +160,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
             }
             
             // create or save reservation
-            uploadAction == .UploadReservation ? createReservation() : saveReservationChanges()
+            uploadAction == .UploadReservation ? createReservation() : updateReservationChanges()
         }
     }
     
@@ -178,6 +188,13 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation ,NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelButton))
         }
+    
+    func endReservationUpdate() {
+        self.dismiss(animated: true) {
+            let editReservationVC = EditReservationVC()
+            editReservationVC.tableView.reloadData()
+        }
+    }
     
     // Action sheet
     func showReservationCreatedAlert() {
@@ -249,55 +266,48 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     //    MARK: - API
     
     func createReservation() {
-        
-        // create post ID
-        let reservation = RESERVATION_REF.childByAutoId()
-        
-        //push reservation info to firebase
-        reservation.updateChildValues(reservationInfo) { (err, ref) in
+      
+        showLoadingView()
+        NetworkManager.shared.createReservation(with: reservationInfo) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
             
-            guard let reservationID = reservation.key else { return }
-            
-            let dateValue = [reservationID: 1] as [String: Any]
-            
-            let date = RESERVATION_DATE_REF.child(self.reservationInfo[Constant.reservationDate] as! String)
-            
-            date.updateChildValues(dateValue) { (err, ref) in
-            
-                if let err = err {
-                    Alert.showAlert(on: self, with: err.localizedDescription)
-                } else {
-                    self.showReservationCreatedAlert()
-                }
+            switch result {
+            case .success(_):
+                self.showReservationCreatedAlert()
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
             }
         }
     }
     
-    func saveReservationChanges() {
-        
+    func updateReservationChanges() {
         guard let reservationId = reservation.reservationId else { return }
         guard let newDate = reservationInfo[Constant.reservationDate] else { return }
         
-        RESERVATION_REF.child(reservationId).updateChildValues(reservationInfo) { (error, ref) in
+        showLoadingView()
+        NetworkManager.shared.updateReservation(for: reservationId, values: reservationInfo) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
             
-            if let err = error {
-                Alert.showAlert(on: self, with: err.localizedDescription)
-            } else {
+            switch result {
+            case .success(_):
                 
                 if let isDateChanged = self.dateChanged[Constant.isDateChanged] {
-                    
                     let previousDate = self.dateChanged[Constant.previousDate] as! String
                     
                     if isDateChanged as! Bool == true {
-                        self.reservation.updateReservationDate(from: previousDate, to: newDate as! String)
+                        DispatchQueue.global(qos: .background).async {
+                            self.reservation.updateReservationDate(from: previousDate, to: newDate as! String)
+                        }
                     }
                 }
-                self.dismiss(animated: true) {
-                    let editReservationVC = EditReservationVC()
-                    editReservationVC.tableView.reloadData()
-                }
+                
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
             }
         }
+        endReservationUpdate()
     }
 }
 

@@ -28,9 +28,10 @@ class TourSelectionView: UIView {
         button.setTitle("Submit", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.red, for: .selected)
-        button.backgroundColor = Color.Hue.green
+        button.backgroundColor = Color.Primary.green
         button.layer.cornerRadius = 8
         button.titleLabel?.font = .boldSystemFont(ofSize: 24)
+        button.addShadow()
         button.addTarget(self, action: #selector(handleSubmitTapped), for: .touchUpInside)
         return button
     }()
