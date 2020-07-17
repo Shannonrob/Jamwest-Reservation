@@ -33,7 +33,7 @@ class NetworkManager {
                     guard let imageUrl = url?.absoluteString else { return }
                     let dictionary = [Constant.imageURL : imageUrl]
                     PARTICIPANT_WAIVER_REF.child(waiverID).updateChildValues(dictionary)
-                    completed(.success(.none))
+                    completed(.success(dictionary[Constant.imageURL]))
                 }
             }
         }

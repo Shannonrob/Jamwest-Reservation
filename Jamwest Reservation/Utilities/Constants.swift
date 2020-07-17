@@ -22,7 +22,6 @@ let WAIVER_IMAGE_REF = STORAGE_REF.child("waiverImage")
 let APPROVED_IMAGE_REF = STORAGE_REF.child("approvedImage")
 
 enum Constant {
-    
     static let name = "name"
     static let hotelName = "hotel"
     static let groupName = "groupName"
@@ -52,9 +51,13 @@ enum Constant {
     static let previousDate = "previousDate"
     static let waiverID = "waiverID"
 }
+enum ErrorMessage {
+    static let minorError = "Something went wrong"
+    static let photoRequired = "Participant photo is required!"
+    static let waiverDeleteWarning = "Waiver will be deleted!"
+}
 
 enum Font {
-    
     static let avenirNextRegular = "AvenirNext-Regular"
     static let avenirNextMedium = "AvenirNext-Medium"
     static let avenirNextDemibold = "AvenirNext-DemiBold"
@@ -65,7 +68,6 @@ enum Font {
 }
 
 enum ButtonTitle {
-    
     static let singleTour = "Single Tour"
     static let comboDeal = "Combo Deal"
     static let superDeal = "Super Deal"
@@ -73,7 +75,6 @@ enum ButtonTitle {
 }
 
 enum ImageName {
-    
     static let whiteCheckMark = "whiteCheckMark"
     static let clearCheckMark = "hiddenCheckMark"
 }
@@ -81,12 +82,11 @@ enum ImageName {
 enum Listener {
     
     // Notification Keys
-   static let dateChangedKey = "NSCalendarDayChangedNotification"
+    static let dateChangedKey = "NSCalendarDayChangedNotification"
 }
 
 // events for date formatter in AddReservationVC
 enum Event {
-    
     static let date = "date"
     static let time = "time"
     static let full = "date-Time"
@@ -95,7 +95,6 @@ enum Event {
 enum Color {
     
     struct Primary {
-        
         static let orange = UIColor(red: 242/255, green: 125/255, blue: 15/255, alpha: 1)
         static let purple = UIColor(displayP3Red: 17/255, green: 16/255, blue: 38/255, alpha: 95)
         static let green = UIColor(displayP3Red: 0/255, green: 162/255, blue: 138/255, alpha: 1)
@@ -106,19 +105,16 @@ enum Color {
     }
     
     struct Border {
-        
         static let orange = CGColor.init(srgbRed: 242/255, green: 125/255, blue: 15/255, alpha: 1)
         static let purple = CGColor.init(srgbRed: 17/255, green: 16/255, blue: 38/255, alpha: 95)
         static let blue = CGColor.init(srgbRed: 0.50, green: 0.66, blue: 0.66, alpha: 1)
     }
     
     struct Background {
-        
         static let fadeGray = UIColor(red: 232/255, green: 232/255, blue: 232/255, alpha: 1)
     }
     
     struct Hue {
-        
         static let green = UIColor(hue: 0.50, saturation: 0.66, brightness: 0.66, alpha: 1)
         static let fadedGreen = UIColor(hue: 0.50, saturation: 0.20, brightness: 0.66, alpha: 1)
     }

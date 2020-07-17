@@ -11,15 +11,21 @@ import Firebase
 
 class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
-    // array of custom object
+//   MARK: - Properties
+    
     var waivers: WaiverVerification?
     var waiverReviewView = ReviewView()
     var verificationVC: VerificationVC?
     
+//    MARK: - Init
+    
+    override func loadView() {
+        super.loadView()
+        view = waiverReviewView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view = waiverReviewView
         waiverReviewView.reviewWaiverDelegate = self
         presentData()
     }
@@ -35,7 +41,6 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     }
     
     func handleCameraButton(for vc: ReviewView) {
-        
         verificationVC?.inSearchMode == true ? verificationVC?.handleCancelSearch() : nil
         presentCamera()
     }
@@ -90,7 +95,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     // handles deletions of waiver
     func rejectWaiver() {
         
-        let alertController = UIAlertController(title: "Warning", message: "Waiver will be deleted!", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Warning", message: ErrorMessage.waiverDeleteWarning, preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Continue", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
             
             self.dismiss(animated: true) {
@@ -147,7 +152,10 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             guard let self = self else { return }
             
             switch result {
-            case .success(_): break
+            case .success(let imageURL):
+                guard let imageURL = imageURL else { return }
+                self.waivers?.imageURL = imageURL
+        
             case .failure(let error):
                 DispatchQueue.main.async {
                     Alert.showAlert(on: self, with: error.rawValue)
@@ -161,12 +169,12 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         guard let creationDate = Date.CurrentDate(),
             let name = waivers?.name,
             let waiverID = waivers?.waiverID else {
-                Alert.showAlert(on: self, with: "Something went wrong")
+                Alert.showAlert(on: self, with: ErrorMessage.minorError)
                 return
         }
         
         guard let image = waivers?.imageURL else {
-            Alert.showRequiredMessage(on: self, with: "Participant photo is required!")
+            Alert.showRequiredMessage(on: self, with: ErrorMessage.photoRequired)
             return
         }
         
@@ -185,9 +193,12 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             switch result {
             case .success(let waiverID):
                 self.dismiss(animated: true)
-                self.waivers?.deletePendingWaiver(id: waiverID, withImage: true)
+                
+                DispatchQueue.global(qos: .background).async {
+                    self.waivers?.deletePendingWaiver(id: waiverID, withImage: true)
+                }
                 self.cancelSearchMode()
-            
+                
             case .failure(let error):
                 DispatchQueue.main.async {
                     Alert.showAlert(on: self, with: error.rawValue)
@@ -213,7 +224,7 @@ extension ReviewVC: UINavigationControllerDelegate, UIImagePickerControllerDeleg
         picker.dismiss(animated: true)
         
         guard let image = info[.editedImage] as? UIImage else {
-            Alert.showAlert(on: self, with: "Something went wrong")
+            Alert.showAlert(on: self, with: ErrorMessage.minorError)
             return
         }
         updateParticipantProfile(with: image)
