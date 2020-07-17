@@ -28,22 +28,6 @@ extension Database {
         }
     }
     
-    static func fetchWaiver(from reference: DatabaseReference, completion: @escaping(ApprovedWaiver) -> ()) {
-        
-        reference.observe(.childAdded) { (snapshot) in
-            
-            // waiverID
-            let waiverID = snapshot.key
-            
-            // snapshot value cast as dictionary
-            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-            
-            // construct waiver
-            let waiver = ApprovedWaiver(waiverID: waiverID, dictionary: dictionary)
-            
-            completion(waiver)
-        }
-    }
     
     static func fetchReservation(from reference: DatabaseReference, completion: @escaping(Reservation) -> ()) {
         
@@ -81,29 +65,6 @@ extension Database {
             let email = EmailList(waiverID: emailID, dictionary: dictionary)
             
             completion(email)
-        }
-    }
-    
-    //fetch and update pending waivers
-    static func fetchPendingWaivers(from reference: DatabaseReference, completion: @escaping(WaiverVerification) -> ()) {
-        
-        reference.observe(.value) { (snapshot) in
-            
-            guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
-            
-            allObjects.forEach({(snapshot) in
-                
-                // waiverID
-                let waiverID = snapshot.key
-                
-                // snapshot value cast as dictionary
-                guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-                
-                // construct waiver
-                let waiver = WaiverVerification(waiverID: waiverID, dictionary: dictionary)
-                
-                completion(waiver)
-            })
         }
     }
 }

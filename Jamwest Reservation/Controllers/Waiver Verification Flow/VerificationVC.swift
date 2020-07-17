@@ -46,6 +46,12 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         rejectedWaiver()
         configureRefreshControl()
     }
+   
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        PARTICIPANT_WAIVER_REF.removeAllObservers()
+        APPROVED_WAIVER_REF.removeAllObservers()
+    }
     
     //    MARK: - Handlers
     
@@ -138,13 +144,11 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         switch tableView {
             
         case .PendingWaivers:
-            
             heightForRow = 150
             switchIdentifier(with: true)
             isShowingPendingWaivers = true
             
         case .ApprovedWaivers:
-            
             heightForRow = 70
             switchIdentifier(with: false)
             isShowingPendingWaivers = false
@@ -152,6 +156,31 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         self.verificationView.tableView.reloadData()
     }
     
+    func handleFetchedWaiversResult(for waiver: WaiverVerification) {
+        let waiverID = waiver.waiverID
+        
+        if let existingIndex = self.pendingWaivers.firstIndex(where: { $0.waiverID == waiverID }) {
+            self.pendingWaivers[existingIndex] = waiver
+        } else {
+            self.pendingWaivers.append(waiver)
+        }
+        
+        pendingWaivers.sort { (waiver1, waiver2) -> Bool in
+            return waiver1.name < waiver2.name
+        }
+        verificationView.tableView.reloadData()
+    }
+    
+    func handleApprovedWaiversResult(for waiver: ApprovedWaiver) {
+        approvedWaivers.append(waiver)
+        
+        approvedWaivers.sort { (waiver1, waiver2) -> Bool in
+            return waiver1.name < waiver2.name
+        }
+        verificationView.tableView.reloadData()
+    }
+    
+   
     // register appropriate cell based on condition
     func switchIdentifier(with condition: Bool) {
         
@@ -161,6 +190,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             verificationView.tableView.register(ApprovedWaiverCell.self, forCellReuseIdentifier: approvedReuseIdentifier)
         }
     }
+    
     
     //    MARK: - Delegate Protocols
     
@@ -178,7 +208,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     // handle approvedButton
     func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
-        approvedWaiver(for: cell)
+        approveWaiver(for: cell)
     }
     
     // handle segmentedControl
@@ -199,69 +229,59 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     }
     
     //    MARK: - API
-    #warning("Refactor network calls")
-    // fetch pending waivers
+    
     func fetchPendingWaiver() {
         showLoadingView()
-        
-        Database.fetchPendingWaivers(from: PARTICIPANT_WAIVER_REF) { [weak self] (waiver) in
+        NetworkManager.shared.fetchPendingWaivers { [weak self] result in
             
             guard let self = self else { return }
             self.dismissLoadingView()
             self.verificationView.tableView.refreshControl?.endRefreshing()
             
-            let waiverID = waiver.waiverID
-            
-            if let existingIndex = self.pendingWaivers.firstIndex(where: { $0.waiverID == waiverID }) {
-                
-                self.pendingWaivers[existingIndex] = waiver
-            } else {
-                self.pendingWaivers.append(waiver)
+            switch result {
+            case .success(let waiver):
+                self.handleFetchedWaiversResult(for: waiver)
+            case .failure(_):
+                DispatchQueue.main.async { Alert.showAlert(on: self, with: ErrorMessage.minorError)}
             }
-            
-            // sort results in alphabetical order
-            self.pendingWaivers.sort { (waiver1, waiver2) -> Bool in
-                return waiver1.name < waiver2.name
-            }
-            self.verificationView.tableView.reloadData()
         }
     }
     
-    // fetch approved waivers
     func fetchApprovedWaiver() {
-        
-        Database.fetchWaiver(from: APPROVED_WAIVER_REF) { [weak self] (waiver) in
+        NetworkManager.shared.fetchApprovedWaivers { [weak self] result in
             guard let self = self else { return }
             self.verificationView.tableView.refreshControl?.endRefreshing()
             
-            // append waiver to data source
-            self.approvedWaivers.append(waiver)
-            
-            // sort results in alphabetical order
-            self.approvedWaivers.sort { (waiver1, waiver2) -> Bool in
-                return waiver1.name < waiver2.name
+            switch result {
+            case .success(let waiver):
+                self.handleApprovedWaiversResult(for: waiver)
+            case .failure(_):
+                break
             }
-            self.verificationView.tableView.reloadData()
         }
     }
     
-    // removes waiver from tableView
     func rejectedWaiver() {
-        
-        PARTICIPANT_WAIVER_REF.observe(.childRemoved) { [weak self] (snapshot) in
+        NetworkManager.shared.observeWaiverDeletion { [weak self] result in
             guard let self = self else { return }
-            self.handleRefresh()
+           
+            switch result{
+            case .success(_):
+                self.handleRefresh()
+            case .failure(_):
+                break
+            }
         }
     }
     
-    func approvedWaiver(for cell: WaiverVerificationCell) {
+    func approveWaiver(for cell: WaiverVerificationCell) {
         
-        guard let creationDate = Date.CurrentDate() else { return }
-        guard let waiverId = cell.waiver?.waiverID else { return }
-        guard let name = cell.waiver?.name else { return }
+        guard let creationDate = Date.CurrentDate(),
+            let waiverId = cell.waiver?.waiverID,
+            let name = cell.waiver?.name else { return }
+        
         guard let image = cell.waiver?.imageURL else {
-            
-            Alert.showRequiredMessage(on: self, with: "Participant photo is required!")
+            Alert.showRequiredMessage(on: self, with: ErrorMessage.photoRequired)
             return
         }
         
@@ -271,18 +291,18 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         values[Constant.creationDate] = creationDate
         
         showLoadingView()
-        // get waiverID and upload approved waiver
-        let approvedWaiverID = APPROVED_WAIVER_REF.child(waiverId)
-        
-        approvedWaiverID.updateChildValues(values) { [weak self] (error, ref) in
+        NetworkManager.shared.approveWaiver(for: waiverId, with: values) { [weak self] (result) in
             guard let self = self else { return }
             self.dismissLoadingView()
             
-            if let error = error {
-                Alert.showErrorMessage(on: self , with: "Error \(error.localizedDescription)")
-            } else {
-                // delete waiver from pending
-                cell.waiver?.deletePendingWaiver(id: waiverId, withImage: true)
+            switch result {
+            case .success(let waiverID):
+                DispatchQueue.global(qos: .background).async {
+                    cell.waiver?.deletePendingWaiver(id: waiverID, withImage: true)
+                }
+                
+            case .failure(_):
+                DispatchQueue.main.async { Alert.showAlert(on: self, with: ErrorMessage.minorError)}
             }
         }
     }

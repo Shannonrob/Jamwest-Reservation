@@ -37,7 +37,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     }
     
     func handleApproveButton(for vc: ReviewView) {
-        uploadApprovedWaiver()
+        approveWaiver()
     }
     
     func handleCameraButton(for vc: ReviewView) {
@@ -164,8 +164,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         }
     }
     
-    func uploadApprovedWaiver() {
-        
+    func approveWaiver() {
         guard let creationDate = Date.CurrentDate(),
             let name = waivers?.name,
             let waiverID = waivers?.waiverID else {
