@@ -89,7 +89,7 @@ class WaiverVerification {
     }
     
     // delete image and waiver data if condition is true
-    func removeWaiver(id waiverID: String, withImage answer: Bool) {
+    func deletePendingWaiver(id waiverID: String, withImage answer: Bool) {
         
         if answer {
             
