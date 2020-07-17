@@ -37,15 +37,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     func handleCameraButton(for vc: ReviewView) {
         
         verificationVC?.inSearchMode == true ? verificationVC?.handleCancelSearch() : nil
-        
-        guard let waiverID = waivers?.waiverID else { return }
-        
-        // dismiss current vc and present camera vc
-        dismiss(animated: true) { [weak verificationVC] in
-            
-            let values = [Constant.waiverID : waiverID]
-            verificationVC?.showCameraVC(for: values)
-        }
+        presentCamera()
     }
     
     func handleDismissButtonTapped(for vc: ReviewView) {
@@ -107,9 +99,9 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
                 
                 if self.waivers?.imageURL != nil {
                     
-                    self.waivers?.removeWaiver(id: self.waivers!.waiverID, withImage: true)
+                    self.waivers?.deletePendingWaiver(id: self.waivers!.waiverID, withImage: true)
                 } else {
-                    self.waivers?.removeWaiver(id: self.waivers!.waiverID, withImage: false)
+                    self.waivers?.deletePendingWaiver(id: self.waivers!.waiverID, withImage: false)
                 }
             }
         })
@@ -148,15 +140,33 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
 //    MARK: - Api
     
+    func updateParticipantProfile(with image: UIImage) {
+        
+        guard let waiverID = self.waivers?.waiverID else { return }
+        NetworkManager.shared.updateWaiver(with: image, waiverID: waiverID) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(_): break
+                
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    Alert.showAlert(on: self, with: error.rawValue)
+                }
+            }
+        }
+    }
+    
     func uploadApprovedWaiver() {
         
-        showLoadingView()
-        guard let creationDate = Date.CurrentDate() else { return }
+        guard let creationDate = Date.CurrentDate(),
+            let name = waivers?.name,
+            let waiverID = waivers?.waiverID else {
+                Alert.showAlert(on: self, with: "Something went wrong")
+                return
+        }
         
-        // check for image and name
-        guard let name = waivers?.name else { return }
         guard let image = waivers?.imageURL else {
-            
             Alert.showRequiredMessage(on: self, with: "Participant photo is required!")
             return
         }
@@ -167,25 +177,48 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         values[Constant.imageURL] = image
         values[Constant.creationDate] = creationDate
         
-        // get waiverID and upload approved waiver
-        let approvedWaiverID = APPROVED_WAIVER_REF.child(waivers!.waiverID)
-        
-        approvedWaiverID.updateChildValues(values) { [weak self] (error, ref) in
+        showLoadingView()
+        NetworkManager.shared.approveWaiver(for: waiverID, with: values) { [weak self] (result) in
+            
             guard let self = self else { return }
             self.dismissLoadingView()
             
-            if let error = error {
-                
-                Alert.showErrorMessage(on: self , with: "Error \(error.localizedDescription)")
-            } else {
-                
-                self.dismiss(animated: true) {
-                    
-                    // delete waiver from pending
-                    self.waivers?.removeWaiver(id: approvedWaiverID.key!, withImage: true)
-                    self.cancelSearchMode()
+            switch result {
+            case .success(let waiverID):
+                self.dismiss(animated: true)
+                self.waivers?.deletePendingWaiver(id: waiverID, withImage: true)
+                self.cancelSearchMode()
+            
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    Alert.showAlert(on: self, with: error.rawValue)
                 }
             }
         }
     }
 }
+
+extension ReviewVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    func presentCamera() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.cameraDevice = .rear
+        vc.allowsEditing = true
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        picker.dismiss(animated: true)
+        
+        guard let image = info[.editedImage] as? UIImage else {
+            Alert.showAlert(on: self, with: "Something went wrong")
+            return
+        }
+        updateParticipantProfile(with: image)
+        waiverReviewView.profileImageView.image = image.withRenderingMode(.alwaysOriginal)
+    }
+}
+

@@ -13,12 +13,13 @@
 		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
 		851F210824BCFC260068B10A /* ImagePreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F210724BCFC260068B10A /* ImagePreviewVC.swift */; };
 		8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */; };
-		8524F51D2424F56D003173EF /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F51C2424F56D003173EF /* CameraVC.swift */; };
 		8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524F52024250E2F003173EF /* PreviewImageVC.swift */; };
 		8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */; };
 		85261260243621470009E2B2 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526125F243621470009E2B2 /* PDFCreator.swift */; };
 		8526322024634E9F00DAEA65 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8526321F24634E9F00DAEA65 /* ReviewView.swift */; };
 		8530299924AA56C0003B52A0 /* JWSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8530299824AA56C0003B52A0 /* JWSearchBar.swift */; };
+		8536A89524C0C29B00948B32 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8536A89424C0C29B00948B32 /* NetworkManager.swift */; };
+		8536A89924C117DE00948B32 /* JWError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8536A89824C117DE00948B32 /* JWError.swift */; };
 		854B8E6B246CA212007D85B6 /* VerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B8E6A246CA212007D85B6 /* VerificationVC.swift */; };
 		854B8E6D246CA374007D85B6 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B8E6C246CA374007D85B6 /* VerificationView.swift */; };
 		85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA22462EE9F00D970E8 /* WaiverVerification.swift */; };
@@ -88,12 +89,13 @@
 		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		851F210724BCFC260068B10A /* ImagePreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewVC.swift; sourceTree = "<group>"; };
 		8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerificationCell.swift; sourceTree = "<group>"; };
-		8524F51C2424F56D003173EF /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
 		8524F52024250E2F003173EF /* PreviewImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageVC.swift; sourceTree = "<group>"; };
 		8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestCustomRoundedButton.swift; sourceTree = "<group>"; };
 		8526125F243621470009E2B2 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		8526321F24634E9F00DAEA65 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		8530299824AA56C0003B52A0 /* JWSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWSearchBar.swift; sourceTree = "<group>"; };
+		8536A89424C0C29B00948B32 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		8536A89824C117DE00948B32 /* JWError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWError.swift; sourceTree = "<group>"; };
 		854B8E6A246CA212007D85B6 /* VerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationVC.swift; sourceTree = "<group>"; };
 		854B8E6C246CA374007D85B6 /* VerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
 		85558CA22462EE9F00D970E8 /* WaiverVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerification.swift; sourceTree = "<group>"; };
@@ -202,7 +204,6 @@
 		8542E79F24490E9300707D66 /* Participant Flow */ = {
 			isa = PBXGroup;
 			children = (
-				8524F51C2424F56D003173EF /* CameraVC.swift */,
 				855D9455240E95F100F50CB2 /* ParticipantInfoVC.swift */,
 				8524F52024250E2F003173EF /* PreviewImageVC.swift */,
 				855D945B240E961600F50CB2 /* WaiverVC.swift */,
@@ -337,6 +338,7 @@
 			children = (
 				855D943D240E940600F50CB2 /* Constants.swift */,
 				85F0440F247C18CF00277B9E /* Enums.swift */,
+				8536A89824C117DE00948B32 /* JWError.swift */,
 				855D943F240E940E00F50CB2 /* Countries.swift */,
 				855D943B240E93FB00F50CB2 /* Protocols.swift */,
 				8526125F243621470009E2B2 /* PDFCreator.swift */,
@@ -347,6 +349,7 @@
 		855D942B240E917A00F50CB2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8536A89424C0C29B00948B32 /* NetworkManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -529,7 +532,6 @@
 				85D0FCAF242451A00069BFFF /* ParticipantInformation.swift in Sources */,
 				8561BB1F247F211A00A7C25A /* TourSelectionView.swift in Sources */,
 				854B8E6D246CA374007D85B6 /* VerificationView.swift in Sources */,
-				8524F51D2424F56D003173EF /* CameraVC.swift in Sources */,
 				855D942E240E91D100F50CB2 /* ArrayExt.swift in Sources */,
 				8524F52124250E2F003173EF /* PreviewImageVC.swift in Sources */,
 				855D92992429A5AA00084D9B /* JamwestWaiverLabelClass.swift in Sources */,
@@ -547,10 +549,12 @@
 				851F210824BCFC260068B10A /* ImagePreviewVC.swift in Sources */,
 				855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */,
 				85558CA7246335D400D970E8 /* CustomImageView.swift in Sources */,
+				8536A89524C0C29B00948B32 /* NetworkManager.swift in Sources */,
 				85F04410247C18CF00277B9E /* Enums.swift in Sources */,
 				855D944A240E954600F50CB2 /* MenuOptionCell.swift in Sources */,
 				85948E10247444E100C2E307 /* EditReservation.swift in Sources */,
 				855D9412240E8AB900F50CB2 /* SceneDelegate.swift in Sources */,
+				8536A89924C117DE00948B32 /* JWError.swift in Sources */,
 				85D668E2242C2305002F1189 /* UIScrollViewExt.swift in Sources */,
 				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
 				85ECB436246EF89C005551A2 /* DateExt.swift in Sources */,
