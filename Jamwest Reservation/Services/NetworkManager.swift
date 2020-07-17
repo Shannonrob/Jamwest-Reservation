@@ -12,7 +12,7 @@ class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
     
-    func updateWaiver(with image: UIImage, waiverID: String, completed: @escaping (Result <String, JWError>) -> Void) {
+    func updateWaiver(with image: UIImage, waiverID: String, completed: @escaping (Result <String?, JWError>) -> Void) {
         guard let uploadData = image.jpegData(compressionQuality: 0.75) else { return }
         
         WAIVER_IMAGE_REF.child(waiverID).putData(uploadData, metadata: nil) { [weak self] (metadata, error) in
@@ -33,7 +33,7 @@ class NetworkManager {
                     guard let imageUrl = url?.absoluteString else { return }
                     let dictionary = [Constant.imageURL : imageUrl]
                     PARTICIPANT_WAIVER_REF.child(waiverID).updateChildValues(dictionary)
-                    completed(.success("All is well"))
+                    completed(.success(.none))
                 }
             }
         }

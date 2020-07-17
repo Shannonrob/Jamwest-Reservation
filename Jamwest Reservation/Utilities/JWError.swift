@@ -10,4 +10,5 @@ import Foundation
 
 enum JWError: String, Error {
     case unableToComplete = "Unable to complete your request. Please check your internet connection"
+    case malfunction = "Something went wrong"
 }

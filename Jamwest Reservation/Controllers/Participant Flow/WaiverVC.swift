@@ -18,7 +18,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     let image = #imageLiteral(resourceName: "greenJamwestLogo").withRenderingMode(.alwaysOriginal)
     var pkCanvasView: PKCanvasView!
     var reservation: Reservation!
-    var cameraAction: CameraAction!
     var reservationID: String!
     var paxCount: Int!
     var isUnderAge: Bool?
@@ -30,7 +29,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
         presentData()
         shouldShowGaurdianAgreement(if: isUnderAge!)
@@ -39,13 +37,10 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // hide navigationBar
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func loadView() {
-        
         waiverViews.waiverVCDelegate = self
         view = waiverViews
     }
@@ -53,13 +48,9 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     //    MARK: - Protocols
     
     func handleAgreeButton() {
-        
         if waiverViews.guardianLabel.isHidden == false && guardianAgreed == false {
-            
             Alert.showRequiredMessage(on: self, with: "Parent/Gaurdian must agree to signing on behalf of minor")
-            
         } else {
-            
             waiverViews.agreeButton.updateButtonIcon("greenSelectedCheckMark")
             animateSignatureCanvas()
         }
@@ -75,14 +66,12 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     }
     
     func handleCancelButton() {
-        
         // return to previous ViewController and show navigationBar
         _ = navigationController?.popViewController(animated: true)
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     func handleIAgreeButton() {
-        
         // check if canvasView has drawing then present CameraVC else shows alert
         if !waiverViews.canvasView.drawing.bounds.isEmpty {
             waiverViews.doneButton.isEnabled = false
@@ -99,7 +88,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     // animate canvasContainerView to show upon agree button tapped
     func animateSignatureCanvas() {
-        
         waiverViews.canvasContainerViewHeight = waiverViews.canvasContainerView.heightAnchor.constraint(equalToConstant: 280)
         waiverViews.canvasContainerViewHeight?.isActive = true
         waiverViews.canvasViewHeight = waiverViews.canvasView.heightAnchor.constraint(equalToConstant: 240)
@@ -110,7 +98,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         waiverViews.doneButton.isEnabled = true
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            
             self.view.layoutIfNeeded()
             self.waiverViews.scrollView.scrollTo(direction: .Bottom, animated: true)
         }, completion: nil)
@@ -213,7 +200,6 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     
     // upload waiver without image if user exits
     func uploadWaiver() {
-
         // post ID
         let waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
         
@@ -223,14 +209,12 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     }
     
     func uploadEmailList(with waiverID: String) {
-        
         // check if values exist and upload email to list
         guard let emailAddress = participantWaiver[Constant.emailAddress] as? String else { return }
         guard let name = participantWaiver[Constant.name] else { return}
         
         // check for value and upload to database
         if emailAddress != "" {
-           
             let values = [Constant.emailAddress : emailAddress, Constant.name: name ]
             PARTICIPANT_EMAIL_REF.child(waiverID).updateChildValues(values)
         }
@@ -267,22 +251,23 @@ extension WaiverVC: UINavigationControllerDelegate, UIImagePickerControllerDeleg
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true)
         
-       
+        picker.dismiss(animated: true)
         guard let image = info[.editedImage] as? UIImage else {
-            print("No image found")
+            DispatchQueue.main.async {
+                Alert.showAlert(on: self, with: JWError.malfunction.rawValue)
+            }
             return
         }
+        
         DispatchQueue.global(qos: .background).async {
             self.uploadCompleteWaiver(image: image)
-            print("upload attempted")
         }
     }
 }
 
 extension WaiverVC {
-    
+    #warning("Refactor API calls")
     func uploadCompleteWaiver(image: UIImage) {
          
          // image upload data
@@ -329,19 +314,6 @@ extension WaiverVC {
                         Alert.showCompletionAlert(on: self, with: "Thanks for completing your waiver 🙂")
                     }
                         
-                      /*else {
-                         
-                         // update waiver image
-                         guard let waiverID = self.participantWaiver[Constant.waiverID] as? String else { return }
-                         
-                         let dictionary = [Constant.imageURL : imageUrl]
-                         
-                         PARTICIPANT_WAIVER_REF.child(waiverID).updateChildValues(dictionary)
-                         
-                         self.dismissLoadingView()
-                         Alert.showCompletionAlert(on: self, with: "Waiver updated!")
-                     }*/
-                     
                      // pop to root view controller
                      self.navigationController?.setNavigationBarHidden(false, animated: true)
                      self.navigationController?.popToRootViewController(animated: true)

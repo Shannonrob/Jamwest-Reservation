@@ -148,7 +148,6 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             
             switch result {
             case .success(_): break
-                
             case .failure(let error):
                 DispatchQueue.main.async {
                     Alert.showAlert(on: self, with: error.rawValue)

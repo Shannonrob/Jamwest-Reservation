@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		850BFECF246DC35600BEAF1D /* ApprovedWaiverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFECE246DC35600BEAF1D /* ApprovedWaiverCell.swift */; };
 		850BFED1246DCCEA00BEAF1D /* ApprovedWaiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */; };
-		85108448244A8E2300229791 /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85108447244A8E2300229791 /* PreviewImageView.swift */; };
 		851275F72425A99100E9CAA7 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */; };
 		8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */; };
 		8525D72D243BB38700317197 /* JamwestCustomRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */; };
@@ -83,7 +82,6 @@
 		4802174EB34A8CCBA78ECF40 /* Pods-Jamwest Reservation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jamwest Reservation.release.xcconfig"; path = "Target Support Files/Pods-Jamwest Reservation/Pods-Jamwest Reservation.release.xcconfig"; sourceTree = "<group>"; };
 		850BFECE246DC35600BEAF1D /* ApprovedWaiverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedWaiverCell.swift; sourceTree = "<group>"; };
 		850BFED0246DCCEA00BEAF1D /* ApprovedWaiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovedWaiver.swift; sourceTree = "<group>"; };
-		85108447244A8E2300229791 /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
 		851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		8524B43C2460A65700CD10DE /* WaiverVerificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerificationCell.swift; sourceTree = "<group>"; };
 		8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestCustomRoundedButton.swift; sourceTree = "<group>"; };
@@ -301,7 +299,6 @@
 				85134D0C24940AF100EC61F9 /* Cells */,
 				858EA986247D8123006DFCCA /* AddReservationView.swift */,
 				8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */,
-				85108447244A8E2300229791 /* PreviewImageView.swift */,
 				8526321F24634E9F00DAEA65 /* ReviewView.swift */,
 				8561BB1E247F211A00A7C25A /* TourSelectionView.swift */,
 				85C9EF2524B3CEB3009E7F72 /* JWEmptyStateView.swift */,
@@ -551,7 +548,6 @@
 				855D9436240E920600F50CB2 /* UIStackviewExt.swift in Sources */,
 				85ECB436246EF89C005551A2 /* DateExt.swift in Sources */,
 				855D9444240E94C100F50CB2 /* MenuOption.swift in Sources */,
-				85108448244A8E2300229791 /* PreviewImageView.swift in Sources */,
 				85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */,
 				85B70F8D2479AE8200580174 /* JamwestCell.swift in Sources */,
 				85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */,

@@ -162,12 +162,6 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
     }
     
-    // presents cameraVC
-    func showCameraVC(for waiver: Dictionary<String, Any>) {
-        
-        presentCameraVC(for: .UpdateProfileImage, with: waiver)
-    }
-    
     //    MARK: - Delegate Protocols
     
     // handle reviewButton
@@ -184,7 +178,6 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     // handle approvedButton
     func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
-        
         approvedWaiver(for: cell)
     }
     
@@ -206,7 +199,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     }
     
     //    MARK: - API
-    
+    #warning("Refactor network calls")
     // fetch pending waivers
     func fetchPendingWaiver() {
         showLoadingView()
@@ -263,7 +256,6 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     func approvedWaiver(for cell: WaiverVerificationCell) {
         
-        showLoadingView()
         guard let creationDate = Date.CurrentDate() else { return }
         guard let waiverId = cell.waiver?.waiverID else { return }
         guard let name = cell.waiver?.name else { return }
@@ -278,6 +270,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         values[Constant.imageURL] = image
         values[Constant.creationDate] = creationDate
         
+        showLoadingView()
         // get waiverID and upload approved waiver
         let approvedWaiverID = APPROVED_WAIVER_REF.child(waiverId)
         
@@ -286,12 +279,10 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             self.dismissLoadingView()
             
             if let error = error {
-                
                 Alert.showErrorMessage(on: self , with: "Error \(error.localizedDescription)")
             } else {
-                
                 // delete waiver from pending
-                cell.waiver?.removeWaiver(id: waiverId, withImage: true)
+                cell.waiver?.deletePendingWaiver(id: waiverId, withImage: true)
             }
         }
     }
@@ -410,3 +401,4 @@ extension VerificationVC: UISearchBarDelegate {
         }
     }
 }
+
