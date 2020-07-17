@@ -13,6 +13,47 @@ class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
     
+//    MARK: - EditReservationVC
+    
+    func fetchEmailList(completed: @escaping (Result<EmailList, JWError>) -> Void) {
+        PARTICIPANT_EMAIL_REF.observeSingleEvent(of: .value) { (snapshot, error) in
+            
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            } else {
+                
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+                allObjects.forEach { (snapshot) in
+                    
+                    let emailID = snapshot.key
+                    guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                    let email = EmailList(waiverID: emailID, dictionary: dictionary)
+                    completed(.success(email))
+                }
+            }
+        }
+    }
+    
+    func fetchReservation(completed: @escaping (Result<EditReservation, JWError>) -> Void) {
+        RESERVATION_REF.observe(.value) { (snapshot, error) in
+            
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            } else {
+                
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+                allObjects.forEach { (snapshot) in
+                    
+                    let reservationID = snapshot.key
+                    guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                    let reservation = EditReservation(reservationId: reservationID, dictionary: dictionary)
+                    completed(.success(reservation))
+                }
+            }
+        }
+    }
     
     //    MARK: - ReviewVC Network Calls
     
@@ -60,21 +101,33 @@ class NetworkManager {
     
     //    MARK: - VerifictionVC Network Calls
     
-    func observeWaiverDeletion(completed: @escaping(Result<WaiverVerification?, JWError>) -> Void) {
-        PARTICIPANT_WAIVER_REF.observe(.childRemoved) { (snapshot) in
+    func observeWaiverDeletion(for reference: DatabaseReference, completed: @escaping(Result<WaiverVerification?, JWError>) -> Void) {
+        reference.observe(.childRemoved) { (snapshot) in
             completed(.success(nil))
         }
     }
     
+    
     func fetchApprovedWaivers(completed: @escaping(Result<ApprovedWaiver, JWError>) -> Void) {
-        APPROVED_WAIVER_REF.observe(.childAdded) { (snapshot) in
-            
-            let waiverID = snapshot.key
-            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
-            let waiver = ApprovedWaiver(waiverID: waiverID, dictionary: dictionary)
-            completed(.success(waiver))
+        APPROVED_WAIVER_REF.observeSingleEvent(of: .value) { (snapshot, error) in
+           
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            } else {
+                
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+                allObjects.forEach { (snapshot) in
+                  
+                    let waiverID = snapshot.key
+                    guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                    let waiver = ApprovedWaiver(waiverID: waiverID, dictionary: dictionary)
+                    completed(.success(waiver))
+                }
+            }
         }
     }
+ 
     
     func fetchPendingWaivers(completed: @escaping(Result<WaiverVerification, JWError>) -> Void) {
         PARTICIPANT_WAIVER_REF.observe(.value) { (snapshot, error) in

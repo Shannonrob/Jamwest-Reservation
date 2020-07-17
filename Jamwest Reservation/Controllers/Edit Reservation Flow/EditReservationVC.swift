@@ -250,6 +250,48 @@ class EditReservationVC: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleDismiss))
     }
     
+    func handleFetchResults(for reservation: EditReservation) {
+        let reservationID = reservation.reservationId
+        
+        if let existingReservation = self.editReservations.firstIndex(where: { $0.reservationId == reservationID }) {
+            self.editReservations[existingReservation] = reservation
+        } else {
+            self.editReservations.append(reservation)
+        }
+        
+        self.editReservations.sort { (reservation1, reservation2) -> Bool in
+            return reservation1.group < reservation2.group
+        }
+        tableView.reloadData()
+    }
+    
+    func handleFetchEmailResult(for email: EmailList) {
+        self.emailsList.append(email)
+        
+        self.emailsList.sort { (email1, email2) -> Bool in
+            return email1.name < email2.name
+        }
+        self.tableView.reloadData()
+    }
+    
+    func handleChildRemovedObserver() {
+        switch self.showInformation {
+            
+        case .EditReservation:
+            self.editReservations.removeAll(keepingCapacity: false)
+            self.fetchReservation()
+            
+        case .EmailList:
+            self.emailsList.removeAll(keepingCapacity: false)
+            self.fetchEmailList()
+            
+        default:
+            break
+        }
+        self.tableView.reloadData()
+    }
+   
+
     // switches between searchBar to cancel button
     func showSearchBarButton(shouldShow: Bool) {
         
@@ -329,76 +371,51 @@ class EditReservationVC: UITableViewController {
     
     func fetchReservation() {
         showLoadingView()
-        Database.fetchReservation(from: RESERVATION_REF) { [weak self] (reservation) in
+        NetworkManager.shared.fetchReservation { [weak self] result in
             
             guard let self = self else { return }
             self.dismissLoadingView()
             self.tableView.refreshControl?.endRefreshing()
             
-            let reservationID = reservation.reservationId
-            
-            if let existingReservation = self.editReservations.firstIndex(where: { $0.reservationId == reservationID }) {
+            switch result {
+            case .success(let reservation):
+                self.handleFetchResults(for: reservation)
                 
-                // replace existing reservation to data source
-                self.editReservations[existingReservation] = reservation as! EditReservation
-                
-            } else {
-                
-                // append reservation to data source
-                self.editReservations.append(reservation as! EditReservation)
+            case .failure(_):
+                Alert.showAlert(on: self, with: ErrorMessage.minorError)
             }
-            
-            // sort results in alphabetical order
-            self.editReservations.sort { (reservation1, reservation2) -> Bool in
-                return reservation1.group < reservation2.group
-            }
-            self.tableView.reloadData()
         }
     }
     
     func fetchEmailList() {
-        
         showLoadingView()
-        
-        Database.fetchEmailList(from: PARTICIPANT_EMAIL_REF) { [weak self] (email) in
-            
+        NetworkManager.shared.fetchEmailList { [weak self] result in
+           
             guard let self = self else { return }
-            
             self.dismissLoadingView()
             self.tableView.refreshControl?.endRefreshing()
             
-            self.emailsList.append(email)
-            
-            self.emailsList.sort { (email1, email2) -> Bool in
-                return email1.name < email2.name
+            switch result {
+            case .success(let email):
+                self.handleFetchEmailResult(for: email)
+                
+            case .failure(_):
+                Alert.showAlert(on: self, with: ErrorMessage.minorError)
             }
-            self.tableView.reloadData()
         }
     }
     
-    // updates tableView when child is removed
+    
     func observeChildRemoved(_ reference: DatabaseReference) {
-        
-        reference.observe(.childRemoved) { [weak self] (snapshot) in
+        NetworkManager.shared.observeWaiverDeletion(for: reference) { [weak self] result in
             guard let self = self else { return }
             
-            // switch observer based on showInformation case
-            switch self.showInformation {
-                
-            case .EditReservation:
-                
-                self.editReservations.removeAll(keepingCapacity: false)
-                self.fetchReservation()
-                
-            case .EmailList:
-                
-                self.emailsList.removeAll(keepingCapacity: false)
-                self.fetchEmailList()
-                
-            default:
+            switch result {
+            case .success(_):
+                self.handleChildRemovedObserver()
+            case .failure(_):
                 break
             }
-            self.tableView.reloadData()
         }
     }
 }

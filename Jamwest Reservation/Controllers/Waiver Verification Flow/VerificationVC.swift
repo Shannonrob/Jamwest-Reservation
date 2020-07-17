@@ -256,13 +256,13 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             case .success(let waiver):
                 self.handleApprovedWaiversResult(for: waiver)
             case .failure(_):
-                break
+                Alert.showAlert(on: self, with: ErrorMessage.minorError)
             }
         }
     }
     
     func rejectedWaiver() {
-        NetworkManager.shared.observeWaiverDeletion { [weak self] result in
+        NetworkManager.shared.observeWaiverDeletion(for: PARTICIPANT_WAIVER_REF) { [weak self] result in
             guard let self = self else { return }
            
             switch result{
