@@ -51,6 +51,37 @@ enum Constant {
     static let previousDate = "previousDate"
     static let waiverID = "waiverID"
 }
+
+enum PlaceHolder {
+    static let hotel = "Hotel"
+    static let date = "mm/dd/yyyy"
+    static let firstName = "First Name"
+    static let lastName = "Last Name"
+    static let voucher = "Voucher"
+    static let representative = "Representative"
+    static let tourCompany = "Tour Company"
+    static let email = "Email"
+    static let country = "Country"
+    static let name = "Name"
+}
+
+enum Label {
+    static let hotel = " Hotel"
+    static let date = " Date"
+    static let firstName = " First Name"
+    static let lastName = " Last Name"
+    static let voucher = " Voucher #"
+    static let tourRep = " Tour Representative"
+    static let tourComp = " Tour Company"
+    static let paxQuantity = "Pax Quantity :"
+    static let reservationPackage = "Reservation Package :"
+    static let singleTour = "Single Tour"
+    static let comboDeal = "Combo Deal"
+    static let superDeal = "Super Deal"
+    static let DeluxePackage = "Deluxe Package"
+    
+}
+
 enum ErrorMessage {
     static let minorError = "Something went wrong"
     static let photoRequired = "Participant photo is required!"
