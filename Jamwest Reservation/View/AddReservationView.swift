@@ -156,7 +156,7 @@ class AddReservationView: UIView {
         leftStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
         leftStackView.axis = .vertical
         
-        let rightStackView = UIStackView(arrangedSubviews: [dateStackView, lastNameStackView, voucherNumberStackView, tourCompanyStackView])
+        let rightStackView = UIStackView(arrangedSubviews: [dateStackView, lastNameStackView, tourCompanyStackView, voucherNumberStackView])
         rightStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
         rightStackView.axis = .vertical
         

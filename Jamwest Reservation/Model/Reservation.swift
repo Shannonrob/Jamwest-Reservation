@@ -9,7 +9,8 @@
 class Reservation {
     
     var time: String!
-    var group: String!
+    var firstName: String!
+    var lastName: String!
     var hotel: String!
     var firstTour: String!
     var secondTour: String!
@@ -31,8 +32,12 @@ class Reservation {
             self.time = time
         }
         
-        if let group = dictionary[Constant.groupName] as? String {
-            self.group = group
+        if let firstName = dictionary[Constant.firstName] as? String {
+            self.firstName = firstName
+        }
+        
+        if let lastName = dictionary[Constant.lastName] as? String {
+            self.lastName = lastName
         }
         
         if let hotel = dictionary[Constant.hotelName] as? String {

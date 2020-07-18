@@ -63,6 +63,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         uploadAction == .SaveChanges ? restrictChanges(for:
             [addReservationView.hotelNameTextField,
              addReservationView.firstNameTextField,
+             addReservationView.lastNameTextField,
              addReservationView.vourcherTextfield]) : nil
     }
     
@@ -142,6 +143,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
             addReservationView.hotelNameTextField.text?.removeAll()
         } else if addReservationView.firstNameTextField.isFirstResponder {
             addReservationView.firstNameTextField.text?.removeAll()
+        }else if addReservationView.lastNameTextField.isFirstResponder {
+            addReservationView.lastNameTextField.text?.removeAll()
         } else if addReservationView.vourcherTextfield.isFirstResponder {
             addReservationView.vourcherTextfield.text?.removeAll()
         } else if addReservationView.tourRepTextfield.isFirstResponder {
@@ -190,6 +193,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         addReservationView.hotelNameTextField.delegate = self
         addReservationView.reservationDateTextfield.delegate = self
         addReservationView.firstNameTextField.delegate = self
+        addReservationView.lastNameTextField.delegate = self
         addReservationView.tourRepTextfield.delegate = self
         addReservationView.vourcherTextfield.delegate = self
         addReservationView.tourCompanyTextfield.delegate = self
@@ -199,6 +203,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         
         if addReservationView.hotelNameTextField.isEditing ||
             addReservationView.firstNameTextField.isEditing ||
+            addReservationView.lastNameTextField.isEditing ||
             addReservationView.vourcherTextfield.isEditing ||
            addReservationView.tourRepTextfield.isEditing ||
             addReservationView.tourCompanyTextfield.isEditing {
@@ -228,6 +233,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
             addReservationView.hotelNameTextField.setTextfieldIcon(#imageLiteral(resourceName: "orangeHotel"))
         case addReservationView.firstNameTextField:
             addReservationView.firstNameTextField.setTextfieldIcon(#imageLiteral(resourceName: "orangeName"))
+        case addReservationView.lastNameTextField:
+            addReservationView.lastNameTextField.setTextfieldIcon(#imageLiteral(resourceName: "orangeName"))
         case addReservationView.vourcherTextfield:
             addReservationView.vourcherTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeNumber"))
         case addReservationView.tourRepTextfield:
@@ -249,11 +256,13 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         case addReservationView.reservationDateTextfield:
             addReservationView.firstNameTextField.becomeFirstResponder()
         case addReservationView.firstNameTextField:
-            addReservationView.vourcherTextfield.becomeFirstResponder()
-        case addReservationView.vourcherTextfield:
+            addReservationView.lastNameTextField.becomeFirstResponder()
+        case addReservationView.lastNameTextField:
             addReservationView.tourRepTextfield.becomeFirstResponder()
         case addReservationView.tourRepTextfield:
             addReservationView.tourCompanyTextfield.becomeFirstResponder()
+        case addReservationView.tourCompanyTextfield:
+            addReservationView.vourcherTextfield.becomeFirstResponder()
         default:
             textField.resignFirstResponder()
         }
@@ -273,8 +282,12 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         
         // make sure the result is under 16 characters
         switch textField {
-        case addReservationView.hotelNameTextField,addReservationView.firstNameTextField,addReservationView.vourcherTextfield:
+        case addReservationView.hotelNameTextField,
+             addReservationView.firstNameTextField,
+             addReservationView.lastNameTextField,
+             addReservationView.vourcherTextfield:
             return updatedText.count <= 36
+            
         case addReservationView.tourRepTextfield:
             return updatedText.count <= 27
         case addReservationView.tourCompanyTextfield:
@@ -336,6 +349,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         guard addReservationView.hotelNameTextField.hasText,
             addReservationView.reservationDateTextfield.hasText,
             addReservationView.firstNameTextField.hasText,
+            addReservationView.lastNameTextField.hasText,
             addReservationView.vourcherTextfield.hasText,
             addReservationView.tourRepTextfield.hasText,
             addReservationView.tourCompanyTextfield.hasText else {
@@ -369,7 +383,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         let toursSelectionVC = ToursSelectionVC()
         
         guard let hotel = addReservationView.hotelNameTextField.text,
-            let group = addReservationView.firstNameTextField.text,
+            let firstName = addReservationView.firstNameTextField.text,
+            let lastName = addReservationView.lastNameTextField.text,
             let voucherNumber = addReservationView.vourcherTextfield.text,
             let tourRep = addReservationView.tourRepTextfield.text,
             let tourCompany = addReservationView.tourCompanyTextfield.text else { return }
@@ -388,7 +403,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         case .UploadReservation:
             toursSelectionVC.uploadAction = UploadAction.init(index: 0)
             toursSelectionVC.reservationInfo = [ Constant.hotelName: hotel,
-                                                 Constant.groupName: group,
+                                                 Constant.firstName: firstName,
+                                                 Constant.lastName: lastName,
                                                  Constant.voucherNumber: voucherNumber,
                                                  Constant.tourRep: tourRep,
                                                  Constant.tourCompany: tourCompany,
@@ -451,7 +467,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         for info in [reservation] {
             
             guard let hotel = info?.hotel,
-                let group = info?.group,
+                let firstName = info?.firstName,
+                let lastName = info?.lastName,
                 let voucherNumber = info?.voucherNumber,
                 let tourRep = info?.tourRep,
                 let tourCompany = info?.tourCompany,
@@ -466,7 +483,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
             addReservationView.reservationDateTextfield.text = "\(date) at \(time)"
             addReservationView.paxStepper.value = Double(pax)
             addReservationView.hotelNameTextField.text = hotel
-            addReservationView.firstNameTextField.text = group
+            addReservationView.firstNameTextField.text = firstName
+            addReservationView.lastNameTextField.text = lastName
             addReservationView.vourcherTextfield.text = voucherNumber
             addReservationView.tourRepTextfield.text = tourRep
             addReservationView.tourCompanyTextfield.text = tourCompany

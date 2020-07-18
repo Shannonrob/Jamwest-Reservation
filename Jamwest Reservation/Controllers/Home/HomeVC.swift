@@ -271,7 +271,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
                 
                 // sort results in alphabetical order
                 self.reservations.sort { (reservation1, reservation2) -> Bool in
-                    return reservation1.group < reservation2.group
+                    return reservation1.firstName < reservation2.firstName
                 }
                 self.collectionView.reloadData()
             }
@@ -335,7 +335,7 @@ extension HomeVC: UISearchBarDelegate {
         } else {
             inSearchMode = true
             filteredReservations = reservations.filter({ (reservation) -> Bool in
-                return reservation.group.localizedCaseInsensitiveContains(searchText)
+                return reservation.firstName.localizedCaseInsensitiveContains(searchText)
             })
             collectionView.reloadData()
         }

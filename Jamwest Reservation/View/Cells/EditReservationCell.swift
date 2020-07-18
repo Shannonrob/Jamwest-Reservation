@@ -14,7 +14,7 @@ class EditReservationCell: JamwestCell {
         
         didSet {
             
-            guard let name = reservation?.group,
+            guard let name = reservation?.firstName,
                 let hotel = reservation?.hotel,
                 let date = reservation?.date,
                 let time = reservation?.time else { return }

@@ -14,13 +14,13 @@ class ReservationCell: UICollectionViewCell {
         
         didSet {
             
-            guard let name = reservation?.group else { return }
+            guard let name = reservation?.firstName else { return }
             guard let hotel = reservation?.hotel else { return }
             guard let time = reservation?.time else { return }
             guard let package = reservation?.package else { return }
             guard let pendingWaivers = reservation?.pax else { return }
             
-            groupNameLabel.text = name
+            firstNameLabel.text = name
             hotelNameLabel.text = hotel
             reservationTimeLabel.text = time
             packageNameLabel.text = package
@@ -57,10 +57,10 @@ class ReservationCell: UICollectionViewCell {
         return label
     }()
     
-    let groupNameLabel: UILabel = {
+    let firstNameLabel: UILabel = {
         
         let label = UILabel()
-        label.text = "Name of group"
+        label.text = "First Name"
         label.textColor = Color.Primary.orange
         label.font = UIFont(name: Font.avenirNextDemibold, size: 24)
         return label
@@ -120,7 +120,7 @@ class ReservationCell: UICollectionViewCell {
     func configureCell() {
         
         // left stackViews
-        let groupStackView = UIStackView(arrangedSubviews: [groupNameLabel, hotelNameLabel])
+        let groupStackView = UIStackView(arrangedSubviews: [firstNameLabel, hotelNameLabel])
         groupStackView.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: nil)
         groupStackView.axis = .vertical
         

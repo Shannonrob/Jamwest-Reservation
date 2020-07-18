@@ -24,7 +24,8 @@ let APPROVED_IMAGE_REF = STORAGE_REF.child("approvedImage")
 enum Constant {
     static let name = "name"
     static let hotelName = "hotel"
-    static let groupName = "groupName"
+    static let firstName = "firstName"
+    static let lastName = "lastName"
     static let voucherNumber = "voucherNum"
     static let tourRep = "tourRep"
     static let tourCompany = "tourComp"

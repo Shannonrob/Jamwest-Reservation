@@ -260,7 +260,7 @@ class EditReservationVC: UITableViewController {
         }
         
         self.editReservations.sort { (reservation1, reservation2) -> Bool in
-            return reservation1.group < reservation2.group
+            return reservation1.firstName < reservation2.firstName
         }
         tableView.reloadData()
     }
@@ -442,7 +442,7 @@ extension EditReservationVC: UISearchBarDelegate {
         } else {
             inSearchMode = true
             filteredReservations = editReservations.filter({ (reservation) -> Bool in
-                return reservation.group.localizedCaseInsensitiveContains(searchText)
+                return reservation.firstName.localizedCaseInsensitiveContains(searchText)
             })
             tableView.reloadData()
         }
