@@ -241,8 +241,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             switch result {
             case .success(let waiver):
                 self.handleFetchedWaiversResult(for: waiver)
-            case .failure(_):
-                DispatchQueue.main.async { Alert.showAlert(on: self, with: ErrorMessage.minorError)}
+            case .failure(let error):
+                DispatchQueue.main.async { Alert.showAlert(on: self, with: error.rawValue)}
             }
         }
     }
@@ -255,8 +255,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             switch result {
             case .success(let waiver):
                 self.handleApprovedWaiversResult(for: waiver)
-            case .failure(_):
-                Alert.showAlert(on: self, with: ErrorMessage.minorError)
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
             }
         }
     }
@@ -301,8 +301,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
                     cell.waiver?.deletePendingWaiver(id: waiverID, withImage: true)
                 }
                 
-            case .failure(_):
-                DispatchQueue.main.async { Alert.showAlert(on: self, with: ErrorMessage.minorError)}
+            case .failure(let error):
+                DispatchQueue.main.async { Alert.showAlert(on: self, with: error.rawValue)}
             }
         }
     }

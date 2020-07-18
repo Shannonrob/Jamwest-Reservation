@@ -381,8 +381,8 @@ class EditReservationVC: UITableViewController {
             case .success(let reservation):
                 self.handleFetchResults(for: reservation)
                 
-            case .failure(_):
-                Alert.showAlert(on: self, with: ErrorMessage.minorError)
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
             }
         }
     }
@@ -390,7 +390,7 @@ class EditReservationVC: UITableViewController {
     func fetchEmailList() {
         showLoadingView()
         NetworkManager.shared.fetchEmailList { [weak self] result in
-           
+            
             guard let self = self else { return }
             self.dismissLoadingView()
             self.tableView.refreshControl?.endRefreshing()
@@ -399,8 +399,8 @@ class EditReservationVC: UITableViewController {
             case .success(let email):
                 self.handleFetchEmailResult(for: email)
                 
-            case .failure(_):
-                Alert.showAlert(on: self, with: ErrorMessage.minorError)
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
             }
         }
     }
