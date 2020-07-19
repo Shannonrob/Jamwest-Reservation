@@ -11,7 +11,8 @@ import Firebase
 
 class WaiverVerification {
     
-    var name: String!
+    var firstName: String!
+    var lastName: String!
     var imageURL: String!
     var firstTour: String!
     var secondTour: String!
@@ -35,8 +36,12 @@ class WaiverVerification {
             self.imageURL = imageURL
         }
         
-        if let name = dictionary[Constant.name] as? String {
-            self.name = name
+        if let firstName = dictionary[Constant.firstName] as? String {
+            self.firstName = firstName
+        }
+        
+        if let lastName = dictionary[Constant.lastName] as? String {
+            self.lastName = lastName
         }
         
         if let firstTour = dictionary[Constant.firstTour] as? String {

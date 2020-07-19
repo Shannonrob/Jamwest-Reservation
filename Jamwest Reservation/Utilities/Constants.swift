@@ -22,7 +22,6 @@ let WAIVER_IMAGE_REF = STORAGE_REF.child("waiverImage")
 let APPROVED_IMAGE_REF = STORAGE_REF.child("approvedImage")
 
 enum Constant {
-    static let name = "name"
     static let hotelName = "hotel"
     static let firstName = "firstName"
     static let lastName = "lastName"

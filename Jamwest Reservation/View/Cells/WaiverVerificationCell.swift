@@ -21,8 +21,9 @@ class WaiverVerificationCell: UITableViewCell {
             
             var tours: String!
             
-            guard let participantName = waiver?.name else { return }
-            guard let firstTour = waiver?.firstTour else { return }
+            guard let firstName = waiver?.firstName,
+                let lastName = waiver?.lastName,
+             let firstTour = waiver?.firstTour else { return }
             
             tours = firstTour
             
@@ -45,7 +46,8 @@ class WaiverVerificationCell: UITableViewCell {
                 tours.append(", \(fourthTour)")
             }
            
-            participantNameLabel.text = participantName
+            firstNameLabel.text = firstName
+            lastNameLabel.text = lastName
             toursLabel.text = tours
         }
     }
@@ -71,10 +73,19 @@ class WaiverVerificationCell: UITableViewCell {
     
     //    MARK: - Label
     
-    let participantNameLabel: UILabel = {
+    let firstNameLabel: UILabel = {
         
         let label = UILabel()
-        label.text = "Participant name"
+        label.text = "First Name"
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
+    let lastNameLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Last Name"
         label.textColor = .black
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
@@ -141,7 +152,10 @@ class WaiverVerificationCell: UITableViewCell {
         let buttonStackView = UIStackView(arrangedSubviews: [reviewButton, approveButton])
         buttonStackView.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 10)
         
-        let labelsStackView = UIStackView(arrangedSubviews: [participantNameLabel, toursLabel])
+        let groupNameStackView = UIStackView(arrangedSubviews: [firstNameLabel, lastNameLabel])
+        groupNameStackView.configureStackView(alignment: .fill, distribution: .equalSpacing, spacing: 8)
+        
+        let labelsStackView = UIStackView(arrangedSubviews: [groupNameStackView, toursLabel])
         labelsStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
         labelsStackView.axis = .vertical
         

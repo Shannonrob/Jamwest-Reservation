@@ -46,10 +46,19 @@ class ReviewView: UIView {
     
     //    MARK: - labels
     
-    let nameLabel: UILabel = {
+    let firstNameLabel: UILabel = {
+
+        let label = UILabel()
+        label.text = "First Name"
+        label.textColor = .darkGray
+        label.font = UIFont.init(name: Font.helveticaNeueBold, size: 18)
+        return label
+    }()
+    
+    let lastNameLabel: UILabel = {
         
         let label = UILabel()
-        label.text = "Test label"
+        label.text = "Last Name"
         label.textColor = .darkGray
         label.font = UIFont.init(name: Font.helveticaNeueBold, size: 18)
         return label
@@ -184,6 +193,9 @@ class ReviewView: UIView {
     
     func configureConstraints() {
         
+        let participantNameStackView = UIStackView(arrangedSubviews: [firstNameLabel, lastNameLabel])
+        participantNameStackView.configureStackView(alignment: .fill, distribution: .equalSpacing, spacing: 8)
+        
         let buttonsStackView = UIStackView(arrangedSubviews: [rejectButton, approveButton])
         buttonsStackView.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 10)
         
@@ -210,13 +222,13 @@ class ReviewView: UIView {
         profileImageView.anchor(top: waiverView.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: -96, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 192, height: 192)
         profileImageView.centerXAnchor.constraint(equalTo: waiverView.centerXAnchor).isActive = true
         
-        waiverView.addSubview(nameLabel)
-        nameLabel.anchor(top: profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        nameLabel.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
+        waiverView.addSubview(participantNameStackView)
+        participantNameStackView.anchor(top: profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        participantNameStackView.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
         
         waiverView.addSubview(buttonsStackView)
-        buttonsStackView.anchor(top: nameLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 280, height: 45)
-        buttonsStackView.centerXAnchor.constraint(equalTo: nameLabel.centerXAnchor).isActive = true
+        buttonsStackView.anchor(top: participantNameStackView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 280, height: 45)
+        buttonsStackView.centerXAnchor.constraint(equalTo: participantNameStackView.centerXAnchor).isActive = true
         
         waiverView.addSubview(dismissButton)
         dismissButton.anchor(top: waiverView.topAnchor, left: waiverView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

@@ -14,12 +14,14 @@ class EditReservationCell: JamwestCell {
         
         didSet {
             
-            guard let name = reservation?.firstName,
+            guard let firstName = reservation?.firstName,
+                let lastName = reservation?.lastName,
                 let hotel = reservation?.hotel,
                 let date = reservation?.date,
                 let time = reservation?.time else { return }
             
-            headerLabel.text = name
+            firstNameLabel.text = firstName
+            lastNameLabel.text = lastName
             detailLabel.text = hotel
             dateLabel.text = "\(date) @ \(time)"
             

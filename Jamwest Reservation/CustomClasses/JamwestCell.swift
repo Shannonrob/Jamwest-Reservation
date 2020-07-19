@@ -16,7 +16,8 @@ class JamwestCell: UITableViewCell {
 
         configureCell()
         
-        headerLabel.text = "Header"
+        firstNameLabel.text = "First Name"
+        lastNameLabel.text = "Last Name"
         detailLabel.text = "Detail"
         backgroundColor = .clear
         selectionStyle = .none
@@ -42,7 +43,15 @@ class JamwestCell: UITableViewCell {
     
 //    MARK: - Labels
     
-    let headerLabel: UILabel = {
+    let firstNameLabel: UILabel = {
+        
+        let label = UILabel()
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
+    let lastNameLabel: UILabel = {
         
         let label = UILabel()
         label.textColor = .black
@@ -69,7 +78,10 @@ class JamwestCell: UITableViewCell {
     
     func configureCell() {
         
-        let labelStackView = UIStackView(arrangedSubviews: [headerLabel, detailLabel])
+        let groupNameStackView = UIStackView(arrangedSubviews: [firstNameLabel, lastNameLabel])
+        groupNameStackView.configureStackView(alignment: .fill, distribution: .equalSpacing, spacing: 8)
+        
+        let labelStackView = UIStackView(arrangedSubviews: [groupNameStackView, detailLabel])
         labelStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 0)
         labelStackView.axis = .vertical
         

@@ -166,7 +166,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
         
         pendingWaivers.sort { (waiver1, waiver2) -> Bool in
-            return waiver1.name < waiver2.name
+            return waiver1.firstName < waiver2.firstName
         }
         verificationView.tableView.reloadData()
     }
@@ -175,7 +175,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         approvedWaivers.append(waiver)
         
         approvedWaivers.sort { (waiver1, waiver2) -> Bool in
-            return waiver1.name < waiver2.name
+            return waiver1.firstName < waiver2.firstName
         }
         verificationView.tableView.reloadData()
     }
@@ -278,7 +278,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         
         guard let creationDate = Date.CurrentDate(),
             let waiverId = cell.waiver?.waiverID,
-            let name = cell.waiver?.name else { return }
+            let firstName = cell.waiver?.firstName,
+            let lastName = cell.waiver?.lastName else { return }
         
         guard let image = cell.waiver?.imageURL else {
             Alert.showRequiredMessage(on: self, with: ErrorMessage.photoRequired)
@@ -286,7 +287,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
         
         var values = [String:Any]()
-        values[Constant.name] = name
+        values[Constant.firstName] = firstName
+        values[Constant.lastName] = lastName
         values[Constant.imageURL] = image
         values[Constant.creationDate] = creationDate
         
@@ -409,12 +411,12 @@ extension VerificationVC: UISearchBarDelegate {
             if isShowingPendingWaivers {
                 
                 filteredPendingWaivers = pendingWaivers.filter({ (reservation) -> Bool in
-                    return reservation.name.localizedCaseInsensitiveContains(searchText)
+                    return reservation.firstName.localizedCaseInsensitiveContains(searchText)
                 })
             } else {
                 
                 filteredApprovedWaivers = approvedWaivers.filter({ (reservation) -> Bool in
-                    return reservation.name.localizedCaseInsensitiveContains(searchText)
+                    return reservation.firstName.localizedCaseInsensitiveContains(searchText)
                 })
             }
             self.verificationView.tableView.reloadData()

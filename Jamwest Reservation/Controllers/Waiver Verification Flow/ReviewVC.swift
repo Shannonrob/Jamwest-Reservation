@@ -55,7 +55,8 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         
         var tours = String()
         
-        guard let name = waivers?.name,
+        guard let firstName = waivers?.firstName,
+            let lastName = waivers?.lastName,
             let pregnantAnswer = waivers?.pregnantAnswer,
             let minorAnswer = waivers?.minorAnswer,
             let influenceAnswer = waivers?.underInfluenceAnswer,
@@ -83,7 +84,8 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         let newBackAnswer = updateAnswerValue(with: backAnswer)
         
         // update imageView and labels with data
-        waiverReviewView.nameLabel.text = name
+        waiverReviewView.firstNameLabel.text = firstName
+        waiverReviewView.lastNameLabel.text = lastName
         waiverReviewView.toursLabel.text = tours
         waiverReviewView.pregnantLabel.attributedText = UILabel.configureAttributes(with: "Pregnant: ", append: "\(newPregnantAnswer)")
         waiverReviewView.minorAnswerLabel.attributedText = UILabel.configureAttributes(with: "Minor: ", append: "\(newMinorAnswer)")
@@ -166,7 +168,8 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
     func approveWaiver() {
         guard let creationDate = Date.CurrentDate(),
-            let name = waivers?.name,
+            let firstName = waivers?.firstName,
+            let lastName = waivers?.lastName,
             let waiverID = waivers?.waiverID else {
                 Alert.showAlert(on: self, with: ErrorMessage.minorError)
                 return
@@ -179,7 +182,8 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         
         // append values
         var values = [String:Any]()
-        values[Constant.name] = name
+        values[Constant.firstName] = firstName
+        values[Constant.lastName] = lastName
         values[Constant.imageURL] = image
         values[Constant.creationDate] = creationDate
         

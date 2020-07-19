@@ -14,13 +14,15 @@ class ReservationCell: UICollectionViewCell {
         
         didSet {
             
-            guard let name = reservation?.firstName else { return }
-            guard let hotel = reservation?.hotel else { return }
-            guard let time = reservation?.time else { return }
-            guard let package = reservation?.package else { return }
-            guard let pendingWaivers = reservation?.pax else { return }
+            guard let firstName = reservation?.firstName,
+                let lastName = reservation?.lastName,
+                let hotel = reservation?.hotel,
+                let time = reservation?.time,
+                let package = reservation?.package,
+                let pendingWaivers = reservation?.pax else { return }
             
-            firstNameLabel.text = name
+            firstNameLabel.text = firstName
+            lastNameLabel.text = lastName
             hotelNameLabel.text = hotel
             reservationTimeLabel.text = time
             packageNameLabel.text = package
@@ -61,6 +63,15 @@ class ReservationCell: UICollectionViewCell {
         
         let label = UILabel()
         label.text = "First Name"
+        label.textColor = Color.Primary.orange
+        label.font = UIFont(name: Font.avenirNextDemibold, size: 24)
+        return label
+    }()
+    
+    let lastNameLabel: UILabel = {
+        
+        let label = UILabel()
+        label.text = "Last Name"
         label.textColor = Color.Primary.orange
         label.font = UIFont(name: Font.avenirNextDemibold, size: 24)
         return label
@@ -119,10 +130,14 @@ class ReservationCell: UICollectionViewCell {
     
     func configureCell() {
         
+        //name stackViews
+        let groupNameStackView = UIStackView(arrangedSubviews: [firstNameLabel, lastNameLabel])
+        groupNameStackView.configureStackView(alignment: .fill, distribution: .equalSpacing, spacing: 8)
+        
         // left stackViews
-        let groupStackView = UIStackView(arrangedSubviews: [firstNameLabel, hotelNameLabel])
-        groupStackView.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: nil)
-        groupStackView.axis = .vertical
+        let headerStackView = UIStackView(arrangedSubviews: [groupNameStackView, hotelNameLabel])
+        headerStackView.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: nil)
+        headerStackView.axis = .vertical
         
         let timeStackView = UIStackView(arrangedSubviews: [timeLabel, reservationTimeLabel])
         timeStackView.configureStackView(alignment: .center, distribution: .fillEqually, spacing: nil)
@@ -138,12 +153,12 @@ class ReservationCell: UICollectionViewCell {
         waiverStackView.axis = .vertical
         
         //stackView anchors
-        addSubview(groupStackView)
-        groupStackView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        groupStackView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        addSubview(headerStackView)
+        headerStackView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        headerStackView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         addSubview(timeStackView)
-        timeStackView.anchor(top: groupStackView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: (frame.width / 2) - 20, height: 50)
+        timeStackView.anchor(top: headerStackView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 15, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: (frame.width / 2) - 20, height: 50)
         
         addSubview(waiverStackView)
         waiverStackView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 20, paddingRight: 0, width: 0, height: 50)

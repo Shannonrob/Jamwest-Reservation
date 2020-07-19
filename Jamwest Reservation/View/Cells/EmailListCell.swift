@@ -14,10 +14,12 @@ class EmailListCell: JamwestCell {
         
         didSet {
             
-            guard let name = emailList?.name,
+            guard let firstName = emailList?.firstName,
+                let lastName = emailList?.lastName,
                 let email = emailList?.emailAddress else { return }
             
-            headerLabel.text = name
+            firstNameLabel.text = firstName
+            lastNameLabel.text = lastName
             detailLabel.text = email
         }
     }

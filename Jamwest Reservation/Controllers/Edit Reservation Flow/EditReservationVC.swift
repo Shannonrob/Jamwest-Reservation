@@ -269,7 +269,7 @@ class EditReservationVC: UITableViewController {
         self.emailsList.append(email)
         
         self.emailsList.sort { (email1, email2) -> Bool in
-            return email1.name < email2.name
+            return email1.firstName < email2.firstName
         }
         self.tableView.reloadData()
     }
@@ -325,11 +325,13 @@ class EditReservationVC: UITableViewController {
         
         if cell.cellView.backgroundColor == color {
             cell.cellView.backgroundColor = .white
-            cell.headerLabel.textColor = .black
+            cell.firstNameLabel.textColor = .black
+            cell.lastNameLabel.textColor = .black
             cell.detailLabel.textColor = .lightGray
         } else {
             cell.cellView.backgroundColor = color
-            cell.headerLabel.textColor = .white
+            cell.firstNameLabel.textColor = .white
+            cell.lastNameLabel.textColor = .white
             cell.detailLabel.textColor = .white
         }
     }

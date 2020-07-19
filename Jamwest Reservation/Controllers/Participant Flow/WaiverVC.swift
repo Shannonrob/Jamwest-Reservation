@@ -137,7 +137,8 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             configureGuardianLabel(with: data.guardianName, of: "\(data.firstName) \(data.lastName)", if: data.ageAnswer)
             
             // append participant information to dictionary
-            participantWaiver[Constant.name] = "\(data.firstName) \(data.lastName)"
+            participantWaiver[Constant.firstName] = data.firstName
+            participantWaiver[Constant.lastName] = data.lastName
             participantWaiver[Constant.pregnantAnswer] = data.pregnantAnswer
             participantWaiver[Constant.minorAnswer] = data.ageAnswer
             participantWaiver[Constant.underInfluenceAnswer] = data.underInfluenceAnswer
@@ -211,11 +212,14 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     func uploadEmailList(with waiverID: String) {
         // check if values exist and upload email to list
         guard let emailAddress = participantWaiver[Constant.emailAddress] as? String else { return }
-        guard let name = participantWaiver[Constant.name] else { return}
+        guard let firstName = participantWaiver[Constant.firstName],
+            let lastName = participantWaiver[Constant.lastName] else { return}
         
         // check for value and upload to database
         if emailAddress != "" {
-            let values = [Constant.emailAddress : emailAddress, Constant.name: name ]
+            let values = [Constant.emailAddress : emailAddress,
+                          Constant.firstName: firstName,
+                          Constant.lastName: lastName]
             PARTICIPANT_EMAIL_REF.child(waiverID).updateChildValues(values)
         }
     }
