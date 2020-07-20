@@ -14,7 +14,6 @@ class WaiverVerificationCell: UITableViewCell {
 
     var verificationCellDelegate: WaiverVerificationCellDelegate?
     
-    
     var waiver: WaiverVerification? {
         
         didSet {

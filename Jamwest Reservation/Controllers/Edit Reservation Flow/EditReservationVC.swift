@@ -15,13 +15,16 @@ private let emailReuseIdentifier = "EmailListCell"
 class EditReservationVC: UITableViewController {
     
     //    MARK: - Properties
+    var showInformation: ShowInformation!
     var editReservations = [EditReservation]()
     var filteredReservations = [EditReservation]()
     var emailsList = [EmailList]()
-    var showInformation: ShowInformation!
     var shareEmails = [EmailList]()
+    
     var inSearchMode = false
     var isShowingReservations = true
+    
+    var heightForRow: CGFloat!
     let searchBar = JWSearchBar.init(placeHolder: "Search Group")
     
     
@@ -52,16 +55,18 @@ class EditReservationVC: UITableViewController {
         if showInformation == .EmailList {
             navigationItem.title = "Email List"
             configureEmailListBarButtons()
+            heightForRow = 60
         } else {
             navigationItem.title = "Edit Reservation"
             showSearchBarButton(shouldShow: true)
+            heightForRow = 150
         }
     }
     
     //     MARK: - TableView flow layout
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return heightForRow
     }
     
     // MARK: - Table view data source
@@ -321,8 +326,8 @@ class EditReservationVC: UITableViewController {
     }
     
     // highlight selected cell with custom color
-    func configureSelectedCell(for cell: JamwestCell, with color: UIColor) {
-        
+    func configureSelectedCell(for cell: EmailListCell, with color: UIColor) {
+
         if cell.cellView.backgroundColor == color {
             cell.cellView.backgroundColor = .white
             cell.firstNameLabel.textColor = .black

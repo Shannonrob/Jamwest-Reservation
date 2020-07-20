@@ -17,6 +17,7 @@
 		8530299924AA56C0003B52A0 /* JWSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8530299824AA56C0003B52A0 /* JWSearchBar.swift */; };
 		8536A89524C0C29B00948B32 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8536A89424C0C29B00948B32 /* NetworkManager.swift */; };
 		8536A89924C117DE00948B32 /* JWError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8536A89824C117DE00948B32 /* JWError.swift */; };
+		853C62B624C5EC6F007BD875 /* JWTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853C62B524C5EC6F007BD875 /* JWTableViewCell.swift */; };
 		854B8E6B246CA212007D85B6 /* VerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B8E6A246CA212007D85B6 /* VerificationVC.swift */; };
 		854B8E6D246CA374007D85B6 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B8E6C246CA374007D85B6 /* VerificationView.swift */; };
 		85558CA32462EE9F00D970E8 /* WaiverVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85558CA22462EE9F00D970E8 /* WaiverVerification.swift */; };
@@ -90,6 +91,7 @@
 		8530299824AA56C0003B52A0 /* JWSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWSearchBar.swift; sourceTree = "<group>"; };
 		8536A89424C0C29B00948B32 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		8536A89824C117DE00948B32 /* JWError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWError.swift; sourceTree = "<group>"; };
+		853C62B524C5EC6F007BD875 /* JWTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTableViewCell.swift; sourceTree = "<group>"; };
 		854B8E6A246CA212007D85B6 /* VerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationVC.swift; sourceTree = "<group>"; };
 		854B8E6C246CA374007D85B6 /* VerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
 		85558CA22462EE9F00D970E8 /* WaiverVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaiverVerification.swift; sourceTree = "<group>"; };
@@ -378,6 +380,7 @@
 				85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */,
 				8530299824AA56C0003B52A0 /* JWSearchBar.swift */,
 				85B70F8C2479AE8200580174 /* JamwestCell.swift */,
+				853C62B524C5EC6F007BD875 /* JWTableViewCell.swift */,
 				855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */,
 				8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */,
 				85558CA6246335D400D970E8 /* CustomImageView.swift */,
@@ -512,6 +515,7 @@
 				855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */,
 				855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */,
 				85948E0E2474437800C2E307 /* EditReservationCell.swift in Sources */,
+				853C62B624C5EC6F007BD875 /* JWTableViewCell.swift in Sources */,
 				855D9442240E94B500F50CB2 /* Alert.swift in Sources */,
 				8526322024634E9F00DAEA65 /* ReviewView.swift in Sources */,
 				8524B43D2460A65700CD10DE /* WaiverVerificationCell.swift in Sources */,

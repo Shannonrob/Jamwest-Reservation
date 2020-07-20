@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EmailListCell: JamwestCell {
+class EmailListCell: JWTableViewCell {
     
     var emailList : EmailList? {
         

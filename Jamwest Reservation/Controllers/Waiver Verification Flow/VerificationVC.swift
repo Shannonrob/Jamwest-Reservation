@@ -149,7 +149,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             isShowingPendingWaivers = true
             
         case .ApprovedWaivers:
-            heightForRow = 70
+            heightForRow = 60
             switchIdentifier(with: false)
             isShowingPendingWaivers = false
         }
