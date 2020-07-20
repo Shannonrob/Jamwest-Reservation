@@ -16,7 +16,7 @@ class NetworkManager {
 //    MARK: - EditReservationVC
     
     func fetchEmailList(completed: @escaping (Result<EmailList, JWError>) -> Void) {
-        PARTICIPANT_EMAIL_REF.observeSingleEvent(of: .value) { (snapshot, error) in
+        PARTICIPANT_EMAIL_REF.observe(.value) { (snapshot, error) in
             
             if let _ = error {
                 completed(.failure(.unableToComplete))
@@ -51,6 +51,18 @@ class NetworkManager {
                     let reservation = EditReservation(reservationId: reservationID, dictionary: dictionary)
                     completed(.success(reservation))
                 }
+            }
+        }
+    }
+    
+    func checkDataBaseEmptyState(completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
+        PARTICIPANT_EMAIL_REF.observeSingleEvent(of: .value) { (snapShot, error) in
+            
+            if let _ = error {
+                completed(.failure(.malfunction))
+                return
+            } else {
+                completed(.success(snapShot))
             }
         }
     }
@@ -138,9 +150,9 @@ class NetworkManager {
     
     //    MARK: - VerifictionVC Network Calls
     
-    func observeWaiverDeletion(for reference: DatabaseReference, completed: @escaping(Result<WaiverVerification?, JWError>) -> Void) {
+    func observeWaiverDeletion(for reference: DatabaseReference, completed: @escaping(Result<DataSnapshot?, JWError>) -> Void) {
         reference.observe(.childRemoved) { (snapshot) in
-            completed(.success(nil))
+            completed(.success(snapshot))
         }
     }
     

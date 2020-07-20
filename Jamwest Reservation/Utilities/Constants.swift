@@ -79,7 +79,7 @@ enum Label {
     static let comboDeal = "Combo Deal"
     static let superDeal = "Super Deal"
     static let DeluxePackage = "Deluxe Package"
-    
+    static let noSubscribers = "No Subscribers"
 }
 
 enum ErrorMessage {

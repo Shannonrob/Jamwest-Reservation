@@ -24,6 +24,7 @@ class EditReservationVC: UITableViewController {
     var inSearchMode = false
     var isShowingReservations = true
     
+    var emptyStateMessage : String!
     var heightForRow: CGFloat!
     let searchBar = JWSearchBar.init(placeHolder: "Search Group")
     
@@ -46,6 +47,7 @@ class EditReservationVC: UITableViewController {
         
         // fetch data based on enum case
         showInformation == .EditReservation ? fetchReservation() : fetchEmailList()
+        checkEmptyState()
         showInformation == .EditReservation ? observeChildRemoved(RESERVATION_REF) : observeChildRemoved(PARTICIPANT_EMAIL_REF)
     }
     
@@ -59,7 +61,7 @@ class EditReservationVC: UITableViewController {
         } else {
             navigationItem.title = "Edit Reservation"
             showSearchBarButton(shouldShow: true)
-            heightForRow = 150
+            heightForRow = 70
         }
     }
     
@@ -255,6 +257,7 @@ class EditReservationVC: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleDismiss))
     }
     
+    
     func handleFetchResults(for reservation: EditReservation) {
         let reservationID = reservation.reservationId
         
@@ -270,14 +273,34 @@ class EditReservationVC: UITableViewController {
         tableView.reloadData()
     }
     
+    
     func handleFetchEmailResult(for email: EmailList) {
-        self.emailsList.append(email)
+        let waiverID = email.waiverID
+        
+        if let existingEmail = self.emailsList.firstIndex(where: { $0.waiverID == waiverID }) {
+            self.emailsList[existingEmail] = email
+        } else {
+            self.emailsList.append(email)
+        }
         
         self.emailsList.sort { (email1, email2) -> Bool in
-            return email1.firstName < email2.firstName
+            return email1.lastName < email2.lastName
         }
         self.tableView.reloadData()
     }
+    
+    
+    func handleEmptyStateResult() {
+        emptyStateMessage = Label.noSubscribers
+        dismissLoadingView()
+        
+        DispatchQueue.main.async {
+            self.showEmptyStateView(with: self.emptyStateMessage, in: self.view)
+            self.tableView.refreshControl?.endRefreshing()
+            return
+        }
+    }
+    
     
     func handleChildRemovedObserver() {
         switch self.showInformation {
@@ -399,8 +422,7 @@ class EditReservationVC: UITableViewController {
         NetworkManager.shared.fetchEmailList { [weak self] result in
             
             guard let self = self else { return }
-            self.dismissLoadingView()
-            self.tableView.refreshControl?.endRefreshing()
+            self.checkEmptyState()
             
             switch result {
             case .success(let email):
@@ -416,12 +438,37 @@ class EditReservationVC: UITableViewController {
     func observeChildRemoved(_ reference: DatabaseReference) {
         NetworkManager.shared.observeWaiverDeletion(for: reference) { [weak self] result in
             guard let self = self else { return }
-            
+
             switch result {
             case .success(_):
                 self.handleChildRemovedObserver()
+                self.checkEmptyState()
             case .failure(_):
                 break
+            }
+        }
+    }
+    
+    #warning("refactor for both email and editReservation")
+    func checkEmptyState() {
+        
+        NetworkManager.shared.checkDataBaseEmptyState { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let snapshot):
+                
+                if !snapshot.exists() {
+                    self.handleEmptyStateResult()
+                    return
+                } else {
+                    self.dismissEmptyStateView()
+                    self.dismissLoadingView()
+                    self.tableView.refreshControl?.endRefreshing()
+                }
+                
+            case .failure(let error):
+                DispatchQueue.global(qos: .background).async { Alert.showAlert(on: self, with: error.rawValue) }
             }
         }
     }
