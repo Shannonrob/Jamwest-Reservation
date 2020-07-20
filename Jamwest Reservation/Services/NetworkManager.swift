@@ -55,8 +55,8 @@ class NetworkManager {
         }
     }
     
-    func checkDataBaseEmptyState(completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
-        PARTICIPANT_EMAIL_REF.observeSingleEvent(of: .value) { (snapShot, error) in
+    func checkDataBaseEmptyState(for reference: DatabaseReference,completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
+        reference.observeSingleEvent(of: .value) { (snapShot, error) in
             
             if let _ = error {
                 completed(.failure(.malfunction))

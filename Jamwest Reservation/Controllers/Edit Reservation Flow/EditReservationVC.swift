@@ -46,9 +46,10 @@ class EditReservationVC: UITableViewController {
         configureRefreshControl()
         
         // fetch data based on enum case
+        showLoadingView()
         showInformation == .EditReservation ? fetchReservation() : fetchEmailList()
-        checkEmptyState()
         showInformation == .EditReservation ? observeChildRemoved(RESERVATION_REF) : observeChildRemoved(PARTICIPANT_EMAIL_REF)
+        showInformation == .EditReservation ? checkEmptyState(RESERVATION_REF) : checkEmptyState(PARTICIPANT_EMAIL_REF)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -303,8 +304,8 @@ class EditReservationVC: UITableViewController {
     
     
     func handleChildRemovedObserver() {
+       
         switch self.showInformation {
-            
         case .EditReservation:
             self.editReservations.removeAll(keepingCapacity: false)
             self.fetchReservation()
@@ -400,7 +401,6 @@ class EditReservationVC: UITableViewController {
     //    MARK: - API
     
     func fetchReservation() {
-        showLoadingView()
         NetworkManager.shared.fetchReservation { [weak self] result in
             
             guard let self = self else { return }
@@ -412,24 +412,23 @@ class EditReservationVC: UITableViewController {
                 self.handleFetchResults(for: reservation)
                 
             case .failure(let error):
-                Alert.showAlert(on: self, with: error.rawValue)
+                DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
             }
         }
     }
     
     func fetchEmailList() {
-        showLoadingView()
         NetworkManager.shared.fetchEmailList { [weak self] result in
             
             guard let self = self else { return }
-            self.checkEmptyState()
+            self.checkEmptyState(PARTICIPANT_EMAIL_REF)
             
             switch result {
             case .success(let email):
                 self.handleFetchEmailResult(for: email)
                 
             case .failure(let error):
-                Alert.showAlert(on: self, with: error.rawValue)
+                DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
             }
         }
     }
@@ -441,19 +440,21 @@ class EditReservationVC: UITableViewController {
 
             switch result {
             case .success(_):
+                self.checkEmptyState(reference)
                 self.handleChildRemovedObserver()
-                self.checkEmptyState()
             case .failure(_):
                 break
             }
         }
     }
     
-    #warning("refactor for both email and editReservation")
-    func checkEmptyState() {
-        
-        NetworkManager.shared.checkDataBaseEmptyState { [weak self] result in
+    
+    func checkEmptyState(_ reference: DatabaseReference) {
+        NetworkManager.shared.checkDataBaseEmptyState(for: reference) { [weak self] result in
             guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.dismissLoadingView()
+            }
             
             switch result {
             case .success(let snapshot):
@@ -462,13 +463,12 @@ class EditReservationVC: UITableViewController {
                     self.handleEmptyStateResult()
                     return
                 } else {
-                    self.dismissEmptyStateView()
                     self.dismissLoadingView()
                     self.tableView.refreshControl?.endRefreshing()
                 }
                 
             case .failure(let error):
-                DispatchQueue.global(qos: .background).async { Alert.showAlert(on: self, with: error.rawValue) }
+                DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
             }
         }
     }
