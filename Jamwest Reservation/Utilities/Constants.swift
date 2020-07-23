@@ -80,6 +80,8 @@ enum Label {
     static let superDeal = "Super Deal"
     static let DeluxePackage = "Deluxe Package"
     static let noSubscribers = "Subscriber email list is currently empty"
+    static let noReservation = "No Reservation Available"
+    static let noPendingWaiver = "No waiver to approve at this time"
 }
 
 enum ErrorMessage {

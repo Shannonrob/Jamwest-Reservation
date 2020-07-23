@@ -18,6 +18,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     var heightForRow = 150
     var isShowingPendingWaivers = true
     var inSearchMode = false
+    var emptyStateMessage: String!
     
     // instantiate view
     var verificationView = VerificationView()
@@ -43,6 +44,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         configureUI()
         fetchPendingWaiver()
         fetchApprovedWaiver()
+        checkEmptyState(PARTICIPANT_WAIVER_REF)
         rejectedWaiver()
         configureRefreshControl()
     }
@@ -166,7 +168,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
         
         pendingWaivers.sort { (waiver1, waiver2) -> Bool in
-            return waiver1.firstName < waiver2.firstName
+            return waiver1.lastName < waiver2.lastName
         }
         verificationView.tableView.reloadData()
     }
@@ -178,6 +180,17 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             return waiver1.firstName < waiver2.firstName
         }
         verificationView.tableView.reloadData()
+    }
+    
+    func handleEmptyStateResult() {
+        dismissLoadingView()
+        emptyStateMessage = Label.noPendingWaiver
+        
+        DispatchQueue.main.async {
+            self.showEmptyStateView(with: self.emptyStateMessage, in: self.view)
+            self.verificationView.tableView.refreshControl?.endRefreshing()
+            return
+        }
     }
     
    
@@ -235,8 +248,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         NetworkManager.shared.fetchPendingWaivers { [weak self] result in
             
             guard let self = self else { return }
-            self.dismissLoadingView()
-            self.verificationView.tableView.refreshControl?.endRefreshing()
+            self.checkEmptyState(PARTICIPANT_WAIVER_REF)
             
             switch result {
             case .success(let waiver):
@@ -268,6 +280,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             switch result{
             case .success(_):
                 self.handleRefresh()
+                self.checkEmptyState(PARTICIPANT_WAIVER_REF)
             case .failure(_):
                 break
             }
@@ -308,6 +321,31 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             }
         }
     }
+    
+    func checkEmptyState(_ reference: DatabaseReference) {
+          NetworkManager.shared.checkDataBaseEmptyState(for: reference) { [weak self] result in
+              guard let self = self else { return }
+              DispatchQueue.main.async {
+                  self.dismissLoadingView()
+              }
+              
+              switch result {
+              case .success(let snapshot):
+                  
+                  if !snapshot.exists() {
+                      self.handleEmptyStateResult()
+                      return
+                  } else {
+                      self.dismissLoadingView()
+                    self.dismissEmptyStateView()
+                    self.verificationView.tableView.refreshControl?.endRefreshing()
+                  }
+                  
+              case .failure(let error):
+                  DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
+              }
+          }
+      }
 }
 
 extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
