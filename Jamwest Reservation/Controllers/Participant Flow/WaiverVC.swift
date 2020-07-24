@@ -80,11 +80,17 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             self.reservation.updateWaiverBalance(for: self.currentDate)
             presentCamera()
         } else {
-            Alert.signatureRequiredMessage(on: self, with: "Your signature is required to complete the Waiver & Release of Liability")
+            Alert.signatureRequiredMessage(on: self, with: JWError.signatureRequired.rawValue)
         }
     }
     
     //    MARK:- Helper Functions
+    
+    func popToRootVC() {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
+        Alert.showCompletionAlert(on: self, with: ErrorMessage.waiverCompletedMessage)
+    }
     
     // animate canvasContainerView to show upon agree button tapped
     func animateSignatureCanvas() {
@@ -192,35 +198,72 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
     func configureGuardianLabel(with guardian: String, of minor: String, if state: Bool) {
         state == true ? waiverViews.guardianLabel.text = "I \(guardian) is signing this waiver of liability on the behalf of \(minor)" : nil
     }
-        
+    
     func configureUI() {
         view.backgroundColor = Color.Background.fadeGray
     }
     
     //MARK: - Api
     
-    // upload waiver without image if user exits
-    func uploadWaiver() {
-        // post ID
-        let waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
+    func postWaiver(with waiverID: DatabaseReference?) {
         
-        // upload information to database
-        waiverID.updateChildValues(participantWaiver)
-        uploadEmailList(with: waiverID.key!)
+        NetworkManager.shared.postWaiver(with: participantWaiver, waiver: waiverID) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let waiverID):
+                DispatchQueue.global(qos: .background).async { self.postEmail(with: waiverID.key!) }
+                
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
+            }
+        }
     }
     
-    func uploadEmailList(with waiverID: String) {
-        // check if values exist and upload email to list
+    
+    func createCompletedWaiver(with image: UIImage) {
+        
+        DispatchQueue.main.async { self.showLoadingView()}
+        
+        guard let uploadData = image.jpegData(compressionQuality: 0.75) else { return }
+        NetworkManager.shared.postCompletedWaiver(with: uploadData) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            
+            switch result {
+            case .success(let results):
+                DispatchQueue.main.async { self.popToRootVC() }
+                
+                var url: String!
+                var waiverID: DatabaseReference!
+                
+                for download in results {
+                    waiverID = download.key
+                    url = download.value
+                }
+                
+                self.participantWaiver[Constant.imageURL] = url
+                self.postWaiver(with: waiverID)
+                
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
+            }
+        }
+    }
+    
+    
+    func postEmail(with waiverID: String) {
+        
         guard let emailAddress = participantWaiver[Constant.emailAddress] as? String else { return }
         guard let firstName = participantWaiver[Constant.firstName],
             let lastName = participantWaiver[Constant.lastName] else { return}
         
-        // check for value and upload to database
         if emailAddress != "" {
             let values = [Constant.emailAddress : emailAddress,
                           Constant.firstName: firstName,
                           Constant.lastName: lastName]
-            PARTICIPANT_EMAIL_REF.child(waiverID).updateChildValues(values)
+            
+            NetworkManager.shared.postEmail(with: waiverID, values: values)
         }
     }
 }
@@ -243,11 +286,11 @@ extension WaiverVC: UINavigationControllerDelegate, UIImagePickerControllerDeleg
         present(vc, animated: true)
     }
     
-   
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true) {
             DispatchQueue.global(qos: .background).async {
-                self.uploadWaiver()
+                self.postWaiver(with: nil)
             }
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             self.navigationController?.popToRootViewController(animated: true)
@@ -256,73 +299,16 @@ extension WaiverVC: UINavigationControllerDelegate, UIImagePickerControllerDeleg
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        picker.dismiss(animated: true)
         guard let image = info[.editedImage] as? UIImage else {
-            DispatchQueue.main.async {
-                Alert.showAlert(on: self, with: JWError.malfunction.rawValue)
-            }
+            Alert.showAlert(on: self, with: JWError.malfunction.rawValue)
             return
         }
         
         DispatchQueue.global(qos: .background).async {
-            self.uploadCompleteWaiver(image: image)
+            self.createCompletedWaiver(with: image)
         }
+        
+        picker.dismiss(animated: true)
     }
 }
 
-extension WaiverVC {
-    #warning("Refactor API calls")
-    func uploadCompleteWaiver(image: UIImage) {
-         
-         // image upload data
-        guard let uploadData = image.jpegData(compressionQuality: 0.75) else { return }
-         
-         // post ID
-         let waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
-    
-         // update storage
-         WAIVER_IMAGE_REF.child("\(waiverID)").putData(uploadData, metadata: nil) { [weak self] (metadata, error) in
-             
-             guard let self = self else { return }
-             
-             if let error = error {
-                 Alert.showErrorMessage(on: self, with: "Failed to upload image to storage with error \(error.localizedDescription)")
-                 return
-             }
-             
-             // download image url
-             WAIVER_IMAGE_REF.child("\(waiverID)").downloadURL { (url, error) in
-                 
-                 if let error = error {
-                     Alert.showErrorMessage(on: self, with: "Failed to upload image to storage with error \(error.localizedDescription)")
-                     return
-                     
-                 } else {
-                     
-                     // save url as string
-                     guard let imageUrl = url?.absoluteString else { return }
-                     
-                         self.participantWaiver[Constant.imageURL] = imageUrl
-                         
-                         // upload information to database
-                         waiverID.updateChildValues(self.participantWaiver)
-                    guard let newWaiverID = waiverID.key else {
-                        DispatchQueue.main.async {
-                            Alert.showCompletionAlert(on: self, with: "Something went wrong")
-                        }
-                        return
-                    }
-                    
-                    self.uploadEmailList(with: newWaiverID)
-                    DispatchQueue.main.async {
-                        Alert.showCompletionAlert(on: self, with: "Thanks for completing your waiver 🙂")
-                    }
-                        
-                     // pop to root view controller
-                     self.navigationController?.setNavigationBarHidden(false, animated: true)
-                     self.navigationController?.popToRootViewController(animated: true)
-                 }
-             }
-         }
-     }
-}

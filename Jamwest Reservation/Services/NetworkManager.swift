@@ -198,4 +198,62 @@ class NetworkManager {
             }
         }
     }
+    
+    
+//    MARK: - WaiverVC Network Calls
+    
+    
+    func postEmail(with waiverID: String, values: Dictionary<String, Any>) {
+        PARTICIPANT_EMAIL_REF.child(waiverID).updateChildValues(values)
+    }
+    
+    
+    func postWaiver(with values: Dictionary<String, Any>, waiver: DatabaseReference? ,completed: @escaping(Result<DatabaseReference, JWError>) -> Void) {
+       
+        var waiverID: DatabaseReference!
+        
+        if let currentID = waiver {
+            waiverID = currentID
+        } else {
+            waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
+        }
+        
+        waiverID.updateChildValues(values) { (error, ref) in
+            
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            } else {
+                completed(.success(waiverID))
+            }
+        }
+    }
+    
+    func postCompletedWaiver(with image: Data, completed: @escaping(Result<Dictionary <DatabaseReference, String>, JWError>) -> Void) {
+        
+        let waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
+        WAIVER_IMAGE_REF.child("\(waiverID)").putData(image, metadata: nil) { (metadata, error) in
+         
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+            } else {
+                
+                WAIVER_IMAGE_REF.child("\(waiverID)").downloadURL { (url, error) in
+                    
+                    if let _ = error {
+                        completed(.failure(.unableToComplete))
+                    } else {
+                        
+                        guard let url = url?.absoluteString else { completed(.failure(.unableToComplete))
+                            return
+                        }
+                        
+                        let value = [waiverID : url]
+                        completed(.success(value))
+                    }
+                }
+            }
+        }
+    }
 }
+

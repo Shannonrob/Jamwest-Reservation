@@ -88,6 +88,7 @@ enum ErrorMessage {
     static let minorError = "Something went wrong"
     static let photoRequired = "Participant photo is required!"
     static let waiverDeleteWarning = "Waiver will be deleted!"
+    static let waiverCompletedMessage = "Thanks for completing your waiver 🙂"
 }
 
 enum Font {
