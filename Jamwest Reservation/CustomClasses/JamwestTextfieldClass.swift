@@ -35,6 +35,7 @@ class JamwestTextfieldClass: UITextField {
         layer.cornerRadius = 4
         layer.masksToBounds = true
         borderStyle = .roundedRect
+        returnKeyType = .next
         layer.borderColor = Color.Border.blue
         widthAnchor.constraint(equalToConstant: 400).isActive = true
         heightAnchor.constraint(equalToConstant: 51).isActive = true
@@ -87,6 +88,7 @@ class AddReservationTextField: UITextField {
         layer.borderColor = Color.Border.blue
         layer.cornerRadius = 4
         layer.masksToBounds = true
+        returnKeyType = .next
         widthAnchor.constraint(equalToConstant: 300).isActive = true
         heightAnchor.constraint(equalToConstant: 51).isActive = true
     }

@@ -22,6 +22,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     textfield.design(placeHolder: "Email", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
     textfield.keyboardType = .emailAddress
     textfield.addClearButtonIcon()
+    textfield.returnKeyType = .next
     return textfield
    }()
     
@@ -31,6 +32,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     textfield.design(placeHolder: "Password", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
     textfield.isSecureTextEntry = true
     textfield.addClearButtonIcon()
+    textfield.returnKeyType = .go
     return textfield
     }()
     
@@ -122,8 +124,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
            
        case emailTextField:
        passwordTextField.becomeFirstResponder()
+       case passwordTextField:
+        textField.resignFirstResponder()
+        attempLogin()
        default:
-       textField.resignFirstResponder()
+       break
        }
        return false
    }

@@ -19,6 +19,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         textfield.design(placeHolder: "Email", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
         textfield.keyboardType = .emailAddress
         textfield.addClearButtonIcon()
+        textfield.returnKeyType = .next
         return textfield
     }()
     
@@ -27,6 +28,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         let textfield = UITextField()
         textfield.design(placeHolder: "Username", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
         textfield.addClearButtonIcon()
+        textfield.returnKeyType = .next
         return textfield
     }()
     
@@ -36,6 +38,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         textfield.design(placeHolder: "Password", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
         textfield.isSecureTextEntry = true
         textfield.addClearButtonIcon()
+        textfield.returnKeyType = .next
         return textfield
     }()
     
@@ -45,6 +48,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
         textfield.design(placeHolder: "Confirm Password", backgroundColor: .white, fontSize: 18, textColor: .black, borderStyle: .roundedRect, width: 0, height: 0)
         textfield.isSecureTextEntry = true
         textfield.addClearButtonIcon()
+        textfield.returnKeyType = .go
         return textfield
     }()
     
@@ -141,8 +145,11 @@ class SignUpVC: UIViewController, UITextFieldDelegate {
             passwordTextfield.becomeFirstResponder()
         case passwordTextfield:
             confirmPasswordTextfield.becomeFirstResponder()
-        default:
+        case confirmPasswordTextfield:
             textField.resignFirstResponder()
+            attempSignUp()
+        default:
+            break
         }
         return false
     }
