@@ -70,6 +70,65 @@ class NetworkManager {
     }
     
     
+    //    MARK: - HomeVC
+    
+    func fetchReservations(for date: String, completed: @escaping (Result<Reservation, JWError>) -> Void) {
+        
+        RESERVATION_REF.queryOrdered(byChild: Constant.reservationDate).queryEqual(toValue: date).observe(.value) { (snapshot, error) in
+            
+            if let _ = error {
+                completed(.failure(.unableToCompleteRequest))
+                return
+            }else {
+                
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else {
+                    completed(.failure(.malfunction))
+                    return
+                }
+                
+                allObjects.forEach { (snapshot) in
+                    
+                    let reservationID = snapshot.key
+                    guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else {
+                        completed(.failure(.malfunction))
+                        return
+                    }
+                    
+                    let reservation = Reservation(reservationId: reservationID, dictionary: dictionary)
+                    completed(.success(reservation))
+                }
+            }
+        }
+    }
+    
+    
+    func checkReservationsEmptyState(for date: String, completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
+        
+        RESERVATION_REF.queryOrdered(byChild: Constant.reservationDate).queryEqual(toValue: date).observeSingleEvent(of: .value) { (snapShot, error) in
+            
+            if let _ = error {
+                completed(.failure(.malfunction))
+                return
+            } else {
+                completed(.success(snapShot))
+            }
+        }
+    }
+    
+    
+    func observeReservationDeleted(for date: String, completed: @escaping (Result<String?, JWError>) -> Void) {
+        
+        RESERVATION_REF.queryOrdered(byChild: Constant.reservationDate).queryEqual(toValue: date).observe(.childRemoved) { (snapshot, err) in
+          
+            if let _ = err {
+                completed(.failure(.malfunction))
+            } else {
+                completed(.success(.none))
+            }
+        }
+    }
+    
+    
     //    MARK: - LogInVC
     
     func attempLogIn(withEmail email: String, password: String, completed: @escaping (Result<String?, JWError>) -> Void) {

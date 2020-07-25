@@ -40,8 +40,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         configureUI()
         observeDateChanged()
         configureRefreshControl()
-        fetchCurrentReservations()
-        checkReservationState()
+        fetchCurrentDayReservations()
         handleDeletedReservation()
      }
     
@@ -51,6 +50,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         inSearchMode = false
         showSearchBar(shouldShow: false)
         collectionView.reloadData()
+        checkEmptyState()
     }
     
     
@@ -163,9 +163,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         
         DispatchQueue.main.async {
             self.reservations.removeAll(keepingCapacity: false)
-            self.fetchCurrentReservations()
+            self.fetchCurrentDayReservations()
             self.collectionView.reloadData()
-            self.checkReservationState()
+            self.checkEmptyState()
         }
     }
     
@@ -240,75 +240,86 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         showSearchBar(shouldShow: false)
     }
     
+    
+    func handleEmptyStateResult(for snapshot: DataSnapshot) {
+        if !snapshot.exists() {
+            dismissLoadingView()
+            
+            DispatchQueue.main.async {
+                self.showEmptyStateView(with: Label.noReservation, in: self.view)
+                self.collectionView.refreshControl?.endRefreshing()
+                return
+            }
+        } else {
+            self.dismissLoadingView()
+            self.dismissEmptyStateView()
+            collectionView.refreshControl?.endRefreshing()
+        }
+    }
+    
+    
+    func handleReservationData(for reservation: Reservation) {
+        let reservationID = reservation.reservationId
+        
+        if let existingReservation = self.reservations.firstIndex(where: { $0.reservationId == reservationID }) {
+            self.reservations[existingReservation] = reservation
+        } else {
+            self.reservations.append(reservation)
+        }
+        
+        self.reservations.sort { (reservation1, reservation2) -> Bool in
+            return reservation1.lastName < reservation2.lastName
+        }
+        collectionView.reloadData()
+    }
+    
 //    MARK: - API
     
-    @objc func fetchCurrentReservations() {
+    @objc func fetchCurrentDayReservations() {
         
         showLoadingView()
         reservations = []
         formatReservationDate()
-    
-        // fetch reservation using current date
-        RESERVATION_DATE_REF.child(currentDate).observe(.childAdded) { [weak self] (snapshot) in
-            
+        
+        NetworkManager.shared.fetchReservations(for: currentDate) { [weak self] (result) in
             guard let self = self else { return }
-            self.checkReservationState()
+            self.checkEmptyState()
             self.collectionView.refreshControl?.endRefreshing()
             
-            let id = snapshot.key
+            switch result {
+            case .success(let reservation):
+                self.handleReservationData(for: reservation)
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
+            }
+        }
+    }
         
-            RESERVATION_REF.child(id).observe(.value) { (reservationSnapshot) in
-                
-                guard let dictionary = reservationSnapshot.value as? Dictionary<String, AnyObject> else { return }
-                let reservation = Reservation(reservationId: id, dictionary: dictionary)
-                
-                // filter array to prevent duplicate
-                if let existingIndex = self.reservations.firstIndex(where: { $0.reservationId == id }) {
-                    self.reservations[existingIndex] = reservation
-                } else {
-                    self.reservations.append(reservation)
-                }
-                
-                // sort results in alphabetical order
-                self.reservations.sort { (reservation1, reservation2) -> Bool in
-                    return reservation1.firstName < reservation2.firstName
-                }
-                self.collectionView.reloadData()
+    
+    func checkEmptyState() {
+        dismissEmptyStateView()
+        NetworkManager.shared.checkReservationsEmptyState(for: currentDate) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            
+            switch result {
+            case .success(let snapshot):
+                self.handleEmptyStateResult(for: snapshot)
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
             }
         }
     }
     
-    func checkReservationState() {
-        RESERVATION_DATE_REF.child(currentDate).observeSingleEvent(of: .value) { [weak self] (snapshot) in
-            guard let self = self else { return}
-            self.dismissLoadingView()
-            
-            if !snapshot.exists(){
-               self.dismissEmptyStateView()
-                if self.reservations.isEmpty {
-                    let message = "No available reservation"
-                    
-                    DispatchQueue.main.async {
-                        self.showEmptyStateView(with: message, in: self.view)
-                        self.collectionView.refreshControl?.endRefreshing()
-                        return
-                    }
-                }
-            } else{
-                self.dismissEmptyStateView()
-            }
-        }
-    }
-
-    // removes reservation from collectionView
+    
     func handleDeletedReservation() {
         
-        RESERVATION_DATE_REF.child(currentDate).observe(.childRemoved) { [weak self] (snapshot) in
+        NetworkManager.shared.observeReservationDeleted(for: currentDate) { [weak self] result in
+     
             guard let self = self else { return }
-            self.dismissLoadingView()
-            self.checkReservationState()
+            self.checkEmptyState()
             self.reservations.removeAll(keepingCapacity: false)
-            self.fetchCurrentReservations()
+            self.fetchCurrentDayReservations()
             self.collectionView.reloadData()
         }
     }
