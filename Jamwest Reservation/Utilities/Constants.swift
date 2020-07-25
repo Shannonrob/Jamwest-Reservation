@@ -89,6 +89,11 @@ enum ErrorMessage {
     static let photoRequired = "Participant photo is required!"
     static let waiverDeleteWarning = "Waiver will be deleted!"
     static let waiverCompletedMessage = "Thanks for completing your waiver 🙂"
+    static let enterEmail = "Enter a valid Email to continue"
+    static let enterUserName = "Enter a Username to continue"
+    static let enterPassword = "Enter a valid Password to continue"
+    static let confirmPassword = "Confirm Password to continue"
+    static let passwordError = "Password doesn't match \nGive it another try. "
 }
 
 enum Font {

@@ -171,31 +171,22 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 //    MARK: - API
     
     func attempLogin() {
-        
         showLoadingView()
         
         guard let email = emailTextField.text,
-        let password = passwordTextField.text else { return }
-            
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] (user, error) in
+            let password = passwordTextField.text else { return }
+        
+        NetworkManager.shared.attempLogIn(withEmail: email, password: password) { [weak self] result in
             guard let self = self else { return }
             self.dismissLoadingView()
             
-//            handle error
-        if let error = error {
-            
-            switch error.localizedDescription{
-            case "There is no user record corresponding to this identifier. The user may have been deleted.":
-                Alert.showErrorMessage(on: self, with: "Email is invalid, \nGive it another try.")
-            case "The password is invalid or the user does not have a password.":
-                Alert.showErrorMessage(on: self, with: "Password is invalid, \nGive it another try.")
-            default:
-                Alert.showErrorMessage(on: self, with: error.localizedDescription)
+            switch result {
+            case .success(_):
+                self.presenContainerVC()
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
             }
-            return
-        }
-//            handle success
-            self.presenContainerVC()
         }
     }
 }
+

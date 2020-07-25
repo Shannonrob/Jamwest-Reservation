@@ -315,7 +315,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
                 DispatchQueue.global(qos: .background).async {
                     cell.waiver?.deletePendingWaiver(id: waiverID, withImage: true)
                 }
-                
+                Alert.showAlert(on: self, with: "Approved Successfully 👍")
             case .failure(let error):
                Alert.showAlert(on: self, with: error.rawValue)
             }

@@ -20,7 +20,7 @@ struct Alert {
     }
     
     private static func showActionSheetAlert(on vc: UIViewController, with title: String, message: String) {
-        
+                
     }
     
     static func showAlert(on vc: UIViewController, with message: String) {

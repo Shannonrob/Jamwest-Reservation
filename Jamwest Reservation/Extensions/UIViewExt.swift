@@ -48,6 +48,16 @@ extension UIView {
         layer.shadowOpacity = 1.0
     }
     
+    func pinToEdges(of subview: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            topAnchor.constraint(equalTo: superview!.topAnchor),
+            leadingAnchor.constraint(equalTo: superview!.leadingAnchor),
+            trailingAnchor.constraint(equalTo: superview!.trailingAnchor),
+            bottomAnchor.constraint(equalTo: superview!.bottomAnchor)
+        ])
+    }
+    
     
     
     // do not delete

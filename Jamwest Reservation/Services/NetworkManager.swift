@@ -13,13 +13,13 @@ class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
     
-//    MARK: - EditReservationVC
+    //    MARK: - EditReservationVC
     
     func fetchEmailList(completed: @escaping (Result<EmailList, JWError>) -> Void) {
         PARTICIPANT_EMAIL_REF.observe(.value) { (snapshot, error) in
             
             if let _ = error {
-                completed(.failure(.unableToComplete))
+                completed(.failure(.unableToCompleteRequest))
                 return
             } else {
                 
@@ -35,11 +35,12 @@ class NetworkManager {
         }
     }
     
+    
     func fetchReservation(completed: @escaping (Result<EditReservation, JWError>) -> Void) {
         RESERVATION_REF.observe(.value) { (snapshot, error) in
             
             if let _ = error {
-                completed(.failure(.unableToComplete))
+                completed(.failure(.unableToCompleteRequest))
                 return
             } else {
                 
@@ -55,6 +56,7 @@ class NetworkManager {
         }
     }
     
+    
     func checkDataBaseEmptyState(for reference: DatabaseReference,completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
         reference.observeSingleEvent(of: .value) { (snapShot, error) in
             
@@ -67,7 +69,34 @@ class NetworkManager {
         }
     }
     
-    //    MARK: - ReviewVC Network Calls
+    
+    //    MARK: - LogInVC
+    
+    func attempLogIn(withEmail email: String, password: String, completed: @escaping (Result<String?, JWError>) -> Void) {
+        Auth.auth().signIn(withEmail: email , password: password) { (result, error) in
+            
+            if let error = error {
+                
+                switch error.localizedDescription {
+                case JWError.noUser.rawValue :
+                    completed(.failure(.invalidEmailMessage))
+                    
+                case JWError.invalidPassword.rawValue :
+                    completed(.failure(.invalidPasswordMessage))
+                    
+                default:
+                    completed(.failure(.unableToComplete))
+                }
+                return
+            } else {
+                completed(.success(.none))
+            }
+        }
+    }
+    
+    
+    
+    //    MARK: - ReviewVC
     
     func updateWaiver(with image: UIImage, waiverID: String, completed: @escaping (Result <String?, JWError>) -> Void) {
         guard let uploadData = image.jpegData(compressionQuality: 0.75) else { return }
@@ -75,14 +104,14 @@ class NetworkManager {
         WAIVER_IMAGE_REF.child(waiverID).putData(uploadData, metadata: nil) { [weak self] (metadata, error) in
             guard let _ = self else { return }
             
-            if let _ = error { completed(.failure(.unableToComplete))
+            if let _ = error { completed(.failure(.unableToCompleteRequest))
                 return
             }
             
             // download image url
             WAIVER_IMAGE_REF.child(waiverID).downloadURL { (url, error) in
                 
-                if let _ = error { completed(.failure(.unableToComplete))
+                if let _ = error { completed(.failure(.unableToCompleteRequest))
                     return
                 } else {
                     
@@ -96,13 +125,14 @@ class NetworkManager {
         }
     }
     
+    
     func approveWaiver(for waiverID: String, with values: Dictionary<String, Any>, completed: @escaping (Result<String ,JWError>) -> Void) {
         let approvedWaiverID = APPROVED_WAIVER_REF.child(waiverID)
         approvedWaiverID.updateChildValues(values) { [weak self] (error, ref) in
             guard let _ = self else { return }
             
             if let _ = error {
-                completed(.failure(.unableToComplete))
+                completed(.failure(.unableToCompleteRequest))
                 return
             } else {
                 completed(.success(waiverID))
@@ -110,14 +140,45 @@ class NetworkManager {
         }
     }
     
-//    MARK: - TourSelectionVC Network Calls
+    
+    //    MARK: - SignUp VC
+    
+    func createUser(withEmail email: String, username: String, password: String, completed: @escaping (Result<String?, JWError>) -> Void) {
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            
+            if let _ = error {
+                completed(.failure(.invalidEmailMessage))
+                return
+            } else {
+                
+                guard let uid = user?.user.uid else { return }
+                let dictionaryValues = ["username": username]
+                let values = [uid: dictionaryValues]
+                
+                USER_REF.updateChildValues(values) { (err, reference) in
+                    
+                    if let _ = err {
+                        completed(.failure(.malfunction))
+                        return
+                    } else {
+                        completed(.success(.none))
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    //    MARK: - TourSelectionVC
     
     func createReservation(with values: Dictionary<String, Any>, completed: @escaping (Result<String? ,JWError>) -> Void) {
         let reservation = RESERVATION_REF.childByAutoId()
         reservation.updateChildValues(values) { (err, ref) in
             
             if let _ = err {
-                completed(.failure(.unableToComplete))
+                completed(.failure(.unableToCompleteRequest))
+                return
             } else {
                 
                 guard let reservationId = reservation.key else { return }
@@ -127,7 +188,7 @@ class NetworkManager {
                 date.updateChildValues(dateValue) { (err, ref) in
                     
                     if let _ = err {
-                        completed(.failure(.unableToComplete))
+                        completed(.failure(.unableToCompleteRequest))
                     } else {
                         completed(.success(.none))
                     }
@@ -140,7 +201,8 @@ class NetworkManager {
         
         RESERVATION_REF.child(reservation).updateChildValues(values) { (error, ref) in
             if let _ = error {
-                completed(.failure(.unableToComplete))
+                completed(.failure(.unableToCompleteRequest))
+                return
             } else {
                 completed(.success(.none))
             }
@@ -148,7 +210,7 @@ class NetworkManager {
     }
     
     
-    //    MARK: - VerifictionVC Network Calls
+    //    MARK: - VerifictionVC
     
     func observeWaiverDeletion(for reference: DatabaseReference, completed: @escaping(Result<DataSnapshot?, JWError>) -> Void) {
         reference.observe(.childRemoved) { (snapshot) in
@@ -159,15 +221,15 @@ class NetworkManager {
     
     func fetchApprovedWaivers(completed: @escaping(Result<ApprovedWaiver, JWError>) -> Void) {
         APPROVED_WAIVER_REF.observeSingleEvent(of: .value) { (snapshot, error) in
-           
+            
             if let _ = error {
-                completed(.failure(.unableToComplete))
+                completed(.failure(.unableToCompleteRequest))
                 return
             } else {
                 
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
                 allObjects.forEach { (snapshot) in
-                  
+                    
                     let waiverID = snapshot.key
                     guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
                     let waiver = ApprovedWaiver(waiverID: waiverID, dictionary: dictionary)
@@ -176,13 +238,13 @@ class NetworkManager {
             }
         }
     }
- 
+    
     
     func fetchPendingWaivers(completed: @escaping(Result<WaiverVerification, JWError>) -> Void) {
         PARTICIPANT_WAIVER_REF.observe(.value) { (snapshot, error) in
             
             if let _ = error {
-                completed(.failure(.unableToComplete))
+                completed(.failure(.unableToCompleteRequest))
                 return
             } else {
                 
@@ -200,7 +262,7 @@ class NetworkManager {
     }
     
     
-//    MARK: - WaiverVC Network Calls
+    //    MARK: - WaiverVC
     
     
     func postEmail(with waiverID: String, values: Dictionary<String, Any>) {
@@ -209,7 +271,7 @@ class NetworkManager {
     
     
     func postWaiver(with values: Dictionary<String, Any>, waiver: DatabaseReference? ,completed: @escaping(Result<DatabaseReference, JWError>) -> Void) {
-       
+        
         var waiverID: DatabaseReference!
         
         if let currentID = waiver {
@@ -221,7 +283,7 @@ class NetworkManager {
         waiverID.updateChildValues(values) { (error, ref) in
             
             if let _ = error {
-                completed(.failure(.unableToComplete))
+                completed(.failure(.unableToCompleteRequest))
                 return
             } else {
                 completed(.success(waiverID))
@@ -233,18 +295,20 @@ class NetworkManager {
         
         let waiverID = PARTICIPANT_WAIVER_REF.childByAutoId()
         WAIVER_IMAGE_REF.child("\(waiverID)").putData(image, metadata: nil) { (metadata, error) in
-         
+            
             if let _ = error {
-                completed(.failure(.unableToComplete))
+                completed(.failure(.unableToCompleteRequest))
+                return
             } else {
                 
                 WAIVER_IMAGE_REF.child("\(waiverID)").downloadURL { (url, error) in
                     
                     if let _ = error {
-                        completed(.failure(.unableToComplete))
+                        completed(.failure(.unableToCompleteRequest))
+                        return
                     } else {
                         
-                        guard let url = url?.absoluteString else { completed(.failure(.unableToComplete))
+                        guard let url = url?.absoluteString else { completed(.failure(.unableToCompleteRequest))
                             return
                         }
                         
