@@ -239,19 +239,7 @@ class NetworkManager {
                 completed(.failure(.unableToCompleteRequest))
                 return
             } else {
-                
-                guard let reservationId = reservation.key else { return }
-                let dateValue = [reservationId: 1] as [String: Any]
-                
-                let date = RESERVATION_DATE_REF.child(values[Constant.reservationDate] as! String)
-                date.updateChildValues(dateValue) { (err, ref) in
-                    
-                    if let _ = err {
-                        completed(.failure(.unableToCompleteRequest))
-                    } else {
-                        completed(.success(.none))
-                    }
-                }
+                completed(.success(.none))
             }
         }
     }

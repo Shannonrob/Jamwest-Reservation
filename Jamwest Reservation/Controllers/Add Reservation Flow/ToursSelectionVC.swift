@@ -106,6 +106,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
 
         let configuration = { () -> ReservationPackage in
 
+            #warning("this is nil if user attempts to make multiply reservations")
             let index = ReservationPackage(rawValue: addReservation.convertPackageResult(from: tourPackage as! String))!
             return index
         }
@@ -283,7 +284,6 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     
     func updateReservationChanges() {
         guard let reservationId = reservation.reservationId else { return }
-        guard let newDate = reservationInfo[Constant.reservationDate] else { return }
         
         showLoadingView()
         NetworkManager.shared.updateReservation(for: reservationId, values: reservationInfo) { [weak self] result in
@@ -292,22 +292,11 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
             
             switch result {
             case .success(_):
-                
-                if let isDateChanged = self.dateChanged[Constant.isDateChanged] {
-                    let previousDate = self.dateChanged[Constant.previousDate] as! String
-                    
-                    if isDateChanged as! Bool == true {
-                        DispatchQueue.global(qos: .background).async {
-                            self.reservation.updateReservationDate(from: previousDate, to: newDate as! String)
-                        }
-                    }
-                }
-                
+                self.endReservationUpdate()
             case .failure(let error):
                 Alert.showAlert(on: self, with: error.rawValue)
             }
         }
-        endReservationUpdate()
     }
 }
 

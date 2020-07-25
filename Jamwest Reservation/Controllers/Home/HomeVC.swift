@@ -21,7 +21,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     var inSearchMode = false
     let searchBar = JWSearchBar.init(placeHolder: "Search group")
     
-    //notification key whatever
+    //notification key
     let dateChanged = Notification.Name(rawValue: Listener.dateChangedKey)
     
     // remove observers
@@ -33,8 +33,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
      
      override func viewDidLoad() {
          super.viewDidLoad()
-        
-        // register cell classes
         self.collectionView!.register(ReservationCell.self, forCellWithReuseIdentifier: reuseIdentifier)
             
         configureUI()
@@ -63,13 +61,16 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         return CGSize(width: width, height: 170)
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 14
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 14
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 23, bottom: 5, right: 23)
@@ -81,6 +82,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         return 1
     }
     
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if inSearchMode {
@@ -89,6 +91,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
             return reservations.count
         }
     }
+    
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ReservationCell
@@ -117,6 +120,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         return cell
     }
     
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         var reservation: Reservation!
@@ -144,30 +148,30 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         }
     }
     
-    // shows the searchBar
-    @objc func handleSearchBar() {
+    
+    @objc func handleShowSearchBar() {
        showSearchBar(shouldShow: true)
         searchBar.becomeFirstResponder()
         searchBar.delegate = self
     }
     
-    // whenever the search bar cancel button is tapped
-    @objc func handleCancel() {
+    
+    @objc func handleCancelTapped() {
         showSearchBar(shouldShow: false)
         inSearchMode = false
         collectionView.reloadData()
     }
     
-    // refresh based current cell
+   
     @objc func handleRefresh() {
         
         DispatchQueue.main.async {
             self.reservations.removeAll(keepingCapacity: false)
             self.fetchCurrentDayReservations()
-            self.collectionView.reloadData()
             self.checkEmptyState()
         }
     }
+    
     
     func configureRefreshControl() {
 
@@ -187,22 +191,22 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         if shouldShow {
             navigationItem.rightBarButtonItems = [
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleSearchBar))]
+                UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(handleShowSearchBar))]
         } else {
             
             navigationItem.rightBarButtonItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))]
+            UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelTapped))]
         }
     }
     
+    
     func showSearchBar(shouldShow: Bool) {
-        // shows searchbar if true
         showSearchBarButton(shouldShow: !shouldShow)
         navigationItem.titleView = shouldShow ? searchBar : nil
     }
     
-    // listener for dateDidChange notification
+    
     func observeDateChanged() {
         
         NotificationCenter.default.addObserver(self,
@@ -211,15 +215,14 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     }
 
     
-    // format reservation date
     @objc func formatReservationDate() {
         
-        // gets the current date
         let date: Date = Date()
         let reservationDateFormatter = DateFormatter()
         reservationDateFormatter.dateStyle = .medium
         currentDate = reservationDateFormatter.string(from: date)
     }
+    
 
     func configureUI() {
         
@@ -324,6 +327,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         }
     }
 }
+
 
 extension HomeVC: UISearchBarDelegate {
     
