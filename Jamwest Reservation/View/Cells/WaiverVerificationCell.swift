@@ -151,7 +151,7 @@ class WaiverVerificationCell: UITableViewCell {
         let buttonStackView = UIStackView(arrangedSubviews: [reviewButton, approveButton])
         buttonStackView.configureStackView(alignment: .fill, distribution: .fillEqually, spacing: 10)
         
-        let groupNameStackView = UIStackView(arrangedSubviews: [firstNameLabel, lastNameLabel])
+        let groupNameStackView = UIStackView(arrangedSubviews: [lastNameLabel, firstNameLabel])
         groupNameStackView.configureStackView(alignment: .fill, distribution: .equalSpacing, spacing: 8)
         
         let labelsStackView = UIStackView(arrangedSubviews: [groupNameStackView, toursLabel])

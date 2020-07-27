@@ -177,7 +177,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         approvedWaivers.append(waiver)
         
         approvedWaivers.sort { (waiver1, waiver2) -> Bool in
-            return waiver1.firstName < waiver2.firstName
+            return waiver1.lastName < waiver2.lastName
         }
         verificationView.tableView.reloadData()
     }

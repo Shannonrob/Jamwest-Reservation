@@ -59,10 +59,12 @@ class EditReservationVC: UITableViewController {
             navigationItem.title = "Email List"
             configureEmailListBarButtons()
             heightForRow = 60
+            emptyStateMessage = Label.noSubscribers
         } else {
             navigationItem.title = "Edit Reservation"
             showSearchBarButton(shouldShow: true)
             heightForRow = 70
+            emptyStateMessage = Label.noReservation
         }
     }
     
@@ -147,6 +149,22 @@ class EditReservationVC: UITableViewController {
         presentAddReservationVC(index: 1, with: reservation)
         handleCancelSearch()
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        
+        let reservation = editReservations[indexPath.row].reservationId
+        guard let reservationID = reservation else { return }
+        
+        editReservations.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .left)
+        
+        deleteReservation(with: reservationID)
+    }
+    
+    
+    
+    
     
     //    MARK: - Handlers
     
@@ -269,7 +287,7 @@ class EditReservationVC: UITableViewController {
         }
         
         self.editReservations.sort { (reservation1, reservation2) -> Bool in
-            return reservation1.firstName < reservation2.firstName
+            return reservation1.lastName < reservation2.lastName
         }
         tableView.reloadData()
     }
@@ -292,7 +310,6 @@ class EditReservationVC: UITableViewController {
     
     
     func handleEmptyStateResult() {
-        emptyStateMessage = Label.noSubscribers
         dismissLoadingView()
         
         DispatchQueue.main.async {
@@ -434,6 +451,22 @@ class EditReservationVC: UITableViewController {
     }
     
     
+    func deleteReservation(with id: String) {
+        
+        NetworkManager.shared.removeReservation(for: id) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+                
+            case .success(_):
+                break
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
+            }
+        }
+    }
+    
+    
     func observeChildRemoved(_ reference: DatabaseReference) {
         NetworkManager.shared.observeWaiverDeletion(for: reference) { [weak self] result in
             guard let self = self else { return }
@@ -464,6 +497,7 @@ class EditReservationVC: UITableViewController {
                     return
                 } else {
                     self.dismissLoadingView()
+                    self.dismissEmptyStateView()
                     self.tableView.refreshControl?.endRefreshing()
                 }
                 

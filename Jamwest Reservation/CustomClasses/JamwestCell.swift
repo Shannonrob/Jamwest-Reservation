@@ -78,7 +78,7 @@ class JamwestCell: UITableViewCell {
     
     func configureCell() {
         
-        let groupNameStackView = UIStackView(arrangedSubviews: [firstNameLabel, lastNameLabel])
+        let groupNameStackView = UIStackView(arrangedSubviews: [lastNameLabel, firstNameLabel])
         groupNameStackView.configureStackView(alignment: .fill, distribution: .equalSpacing, spacing: 5)
         
         let labelStackView = UIStackView(arrangedSubviews: [groupNameStackView, detailLabel])

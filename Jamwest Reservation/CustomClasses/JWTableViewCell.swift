@@ -68,7 +68,7 @@ class JWTableViewCell: UITableViewCell {
     
     func configureCell() {
         
-        let groupNameStackView = UIStackView(arrangedSubviews: [firstNameLabel, lastNameLabel])
+        let groupNameStackView = UIStackView(arrangedSubviews: [lastNameLabel, firstNameLabel])
         groupNameStackView.configureStackView(alignment: .fill, distribution: .equalSpacing, spacing: 5)
         
         addSubview(cellView)

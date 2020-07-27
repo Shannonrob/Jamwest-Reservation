@@ -57,6 +57,18 @@ class NetworkManager {
     }
     
     
+    func removeReservation(for id: String, completed: @escaping (Result<String?, JWError>) -> Void) {
+        RESERVATION_REF.child(id).removeValue { (error, ref) in
+            
+            if let _ = error {
+                completed(.failure(.malfunction))
+            } else {
+                completed(.success(.none))
+            }
+        }
+    }
+    
+    
     func checkDataBaseEmptyState(for reference: DatabaseReference,completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
         reference.observeSingleEvent(of: .value) { (snapShot, error) in
             

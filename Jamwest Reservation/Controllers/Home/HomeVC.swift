@@ -318,7 +318,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     func handleDeletedReservation() {
         
         NetworkManager.shared.observeReservationDeleted(for: currentDate) { [weak self] result in
-     
+
             guard let self = self else { return }
             self.checkEmptyState()
             self.reservations.removeAll(keepingCapacity: false)
