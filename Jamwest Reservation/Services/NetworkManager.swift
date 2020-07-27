@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 class NetworkManager {
+    
     static let shared = NetworkManager()
     private init() {}
     
@@ -57,9 +58,17 @@ class NetworkManager {
     }
     
     
-    func removeReservation(for id: String, completed: @escaping (Result<String?, JWError>) -> Void) {
-        RESERVATION_REF.child(id).removeValue { (error, ref) in
-            
+    func removeReservation(for id: String, caseType: ShowInformation, completed: @escaping (Result<String?, JWError>) -> Void) {
+        let reference: DatabaseReference!
+        
+        switch caseType {
+        case .EditReservation:
+            reference = RESERVATION_REF
+        case .EmailList:
+            reference = PARTICIPANT_EMAIL_REF
+        }
+        
+        reference.child(id).removeValue { (error, ref) in
             if let _ = error {
                 completed(.failure(.malfunction))
             } else {
@@ -166,7 +175,6 @@ class NetworkManager {
     }
     
     
-    
     //    MARK: - ReviewVC
     
     func updateWaiver(with image: UIImage, waiverID: String, completed: @escaping (Result <String?, JWError>) -> Void) {
@@ -255,6 +263,7 @@ class NetworkManager {
             }
         }
     }
+    
     
     func updateReservation(for reservation: String, values: Dictionary<String, Any>, completed: @escaping (Result<String? ,JWError>) -> Void) {
         
