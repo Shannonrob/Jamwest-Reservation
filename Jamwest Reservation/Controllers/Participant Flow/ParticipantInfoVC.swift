@@ -132,11 +132,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     @objc func handleNextButton() {
         
         updateQuestionsAnsweredValue()
-        
-        // check if textFields are empty
-        firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
-        lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
-        
+        checkFirstAndLastNameTextField()
         
         // check if values are true
         updateRequiredTextFieldValue(with: firstNameTextFieldFilled, with: lastNameTextFieldFilled)
@@ -298,6 +294,14 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         }
     }
     
+    
+    func checkFirstAndLastNameTextField() {
+        
+        firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
+        lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
+    }
+    
+    
     // update the boolean value if all labels are hidden
     func updateRequiredTextFieldValue(with first: Bool, with second: Bool) {
         
@@ -311,12 +315,12 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
     // collects participant information
     func passData() {
         
-        guard let firstName = participantInfoView.firstNameTextfield.text,
-            let lastName = participantInfoView.lastNameTextfield.text,
+        guard let firstName = participantInfoView.firstNameTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let lastName = participantInfoView.lastNameTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let date = participantInfoView.dateTextfield.text,
             let guardianName = participantInfoView.guardianTextField.text,
             let phoneNumber = participantInfoView.phoneNumberTextfield.text,
-            let email = participantInfoView.emailTextfield.text,
+            let email = participantInfoView.emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let country = participantInfoView.countryTextfield.text else { return }
         
         self.participantInformation = [ParticipantInformation(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, guardianName: guardianName, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)]
@@ -472,9 +476,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
         if isUnderAge {
             _ = textFieldValidation(with: participantInfoView.guardianTextField, label: participantInfoView.guardianRequiredLabel)
         }
-        
-        firstNameTextFieldFilled = textFieldValidation(with: participantInfoView.firstNameTextfield, label: participantInfoView.firstNameRequiredLabel)
-        lastNameTextFieldFilled = textFieldValidation(with: participantInfoView.lastNameTextfield, label: participantInfoView.lastNameRequiredLabel)
+        checkFirstAndLastNameTextField()
     }
         
     func configureUI() {

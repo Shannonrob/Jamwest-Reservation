@@ -346,10 +346,13 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     // check if all textfield has contents before
     func formValidation() {
         
+        guard let firstName = addReservationView.firstNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let lastName = addReservationView.lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        
         guard addReservationView.hotelNameTextField.hasText,
             addReservationView.reservationDateTextfield.hasText,
-            addReservationView.firstNameTextField.hasText,
-            addReservationView.lastNameTextField.hasText,
+            !firstName.isEmpty,
+            !lastName.isEmpty,
             addReservationView.vourcherTextfield.hasText,
             addReservationView.tourRepTextfield.hasText,
             addReservationView.tourCompanyTextfield.hasText else {
