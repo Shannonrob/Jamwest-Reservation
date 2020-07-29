@@ -13,13 +13,13 @@ class AddReservationView: UIView {
     //    MARK: - Properties
     var delegate: AddReservationDelegate?
     
-    let hotelNameTextField = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeHotel"), placeholder: PlaceHolder.hotel)
-    let tourRepTextfield = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeRepresentative"), placeholder: PlaceHolder.representative)
-    let firstNameTextField = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeName"), placeholder: PlaceHolder.firstName)
-    let lastNameTextField = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeName"), placeholder: PlaceHolder.lastName)
-    let tourCompanyTextfield = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeBus"), placeholder: PlaceHolder.tourCompany)
-    let vourcherTextfield = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeNumber"), placeholder: PlaceHolder.voucher)
-    let reservationDateTextfield = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeDate"), placeholder: PlaceHolder.date)
+    let hotelNameTextField = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeHotel"), placeholder: PlaceHolder.hotel, width: 300)
+    let firstNameTextField = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeName"), placeholder: PlaceHolder.firstName, width: 300)
+    let lastNameTextField = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeName"), placeholder: PlaceHolder.lastName, width: 300)
+    let reservationDateTextfield = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeDate"), placeholder: PlaceHolder.date, width: 300)
+    let tourRepTextfield = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeRepresentative"), placeholder: PlaceHolder.representative, width: 200)
+    let tourCompanyTextfield = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeBus"), placeholder: PlaceHolder.tourCompany, width: 180)
+    let vourcherTextfield = AddReservationTextField(icon: #imageLiteral(resourceName: "orangeNumber"), placeholder: PlaceHolder.voucher, width: 180)
     
     let hotelNameLabel = TextfieldHeaderLabel(text: Label.hotel)
     let firstNameLabel = TextfieldHeaderLabel(text: Label.firstName)
@@ -133,7 +133,7 @@ class AddReservationView: UIView {
         tourRepStackView.axis = .vertical
         
         let tourCompanyStackView = UIStackView(arrangedSubviews: [tourCompanyNameLabel, tourCompanyTextfield])
-        tourCompanyStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
+        tourCompanyStackView.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: nil)
         tourCompanyStackView.axis = .vertical
         
         let firstNameStackView = UIStackView(arrangedSubviews: [firstNameLabel, firstNameTextField])
@@ -145,20 +145,23 @@ class AddReservationView: UIView {
         lastNameStackView.axis = .vertical
         
         let voucherNumberStackView = UIStackView(arrangedSubviews: [voucherNumberLabel, vourcherTextfield])
-        voucherNumberStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
+        voucherNumberStackView.configureStackView(alignment: .center, distribution: .fillProportionally, spacing: nil)
         voucherNumberStackView.axis = .vertical
         
         let dateStackView = UIStackView(arrangedSubviews: [reservationDateLabel, reservationDateTextfield])
         dateStackView.configureStackView(alignment: .leading, distribution: .fillProportionally, spacing: nil)
         dateStackView.axis = .vertical
         
-        let leftStackView = UIStackView(arrangedSubviews: [hotelStackView, firstNameStackView, tourRepStackView])
+        let leftStackView = UIStackView(arrangedSubviews: [firstNameStackView, hotelStackView])
         leftStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
         leftStackView.axis = .vertical
         
-        let rightStackView = UIStackView(arrangedSubviews: [dateStackView, lastNameStackView, tourCompanyStackView, voucherNumberStackView])
+        let rightStackView = UIStackView(arrangedSubviews: [lastNameStackView, dateStackView])
         rightStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 25)
         rightStackView.axis = .vertical
+        
+        let bottomStackView = UIStackView(arrangedSubviews: [tourRepStackView, tourCompanyStackView, voucherNumberStackView])
+        bottomStackView.configureStackView(alignment: .fill, distribution: .equalSpacing, spacing: 0)
         
         let selectPackageStackView = UIStackView(arrangedSubviews: [selectPackageLabel, segmentedContol])
         selectPackageStackView.configureStackView(alignment: nil, distribution: .fillEqually, spacing: 0)
@@ -168,18 +171,21 @@ class AddReservationView: UIView {
         paxStackView.configureStackView(alignment: .leading, distribution: .fillEqually, spacing: 15)
         
         addSubview(leftStackView)
-        leftStackView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 300, height: 276)
+        leftStackView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 300, height: 174)
         
         addSubview(rightStackView)
-        rightStackView.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 300, height: 377)
- 
-        addSubview(paxStackView)
-        paxStackView.anchor(top: leftStackView.bottomAnchor, left: leftStackView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 80, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        rightStackView.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 300, height: 174)
         
-        addSubview(paxStepper)
-        paxStepper.anchor(top: paxStackView.bottomAnchor, left: leftStackView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 100, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        addSubview(bottomStackView)
+        bottomStackView.anchor(top: leftStackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 25, paddingLeft: 30, paddingBottom: 0, paddingRight: 30, width: 0, height: 73)
+ 
+         addSubview(paxStackView)
+         paxStackView.anchor(top: bottomStackView.bottomAnchor, left: leftStackView.leftAnchor, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+         
+         addSubview(paxStepper)
+         paxStepper.anchor(top: paxStackView.bottomAnchor, left: leftStackView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 30, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
-        addSubview(selectPackageStackView)
-        selectPackageStackView.anchor(top: paxStepper.bottomAnchor, left: leftStackView.leftAnchor, bottom: nil, right: rightStackView.rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 105)
+         addSubview(selectPackageStackView)
+         selectPackageStackView.anchor(top: paxStepper.bottomAnchor, left: leftStackView.leftAnchor, bottom: nil, right: rightStackView.rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 105)
     }
 }

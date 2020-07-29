@@ -54,7 +54,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         super.viewDidLoad()
         
         configureUI()
-        addReservationView.hotelNameTextField.becomeFirstResponder()
+        addReservationView.firstNameTextField.becomeFirstResponder()
         textFieldDelegates()
         
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
@@ -128,8 +128,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         formValidation()
         addReservationView.reservationDateTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeDate"))
         
-        if !addReservationView.firstNameTextField.hasText {
-            addReservationView.firstNameTextField.becomeFirstResponder()
+        if !addReservationView.tourRepTextfield.hasText {
+            addReservationView.tourRepTextfield.becomeFirstResponder()
         }
         
         // dismiss popover after date is selected
@@ -250,18 +250,18 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         
         switch textField {
             
-        case addReservationView.hotelNameTextField:
-            textField.resignFirstResponder()
-            addReservationView.reservationDateTextfield.becomeFirstResponder()
-        case addReservationView.reservationDateTextfield:
-            addReservationView.firstNameTextField.becomeFirstResponder()
         case addReservationView.firstNameTextField:
             addReservationView.lastNameTextField.becomeFirstResponder()
-        case addReservationView.lastNameTextField:
+            case addReservationView.lastNameTextField:
+            addReservationView.hotelNameTextField.becomeFirstResponder()
+            case addReservationView.hotelNameTextField:
+                textField.resignFirstResponder()
+            addReservationView.reservationDateTextfield.becomeFirstResponder()
+            case addReservationView.reservationDateTextfield:
             addReservationView.tourRepTextfield.becomeFirstResponder()
-        case addReservationView.tourRepTextfield:
+            case addReservationView.tourRepTextfield:
             addReservationView.tourCompanyTextfield.becomeFirstResponder()
-        case addReservationView.tourCompanyTextfield:
+            case addReservationView.tourCompanyTextfield:
             addReservationView.vourcherTextfield.becomeFirstResponder()
         default:
             textField.resignFirstResponder()

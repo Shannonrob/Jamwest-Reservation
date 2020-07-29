@@ -69,12 +69,14 @@ class ParticipantTextField: UITextField {
 
 class AddReservationTextField: UITextField {
     
-    convenience init(icon: UIImage, placeholder: String) {
+    convenience init(icon: UIImage, placeholder: String, width: CGFloat) {
         self.init(frame: .zero)
         
         setTextfieldIcon(icon)
         
         attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+        
+        widthAnchor.constraint(equalToConstant: width).isActive = true
     }
     
     override init(frame: CGRect) {
@@ -89,7 +91,6 @@ class AddReservationTextField: UITextField {
         layer.cornerRadius = 4
         layer.masksToBounds = true
         returnKeyType = .next
-        widthAnchor.constraint(equalToConstant: 300).isActive = true
         heightAnchor.constraint(equalToConstant: 51).isActive = true
     }
     
