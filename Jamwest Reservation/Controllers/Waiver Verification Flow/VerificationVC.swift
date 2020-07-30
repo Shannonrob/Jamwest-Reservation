@@ -18,6 +18,9 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     var heightForRow = 150
     var isShowingPendingWaivers = true
     var inSearchMode = false
+    var approvedWaiverPageAmount = 50
+    var currentApprovedWaiverCount = 50
+    var startDataFetchAt = "A"
     
     // instantiate view
     var verificationView = VerificationView()
@@ -46,18 +49,13 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         rejectedWaiver()
         configureRefreshControl()
     }
-   
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        PARTICIPANT_WAIVER_REF.removeAllObservers()
-        APPROVED_WAIVER_REF.removeAllObservers()
-    }
     
     //    MARK: - Handlers
     
     @objc func handleDismiss() {
         dismiss(animated: true, completion: nil)
     }
+    
     
     @objc func handleSearch() {
         
@@ -67,6 +65,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         verificationView.segmentedContol.isEnabled = false
     }
     
+    
     @objc func handleCancelSearch() {
         
         showSearchBar(shouldShow: false)
@@ -74,6 +73,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         verificationView.tableView.reloadData()
         verificationView.segmentedContol.isEnabled = true
     }
+    
     
     // refresh based current cell
     @objc func handleRefresh() {
@@ -87,7 +87,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             
         default:
             approvedWaivers.removeAll(keepingCapacity: false)
-            fetchApprovedWaiver()
+            fetchApprovedWaiver(quantity: approvedWaiverPageAmount, startAt: startDataFetchAt)
             checkEmptyState(APPROVED_WAIVER_REF)
         }
         verificationView.tableView.reloadData()
@@ -109,11 +109,13 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
     }
     
+    
     func showSearchBar(shouldShow: Bool) {
         // shows searchbar if true
         showSearchBarButton(shouldShow: !shouldShow)
         navigationItem.titleView = shouldShow ? searchBar : nil
     }
+    
     
     func configureRefreshControl() {
         
@@ -122,6 +124,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         verificationView.tableView.refreshControl = refreshControl
     }
+    
     
     func configureUI() {
         
@@ -137,8 +140,10 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack ").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
         
         showSearchBarButton(shouldShow: true)
+        
         verificationView.tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
     }
+    
     
     // operations for the enum
     func waiverToDisplay(on tableView: Waivers) {
@@ -158,6 +163,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         self.verificationView.tableView.reloadData()
     }
     
+    
     func handleFetchedWaiversResult(for waiver: WaiverVerification) {
         let waiverID = waiver.waiverID
         
@@ -173,14 +179,23 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         verificationView.tableView.reloadData()
     }
     
+    
     func handleApprovedWaiversResult(for waiver: ApprovedWaiver) {
-        approvedWaivers.append(waiver)
+        
+        let waiverID = waiver.waiverID
+        
+        if let existingIndex = self.approvedWaivers.firstIndex(where: { $0.waiverID == waiverID }) {
+            self.approvedWaivers[existingIndex] = waiver
+        } else {
+            self.approvedWaivers.append(waiver)
+        }
         
         approvedWaivers.sort { (waiver1, waiver2) -> Bool in
             return waiver1.lastName < waiver2.lastName
         }
         verificationView.tableView.reloadData()
     }
+    
     
     func handleEmptyStateResult() {
         dismissLoadingView()
@@ -193,7 +208,20 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
     }
     
-   
+    
+    func grabNextLetterToFetch() -> String{
+        currentApprovedWaiverCount += 45
+        
+        let startPoint = approvedWaivers.last
+        var result: String!
+        
+        if let letter = startPoint?.lastName {
+            result = String(letter.prefix(3))
+        }
+        return result
+    }
+    
+    
     // register appropriate cell based on condition
     func switchIdentifier(with condition: Bool) {
         
@@ -219,22 +247,26 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         self.present(popoverViewController, animated: true, completion: nil)
     }
     
+    
     // handle approvedButton
     func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
         approveWaiver(for: cell)
     }
     
+    
     // handle segmentedControl
     func handleSegmentedControl(for vc: VerificationView) {
-        
         let control = verificationView.segmentedContol
         
         switch control.selectedSegmentIndex {
             
         case 0 :
             waiverToDisplay(on: .PendingWaivers)
+            APPROVED_WAIVER_REF.removeAllObservers()
         case 1 :
             waiverToDisplay(on: .ApprovedWaivers)
+            currentApprovedWaiverCount = 50
+            PARTICIPANT_WAIVER_REF.removeAllObservers()
         default:
             break
         }
@@ -259,8 +291,11 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
     }
     
-    func fetchApprovedWaiver() {
-        NetworkManager.shared.fetchApprovedWaivers { [weak self] result in
+    
+    func fetchApprovedWaiver(quantity value:Int, startAt: String) {
+        showLoadingView()
+        
+        NetworkManager.shared.fetchApprovedWaivers(quantity: value, startAt: startAt) { [weak self] result in
             
             guard let self = self else { return }
             self.checkEmptyState(APPROVED_WAIVER_REF)
@@ -274,10 +309,11 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
     }
     
+    
     func rejectedWaiver() {
         NetworkManager.shared.observeWaiverDeletion(for: PARTICIPANT_WAIVER_REF) { [weak self] result in
             guard let self = self else { return }
-           
+            
             switch result{
             case .success(_):
                 self.handleRefresh()
@@ -286,6 +322,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             }
         }
     }
+    
     
     func approveWaiver(for cell: WaiverVerificationCell) {
         
@@ -317,36 +354,38 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
                 }
                 Alert.showAlert(on: self, with: "Approved Successfully 👍")
             case .failure(let error):
-               Alert.showAlert(on: self, with: error.rawValue)
+                Alert.showAlert(on: self, with: error.rawValue)
             }
         }
     }
     
+    
     func checkEmptyState(_ reference: DatabaseReference) {
-          NetworkManager.shared.checkDataBaseEmptyState(for: reference) { [weak self] result in
-              guard let self = self else { return }
-              DispatchQueue.main.async {
-                  self.dismissLoadingView()
-              }
-              
-              switch result {
-              case .success(let snapshot):
-                  
-                  if !snapshot.exists() {
-                      self.handleEmptyStateResult()
-                      return
-                  } else {
-                      self.dismissLoadingView()
+        NetworkManager.shared.checkDataBaseEmptyState(for: reference) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.dismissLoadingView()
+            }
+            
+            switch result {
+            case .success(let snapshot):
+                
+                if !snapshot.exists() {
+                    self.handleEmptyStateResult()
+                    return
+                } else {
+                    self.dismissLoadingView()
                     self.dismissEmptyStateView()
                     self.verificationView.tableView.refreshControl?.endRefreshing()
-                  }
-                  
-              case .failure(let error):
-                  DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
-              }
-          }
-      }
+                }
+                
+            case .failure(let error):
+                DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
+            }
+        }
+    }
 }
+
 
 extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
     
@@ -356,11 +395,13 @@ extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
         return CGFloat(heightForRow)
     }
     
+    
     //    MARK: - TableView data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -382,6 +423,7 @@ extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -422,6 +464,31 @@ extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
             return cell
         }
     }
+    
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        switch isShowingPendingWaivers {
+            
+        case true:
+            break
+        case false:
+            
+            let offsetY = scrollView.contentOffset.y
+            let contentHeight = scrollView.contentSize.height
+            let height = scrollView.frame.size.height
+            var approvedWaiverArray: Int!
+            
+            if offsetY > contentHeight - height {
+                
+                for waiver in 0...approvedWaivers.count { approvedWaiverArray = waiver }
+                if currentApprovedWaiverCount > approvedWaiverArray { return }
+                
+                let startPoint = grabNextLetterToFetch()
+                fetchApprovedWaiver(quantity: approvedWaiverPageAmount, startAt: startPoint)
+            }
+        }
+    }
 }
 
 extension VerificationVC: UISearchBarDelegate {
@@ -430,9 +497,11 @@ extension VerificationVC: UISearchBarDelegate {
         searchBar.text = nil
     }
     
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
+    
     
     // filters search
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

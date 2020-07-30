@@ -287,14 +287,14 @@ class NetworkManager {
     }
     
     
-    func fetchApprovedWaivers(completed: @escaping(Result<ApprovedWaiver, JWError>) -> Void) {
-        APPROVED_WAIVER_REF.observeSingleEvent(of: .value) { (snapshot, error) in
+    func fetchApprovedWaivers(quantity value: Int, startAt: String, completed: @escaping(Result<ApprovedWaiver, JWError>) -> Void) {
+        APPROVED_WAIVER_REF.queryOrdered(byChild: Constant.lastName).queryLimited(toFirst: UInt(value)).queryStarting(atValue: startAt).observeSingleEvent(of: .value) { (snapshot, error) in
             
             if let _ = error {
                 completed(.failure(.unableToCompleteRequest))
                 return
             } else {
-                
+            
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
                 allObjects.forEach { (snapshot) in
                     
