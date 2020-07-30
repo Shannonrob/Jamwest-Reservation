@@ -70,6 +70,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     //    MARK: - Protocols and delegate
     
     func handleSubmitButton(for vc: TourSelectionView) {
+        
         reservedPackage = packageSelected()()
         
         switch reservedPackage {
@@ -98,15 +99,15 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         tourSelectionView.submitButton.setTitle(buttonTitle, for: .normal)
     }
     
+    
     // closure that uses method from AddReservationVC to identify selected package
     func packageSelected() -> () -> ReservationPackage {
-
+        
         let addReservation = AddReservationVC()
         let tourPackage = reservationInfo[Constant.tourPackage]
-
+        
         let configuration = { () -> ReservationPackage in
-
-            #warning("this is nil if user attempts to make multiply reservations")
+            
             let index = ReservationPackage(rawValue: addReservation.convertPackageResult(from: tourPackage as! String))!
             return index
         }
@@ -188,7 +189,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         let reservation = UIFont.boldSystemFont(ofSize: 25)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation ,NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelButton))
-        }
+    }
     
     func endReservationUpdate() {
         self.dismiss(animated: true) {
@@ -200,13 +201,15 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     // Action sheet
     func showReservationCreatedAlert() {
         
-        let alertController = UIAlertController(title: nil, message: "Would you like to create another reservation?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: nil, message: ErrorMessage.createReservationQuestion, preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             // present AddReservationVC
             let addReservationVC = AddReservationVC()
             var vcArray = self.navigationController?.viewControllers
-            vcArray!.removeLast()
+            vcArray!.removeAll()
             vcArray!.append(addReservationVC)
+            
+            addReservationVC.uploadAction = UploadAction.init(index: 0)
             self.navigationController?.setViewControllers(vcArray!, animated: true)
         })
         
@@ -230,7 +233,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     // dismiss toursSelectionVC
     func dismissTourSelectionVC() {
         
-        let alertController = UIAlertController(title: "Warning", message: "Reservation will be deleted!", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Warning", message: ErrorMessage.confirmReservationDeletion, preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Continue", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
             // dismiss tourSelectionVC
             self.dismiss(animated: true, completion: nil)
@@ -267,7 +270,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     //    MARK: - API
     
     func createReservation() {
-      
+        
         showLoadingView()
         NetworkManager.shared.createReservation(with: reservationInfo) { [weak self] result in
             guard let self = self else { return }

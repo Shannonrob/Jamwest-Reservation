@@ -18,28 +18,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     var addReservationView = AddReservationView()
     let reservationPackage = ReservationPackage.self
     var reservationDate: String!
+    let datePicker = JWDatePicker()
     
-    let datePicker: UIDatePicker = {
-        
-        var calendar: Calendar = Calendar.current
-        let currentDate: Date = Date()
-        var dateComponents: DateComponents = DateComponents()
-        
-        calendar.timeZone = TimeZone(identifier: "EST")!
-        dateComponents.calendar = calendar
-        dateComponents.year = +1
-        
-        let maxDate: Date = calendar.date(byAdding: dateComponents, to: currentDate)!
-        let datePicker = UIDatePicker()
-        datePicker.datePickerMode = .dateAndTime
-        datePicker.minimumDate = .some(currentDate as Date)
-        datePicker.maximumDate = maxDate
-        
-        datePicker.backgroundColor = .white
-        datePicker.setValue(UIColor.black, forKey: "textColor")
-        
-        return datePicker
-    }()
     
     //    MARK: - Init
     
@@ -50,6 +30,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         view = addReservationView
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,7 +40,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         view.addGestureRecognizer(tap)
-
+        
         uploadAction == .SaveChanges ? restrictChanges(for:
             [addReservationView.hotelNameTextField,
              addReservationView.firstNameTextField,
@@ -67,10 +48,12 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
              addReservationView.vourcherTextfield]) : nil
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         uploadAction == .SaveChanges ? configureEditMode() : nil
     }
+    
     
     //    MARK: - Handlers
     
@@ -81,6 +64,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     @objc func handleNextButton() {
         presentToursSelectionVC()
     }
+    
     
     // add datePicker to popover
     @objc func configureDatePicker() {
@@ -120,11 +104,12 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         self.present(popoverViewController, animated: true, completion: nil)
     }
     
+    
     @objc func handleDateSelection() {
         
-     // populate textfield with selected date and time
+        // populate textfield with selected date and time
         addReservationView.reservationDateTextfield.text = dateFormatter(for: Event.full, with: datePicker.date)
-            
+        
         formValidation()
         addReservationView.reservationDateTextfield.setTextfieldIcon(#imageLiteral(resourceName: "orangeDate"))
         
@@ -135,7 +120,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         // dismiss popover after date is selected
         dismiss(animated: true, completion: nil)
     }
-   
+    
+    
     // delete contents of textfield
     @objc func handleClearTextField() {
         
@@ -154,7 +140,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         }
     }
     
-//    MARK: - Protocols and delegates
+    
+    //    MARK: - Protocols and delegates
     
     func handleFormValidation(for vc: AddReservationView, with sender: NSObject) {
         formValidation()
@@ -167,6 +154,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     func handleStepperTapped(for vc: AddReservationView) {
         vc.stepperValueLabel.text =  "\((Int(vc.paxStepper.value )))"
     }
+    
     
     // handles selected package
     func handleSegmentControl(for vc: AddReservationView){
@@ -186,8 +174,9 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         }
     }
     
+    
     //    MARK: - Helper Functions
-        
+    
     func textFieldDelegates() {
         
         addReservationView.hotelNameTextField.delegate = self
@@ -199,13 +188,14 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         addReservationView.tourCompanyTextfield.delegate = self
     }
     
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         if addReservationView.hotelNameTextField.isEditing ||
             addReservationView.firstNameTextField.isEditing ||
             addReservationView.lastNameTextField.isEditing ||
             addReservationView.vourcherTextfield.isEditing ||
-           addReservationView.tourRepTextfield.isEditing ||
+            addReservationView.tourRepTextfield.isEditing ||
             addReservationView.tourCompanyTextfield.isEditing {
             
             addReservationView.reservationDateTextfield.isEnabled = false
@@ -219,11 +209,13 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         textField.rightView?.addGestureRecognizer(clearTextfieldGesture)
     }
     
+    
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         
         addReservationView.reservationDateTextfield.isEnabled = true
         return true
     }
+    
     
     // reinstantiate each icon after editing
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -246,28 +238,30 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         }
     }
     
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         switch textField {
             
         case addReservationView.firstNameTextField:
             addReservationView.lastNameTextField.becomeFirstResponder()
-            case addReservationView.lastNameTextField:
+        case addReservationView.lastNameTextField:
             addReservationView.hotelNameTextField.becomeFirstResponder()
-            case addReservationView.hotelNameTextField:
-                textField.resignFirstResponder()
+        case addReservationView.hotelNameTextField:
+            textField.resignFirstResponder()
             addReservationView.reservationDateTextfield.becomeFirstResponder()
-            case addReservationView.reservationDateTextfield:
+        case addReservationView.reservationDateTextfield:
             addReservationView.tourRepTextfield.becomeFirstResponder()
-            case addReservationView.tourRepTextfield:
+        case addReservationView.tourRepTextfield:
             addReservationView.tourCompanyTextfield.becomeFirstResponder()
-            case addReservationView.tourCompanyTextfield:
+        case addReservationView.tourCompanyTextfield:
             addReservationView.vourcherTextfield.becomeFirstResponder()
         default:
             textField.resignFirstResponder()
         }
         return false
     }
+    
     
     // Use this if you have a UITextField
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -298,6 +292,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         return true
     }
     
+    
     //    MARK: - Configuration
     
     func configureUI() {
@@ -315,6 +310,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         navigationItem.rightBarButtonItem?.isEnabled = false
         navigationItem.rightBarButtonItem?.tintColor = .white
     }
+    
     
     //format date and return string value
     func dateFormatter(for event: String, with date: Date) -> String {
@@ -343,6 +339,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         return result
     }
     
+    
     // check if all textfield has contents before
     func formValidation() {
         
@@ -363,6 +360,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
+    
     // converts selected package and return an int
     func convertPackageResult(from package: String) -> Int {
         
@@ -379,6 +377,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
             return 0
         }
     }
+    
     
     // passingData to ToursSelectionVC
     func presentToursSelectionVC() {
@@ -438,17 +437,18 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         navigationController?.pushViewController(toursSelectionVC, animated: true)
     }
     
-//    MARK: - Edit reservation mode
+    //    MARK: - Edit reservation mode
     
     // converts string type to date
-       func convertToDate(with date: String) -> Date {
-           
-           let date = date
-           let formatter = DateFormatter()
-           formatter.dateStyle = .medium
-           formatter.locale = Locale(identifier: "en_US")
-           return (formatter.date(from: date) ?? nil)!
-       }
+    func convertToDate(with date: String) -> Date {
+        
+        let date = date
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.locale = Locale(identifier: "en_US")
+        return (formatter.date(from: date) ?? nil)!
+    }
+    
     
     // method used to changed the appearance of the restricted UIComponent
     func restrictChanges(for textfield: [UITextField]) {
@@ -461,6 +461,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         addReservationView.paxStepper.isUserInteractionEnabled = false
         addReservationView.segmentedContol.isUserInteractionEnabled = false
     }
+    
     
     // get data for reservation to be edited
     func configureEditMode() {
@@ -480,7 +481,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
                 let time = info?.time,
                 let pax = info?.pax else { return }
             
-             let reservedPackage = convertPackageResult(from: package)
+            let reservedPackage = convertPackageResult(from: package)
             
             reservationDate = date
             addReservationView.reservationDateTextfield.text = "\(date) at \(time)"

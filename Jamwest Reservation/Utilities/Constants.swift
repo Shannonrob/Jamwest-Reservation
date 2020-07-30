@@ -93,6 +93,8 @@ enum ErrorMessage {
     static let enterPassword = "Enter a valid Password to continue"
     static let confirmPassword = "Confirm Password to continue"
     static let passwordError = "Password doesn't match \nGive it another try. "
+    static let createReservationQuestion = "Would you like to create another reservation?"
+    static let confirmReservationDeletion = "Reservation will be deleted!"
 }
 
 enum Font {
