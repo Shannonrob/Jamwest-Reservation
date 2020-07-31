@@ -18,7 +18,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     var heightForRow = 150
     var isShowingPendingWaivers = true
     var inSearchMode = false
-    var approvedWaiverPageAmount = 50
+    var approvedWaiverFetchAmount = 50
     var currentApprovedWaiverCount = 50
     var startDataFetchAt = "A"
     
@@ -87,7 +87,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             
         default:
             approvedWaivers.removeAll(keepingCapacity: false)
-            fetchApprovedWaiver(quantity: approvedWaiverPageAmount, startAt: startDataFetchAt)
+            fetchApprovedWaiver(quantity: approvedWaiverFetchAmount, startAt: startDataFetchAt)
             checkEmptyState(APPROVED_WAIVER_REF)
         }
         verificationView.tableView.reloadData()
@@ -174,12 +174,12 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
         
         pendingWaivers.sort { (waiver1, waiver2) -> Bool in
-            return waiver1.lastName < waiver2.lastName
+            return waiver1.fullName < waiver2.fullName
         }
         verificationView.tableView.reloadData()
     }
     
-    
+   
     func handleApprovedWaiversResult(for waiver: ApprovedWaiver) {
         
         let waiverID = waiver.waiverID
@@ -191,7 +191,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
         
         approvedWaivers.sort { (waiver1, waiver2) -> Bool in
-            return waiver1.lastName < waiver2.lastName
+            return waiver1.fullName < waiver2.fullName
         }
         verificationView.tableView.reloadData()
     }
@@ -210,13 +210,13 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     
     func grabNextLetterToFetch() -> String{
-        currentApprovedWaiverCount += 45
+        currentApprovedWaiverCount += 50
         
         let startPoint = approvedWaivers.last
         var result: String!
         
-        if let letter = startPoint?.lastName {
-            result = String(letter.prefix(3))
+        if let letter = startPoint?.fullName {
+            result = String(letter.prefix(12))
         }
         return result
     }
@@ -339,6 +339,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         var values = [String:Any]()
         values[Constant.firstName] = firstName
         values[Constant.lastName] = lastName
+        values[Constant.fullName] = "\(lastName) \(firstName)"
         values[Constant.imageURL] = image
         values[Constant.creationDate] = creationDate
         
@@ -483,9 +484,9 @@ extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
                 
                 for waiver in 0...approvedWaivers.count { approvedWaiverArray = waiver }
                 if currentApprovedWaiverCount > approvedWaiverArray { return }
-                
+            
                 let startPoint = grabNextLetterToFetch()
-                fetchApprovedWaiver(quantity: approvedWaiverPageAmount, startAt: startPoint)
+                fetchApprovedWaiver(quantity: approvedWaiverFetchAmount, startAt: startPoint)
             }
         }
     }

@@ -12,6 +12,7 @@ class ParticipantInformation {
     
     var firstName: String
     var lastName: String
+    let fullName: String
     var phoneNumber: String
     var emailAddress: String
     var currentDate: String
@@ -24,10 +25,11 @@ class ParticipantInformation {
     var backProblemAnswer: Bool
     var heartProblemAnswer: Bool
     
-    init(firstName: String, lastName: String, phoneNumber: String, emailAddress: String, currentDate: String, country: String, guardianName: String, pregnantAnswer: Bool, ageAnswer: Bool, underInfluenceAnswer: Bool, backProblemAnswer: Bool, heartProblemAnswer: Bool) {
+    init(firstName: String, lastName: String, fullName: String, phoneNumber: String, emailAddress: String, currentDate: String, country: String, guardianName: String, pregnantAnswer: Bool, ageAnswer: Bool, underInfluenceAnswer: Bool, backProblemAnswer: Bool, heartProblemAnswer: Bool) {
         
         self.firstName = firstName
         self.lastName = lastName
+        self.fullName = fullName
         self.phoneNumber = phoneNumber
         self.emailAddress = emailAddress
         self.currentDate = currentDate

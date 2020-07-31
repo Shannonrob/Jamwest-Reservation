@@ -24,6 +24,7 @@ enum Constant {
     static let hotelName = "hotel"
     static let firstName = "firstName"
     static let lastName = "lastName"
+    static let fullName = "fullName"
     static let voucherNumber = "voucherNum"
     static let tourRep = "tourRep"
     static let tourCompany = "tourComp"
