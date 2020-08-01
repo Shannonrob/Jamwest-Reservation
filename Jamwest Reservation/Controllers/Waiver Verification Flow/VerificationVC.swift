@@ -46,9 +46,10 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         configureUI()
         fetchPendingWaiver()
         checkEmptyState(PARTICIPANT_WAIVER_REF)
-        rejectedWaiver()
+        observeWaiversRejected()
         configureRefreshControl()
     }
+    
     
     //    MARK: - Handlers
     
@@ -93,6 +94,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         verificationView.tableView.reloadData()
     }
     
+    
     //    MARK: - Helper functions
     
     // switches between searchBar to cancel button
@@ -123,6 +125,17 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         refreshControl.tintColor = .gray
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         verificationView.tableView.refreshControl = refreshControl
+    }
+    
+    
+    func updateTableView(for cell: WaiverVerificationCell) {
+        
+        if let indexPath = self.verificationView.tableView.indexPath(for: cell){
+            let row: IndexPath = [indexPath.section, indexPath.row]
+            self.pendingWaivers.remove(at: indexPath.row)
+            self.verificationView.tableView.deleteRows(at: [row], with: .automatic)
+            Alert.showAlert(on: self, with: "Approved Successfully 👍")
+        }
     }
     
     
@@ -179,7 +192,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         verificationView.tableView.reloadData()
     }
     
-   
+    
     func handleApprovedWaiversResult(for waiver: ApprovedWaiver) {
         
         let waiverID = waiver.waiverID
@@ -243,12 +256,12 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         let popoverViewController = ReviewVC()
         popoverViewController.verificationVC = self
         popoverViewController.waivers = waiverDetails
+        popoverViewController.cell = cell
         popoverViewController.modalPresentationStyle = .custom
         self.present(popoverViewController, animated: true, completion: nil)
     }
     
     
-    // handle approvedButton
     func handleApproveButtonTapped(for cell: WaiverVerificationCell) {
         approveWaiver(for: cell)
     }
@@ -272,6 +285,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
         handleRefresh()
     }
+    
     
     //    MARK: - API
     
@@ -310,8 +324,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     }
     
     
-    func rejectedWaiver() {
-        NetworkManager.shared.observeWaiverDeletion(for: PARTICIPANT_WAIVER_REF) { [weak self] result in
+    func observeWaiversRejected() {
+        NetworkManager.shared.observeChildRemoved(for: PARTICIPANT_WAIVER_REF) { [weak self] result in
             guard let self = self else { return }
             
             switch result{
@@ -331,7 +345,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             let firstName = cell.waiver?.firstName,
             let lastName = cell.waiver?.lastName else { return }
         
-        guard let image = cell.waiver?.imageURL else {
+        guard let imageURL = cell.waiver?.imageURL else {
             Alert.showRequiredMessage(on: self, with: ErrorMessage.photoRequired)
             return
         }
@@ -340,7 +354,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         values[Constant.firstName] = firstName
         values[Constant.lastName] = lastName
         values[Constant.fullName] = "\(lastName) \(firstName)"
-        values[Constant.imageURL] = image
+        values[Constant.imageURL] = imageURL
         values[Constant.creationDate] = creationDate
         
         showLoadingView()
@@ -350,14 +364,22 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             
             switch result {
             case .success(let waiverID):
-                DispatchQueue.global(qos: .background).async {
-                    cell.waiver?.deletePendingWaiver(id: waiverID, withImage: true)
+                self.updateTableView(for: cell)
+                
+                
+                DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1) {
+                    self.deletePendingWaiver(withImage: true, withImage: imageURL, waiverID: waiverID)
                 }
-                Alert.showAlert(on: self, with: "Approved Successfully 👍")
+                
             case .failure(let error):
                 Alert.showAlert(on: self, with: error.rawValue)
             }
         }
+    }
+    
+    
+    func deletePendingWaiver(withImage condition: Bool, withImage imageURL: String?, waiverID: String) {
+        NetworkManager.shared.deletePendingWaiver(withImage: condition, imageURL: imageURL, forWaiver: waiverID)
     }
     
     
@@ -484,13 +506,14 @@ extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
                 
                 for waiver in 0...approvedWaivers.count { approvedWaiverArray = waiver }
                 if currentApprovedWaiverCount > approvedWaiverArray { return }
-            
+                
                 let startPoint = grabNextLetterToFetch()
                 fetchApprovedWaiver(quantity: approvedWaiverFetchAmount, startAt: startPoint)
             }
         }
     }
 }
+
 
 extension VerificationVC: UISearchBarDelegate {
     
@@ -519,12 +542,12 @@ extension VerificationVC: UISearchBarDelegate {
             if isShowingPendingWaivers {
                 
                 filteredPendingWaivers = pendingWaivers.filter({ (reservation) -> Bool in
-                    return reservation.firstName.localizedCaseInsensitiveContains(searchText)
+                    return reservation.fullName.localizedCaseInsensitiveContains(searchText)
                 })
             } else {
                 
                 filteredApprovedWaivers = approvedWaivers.filter({ (reservation) -> Bool in
-                    return reservation.firstName.localizedCaseInsensitiveContains(searchText)
+                    return reservation.fullName.localizedCaseInsensitiveContains(searchText)
                 })
             }
             self.verificationView.tableView.reloadData()

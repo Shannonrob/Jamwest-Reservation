@@ -18,7 +18,7 @@ let PARTICIPANT_WAIVER_REF = DB_REF.child("participant-Waiver")
 let APPROVED_WAIVER_REF = DB_REF.child("approved-Waiver")
 let PARTICIPANT_EMAIL_REF = DB_REF.child("participant-Email")
 let WAIVER_IMAGE_REF = STORAGE_REF.child("waiverImage")
-let APPROVED_IMAGE_REF = STORAGE_REF.child("approvedImage")
+
 
 enum Constant {
     static let hotelName = "hotel"

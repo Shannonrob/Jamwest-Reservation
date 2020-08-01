@@ -11,18 +11,20 @@ import Firebase
 
 class ReviewVC: UIViewController, ReviewWaiverDelegate {
     
-//   MARK: - Properties
+    //   MARK: - Properties
     
     var waivers: WaiverVerification?
     var waiverReviewView = ReviewView()
     var verificationVC: VerificationVC?
+    var cell: WaiverVerificationCell!
     
-//    MARK: - Init
+    //    MARK: - Init
     
     override func loadView() {
         super.loadView()
         view = waiverReviewView
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,10 +32,11 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         presentData()
     }
     
+    
     //    MARK: - Protocol and delegate
     
     func handleRejectButton(for vc: ReviewView) {
-        rejectWaiver()
+        handleRejectButtonTapped()
     }
     
     func handleApproveButton(for vc: ReviewView) {
@@ -48,6 +51,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
     func handleDismissButtonTapped(for vc: ReviewView) {
         dismiss(animated: true, completion: nil)
     }
+    
     
     //    MARK: - Helper function
     
@@ -94,23 +98,16 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         waiverReviewView.backProblemLabel.attributedText = UILabel.configureAttributes(with: "Back problem: ", append: "\(newBackAnswer)")
     }
     
-    // handles deletions of waiver
-    func rejectWaiver() {
+    
+    func handleRejectButtonTapped() {
         
         let alertController = UIAlertController(title: "Warning", message: ErrorMessage.waiverDeleteWarning, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Continue", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+        let defaultAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
             
-            self.dismiss(animated: true) {
-                
-                self.cancelSearchMode()
-                
-                if self.waivers?.imageURL != nil {
-                    
-                    self.waivers?.deletePendingWaiver(id: self.waivers!.waiverID, withImage: true)
-                } else {
-                    self.waivers?.deletePendingWaiver(id: self.waivers!.waiverID, withImage: false)
-                }
-            }
+            self.verificationVC?.updateTableView(for: self.cell)
+            self.dismiss(animated: true)
+            self.cancelSearchMode()
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1) { self.rejectWaiver() }
         })
         
         let deleteAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
@@ -127,7 +124,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    // method to convert answer to string
+    
     func updateAnswerValue(with answer: Bool) -> String {
         
         if answer {
@@ -137,15 +134,16 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         }
     }
     
-    // cancels search mode for VerificationVC
+    
     func cancelSearchMode() {
-       
+        
         if verificationVC?.inSearchMode == true {
             verificationVC?.handleCancelSearch()
         }
     }
     
-//    MARK: - Api
+    
+    //    MARK: - Api
     
     func updateParticipantProfile(with image: UIImage) {
         
@@ -157,7 +155,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             case .success(let imageURL):
                 guard let imageURL = imageURL else { return }
                 self.waivers?.imageURL = imageURL
-        
+                
             case .failure(let error):
                 DispatchQueue.main.async {
                     Alert.showAlert(on: self, with: error.rawValue)
@@ -165,6 +163,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             }
         }
     }
+    
     
     func approveWaiver() {
         guard let creationDate = Date.CurrentDate(),
@@ -176,7 +175,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
                 return
         }
         
-        guard let image = waivers?.imageURL else {
+        guard let imageURL = waivers?.imageURL else {
             Alert.showRequiredMessage(on: self, with: ErrorMessage.photoRequired)
             return
         }
@@ -186,7 +185,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         values[Constant.firstName] = firstName
         values[Constant.lastName] = lastName
         values[Constant.fullName] = fullName
-        values[Constant.imageURL] = image
+        values[Constant.imageURL] = imageURL
         values[Constant.creationDate] = creationDate
         
         showLoadingView()
@@ -197,12 +196,13 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             
             switch result {
             case .success(let waiverID):
+                self.verificationVC?.updateTableView(for: self.cell)
                 self.dismiss(animated: true)
-                
-                DispatchQueue.global(qos: .background).async {
-                    self.waivers?.deletePendingWaiver(id: waiverID, withImage: true)
-                }
                 self.cancelSearchMode()
+                
+                DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1) {
+                    self.verificationVC?.deletePendingWaiver(withImage: true, withImage: imageURL, waiverID: waiverID)
+                }
                 
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -211,6 +211,20 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             }
         }
     }
+    
+    
+    func rejectWaiver() {
+        guard let waiverID = self.waivers?.waiverID else { return }
+        
+        if self.waivers?.imageURL != nil {
+            guard let imageURL = self.waivers?.imageURL else { return }
+            self.verificationVC?.deletePendingWaiver(withImage: true, withImage: imageURL, waiverID: waiverID)
+        } else {
+            self.verificationVC?.deletePendingWaiver(withImage: false, withImage: nil, waiverID: waiverID)
+        }
+    }
+    
+    
 }
 
 extension ReviewVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -224,6 +238,7 @@ extension ReviewVC: UINavigationControllerDelegate, UIImagePickerControllerDeleg
         present(vc, animated: true)
     }
     
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         picker.dismiss(animated: true)
@@ -235,5 +250,6 @@ extension ReviewVC: UINavigationControllerDelegate, UIImagePickerControllerDeleg
         updateParticipantProfile(with: image)
         waiverReviewView.profileImageView.image = image.withRenderingMode(.alwaysOriginal)
     }
+    
 }
 

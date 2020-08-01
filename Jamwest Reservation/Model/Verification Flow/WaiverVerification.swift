@@ -97,19 +97,5 @@ class WaiverVerification {
             self.emailAddress = emailAddress
         }
     }
-    
-    // delete image and waiver data if condition is true
-    func deletePendingWaiver(id waiverID: String, withImage answer: Bool) {
-        
-        if answer {
-            
-            PARTICIPANT_WAIVER_REF.child(waiverID).removeValue { (err, ref) in
-                Storage.storage().reference(forURL: self.imageURL).delete(completion: nil)
-            }
-        } else {
-            
-            PARTICIPANT_WAIVER_REF.child(waiverID).removeValue()
-        }
-    }
 }
 
