@@ -25,6 +25,7 @@ enum Constant {
     static let firstName = "firstName"
     static let lastName = "lastName"
     static let fullName = "fullName"
+    static let fullNameReversed = "fullNameReversed"
     static let voucherNumber = "voucherNum"
     static let tourRep = "tourRep"
     static let tourCompany = "tourComp"

@@ -170,7 +170,8 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
             let firstName = waivers?.firstName,
             let lastName = waivers?.lastName,
             let waiverID = waivers?.waiverID,
-            let fullName = waivers?.fullName else {
+            let fullName = waivers?.fullName,
+            let fullNameReversed = waivers?.fullNameReversed else {
                 Alert.showAlert(on: self, with: ErrorMessage.minorError)
                 return
         }
@@ -185,6 +186,7 @@ class ReviewVC: UIViewController, ReviewWaiverDelegate {
         values[Constant.firstName] = firstName
         values[Constant.lastName] = lastName
         values[Constant.fullName] = fullName
+        values[Constant.fullNameReversed] = fullNameReversed
         values[Constant.imageURL] = imageURL
         values[Constant.creationDate] = creationDate
         

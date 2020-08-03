@@ -508,7 +508,7 @@ class EditReservationVC: UITableViewController {
     
     
     func observeChildRemoved(_ reference: DatabaseReference) {
-        NetworkManager.shared.observeWaiverDeletion(for: reference) { [weak self] result in
+        NetworkManager.shared.observeChildRemoved(for: reference) { [weak self] result in
             guard let self = self else { return }
             
             switch result {

@@ -385,14 +385,13 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         let toursSelectionVC = ToursSelectionVC()
         
         guard let hotel = addReservationView.hotelNameTextField.text,
-            let firstName = addReservationView.firstNameTextField.text,
-            let lastName = addReservationView.lastNameTextField.text,
+            let firstName = addReservationView.firstNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines ),
+            let lastName = addReservationView.lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let voucherNumber = addReservationView.vourcherTextfield.text,
             let tourRep = addReservationView.tourRepTextfield.text,
             let tourCompany = addReservationView.tourCompanyTextfield.text else { return }
         
         let paxQuantity = addReservationView.paxStepper.value
-        
         let time = dateFormatter(for: Event.time, with: datePicker.date)
         let date = dateFormatter(for: Event.date, with: datePicker.date)
         
@@ -407,6 +406,8 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
             toursSelectionVC.reservationInfo = [ Constant.hotelName: hotel,
                                                  Constant.firstName: firstName,
                                                  Constant.lastName: lastName,
+                                                 Constant.fullName: "\(firstName.lowercased()) \(lastName.lowercased())",
+                                                 Constant.fullNameReversed: "\(lastName.lowercased()) \(firstName.lowercased())",
                                                  Constant.voucherNumber: voucherNumber,
                                                  Constant.tourRep: tourRep,
                                                  Constant.tourCompany: tourCompany,

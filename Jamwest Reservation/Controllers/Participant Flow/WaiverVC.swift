@@ -146,6 +146,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             participantWaiver[Constant.firstName] = data.firstName
             participantWaiver[Constant.lastName] = data.lastName
             participantWaiver[Constant.fullName] = data.fullName
+            participantWaiver[Constant.fullNameReversed] = data.fullNameReversed
             participantWaiver[Constant.pregnantAnswer] = data.pregnantAnswer
             participantWaiver[Constant.minorAnswer] = data.ageAnswer
             participantWaiver[Constant.underInfluenceAnswer] = data.underInfluenceAnswer
@@ -154,6 +155,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             participantWaiver[Constant.creationDate] = data.currentDate
             participantWaiver[Constant.emailAddress] = data.emailAddress
         }
+        
         
         // loop reservation information and present it in waiver labels
         for data in [reservation] {

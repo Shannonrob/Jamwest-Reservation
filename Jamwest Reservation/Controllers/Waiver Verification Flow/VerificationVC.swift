@@ -18,8 +18,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     var heightForRow = 150
     var isShowingPendingWaivers = true
     var inSearchMode = false
-    var approvedWaiverFetchAmount = 50
-    var currentApprovedWaiverCount = 50
+    var approvedWaiversFetchLimit = 100
+    var currentApprovedWaiverCount = 100
     var startDataFetchAt = "A"
     
     // instantiate view
@@ -88,7 +88,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             
         default:
             approvedWaivers.removeAll(keepingCapacity: false)
-            fetchApprovedWaiver(quantity: approvedWaiverFetchAmount, startAt: startDataFetchAt)
+            fetchApprovedWaiver(quantity: approvedWaiversFetchLimit, startAt: startDataFetchAt)
             checkEmptyState(APPROVED_WAIVER_REF)
         }
         verificationView.tableView.reloadData()
@@ -187,7 +187,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
         
         pendingWaivers.sort { (waiver1, waiver2) -> Bool in
-            return waiver1.fullName < waiver2.fullName
+            return waiver1.fullNameReversed.lowercased() < waiver2.fullNameReversed.lowercased()
         }
         verificationView.tableView.reloadData()
     }
@@ -204,9 +204,21 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
         
         approvedWaivers.sort { (waiver1, waiver2) -> Bool in
-            return waiver1.fullName < waiver2.fullName
+            return waiver1.fullNameReversed.lowercased() < waiver2.fullNameReversed.lowercased()
         }
         verificationView.tableView.reloadData()
+    }
+    
+    
+    func handleSearchResult(for waiver: ApprovedWaiver) {
+        let waiverID = waiver.waiverID
+        
+        if let existingIndex = self.filteredApprovedWaivers.firstIndex(where: { $0.waiverID == waiverID }) {
+            self.filteredApprovedWaivers[existingIndex] = waiver
+        } else {
+            self.filteredApprovedWaivers.append(waiver)
+        }
+        self.verificationView.tableView.reloadData()
     }
     
     
@@ -223,20 +235,21 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     
     func grabNextLetterToFetch() -> String{
-        currentApprovedWaiverCount += 50
+        currentApprovedWaiverCount += 100
         
         let startPoint = approvedWaivers.last
         var result: String!
         
-        if let letter = startPoint?.fullName {
-            result = String(letter.prefix(12))
+        if let letters = startPoint?.fullNameReversed {
+            result = String(letters.prefix(12))
         }
         return result
     }
     
-   
+    
     func removeAtIndex(for waiver: DataSnapshot){
         let waiverID = waiver.key
+        guard isShowingPendingWaivers else { return }
         
         if let existingIndex = self.pendingWaivers.firstIndex(where: { $0.waiverID == waiverID }) {
             let row: IndexPath = [0, existingIndex]
@@ -349,13 +362,30 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
     }
     
+    func searchApprovedWaivers(for name: String) {
+        
+        NetworkManager.shared.searchApprovedWaivers(for: name) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            
+            switch result{
+            case .success(let waiver):
+                self.handleSearchResult(for: waiver)
+            case .failure(_):
+                break
+            }
+        }
+    }
+    
     
     func approveWaiver(for cell: WaiverVerificationCell) {
         
         guard let creationDate = Date.CurrentDate(),
             let waiverId = cell.waiver?.waiverID,
             let firstName = cell.waiver?.firstName,
-            let lastName = cell.waiver?.lastName else { return }
+            let lastName = cell.waiver?.lastName,
+            let fullName = cell.waiver?.fullName,
+            let fullNameReversed = cell.waiver?.fullNameReversed else { return }
         
         guard let imageURL = cell.waiver?.imageURL else {
             Alert.showRequiredMessage(on: self, with: ErrorMessage.photoRequired)
@@ -365,7 +395,8 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         var values = [String:Any]()
         values[Constant.firstName] = firstName
         values[Constant.lastName] = lastName
-        values[Constant.fullName] = "\(lastName) \(firstName)"
+        values[Constant.fullName] = fullName
+        values[Constant.fullNameReversed] = fullNameReversed
         values[Constant.imageURL] = imageURL
         values[Constant.creationDate] = creationDate
         
@@ -512,15 +543,15 @@ extension VerificationVC: UITableViewDataSource, UITableViewDelegate {
             let offsetY = scrollView.contentOffset.y
             let contentHeight = scrollView.contentSize.height
             let height = scrollView.frame.size.height
-            var approvedWaiverArray: Int!
+            var approvedWaiverCount: Int!
             
             if offsetY > contentHeight - height {
                 
-                for waiver in 0...approvedWaivers.count { approvedWaiverArray = waiver }
-                if currentApprovedWaiverCount > approvedWaiverArray { return }
+                for waiver in 0...approvedWaivers.count { approvedWaiverCount = waiver }
+                if currentApprovedWaiverCount > approvedWaiverCount { return }
                 
                 let startPoint = grabNextLetterToFetch()
-                fetchApprovedWaiver(quantity: approvedWaiverFetchAmount, startAt: startPoint)
+                fetchApprovedWaiver(quantity: approvedWaiversFetchLimit + 1, startAt: startPoint)
             }
         }
     }
@@ -535,6 +566,9 @@ extension VerificationVC: UISearchBarDelegate {
     
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else { return }
+        
+        if !isShowingPendingWaivers { searchApprovedWaivers(for: text.lowercased()) }
         searchBar.resignFirstResponder()
     }
     

@@ -14,6 +14,7 @@ class WaiverVerification {
     var firstName: String!
     var lastName: String!
     var fullName: String!
+    var fullNameReversed: String!
     var imageURL: String!
     var firstTour: String!
     var secondTour: String!
@@ -47,6 +48,10 @@ class WaiverVerification {
         
         if let fullName = dictionary[Constant.fullName] as? String {
             self.fullName = fullName
+        }
+        
+        if let fullNameReversed = dictionary[Constant.fullNameReversed] as? String {
+            self.fullNameReversed = fullNameReversed
         }
         
         if let firstTour = dictionary[Constant.firstTour] as? String {

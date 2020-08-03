@@ -11,6 +11,8 @@ class Reservation {
     var time: String!
     var firstName: String!
     var lastName: String!
+    var fullName: String!
+    var fullNameReversed: String!
     var hotel: String!
     var firstTour: String!
     var secondTour: String!
@@ -38,6 +40,14 @@ class Reservation {
         
         if let lastName = dictionary[Constant.lastName] as? String {
             self.lastName = lastName
+        }
+        
+        if let fullName = dictionary[Constant.fullName] as? String {
+            self.fullName = fullName
+        }
+        
+        if let fullNameReversed = dictionary[Constant.fullNameReversed] as? String {
+            self.fullNameReversed = fullNameReversed
         }
         
         if let hotel = dictionary[Constant.hotelName] as? String {

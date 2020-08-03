@@ -323,7 +323,7 @@ class ParticipantInfoVC: UIViewController, UITextFieldDelegate, ParticipantInfoV
             let email = participantInfoView.emailTextfield.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let country = participantInfoView.countryTextfield.text else { return }
         
-        self.participantInformation = [ParticipantInformation(firstName: firstName, lastName: lastName, fullName: "\(lastName) \(firstName)", phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, guardianName: guardianName, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)]
+        self.participantInformation = [ParticipantInformation(firstName: firstName, lastName: lastName, fullName: "\(firstName.lowercased()) \(lastName.lowercased())", fullNameReversed: "\(lastName.lowercased()) \(firstName.lowercased())", phoneNumber: phoneNumber, emailAddress: email, currentDate: date, country: country, guardianName: guardianName, pregnantAnswer: pregnantAnswer, ageAnswer: underAgeAnswer, underInfluenceAnswer: underInfluenceAnswer, backProblemAnswer: backProblemsAnswer, heartProblemAnswer: heartProblemsAnswer)]
     }
     
     // format textfield for phone number pattern & limits the text counts
