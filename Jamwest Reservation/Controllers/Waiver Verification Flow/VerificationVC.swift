@@ -234,6 +234,17 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         return result
     }
     
+   
+    func removeAtIndex(for waiver: DataSnapshot){
+        let waiverID = waiver.key
+        
+        if let existingIndex = self.pendingWaivers.firstIndex(where: { $0.waiverID == waiverID }) {
+            let row: IndexPath = [0, existingIndex]
+            self.pendingWaivers.remove(at: existingIndex)
+            self.verificationView.tableView.deleteRows(at: [row], with: .fade)
+        }
+    }
+    
     
     // register appropriate cell based on condition
     func switchIdentifier(with condition: Bool) {
@@ -329,8 +340,9 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             guard let self = self else { return }
             
             switch result{
-            case .success(_):
-                self.handleRefresh()
+            case .success(let waiver):
+                guard let waiver = waiver else { return }
+                self.removeAtIndex(for: waiver)
             case .failure(_):
                 break
             }
