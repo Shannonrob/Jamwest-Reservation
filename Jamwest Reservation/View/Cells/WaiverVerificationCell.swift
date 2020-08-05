@@ -110,6 +110,7 @@ class WaiverVerificationCell: UITableViewCell {
         button.addTarget(self, action: #selector(handleReviewButton), for: .touchUpInside)
         return button
     }()
+
     
     lazy var approveButton: UIButton = {
         

@@ -23,6 +23,9 @@ class EditReservationVC: UITableViewController {
     
     var inSearchMode = false
     var isShowingReservations = true
+    var reservationFetchLimit = 100
+    var currentReservationsCount = 100
+    var dataFetchStartPoint = "A"
     
     var emptyStateMessage : String!
     var heightForRow: CGFloat!
@@ -48,7 +51,7 @@ class EditReservationVC: UITableViewController {
         
         // fetch data based on enum case
         showLoadingView()
-        showInformation == .EditReservation ? fetchReservation() : fetchEmailList()
+        showInformation == .EditReservation ? fetchReservation(limit: reservationFetchLimit, startAt: dataFetchStartPoint) : fetchEmailList()
         showInformation == .EditReservation ? observeChildRemoved(RESERVATION_REF) : observeChildRemoved(PARTICIPANT_EMAIL_REF)
         showInformation == .EditReservation ? checkEmptyState(RESERVATION_REF) : checkEmptyState(PARTICIPANT_EMAIL_REF)
     }
@@ -179,6 +182,27 @@ class EditReservationVC: UITableViewController {
     }
     
     
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        if showInformation == .EditReservation {
+            let offsetY = scrollView.contentOffset.y
+            let contentHeight = scrollView.contentSize.height
+            let height = scrollView.frame.size.height
+            
+            var reservationsCount: Int!
+            
+            if offsetY > contentHeight - height {
+                
+                for reservation in 0...editReservations.count { reservationsCount = reservation }
+                if currentReservationsCount > reservationsCount { return }
+                
+                let startPoint = grabNextLetterToFetch()
+                fetchReservation(limit: reservationFetchLimit + 1, startAt: startPoint)
+            }
+        }
+    }
+    
+    
     //    MARK: - Handlers
     
     @objc func handleSearch() {
@@ -209,7 +233,7 @@ class EditReservationVC: UITableViewController {
             
         case true:
             editReservations.removeAll(keepingCapacity: false)
-            fetchReservation()
+            fetchReservation(limit: reservationFetchLimit, startAt: dataFetchStartPoint)
             
         default:
             emailsList.removeAll(keepingCapacity: false)
@@ -312,7 +336,7 @@ class EditReservationVC: UITableViewController {
         }
         
         self.editReservations.sort { (reservation1, reservation2) -> Bool in
-            return reservation1.lastName < reservation2.lastName
+            return reservation1.fullNameReversed < reservation2.fullNameReversed
         }
         tableView.reloadData()
     }
@@ -349,10 +373,12 @@ class EditReservationVC: UITableViewController {
         
         switch self.showInformation {
         case .EditReservation:
+            #warning("handle deleted reservation animation here")
             self.editReservations.removeAll(keepingCapacity: false)
-            self.fetchReservation()
+            self.fetchReservation(limit: reservationFetchLimit, startAt: dataFetchStartPoint)
             
         case .EmailList:
+            #warning("handle deleted email here")
             self.emailsList.removeAll(keepingCapacity: false)
             self.fetchEmailList()
             
@@ -434,6 +460,19 @@ class EditReservationVC: UITableViewController {
     }
     
     
+    func grabNextLetterToFetch() -> String{
+        currentReservationsCount += 100
+        
+        let startPoint = editReservations.last
+        var result: String!
+        
+        if let letters = startPoint?.fullNameReversed {
+            result = String(letters.prefix(12))
+        }
+        return result
+    }
+    
+    
     // handles share and trash button appearance
     func configureEmailListBarButtons() {
         
@@ -458,8 +497,9 @@ class EditReservationVC: UITableViewController {
     
     //    MARK: - API
     
-    func fetchReservation() {
-        NetworkManager.shared.fetchReservation { [weak self] result in
+    func fetchReservation(limit value: Int, startAt startingPoint: String) {
+        
+        NetworkManager.shared.fetchReservation(limit: value, startingPoint: startingPoint) { [weak self] result in
             
             guard let self = self else { return }
             self.dismissLoadingView()
@@ -570,7 +610,7 @@ extension EditReservationVC: UISearchBarDelegate {
         } else {
             inSearchMode = true
             filteredReservations = editReservations.filter({ (reservation) -> Bool in
-                return reservation.firstName.localizedCaseInsensitiveContains(searchText)
+                return reservation.fullName.localizedCaseInsensitiveContains(searchText)
             })
             tableView.reloadData()
         }
