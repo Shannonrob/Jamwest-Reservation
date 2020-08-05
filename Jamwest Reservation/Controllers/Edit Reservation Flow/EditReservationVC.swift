@@ -18,6 +18,7 @@ class EditReservationVC: UITableViewController {
     var showInformation: ShowInformation!
     var editReservations = [EditReservation]()
     var filteredReservations = [EditReservation]()
+    var searchedReservationResult = [EditReservation]()
     var emailsList = [EmailList]()
     var shareEmails = [EmailList]()
     
@@ -214,7 +215,7 @@ class EditReservationVC: UITableViewController {
     
     
     @objc func handleCancelSearch() {
-        
+        searchedReservationResult.removeAll()
         showSearchBar(shouldShow: false)
         inSearchMode = false
         tableView.reloadData()
@@ -326,6 +327,37 @@ class EditReservationVC: UITableViewController {
     }
     
     
+    func handleChildRemovedObserver() {
+        
+        switch self.showInformation {
+        case .EditReservation:
+            #warning("handle deleted reservation animation here")
+            self.editReservations.removeAll(keepingCapacity: false)
+            self.fetchReservation(limit: reservationFetchLimit, startAt: dataFetchStartPoint)
+            
+        case .EmailList:
+            #warning("handle deleted email here")
+            self.emailsList.removeAll(keepingCapacity: false)
+            self.fetchEmailList()
+            
+        default:
+            break
+        }
+        self.tableView.reloadData()
+    }
+    
+    
+    func handleEmptyStateResult() {
+        dismissLoadingView()
+        
+        DispatchQueue.main.async {
+            self.showEmptyStateView(with: self.emptyStateMessage, in: self.view)
+            self.tableView.refreshControl?.endRefreshing()
+            return
+        }
+    }
+       
+    
     func handleFetchResults(for reservation: EditReservation) {
         let reservationID = reservation.reservationId
         
@@ -358,34 +390,17 @@ class EditReservationVC: UITableViewController {
     }
     
     
-    func handleEmptyStateResult() {
-        dismissLoadingView()
+    func handleSearchResult(for name: String, in reservation: EditReservation) {
+        searchedReservationResult.append(reservation)
         
-        DispatchQueue.main.async {
-            self.showEmptyStateView(with: self.emptyStateMessage, in: self.view)
-            self.tableView.refreshControl?.endRefreshing()
-            return
-        }
-    }
-    
-    
-    func handleChildRemovedObserver() {
+        filteredReservations = searchedReservationResult.filter({ (waiver) -> Bool in
+            return waiver.fullName.localizedCaseInsensitiveContains(name)
+        })
         
-        switch self.showInformation {
-        case .EditReservation:
-            #warning("handle deleted reservation animation here")
-            self.editReservations.removeAll(keepingCapacity: false)
-            self.fetchReservation(limit: reservationFetchLimit, startAt: dataFetchStartPoint)
-            
-        case .EmailList:
-            #warning("handle deleted email here")
-            self.emailsList.removeAll(keepingCapacity: false)
-            self.fetchEmailList()
-            
-        default:
-            break
+        filteredReservations.sort { (waiver1, waiver2) -> Bool in
+            return waiver1.fullNameReversed.lowercased() < waiver2.fullNameReversed.lowercased()
         }
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
     
     
@@ -498,9 +513,7 @@ class EditReservationVC: UITableViewController {
     //    MARK: - API
     
     func fetchReservation(limit value: Int, startAt startingPoint: String) {
-        
         NetworkManager.shared.fetchReservation(limit: value, startingPoint: startingPoint) { [weak self] result in
-            
             guard let self = self else { return }
             self.dismissLoadingView()
             self.tableView.refreshControl?.endRefreshing()
@@ -528,6 +541,23 @@ class EditReservationVC: UITableViewController {
                 
             case .failure(let error):
                 DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
+            }
+        }
+    }
+    
+    
+    func searchReservations(for name: String) {
+        showLoadingView()
+        
+        NetworkManager.shared.searchReservations { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+
+            switch result {
+            case .success(let reservation):
+                self.handleSearchResult(for: name, in: reservation)
+            case .failure(_):
+                break
             }
         }
     }
@@ -595,11 +625,20 @@ extension EditReservationVC: UISearchBarDelegate {
         searchBar.text = nil
     }
     
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else { return }
+        
+        searchReservations(for: text.lowercased())
         searchBar.resignFirstResponder()
     }
+
     
-    // filters search
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchedReservationResult.removeAll()
+    }
+    
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         let searchText = searchText

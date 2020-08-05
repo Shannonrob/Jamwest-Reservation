@@ -305,7 +305,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             APPROVED_WAIVER_REF.removeAllObservers()
         case 1 :
             waiverToDisplay(on: .ApprovedWaivers)
-            currentApprovedWaiverCount = 50
+            currentApprovedWaiverCount = 100
             PARTICIPANT_WAIVER_REF.removeAllObservers()
         default:
             break
@@ -567,6 +567,9 @@ extension VerificationVC: UISearchBarDelegate {
         searchBar.text = nil
     }
     
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchedResultWaivers.removeAll()
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text else { return }
