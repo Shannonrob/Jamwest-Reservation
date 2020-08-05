@@ -30,6 +30,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     var filteredPendingWaivers = [WaiverVerification]()
     var approvedWaivers = [ApprovedWaiver]()
     var filteredApprovedWaivers = [ApprovedWaiver]()
+    var searchedResultWaivers = [ApprovedWaiver]()
     let searchBar = JWSearchBar.init(placeHolder: "Search Waiver")
     
     //    MARK: - Init
@@ -68,7 +69,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     
     
     @objc func handleCancelSearch() {
-        
+        if searchedResultWaivers.count > 0 { searchedResultWaivers.removeAll() }
         showSearchBar(shouldShow: false)
         inSearchMode = false
         verificationView.tableView.reloadData()
@@ -210,13 +211,15 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     }
     
     
-    func handleSearchResult(for waiver: ApprovedWaiver) {
-        let waiverID = waiver.waiverID
+    func handleSearchResult(for name: String, in waiver: ApprovedWaiver) {
+        searchedResultWaivers.append(waiver)
         
-        if let existingIndex = self.filteredApprovedWaivers.firstIndex(where: { $0.waiverID == waiverID }) {
-            self.filteredApprovedWaivers[existingIndex] = waiver
-        } else {
-            self.filteredApprovedWaivers.append(waiver)
+        filteredApprovedWaivers = searchedResultWaivers.filter({ (waiver) -> Bool in
+            return waiver.fullName.localizedCaseInsensitiveContains(name)
+        })
+        
+        filteredApprovedWaivers.sort { (waiver1, waiver2) -> Bool in
+            return waiver1.fullNameReversed.lowercased() < waiver2.fullNameReversed.lowercased()
         }
         self.verificationView.tableView.reloadData()
     }
@@ -363,14 +366,14 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     }
     
     func searchApprovedWaivers(for name: String) {
-        
-        NetworkManager.shared.searchApprovedWaivers(for: name) { [weak self] result in
+        showLoadingView()
+        NetworkManager.shared.searchApprovedWaivers() { [weak self] result in
             guard let self = self else { return }
             self.dismissLoadingView()
             
             switch result{
             case .success(let waiver):
-                self.handleSearchResult(for: waiver)
+                self.handleSearchResult(for: name, in: waiver)
             case .failure(_):
                 break
             }
