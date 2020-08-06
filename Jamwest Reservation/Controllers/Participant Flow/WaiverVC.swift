@@ -145,8 +145,8 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             // append participant information to dictionary
             participantWaiver[Constant.firstName] = data.firstName
             participantWaiver[Constant.lastName] = data.lastName
-            participantWaiver[Constant.fullName] = data.fullName
-            participantWaiver[Constant.fullNameReversed] = data.fullNameReversed
+            participantWaiver[Constant.fullName] = data.fullName.lowercased()
+            participantWaiver[Constant.fullNameReversed] = data.fullNameReversed.lowercased()
             participantWaiver[Constant.pregnantAnswer] = data.pregnantAnswer
             participantWaiver[Constant.minorAnswer] = data.ageAnswer
             participantWaiver[Constant.underInfluenceAnswer] = data.underInfluenceAnswer
@@ -259,12 +259,16 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         
         guard let emailAddress = participantWaiver[Constant.emailAddress] as? String else { return }
         guard let firstName = participantWaiver[Constant.firstName],
-            let lastName = participantWaiver[Constant.lastName] else { return}
+            let lastName = participantWaiver[Constant.lastName],
+            let fullName = participantWaiver[Constant.fullName],
+            let fullNameReversed = participantWaiver[Constant.fullNameReversed] else { return}
         
         if emailAddress != "" {
             let values = [Constant.emailAddress : emailAddress,
                           Constant.firstName: firstName,
-                          Constant.lastName: lastName]
+                          Constant.lastName: lastName,
+                          Constant.fullName: fullName,
+                          Constant.fullNameReversed: fullNameReversed]
             
             NetworkManager.shared.postEmail(with: waiverID, values: values)
         }

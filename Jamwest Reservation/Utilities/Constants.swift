@@ -121,6 +121,11 @@ enum ImageName {
     static let clearCheckMark = "hiddenCheckMark"
 }
 
+enum Image {
+    static let trashIcon = UIImage(systemName: "trash")
+    static let shareIcon = UIImage(systemName: "square.and.arrow.up")
+}
+
 enum Listener {
     
     // Notification Keys

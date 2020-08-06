@@ -47,7 +47,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         configureUI()
         fetchPendingWaiver()
         checkEmptyState(PARTICIPANT_WAIVER_REF)
-        observeWaiversRejected()
+        observeWaiversRemoved()
         configureRefreshControl()
     }
     
@@ -351,7 +351,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     }
     
     
-    func observeWaiversRejected() {
+    func observeWaiversRemoved() {
         NetworkManager.shared.observeChildRemoved(for: PARTICIPANT_WAIVER_REF) { [weak self] result in
             guard let self = self else { return }
             
@@ -568,7 +568,7 @@ extension VerificationVC: UISearchBarDelegate {
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchedResultWaivers.removeAll()
+        if !isShowingPendingWaivers { searchedResultWaivers.removeAll() }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

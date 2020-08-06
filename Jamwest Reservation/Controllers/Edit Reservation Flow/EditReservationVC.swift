@@ -22,6 +22,7 @@ class EditReservationVC: UITableViewController {
     var emailsList = [EmailList]()
     var shareEmails = [EmailList]()
     
+    var isCellSelected = false
     var inSearchMode = false
     var isShowingReservations = true
     var reservationFetchLimit = 100
@@ -63,7 +64,6 @@ class EditReservationVC: UITableViewController {
         
         if showInformation == .EmailList {
             navigationItem.title = "Email List"
-            configureEmailListBarButtons()
             heightForRow = 60
             emptyStateMessage = Label.noSubscribers
         } else {
@@ -145,7 +145,7 @@ class EditReservationVC: UITableViewController {
             configureSelectedCell(for: selectedCell, with: Color.Primary.markerColor)
             filterSelectedTours(with: emailsList, for: indexPath)
             filterDeleteArray(for: indexPath)
-            configureEmailListBarButtons()
+            configureBarButtonItems()
             return
         }
         
@@ -205,6 +205,20 @@ class EditReservationVC: UITableViewController {
     
     
     //    MARK: - Handlers
+
+    @objc func deselectAllCells() {
+        for item in deleteList {
+
+            let selectedCell: EmailListCell = tableView.cellForRow(at: item) as! EmailListCell
+            configureSelectedCell(for: selectedCell, with: Color.Primary.markerColor)
+        }
+            
+        shareEmails.removeAll()
+        deleteList.removeAll()
+        isCellSelected = false
+        configureBarButtonItems()
+    }
+    
     
     @objc func handleSearch() {
         
@@ -292,7 +306,6 @@ class EditReservationVC: UITableViewController {
             self.tableView.deleteRows(at: self.deleteList, with: .automatic)
             self.deleteList.removeAll()
             self.shareEmails.removeAll()
-            self.configureEmailListBarButtons()
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
@@ -312,6 +325,61 @@ class EditReservationVC: UITableViewController {
     
     //    MARK: - Helper functions
     
+    func configureBarButtonItems() {
+        
+        if shareEmails.count >= 1 && deleteList.count >= 1 {
+            isCellSelected = true
+        } else if shareEmails.count < 1 {
+            isCellSelected = false
+        }
+        
+        guard !isCellSelected else {
+             navigationItem.leftBarButtonItem = nil
+             navigationItem.leftBarButtonItems = [
+             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+             UIBarButtonItem(image: Image.shareIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(shareList)),
+             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+             UIBarButtonItem(image: Image.trashIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleDelete))]
+            navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Cancel", style: .done, target: self, action: #selector(deselectAllCells))
+            return
+         }
+        
+        guard isCellSelected else {
+            navigationItem.leftBarButtonItems = nil
+            navigationItem.rightBarButtonItem = nil
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleDismiss))
+            return
+        }
+    }
+    
+  
+    func configureRefreshControl() {
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .gray
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+    }
+    
+    
+    // highlight selected cell with custom color
+    func configureSelectedCell(for cell: EmailListCell, with color: UIColor) {
+        
+        if cell.cellView.backgroundColor == color {
+            cell.cellView.backgroundColor = .white
+            cell.firstNameLabel.textColor = .black
+            cell.lastNameLabel.textColor = .black
+            cell.detailLabel.textColor = .darkGray
+        } else {
+            cell.cellView.backgroundColor = color
+            cell.firstNameLabel.textColor = .white
+            cell.lastNameLabel.textColor = .white
+            cell.detailLabel.textColor = .white
+        }
+    }
+    
+    
     func configureUI() {
         
         let reservation = UIFont.boldSystemFont(ofSize: 25)
@@ -322,28 +390,44 @@ class EditReservationVC: UITableViewController {
         
         navigationItem.title = "Edit Reservation"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation ,NSAttributedString.Key.foregroundColor: UIColor.white]
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "whiteBack "), style: .plain, target: self, action: #selector(handleDismiss))
+      
+        configureBarButtonItems()
     }
     
     
-    func handleChildRemovedObserver() {
+    // filter selected emails to prevent duplicate and append to array
+    func filterSelectedTours(with array: [EmailList], for indexPath: IndexPath) {
+        let email = array[indexPath.row].emailAddress
         
-        switch self.showInformation {
-        case .EditReservation:
-            #warning("handle deleted reservation animation here")
-            self.editReservations.removeAll(keepingCapacity: false)
-            self.fetchReservation(limit: reservationFetchLimit, startAt: dataFetchStartPoint)
-            
-        case .EmailList:
-            #warning("handle deleted email here")
-            self.emailsList.removeAll(keepingCapacity: false)
-            self.fetchEmailList()
-            
-        default:
-            break
+        if shareEmails.firstIndex(where: { $0.emailAddress == email }) != nil {
+            shareEmails.removeAll{ $0.emailAddress == email }
+        } else {
+            shareEmails.append(emailsList[indexPath.row])
         }
-        self.tableView.reloadData()
+    }
+    
+    
+    func filterDeleteArray(for indexPath: IndexPath) {
+        let cell = indexPath
+        
+        if deleteList.firstIndex(where: { $0 == cell }) != nil {
+            deleteList.removeAll{ $0 == cell }
+        } else {
+            deleteList.append(cell)
+        }
+    }
+    
+    
+    func grabNextLetterToFetch() -> String{
+        currentReservationsCount += 100
+        
+        let startPoint = editReservations.last
+        var result: String!
+        
+        if let letters = startPoint?.fullNameReversed {
+            result = String(letters.prefix(12))
+        }
+        return result
     }
     
     
@@ -356,7 +440,7 @@ class EditReservationVC: UITableViewController {
             return
         }
     }
-       
+
     
     func handleFetchResults(for reservation: EditReservation) {
         let reservationID = reservation.reservationId
@@ -384,7 +468,7 @@ class EditReservationVC: UITableViewController {
         }
         
         self.emailsList.sort { (email1, email2) -> Bool in
-            return email1.lastName < email2.lastName
+            return email1.fullNameReversed < email2.fullNameReversed
         }
         self.tableView.reloadData()
     }
@@ -426,171 +510,32 @@ class EditReservationVC: UITableViewController {
     }
     
     
-    func configureRefreshControl() {
+    func removeEmailIndex(for email: DataSnapshot){
+        let emailId = email.key
+        guard showInformation == .EmailList else { return }
         
-        let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = .gray
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        tableView.refreshControl = refreshControl
-    }
-    
-    
-    // highlight selected cell with custom color
-    func configureSelectedCell(for cell: EmailListCell, with color: UIColor) {
-        
-        if cell.cellView.backgroundColor == color {
-            cell.cellView.backgroundColor = .white
-            cell.firstNameLabel.textColor = .black
-            cell.lastNameLabel.textColor = .black
-            cell.detailLabel.textColor = .darkGray
-        } else {
-            cell.cellView.backgroundColor = color
-            cell.firstNameLabel.textColor = .white
-            cell.lastNameLabel.textColor = .white
-            cell.detailLabel.textColor = .white
+        if let existingIndex = self.emailsList.firstIndex(where: { $0.waiverID == emailId }) {
+            let row: IndexPath = [0, existingIndex]
+            self.emailsList.remove(at: existingIndex)
+            self.tableView.deleteRows(at: [row], with: .fade)
         }
     }
     
     
-    // filter selected emails to prevent duplicate and append to array
-    func filterSelectedTours(with array: [EmailList], for indexPath: IndexPath) {
-        let email = array[indexPath.row].emailAddress
+    func removeReservationIndex(for reservation: DataSnapshot){
+        let reservationID = reservation.key
+        guard showInformation == .EditReservation else { return }
         
-        if shareEmails.firstIndex(where: { $0.emailAddress == email }) != nil {
-            shareEmails.removeAll{ $0.emailAddress == email }
-        } else {
-            shareEmails.append(emailsList[indexPath.row])
+        if let existingIndex = self.editReservations.firstIndex(where: { $0.reservationId == reservationID }) {
+            let row: IndexPath = [0, existingIndex]
+            self.editReservations.remove(at: existingIndex)
+            self.tableView.deleteRows(at: [row], with: .fade)
+            print("array count is \(editReservations.count)")
         }
     }
-    
-    
-    func filterDeleteArray(for indexPath: IndexPath) {
-        let cell = indexPath
-        
-        if deleteList.firstIndex(where: { $0 == cell }) != nil {
-            deleteList.removeAll{ $0 == cell }
-        } else {
-            deleteList.append(cell)
-        }
-    }
-    
-    
-    func grabNextLetterToFetch() -> String{
-        currentReservationsCount += 100
-        
-        let startPoint = editReservations.last
-        var result: String!
-        
-        if let letters = startPoint?.fullNameReversed {
-            result = String(letters.prefix(12))
-        }
-        return result
-    }
-    
-    
-    // handles share and trash button appearance
-    func configureEmailListBarButtons() {
-        
-        let trashIcon = UIImage(systemName: "trash")
-        let shareIcon = UIImage(systemName: "square.and.arrow.up")
-        
-        if shareEmails.count >= 1 && deleteList.count >= 1{
-            
-            navigationItem.rightBarButtonItems = [
-                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(image: trashIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleDelete)),
-                UIBarButtonItem(image: shareIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(shareList))]
-        } else {
-            
-            navigationItem.rightBarButtonItems = [
-                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(image: trashIcon?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), style: .plain, target: nil, action: nil),
-                UIBarButtonItem(image: shareIcon?.withTintColor(.lightGray, renderingMode: .alwaysOriginal), style: .plain, target: nil, action: nil)]
-        }
-    }
-    
+
     
     //    MARK: - API
-    
-    func fetchReservation(limit value: Int, startAt startingPoint: String) {
-        NetworkManager.shared.fetchReservation(limit: value, startingPoint: startingPoint) { [weak self] result in
-            guard let self = self else { return }
-            self.dismissLoadingView()
-            self.tableView.refreshControl?.endRefreshing()
-            
-            switch result {
-            case .success(let reservation):
-                self.handleFetchResults(for: reservation)
-                
-            case .failure(let error):
-                DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
-            }
-        }
-    }
-    
-    
-    func fetchEmailList() {
-        NetworkManager.shared.fetchEmailList { [weak self] result in
-            
-            guard let self = self else { return }
-            self.checkEmptyState(PARTICIPANT_EMAIL_REF)
-            
-            switch result {
-            case .success(let email):
-                self.handleFetchEmailResult(for: email)
-                
-            case .failure(let error):
-                DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
-            }
-        }
-    }
-    
-    
-    func searchReservations(for name: String) {
-        showLoadingView()
-        
-        NetworkManager.shared.searchReservations { [weak self] result in
-            guard let self = self else { return }
-            self.dismissLoadingView()
-
-            switch result {
-            case .success(let reservation):
-                self.handleSearchResult(for: name, in: reservation)
-            case .failure(_):
-                break
-            }
-        }
-    }
-    
-    
-    func deleteReservation(with id: String, caseType: ShowInformation) {
-        NetworkManager.shared.removeReservation(for: id, caseType: caseType) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(_):
-                break
-            case .failure(let error):
-                Alert.showAlert(on: self, with: error.rawValue)
-            }
-        }
-    }
-    
-    
-    func observeChildRemoved(_ reference: DatabaseReference) {
-        NetworkManager.shared.observeChildRemoved(for: reference) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(_):
-                self.checkEmptyState(reference)
-                self.handleChildRemovedObserver()
-            case .failure(_):
-                break
-            }
-        }
-    }
-    
     
     func checkEmptyState(_ reference: DatabaseReference) {
         NetworkManager.shared.checkDataBaseEmptyState(for: reference) { [weak self] result in
@@ -616,6 +561,91 @@ class EditReservationVC: UITableViewController {
             }
         }
     }
+    
+    
+    func deleteReservation(with id: String, caseType: ShowInformation) {
+        NetworkManager.shared.removeReservation(for: id, caseType: caseType) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(_):
+                break
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
+            }
+        }
+    }
+    
+    
+    func fetchReservation(limit value: Int, startAt startingPoint: String) {
+           NetworkManager.shared.fetchReservation(limit: value, startingPoint: startingPoint) { [weak self] result in
+               guard let self = self else { return }
+               self.dismissLoadingView()
+               self.tableView.refreshControl?.endRefreshing()
+               
+               switch result {
+               case .success(let reservation):
+                   self.handleFetchResults(for: reservation)
+                   
+               case .failure(let error):
+                   DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
+               }
+           }
+       }
+       
+       
+       func fetchEmailList() {
+           NetworkManager.shared.fetchEmailList { [weak self] result in
+               
+               guard let self = self else { return }
+               self.checkEmptyState(PARTICIPANT_EMAIL_REF)
+               
+               switch result {
+               case .success(let email):
+                   self.handleFetchEmailResult(for: email)
+                   
+               case .failure(let error):
+                   DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
+               }
+           }
+       }
+    
+    
+    func observeChildRemoved(_ reference: DatabaseReference) {
+        NetworkManager.shared.observeChildRemoved(for: reference) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let snapshot):
+                guard let snapshot = snapshot else { return }
+                self.showInformation == .EditReservation ? self.removeReservationIndex(for: snapshot) : self.removeEmailIndex(for: snapshot)
+               
+                #warning("old method left here to use when handling empty state at a later time")
+//                 self.checkEmptyState(reference)
+            case .failure(_):
+                break
+            }
+        }
+    }
+    
+    
+    func searchReservations(for name: String) {
+        showLoadingView()
+        
+        NetworkManager.shared.searchReservations { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+
+            switch result {
+            case .success(let reservation):
+                self.handleSearchResult(for: name, in: reservation)
+            case .failure(_):
+                break
+            }
+        }
+    }
+    
+    
 }
 
 
