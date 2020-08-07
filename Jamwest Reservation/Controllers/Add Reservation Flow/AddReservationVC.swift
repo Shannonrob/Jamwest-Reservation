@@ -12,13 +12,17 @@ import Firebase
 class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDelegate {
     
     //    MARK: - Properties
-    var reservedPackage = String()
+    
     var uploadAction: UploadAction!
     var reservation: Reservation!
     var addReservationView = AddReservationView()
     let reservationPackage = ReservationPackage.self
-    var reservationDate: String!
     let datePicker = JWDatePicker()
+    
+    var reservedPackage = String()
+    var previousReservationDate: String!
+    var savedReservationDate: String!
+    
     
     
     //    MARK: - Init
@@ -117,7 +121,6 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
             addReservationView.tourRepTextfield.becomeFirstResponder()
         }
         
-        // dismiss popover after date is selected
         dismiss(animated: true, completion: nil)
     }
     
@@ -393,7 +396,7 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
         
         let paxQuantity = addReservationView.paxStepper.value
         let time = dateFormatter(for: Event.time, with: datePicker.date)
-        let date = dateFormatter(for: Event.date, with: datePicker.date)
+        let newReservationDate = dateFormatter(for: Event.date, with: datePicker.date)
         
         // if empty add default tour
         reservedPackage.isEmpty ? reservedPackage = reservationPackage.SingleTour.description : nil
@@ -413,26 +416,32 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
                                                  Constant.tourCompany: tourCompany,
                                                  Constant.reservationTime: time,
                                                  Constant.tourPackage: reservedPackage,
-                                                 Constant.reservationDate: date,
+                                                 Constant.reservationDate: newReservationDate,
                                                  Constant.paxCount: paxQuantity ] as [String: Any]
             
         case .SaveChanges:
-            // pass updated reservation info to tourSelectionVC
-            guard let currentPackage = reservation.package else { return }
+            var updatedReservationInfo: [String: Any]
             
-            // check if date was changed
-            if reservationDate != date {
-                toursSelectionVC.dateChanged[Constant.isDateChanged] = true
-                toursSelectionVC.dateChanged[Constant.previousDate] = reservationDate
+            guard let currentPackage = reservation.package else { return }
+            let editedReservationDate = addReservationView.reservationDateTextfield.text
+            
+            if savedReservationDate != editedReservationDate {
+                toursSelectionVC.isDateChanged = true
+                updatedReservationInfo = [ Constant.reservationTime: time,
+                                           Constant.reservationDate: newReservationDate,
+                                           Constant.tourRep: tourRep,
+                                           Constant.tourCompany: tourCompany,
+                                           Constant.tourPackage: currentPackage]
+            } else {
+                toursSelectionVC.isDateChanged = false
+                updatedReservationInfo = [ Constant.tourRep: tourRep,
+                                           Constant.tourCompany: tourCompany,
+                                           Constant.tourPackage: currentPackage]
             }
             
             toursSelectionVC.uploadAction = UploadAction.init(index: 1)
             toursSelectionVC.reservation = reservation
-            toursSelectionVC.reservationInfo = [ Constant.tourRep: tourRep,
-                                                 Constant.tourCompany: tourCompany,
-                                                 Constant.reservationTime: time,
-                                                 Constant.tourPackage: currentPackage,
-                                                 Constant.reservationDate: date] as [String: Any]
+            toursSelectionVC.reservationInfo = updatedReservationInfo
         default: break
         }
         navigationController?.pushViewController(toursSelectionVC, animated: true)
@@ -477,15 +486,16 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
                 let voucherNumber = info?.voucherNumber,
                 let tourRep = info?.tourRep,
                 let tourCompany = info?.tourCompany,
-                let date = info?.date,
+                let previousDate = info?.date,
                 let package = info?.package,
                 let time = info?.time,
                 let pax = info?.pax else { return }
             
             let reservedPackage = convertPackageResult(from: package)
             
-            reservationDate = date
-            addReservationView.reservationDateTextfield.text = "\(date) at \(time)"
+            previousReservationDate = previousDate
+            savedReservationDate = "\(previousDate) at \(time)"
+            addReservationView.reservationDateTextfield.text = "\(previousDate) at \(time)"
             addReservationView.paxStepper.value = Double(pax)
             addReservationView.hotelNameTextField.text = hotel
             addReservationView.firstNameTextField.text = firstName

@@ -23,7 +23,8 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     var reservationInfo = [String: Any]()
     var uploadAction: UploadAction!
     var reservation: Reservation!
-    var dateChanged = [String: Any]()
+    
+    var isDateChanged: Bool!
     
     var tours = ["ATV Tour": #imageLiteral(resourceName: "orangeATV"),
                  "Driving Experience": #imageLiteral(resourceName: "orangeRaceFlagIcon"),
@@ -41,6 +42,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         view = tourSelectionView
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,6 +56,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         configureUI()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -61,15 +64,18 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         configureActionButton()
     }
     
+    
     //    MARK: - Handlers
     
     @objc func handleCancelButton() {
         dismissTourSelectionVC()
     }
     
+    
     //    MARK: - Protocols and delegate
     
     func handleSubmitButton(for vc: TourSelectionView) {
+        tourSelectionView.submitButton.isEnabled = false
         
         reservedPackage = packageSelected()()
         
@@ -85,6 +91,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         default: break
         }
     }
+    
     
     //    MARK: - Helper Function
     
@@ -114,13 +121,12 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         return configuration
     }
     
-    // load available tours
+    
     func loadTourDetails() {
         
         for info in tours {
             
             let tour = TourSelection(title: info.key, image: info.value)
-            
             tourSelection.append(tour)
             
             self.tourSelection.sort { (tour1, tour2) -> Bool in
@@ -130,7 +136,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         }
     }
     
-    // check array count before submitting tours
+    
     func checkTourCount(with array: [TourSelection], for value: Int) {
         
         if array.isEmpty{
@@ -142,7 +148,6 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
             Alert.showExceedLimitAlert(on: self)
         } else {
             
-            // add selected tour(s) value to reservationInfo
             switch reservedPackage {
             case .SingleTour:
                 reservationInfo.updateValue(selectedToursArray[0].title as String, forKey: Constant.firstTour)
@@ -161,12 +166,11 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
             default: break
             }
             
-            // create or save reservation
-            uploadAction == .UploadReservation ? createReservation() : updateReservationChanges()
+            uploadAction == .UploadReservation ? createReservation() : handleReservationUpdate()
         }
     }
     
-    // filter selected tours to prevent duplicate and append to array
+    
     func filterSelectedTours(with array: [TourSelection], for indexPath: IndexPath) {
         
         let tour = array[indexPath.row].title
@@ -177,6 +181,19 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
             selectedToursArray.append(tourSelection[indexPath.row])
         }
     }
+    
+    
+    func handleReservationUpdate() {
+        switch isDateChanged {
+        case true:
+            updateReservationWithDate()
+        case false:
+            updateReservationChanges()
+        default:
+            break
+        }
+    }
+    
     
     func configureUI() {
         
@@ -191,14 +208,15 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelButton))
     }
     
-    func endReservationUpdate() {
+    
+    func returnToEditReservationVC() {
         self.dismiss(animated: true) {
             let editReservationVC = EditReservationVC()
             editReservationVC.tableView.reloadData()
         }
     }
     
-    // Action sheet
+    
     func showReservationCreatedAlert() {
         
         let alertController = UIAlertController(title: nil, message: ErrorMessage.createReservationQuestion, preferredStyle: .alert)
@@ -230,7 +248,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    // dismiss toursSelectionVC
+    
     func dismissTourSelectionVC() {
         
         let alertController = UIAlertController(title: "Warning", message: ErrorMessage.confirmReservationDeletion, preferredStyle: .alert)
@@ -253,7 +271,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    // highlight selected cell with custom color
+    
     func configureSelectedCell(for cell: TourSelectionCell) {
         
         if cell.cellView.backgroundColor == Color.Primary.orange {
@@ -267,15 +285,21 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         }
     }
     
+    
     //    MARK: - API
     
     func createReservation() {
+        guard let date = reservationInfo[Constant.reservationDate],
+        let name = reservationInfo[Constant.fullNameReversed] else { return }
+        
+        var fullNameReversed = [String: Any]()
+        fullNameReversed.updateValue(name, forKey: Constant.fullNameReversed)
         
         showLoadingView()
-        NetworkManager.shared.createReservation(with: reservationInfo) { [weak self] result in
+        NetworkManager.shared.createReservation(forDate: date as! String, name: fullNameReversed, with: reservationInfo) { [weak self] result in
             guard let self = self else { return }
             self.dismissLoadingView()
-            
+
             switch result {
             case .success(_):
                 self.showReservationCreatedAlert()
@@ -285,23 +309,53 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
         }
     }
     
+    
     func updateReservationChanges() {
         guard let reservationId = reservation.reservationId else { return }
         
         showLoadingView()
-        NetworkManager.shared.updateReservation(for: reservationId, values: reservationInfo) { [weak self] result in
+        NetworkManager.shared.updateReservationValues(reservation: reservationId, reservationValues: reservationInfo) { [weak self] result in
+            
             guard let self = self else { return }
             self.dismissLoadingView()
             
             switch result {
             case .success(_):
-                self.endReservationUpdate()
+                self.returnToEditReservationVC()
             case .failure(let error):
                 Alert.showAlert(on: self, with: error.rawValue)
             }
         }
     }
+    
+    
+    func updateReservationWithDate() {
+        
+        guard let reservationId = reservation.reservationId,
+            let previousReservationDate = reservation.date,
+            let fullNameReversed = reservation.fullNameReversed,
+            let newReservationDate = reservationInfo[Constant.reservationDate] as? String else { return }
+        
+        let fullNameReversedValue = [Constant.fullNameReversed: fullNameReversed] as [String: Any]
+        
+        showLoadingView()
+        NetworkManager.shared.updateReservationDate(reservation: reservationId, replace: previousReservationDate, with: newReservationDate, fullNameReversed: fullNameReversedValue, reservationValues: reservationInfo) { [weak self] result in
+            
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            
+            switch result {
+            case .success(_):
+                self.returnToEditReservationVC()
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
+            }
+        }
+    }
+    
+    
 }
+
 
 extension ToursSelectionVC: UITableViewDelegate, UITableViewDataSource {
     
