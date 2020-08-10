@@ -16,6 +16,19 @@ class NetworkManager {
     
     //    MARK: - EditReservationVC
     
+    func checkDataBaseEmptyState(for reference: DatabaseReference,completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
+        reference.observeSingleEvent(of: .value) { (snapShot, error) in
+            
+            if let _ = error {
+                completed(.failure(.malfunction))
+                return
+            } else {
+                completed(.success(snapShot))
+            }
+        }
+    }
+    
+    
     func fetchEmailList(completed: @escaping (Result<EmailList, JWError>) -> Void) {
         PARTICIPANT_EMAIL_REF.observe(.value) { (snapshot, error) in
             
@@ -37,8 +50,8 @@ class NetworkManager {
     }
     
     
-    func fetchReservation(completed: @escaping (Result<EditReservation, JWError>) -> Void) {
-        RESERVATION_REF.observe(.value) { (snapshot, error) in
+    func fetchReservation(limit value: Int, startingPoint: String, completed: @escaping (Result<EditReservation, JWError>) -> Void) {
+        RESERVATION_REF.queryOrdered(byChild: Constant.fullNameReversed).queryStarting(atValue: startingPoint).queryLimited(toFirst: UInt(value)).observe(.value) { (snapshot, error) in
             
             if let _ = error {
                 completed(.failure(.unableToCompleteRequest))
@@ -56,8 +69,8 @@ class NetworkManager {
             }
         }
     }
-    
-    
+
+        
     func removeReservation(for id: String, caseType: ShowInformation, completed: @escaping (Result<String?, JWError>) -> Void) {
         let reference: DatabaseReference!
         
@@ -78,14 +91,22 @@ class NetworkManager {
     }
     
     
-    func checkDataBaseEmptyState(for reference: DatabaseReference,completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
-        reference.observeSingleEvent(of: .value) { (snapShot, error) in
+    func searchReservations(completed: @escaping(Result<EditReservation, JWError>) -> Void) {
+        RESERVATION_REF.observeSingleEvent(of: .value) { (snapshot, error) in
             
             if let _ = error {
-                completed(.failure(.malfunction))
+                completed(.failure(.unableToCompleteRequest))
                 return
             } else {
-                completed(.success(snapShot))
+                
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+                allObjects.forEach { (snapshot) in
+                    
+                    let reservationID = snapshot.key
+                    guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                    let reservation = EditReservation(reservationId: reservationID, dictionary: dictionary)
+                    completed(.success(reservation))
+                }
             }
         }
     }
@@ -93,15 +114,26 @@ class NetworkManager {
     
     //    MARK: - HomeVC
     
-    func fetchReservations(for date: String, completed: @escaping (Result<Reservation, JWError>) -> Void) {
+    func checkReservationsEmptyState(for date: String, completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
+        RESERVATION_DATE_REF.child(date).observeSingleEvent(of: .value) { (snapshot, error) in
+            if let _ = error {
+                completed(.failure(.malfunction))
+                return
+            } else {
+                completed(.success(snapshot))
+            }
+        }
+    }
+    
         
-        RESERVATION_REF.queryOrdered(byChild: Constant.reservationDate).queryEqual(toValue: date).observe(.value) { (snapshot, error) in
+    func fetchReservations(for date: String, fetch value: Int, starting startPoint: String, completed: @escaping (Result<Reservation, JWError>) -> Void) {
+        
+        RESERVATION_DATE_REF.child(date).queryOrdered(byChild: Constant.fullNameReversed).queryLimited(toFirst: UInt(value)).queryStarting(atValue: startPoint).observe( .value) { (snapshot, error) in
             
             if let _ = error {
                 completed(.failure(.unableToCompleteRequest))
                 return
-            }else {
-                
+            } else {
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else {
                     completed(.failure(.malfunction))
                     return
@@ -110,41 +142,51 @@ class NetworkManager {
                 allObjects.forEach { (snapshot) in
                     
                     let reservationID = snapshot.key
-                    guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else {
-                        completed(.failure(.malfunction))
-                        return
-                    }
                     
-                    let reservation = Reservation(reservationId: reservationID, dictionary: dictionary)
-                    completed(.success(reservation))
+                    RESERVATION_REF.child(reservationID).observe(.value) { (snapshot, err) in
+                        
+                        if let _ = err {
+                            completed(.failure(.unableToCompleteRequest))
+                            return
+                        }else {
+                            
+                            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else {
+                                completed(.failure(.malfunction))
+                                return
+                            }
+                            let reservation = Reservation(reservationId: reservationID, dictionary: dictionary)
+                            completed(.success(reservation))
+                        }
+                    }
                 }
             }
         }
     }
     
     
-    func checkReservationsEmptyState(for date: String, completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
-        
-        RESERVATION_REF.queryOrdered(byChild: Constant.reservationDate).queryEqual(toValue: date).observeSingleEvent(of: .value) { (snapShot, error) in
-            
-            if let _ = error {
-                completed(.failure(.malfunction))
-                return
-            } else {
-                completed(.success(snapShot))
-            }
+    func observeReservationDeleted(for date: String, completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
+        RESERVATION_DATE_REF.child(date).observe(.childRemoved) { (snapshot) in
+            completed(.success(snapshot))
         }
     }
     
     
-    func observeReservationDeleted(for date: String, completed: @escaping (Result<String?, JWError>) -> Void) {
-        
-        RESERVATION_REF.queryOrdered(byChild: Constant.reservationDate).queryEqual(toValue: date).observe(.childRemoved) { (snapshot, err) in
-          
-            if let _ = err {
-                completed(.failure(.malfunction))
+    func searchCurrentReservations(forDate date: String, completed: @escaping(Result<Reservation, JWError>) -> Void) {
+        RESERVATION_REF.queryOrdered(byChild: Constant.reservationDate).queryEqual(toValue: date).observeSingleEvent(of: .value) { (snapshot, error) in
+            
+            if let _ = error {
+                completed(.failure(.unableToCompleteRequest))
+                return
             } else {
-                completed(.success(.none))
+                
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+                allObjects.forEach { (snapshot) in
+                    
+                    let reservationID = snapshot.key
+                    guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                    let reservation = Reservation(reservationId: reservationID, dictionary: dictionary)
+                    completed(.success(reservation))
+                }
             }
         }
     }
@@ -251,7 +293,7 @@ class NetworkManager {
     
     //    MARK: - TourSelectionVC
     
-    func createReservation(with values: Dictionary<String, Any>, completed: @escaping (Result<String? ,JWError>) -> Void) {
+    func createReservation(forDate date:String, name nameReversed: Dictionary<String, Any>, with values: Dictionary<String, Any>, completed: @escaping (Result<String? ,JWError>) -> Void) {
         let reservation = RESERVATION_REF.childByAutoId()
         reservation.updateChildValues(values) { (err, ref) in
             
@@ -259,15 +301,47 @@ class NetworkManager {
                 completed(.failure(.unableToCompleteRequest))
                 return
             } else {
-                completed(.success(.none))
+                guard let reservationId = ref.key else { return }
+                
+                RESERVATION_DATE_REF.child(date).child(reservationId).updateChildValues(nameReversed) { (error, ref) in
+                    if let _ = error {
+                        completed(.failure(.unableToCompleteRequest))
+                        return
+                    } else {
+                        completed(.success(.none))
+                    }
+                }
             }
         }
     }
     
     
-    func updateReservation(for reservation: String, values: Dictionary<String, Any>, completed: @escaping (Result<String? ,JWError>) -> Void) {
+    func updateReservationDate(reservation reservationID: String, replace oldDate: String, with new_Date: String, fullNameReversed: Dictionary<String, Any>, reservationValues: Dictionary<String, Any>, completed: @escaping (Result<String? ,JWError>) -> Void) {
         
-        RESERVATION_REF.child(reservation).updateChildValues(values) { (error, ref) in
+        RESERVATION_REF.child(reservationID).updateChildValues(reservationValues) { (error, ref) in
+            if let _ = error {
+                completed(.failure(.unableToCompleteRequest))
+                return
+            } else {
+                
+                RESERVATION_DATE_REF.child(oldDate).child(reservationID).removeValue { (err, ref) in
+                    if let _ = error {
+                        completed(.failure(.unableToCompleteRequest))
+                        return
+                    } else {
+                        
+                        RESERVATION_DATE_REF.child(new_Date).child(reservationID).updateChildValues(fullNameReversed)
+                        completed(.success(.none))
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func updateReservationValues(reservation reservationID: String, reservationValues: Dictionary<String, Any>, completed: @escaping (Result<String? ,JWError>) -> Void) {
+        
+        RESERVATION_REF.child(reservationID).updateChildValues(reservationValues) { (error, ref) in
             if let _ = error {
                 completed(.failure(.unableToCompleteRequest))
                 return
@@ -278,23 +352,65 @@ class NetworkManager {
     }
     
     
+    #warning("handle at a later time can be used for editReservationVC deletion of reservation")
+//    func removeDateRef(previousDate date: String, reservationId ID: String, with name: Dictionary<String, Any>) {
+//        RESERVATION_DATE_REF.child(date).child(ID).removeValue { (error, ref) in
+//            self.modifyReservationDate(newDate: date, reservationId: ID, with: <#T##Dictionary<String, Any>#>)
+//        }
+//    }
+    
+    
     //    MARK: - VerifictionVC
     
-    func observeWaiverDeletion(for reference: DatabaseReference, completed: @escaping(Result<DataSnapshot?, JWError>) -> Void) {
+    func observeChildRemoved(for reference: DatabaseReference, completed: @escaping(Result<DataSnapshot, JWError>) -> Void) {
         reference.observe(.childRemoved) { (snapshot) in
             completed(.success(snapshot))
         }
     }
     
+
+    func deletePendingWaiver(withImage condition: Bool, imageURL: String?, forWaiver waiverID: String) {
+        
+        if condition {
+            PARTICIPANT_WAIVER_REF.child(waiverID).removeValue { (err, ref) in
+                WAIVER_IMAGE_REF.child(waiverID).delete(completion: nil)
+            }
+            
+        } else {
+            PARTICIPANT_WAIVER_REF.child(waiverID).removeValue()
+        }
+    }
+    
     
     func fetchApprovedWaivers(quantity value: Int, startAt: String, completed: @escaping(Result<ApprovedWaiver, JWError>) -> Void) {
-        APPROVED_WAIVER_REF.queryOrdered(byChild: Constant.lastName).queryLimited(toFirst: UInt(value)).queryStarting(atValue: startAt).observeSingleEvent(of: .value) { (snapshot, error) in
+        APPROVED_WAIVER_REF.queryOrdered(byChild: Constant.fullNameReversed).queryLimited(toFirst: UInt(value)).queryStarting(atValue: startAt).observeSingleEvent(of: .value) { (snapshot, error) in
             
             if let _ = error {
                 completed(.failure(.unableToCompleteRequest))
                 return
             } else {
+                
+                guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+                allObjects.forEach { (snapshot) in
+                    
+                    let waiverID = snapshot.key
+                    guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                    let waiver = ApprovedWaiver(waiverID: waiverID, dictionary: dictionary)
+                    completed(.success(waiver))
+                }
+            }
+        }
+    }
+    
+    
+    func searchApprovedWaivers(completed: @escaping(Result<ApprovedWaiver, JWError>) -> Void) {
+        APPROVED_WAIVER_REF.observeSingleEvent(of: .value) { (snapshot, error) in
             
+            if let _ = error {
+                completed(.failure(.unableToCompleteRequest))
+                return
+            } else {
+                
                 guard let allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
                 allObjects.forEach { (snapshot) in
                     
@@ -332,7 +448,6 @@ class NetworkManager {
     
     //    MARK: - WaiverVC
     
-    
     func postEmail(with waiverID: String, values: Dictionary<String, Any>) {
         PARTICIPANT_EMAIL_REF.child(waiverID).updateChildValues(values)
     }
@@ -358,6 +473,7 @@ class NetworkManager {
             }
         }
     }
+    
     
     func postCompletedWaiver(with image: Data, completed: @escaping(Result<Dictionary <DatabaseReference, String>, JWError>) -> Void) {
         
