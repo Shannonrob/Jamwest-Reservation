@@ -12,8 +12,8 @@ import Firebase
 private let reuseIdentifier = "Cell"
 
 class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
-  
- //    MARK: - Properties
+    
+    //    MARK: - Properties
     var delegate: HomeVcDelegate?
     var currentDate = String()
     var reservations = [Reservation]()
@@ -33,30 +33,30 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-        
- //    MARK: - Init
-     
-     override func viewDidLoad() {
-         super.viewDidLoad()
+    
+    //    MARK: - Init
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         self.collectionView!.register(ReservationCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-            
+        
         configureUI()
         observeDateChanged()
         configureRefreshControl()
         fetchCurrentDayReservations(limit: fetchLimit, start: startDataFetchingPoint)
         handleDeletedReservation()
-     }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-
+        
         inSearchMode = false
         showSearchBar(shouldShow: false)
         dismissEmptyStateView()
         dismissLoadingView()
         handleRefresh()
         #warning("delete if not needed")
-//        collectionView.reloadData()
+        //        collectionView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -66,7 +66,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     }
     
     
-//    MARK: - UICollectionViewFlowLayout
+    //    MARK: - UICollectionViewFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -91,7 +91,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     }
     
     
-//    MARK: - UICollectionViewDataSource
+    //    MARK: - UICollectionViewDataSource
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -168,7 +168,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         }
     }
     
-  
+    
     //    MARK: - Handlers
     
     @objc func handleMenuToggle() {
@@ -183,7 +183,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     
     @objc func handleShowSearchBar() {
-       showSearchBar(shouldShow: true)
+        showSearchBar(shouldShow: true)
         searchBar.becomeFirstResponder()
         searchBar.delegate = self
     }
@@ -196,8 +196,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         collectionView.reloadData()
     }
     
-   
+    
     @objc func handleRefresh() {
+        currentReservationCount = 100
         
         DispatchQueue.main.async {
             self.reservations.removeAll(keepingCapacity: false)
@@ -208,7 +209,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     
     func configureRefreshControl() {
-
+        
         DispatchQueue.main.async {
             let refreshControl = UIRefreshControl()
             refreshControl.tintColor = .gray
@@ -217,14 +218,26 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         }
     }
     
-//    MARK: - Helper functions
     
-    func handleSearchResult(for name: String, in reservation: Reservation) {
-        searchedReservationResult.append(reservation)
+    //    MARK: - Helper functions
+    
+    func handleSearchResult(for name: String, in reservation: Reservation?, fetchData: Bool) {
         
-        filteredReservations = searchedReservationResult.filter({ (reservation) -> Bool in
-            return reservation.fullName.localizedCaseInsensitiveContains(name)
-        })
+        if fetchData{
+            guard let reservation = reservation else { return }
+            searchedReservationResult.append(reservation)
+            
+            filteredReservations = searchedReservationResult.filter({ (reservation) -> Bool in
+                return reservation.fullName.localizedCaseInsensitiveContains(name)
+            })
+        } else {
+            
+            filteredReservations = searchedReservationResult.filter({ (reservation) -> Bool in
+                return reservation.fullName.localizedCaseInsensitiveContains(name)
+            })
+        }
+        
+        
         
         filteredReservations.sort { (reservation1, reservation2) -> Bool in
             return reservation1.fullNameReversed.lowercased() < reservation2.fullNameReversed.lowercased()
@@ -243,8 +256,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         } else {
             
             navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelTapped))]
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelTapped))]
         }
     }
     
@@ -261,7 +274,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
                                                selector: #selector(handleRefresh),
                                                name: dateChanged, object: nil)
     }
-
+    
     
     @objc func formatReservationDate() {
         
@@ -272,7 +285,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     }
     
     
-
+    
     func configureUI() {
         
         view.backgroundColor = Color.Background.fadeGray
@@ -280,7 +293,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         collectionView.showsVerticalScrollIndicator = true
         collectionView.backgroundColor = Color.Background.fadeGray
         collectionView.showsVerticalScrollIndicator = false
-       
+        
         let reservation = UIFont.boldSystemFont(ofSize: 25)
         navigationController?.navigationBar.barTintColor = Color.Primary.heavyGreen
         navigationController?.navigationBar.isTranslucent = false
@@ -310,7 +323,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
             collectionView.refreshControl?.endRefreshing()
         }
     }
-
+    
     
     func handleFetchedReservationResults(for reservation: Reservation) {
         let reservationID = reservation.reservationId
@@ -349,12 +362,12 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
             self.reservations.remove(at: existingIndex)
             collectionView.deleteItems(at: [row])
             #warning("check back if this location is ok")
-//            self.checkEmptyState()
+            //            self.checkEmptyState()
         }
     }
     
     
-//    MARK: - API
+    //    MARK: - API
     
     @objc func fetchCurrentDayReservations(limit value: Int, start startPoint: String) {
         showLoadingView()
@@ -364,7 +377,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
             guard let self = self else { return }
             self.checkEmptyState()
             self.collectionView.refreshControl?.endRefreshing()
-
+            
             switch result {
             case .success(let reservation):
                 self.handleFetchedReservationResults(for: reservation)
@@ -373,7 +386,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
             }
         }
     }
-        
+    
     
     func checkEmptyState() {
         dismissEmptyStateView()
@@ -406,17 +419,23 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     
     func searchReservation(for name: String) {
-        showLoadingView()
         
-        NetworkManager.shared.searchCurrentReservations(forDate: currentDate) { [weak self] result in
-            guard let self = self else { return }
-            self.dismissLoadingView()
+        if !searchedReservationResult.isEmpty {
+            self.handleSearchResult(for: name, in: nil, fetchData: false)
+            return
+        } else {
+            showLoadingView()
             
-            switch result{
-            case .success(let reservations):
-                self.handleSearchResult(for: name, in: reservations)
-            case .failure(_):
-                break
+            NetworkManager.shared.searchCurrentReservations(forDate: currentDate) { [weak self] result in
+                guard let self = self else { return }
+                self.dismissLoadingView()
+                
+                switch result{
+                case .success(let reservations):
+                    self.handleSearchResult(for: name, in: reservations, fetchData: true)
+                case .failure(_):
+                    break
+                }
             }
         }
     }
@@ -426,11 +445,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
 
 
 extension HomeVC: UISearchBarDelegate {
-    
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchedReservationResult.removeAll()
-    }
     
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {

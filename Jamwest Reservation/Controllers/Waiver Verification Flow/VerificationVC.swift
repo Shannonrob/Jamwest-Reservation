@@ -89,6 +89,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             fetchPendingWaiver()
             
         default:
+            currentApprovedWaiverCount = 100
             approvedWaivers.removeAll(keepingCapacity: false)
             fetchApprovedWaiver(quantity: approvedWaiversFetchLimit, startAt: startDataFetchAt)
             checkEmptyState(APPROVED_WAIVER_REF)
@@ -212,12 +213,21 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     }
     
     
-    func handleSearchResult(for name: String, in waiver: ApprovedWaiver) {
-        searchedResultWaivers.append(waiver)
+    func handleSearchResult(for name: String, in waiver: ApprovedWaiver?, fetchData: Bool) {
         
-        filteredApprovedWaivers = searchedResultWaivers.filter({ (waiver) -> Bool in
-            return waiver.fullName.localizedCaseInsensitiveContains(name)
-        })
+        if fetchData{
+            guard let waiver = waiver else { return }
+            searchedResultWaivers.append(waiver)
+            
+            filteredApprovedWaivers = searchedResultWaivers.filter({ (waiver) -> Bool in
+                return waiver.fullName.localizedCaseInsensitiveContains(name)
+            })
+        } else {
+            
+            filteredApprovedWaivers = searchedResultWaivers.filter({ (waiver) -> Bool in
+                return waiver.fullName.localizedCaseInsensitiveContains(name)
+            })
+        }
         
         filteredApprovedWaivers.sort { (waiver1, waiver2) -> Bool in
             return waiver1.fullNameReversed.lowercased() < waiver2.fullNameReversed.lowercased()
@@ -365,17 +375,25 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
         }
     }
     
+    
     func searchApprovedWaivers(for name: String) {
-        showLoadingView()
-        NetworkManager.shared.searchApprovedWaivers() { [weak self] result in
-            guard let self = self else { return }
-            self.dismissLoadingView()
+        
+        if !searchedResultWaivers.isEmpty {
+            self.handleSearchResult(for: name, in: nil, fetchData: false)
+            return
+        } else {
+            showLoadingView()
             
-            switch result{
-            case .success(let waiver):
-                self.handleSearchResult(for: name, in: waiver)
-            case .failure(_):
-                break
+            NetworkManager.shared.searchApprovedWaivers() { [weak self] result in
+                guard let self = self else { return }
+                self.dismissLoadingView()
+                
+                switch result{
+                case .success(let waiver):
+                    self.handleSearchResult(for: name, in: waiver, fetchData: true)
+                case .failure(_):
+                    break
+                }
             }
         }
     }
@@ -567,9 +585,6 @@ extension VerificationVC: UISearchBarDelegate {
         searchBar.text = nil
     }
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        if !isShowingPendingWaivers { searchedResultWaivers.removeAll() }
-    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text else { return }

@@ -17,13 +17,33 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
     var reservation: Reservation!
     var addReservationView = AddReservationView()
     let reservationPackage = ReservationPackage.self
-    let datePicker = JWDatePicker()
-    
+
     var reservedPackage = String()
     var previousReservationDate: String!
     var savedReservationDate: String!
     
-    
+     let datePicker: UIDatePicker = {
+           
+           var calendar: Calendar = Calendar.current
+           let currentDate: Date = Date()
+           var dateComponents: DateComponents = DateComponents()
+           
+           calendar.timeZone = TimeZone(identifier: "EST")!
+           dateComponents.calendar = calendar
+           dateComponents.year = +1
+           
+           let maxDate: Date = calendar.date(byAdding: dateComponents, to: currentDate)!
+           let datePicker = UIDatePicker()
+           datePicker.datePickerMode = .dateAndTime
+           datePicker.minimumDate = .some(currentDate as Date)
+           datePicker.maximumDate = maxDate
+           
+           datePicker.backgroundColor = .white
+           datePicker.setValue(UIColor.black, forKey: "textColor")
+           
+           return datePicker
+       }()
+ 
     
     //    MARK: - Init
     

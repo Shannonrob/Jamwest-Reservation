@@ -62,7 +62,6 @@
 		85948E0E2474437800C2E307 /* EditReservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85948E0D2474437800C2E307 /* EditReservationCell.swift */; };
 		85948E10247444E100C2E307 /* EditReservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85948E0F247444E100C2E307 /* EditReservation.swift */; };
 		8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */; };
-		85A8930724D31C68001BAA88 /* JWDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8930624D31C68001BAA88 /* JWDatePicker.swift */; };
 		85AC5FC42427DA1400A36BE4 /* JamwestDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */; };
 		85B70F8D2479AE8200580174 /* JamwestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B70F8C2479AE8200580174 /* JamwestCell.swift */; };
 		85BECCB72413175200C62454 /* JamwestTextfieldClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */; };
@@ -138,7 +137,6 @@
 		85948E0D2474437800C2E307 /* EditReservationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReservationCell.swift; sourceTree = "<group>"; };
 		85948E0F247444E100C2E307 /* EditReservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReservation.swift; sourceTree = "<group>"; };
 		8598230624192B51007C2CF6 /* ParticipantInfoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantInfoViews.swift; sourceTree = "<group>"; };
-		85A8930624D31C68001BAA88 /* JWDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWDatePicker.swift; sourceTree = "<group>"; };
 		85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestDefaultView.swift; sourceTree = "<group>"; };
 		85B70F8C2479AE8200580174 /* JamwestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestCell.swift; sourceTree = "<group>"; };
 		85BECCB62413175200C62454 /* JamwestTextfieldClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamwestTextfieldClass.swift; sourceTree = "<group>"; };
@@ -379,7 +377,6 @@
 				85AC5FC32427DA1400A36BE4 /* JamwestDefaultView.swift */,
 				8530299824AA56C0003B52A0 /* JWSearchBar.swift */,
 				85B70F8C2479AE8200580174 /* JamwestCell.swift */,
-				85A8930624D31C68001BAA88 /* JWDatePicker.swift */,
 				853C62B524C5EC6F007BD875 /* JWTableViewCell.swift */,
 				855D92982429A5AA00084D9B /* JamwestWaiverLabelClass.swift */,
 				8525D72C243BB38700317197 /* JamwestCustomRoundedButton.swift */,
@@ -537,7 +534,6 @@
 				858EA987247D8123006DFCCA /* AddReservationView.swift in Sources */,
 				850BFED1246DCCEA00BEAF1D /* ApprovedWaiver.swift in Sources */,
 				85E9C50924788284000F6589 /* EmailListCell.swift in Sources */,
-				85A8930724D31C68001BAA88 /* JWDatePicker.swift in Sources */,
 				8598230724192B51007C2CF6 /* ParticipantInfoViews.swift in Sources */,
 				855D9410240E8AB900F50CB2 /* AppDelegate.swift in Sources */,
 				855D9450240E95C400F50CB2 /* ContainerVC.swift in Sources */,

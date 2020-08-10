@@ -75,6 +75,13 @@ class EditReservationVC: UITableViewController {
     }
     
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        RESERVATION_REF.removeAllObservers()
+        PARTICIPANT_EMAIL_REF.removeAllObservers()
+    }
+    
+    
     //     MARK: - TableView flow layout
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -205,14 +212,14 @@ class EditReservationVC: UITableViewController {
     
     
     //    MARK: - Handlers
-
+    
     @objc func deselectAllCells() {
         for item in deleteList {
-
+            
             let selectedCell: EmailListCell = tableView.cellForRow(at: item) as! EmailListCell
             configureSelectedCell(for: selectedCell, with: Color.Primary.markerColor)
         }
-            
+        
         shareEmails.removeAll()
         deleteList.removeAll()
         isCellSelected = false
@@ -247,6 +254,7 @@ class EditReservationVC: UITableViewController {
         switch isShowingReservations {
             
         case true:
+            currentReservationsCount = 100
             editReservations.removeAll(keepingCapacity: false)
             fetchReservation(limit: reservationFetchLimit, startAt: dataFetchStartPoint)
             
@@ -334,16 +342,16 @@ class EditReservationVC: UITableViewController {
         }
         
         guard !isCellSelected else {
-             navigationItem.leftBarButtonItem = nil
-             navigationItem.leftBarButtonItems = [
-             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-             UIBarButtonItem(image: Image.shareIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(shareList)),
-             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-             UIBarButtonItem(image: Image.trashIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleDelete))]
+            navigationItem.leftBarButtonItem = nil
+            navigationItem.leftBarButtonItems = [
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(image: Image.shareIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(shareList)),
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(image: Image.trashIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleDelete))]
             navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Cancel", style: .done, target: self, action: #selector(deselectAllCells))
             return
-         }
+        }
         
         guard isCellSelected else {
             navigationItem.leftBarButtonItems = nil
@@ -353,7 +361,7 @@ class EditReservationVC: UITableViewController {
         }
     }
     
-  
+    
     func configureRefreshControl() {
         
         let refreshControl = UIRefreshControl()
@@ -390,7 +398,7 @@ class EditReservationVC: UITableViewController {
         
         navigationItem.title = "Edit Reservation"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: reservation ,NSAttributedString.Key.foregroundColor: UIColor.white]
-      
+        
         configureBarButtonItems()
     }
     
@@ -440,7 +448,7 @@ class EditReservationVC: UITableViewController {
             return
         }
     }
-
+    
     
     func handleFetchResults(for reservation: EditReservation) {
         let reservationID = reservation.reservationId
@@ -474,12 +482,21 @@ class EditReservationVC: UITableViewController {
     }
     
     
-    func handleSearchResult(for name: String, in reservation: EditReservation) {
-        searchedReservationResult.append(reservation)
+    func handleSearchResult(for name: String, in reservation: EditReservation?, fetchData: Bool) {
         
-        filteredReservations = searchedReservationResult.filter({ (waiver) -> Bool in
-            return waiver.fullName.localizedCaseInsensitiveContains(name)
-        })
+        if fetchData{
+            guard let reservation = reservation else { return }
+            searchedReservationResult.append(reservation)
+            
+            filteredReservations = searchedReservationResult.filter({ (waiver) -> Bool in
+                return waiver.fullName.localizedCaseInsensitiveContains(name)
+            })
+        } else {
+            
+            filteredReservations = searchedReservationResult.filter({ (waiver) -> Bool in
+                return waiver.fullName.localizedCaseInsensitiveContains(name)
+            })
+        }
         
         filteredReservations.sort { (waiver1, waiver2) -> Bool in
             return waiver1.fullNameReversed.lowercased() < waiver2.fullNameReversed.lowercased()
@@ -533,7 +550,7 @@ class EditReservationVC: UITableViewController {
             print("array count is \(editReservations.count)")
         }
     }
-
+    
     
     //    MARK: - API
     
@@ -578,37 +595,37 @@ class EditReservationVC: UITableViewController {
     
     
     func fetchReservation(limit value: Int, startAt startingPoint: String) {
-           NetworkManager.shared.fetchReservation(limit: value, startingPoint: startingPoint) { [weak self] result in
-               guard let self = self else { return }
-               self.dismissLoadingView()
-               self.tableView.refreshControl?.endRefreshing()
-               
-               switch result {
-               case .success(let reservation):
-                   self.handleFetchResults(for: reservation)
-                   
-               case .failure(let error):
-                   DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
-               }
-           }
-       }
-       
-       
-       func fetchEmailList() {
-           NetworkManager.shared.fetchEmailList { [weak self] result in
-               
-               guard let self = self else { return }
-               self.checkEmptyState(PARTICIPANT_EMAIL_REF)
-               
-               switch result {
-               case .success(let email):
-                   self.handleFetchEmailResult(for: email)
-                   
-               case .failure(let error):
-                   DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
-               }
-           }
-       }
+        NetworkManager.shared.fetchReservation(limit: value, startingPoint: startingPoint) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            self.tableView.refreshControl?.endRefreshing()
+            
+            switch result {
+            case .success(let reservation):
+                self.handleFetchResults(for: reservation)
+                
+            case .failure(let error):
+                DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
+            }
+        }
+    }
+    
+    
+    func fetchEmailList() {
+        NetworkManager.shared.fetchEmailList { [weak self] result in
+            
+            guard let self = self else { return }
+            self.checkEmptyState(PARTICIPANT_EMAIL_REF)
+            
+            switch result {
+            case .success(let email):
+                self.handleFetchEmailResult(for: email)
+                
+            case .failure(let error):
+                DispatchQueue.main.async {Alert.showAlert(on: self, with: error.rawValue)}
+            }
+        }
+    }
     
     
     func observeChildRemoved(_ reference: DatabaseReference) {
@@ -617,11 +634,10 @@ class EditReservationVC: UITableViewController {
             
             switch result {
             case .success(let snapshot):
-                guard let snapshot = snapshot else { return }
                 self.showInformation == .EditReservation ? self.removeReservationIndex(for: snapshot) : self.removeEmailIndex(for: snapshot)
-               
+                
                 #warning("old method left here to use when handling empty state at a later time")
-//                 self.checkEmptyState(reference)
+            //                 self.checkEmptyState(reference)
             case .failure(_):
                 break
             }
@@ -630,17 +646,24 @@ class EditReservationVC: UITableViewController {
     
     
     func searchReservations(for name: String) {
-        showLoadingView()
         
-        NetworkManager.shared.searchReservations { [weak self] result in
-            guard let self = self else { return }
-            self.dismissLoadingView()
-
-            switch result {
-            case .success(let reservation):
-                self.handleSearchResult(for: name, in: reservation)
-            case .failure(_):
-                break
+        if !searchedReservationResult.isEmpty {
+            
+            self.handleSearchResult(for: name, in: nil, fetchData: false)
+            return
+        } else {
+            showLoadingView()
+            
+            NetworkManager.shared.searchReservations { [weak self] result in
+                guard let self = self else { return }
+                self.dismissLoadingView()
+                
+                switch result {
+                case .success(let reservation):
+                    self.handleSearchResult(for: name, in: reservation, fetchData: true)
+                case .failure(_):
+                    break
+                }
             }
         }
     }
@@ -662,11 +685,6 @@ extension EditReservationVC: UISearchBarDelegate {
         searchReservations(for: text.lowercased())
         searchBar.resignFirstResponder()
     }
-
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchedReservationResult.removeAll()
-    }
     
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -684,4 +702,5 @@ extension EditReservationVC: UISearchBarDelegate {
             tableView.reloadData()
         }
     }
+    
 }
