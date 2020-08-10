@@ -75,8 +75,6 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
     //    MARK: - Protocols and delegate
     
     func handleSubmitButton(for vc: TourSelectionView) {
-        tourSelectionView.submitButton.isEnabled = false
-        
         reservedPackage = packageSelected()()
         
         switch reservedPackage {
@@ -165,7 +163,7 @@ class ToursSelectionVC: UIViewController, TourSelectionDelegate {
                 reservationInfo.updateValue(selectedToursArray[3].title as String, forKey: Constant.fourthTour)
             default: break
             }
-            
+            tourSelectionView.submitButton.isEnabled = false
             uploadAction == .UploadReservation ? createReservation() : handleReservationUpdate()
         }
     }

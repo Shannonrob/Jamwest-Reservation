@@ -18,8 +18,13 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     var currentDate = String()
     var reservations = [Reservation]()
     var filteredReservations = [Reservation]()
+    var searchedReservationResult = [Reservation]()
     var inSearchMode = false
     let searchBar = JWSearchBar.init(placeHolder: "Search group")
+    
+    var fetchLimit = 100
+    var currentReservationCount = 100
+    var startDataFetchingPoint = "A"
     
     //notification key
     let dateChanged = Notification.Name(rawValue: Listener.dateChangedKey)
@@ -38,7 +43,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         configureUI()
         observeDateChanged()
         configureRefreshControl()
-        fetchCurrentDayReservations()
+        fetchCurrentDayReservations(limit: fetchLimit, start: startDataFetchingPoint)
         handleDeletedReservation()
      }
     
@@ -47,8 +52,17 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
 
         inSearchMode = false
         showSearchBar(shouldShow: false)
-        collectionView.reloadData()
-        checkEmptyState()
+        dismissEmptyStateView()
+        dismissLoadingView()
+        handleRefresh()
+        #warning("delete if not needed")
+//        collectionView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        RESERVATION_DATE_REF.removeAllObservers()
+        RESERVATION_DATE_REF.child(currentDate).removeAllObservers()
     }
     
     
@@ -136,6 +150,25 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         navigationController?.pushViewController(participantInfoVC, animated: true)
     }
     
+    
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        var reservationCount: Int!
+        
+        if offsetY > contentHeight - height {
+            
+            for count in 0...reservations.count { reservationCount = count }
+            if currentReservationCount > reservationCount { return }
+            
+            let startPoint = grabNextLetterToFetch()
+            fetchCurrentDayReservations( limit: fetchLimit + 1, start: startPoint)
+        }
+    }
+    
+  
     //    MARK: - Handlers
     
     @objc func handleMenuToggle() {
@@ -159,6 +192,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     @objc func handleCancelTapped() {
         showSearchBar(shouldShow: false)
         inSearchMode = false
+        searchedReservationResult.removeAll()
         collectionView.reloadData()
     }
     
@@ -167,7 +201,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         
         DispatchQueue.main.async {
             self.reservations.removeAll(keepingCapacity: false)
-            self.fetchCurrentDayReservations()
+            self.fetchCurrentDayReservations(limit: self.fetchLimit, start: self.startDataFetchingPoint)
             self.checkEmptyState()
         }
     }
@@ -184,6 +218,20 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     }
     
 //    MARK: - Helper functions
+    
+    func handleSearchResult(for name: String, in reservation: Reservation) {
+        searchedReservationResult.append(reservation)
+        
+        filteredReservations = searchedReservationResult.filter({ (reservation) -> Bool in
+            return reservation.fullName.localizedCaseInsensitiveContains(name)
+        })
+        
+        filteredReservations.sort { (reservation1, reservation2) -> Bool in
+            return reservation1.fullNameReversed.lowercased() < reservation2.fullNameReversed.lowercased()
+        }
+        collectionView.reloadData()
+    }
+    
     
     // switches between searchBar to cancel button
     func showSearchBarButton(shouldShow: Bool) {
@@ -223,10 +271,13 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         currentDate = reservationDateFormatter.string(from: date)
     }
     
+    
 
     func configureUI() {
         
         view.backgroundColor = Color.Background.fadeGray
+        
+        collectionView.showsVerticalScrollIndicator = true
         collectionView.backgroundColor = Color.Background.fadeGray
         collectionView.showsVerticalScrollIndicator = false
        
@@ -259,39 +310,64 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
             collectionView.refreshControl?.endRefreshing()
         }
     }
+
     
-    
-    func handleReservationData(for reservation: Reservation) {
+    func handleFetchedReservationResults(for reservation: Reservation) {
         let reservationID = reservation.reservationId
         
-        if let existingReservation = self.reservations.firstIndex(where: { $0.reservationId == reservationID }) {
-            self.reservations[existingReservation] = reservation
+        if let existingIndex = self.reservations.firstIndex(where: { $0.reservationId == reservationID }) {
+            self.reservations[existingIndex] = reservation
         } else {
             self.reservations.append(reservation)
         }
         
-        self.reservations.sort { (reservation1, reservation2) -> Bool in
-            return reservation1.lastName < reservation2.lastName
+        reservations.sort { (waiver1, waiver2) -> Bool in
+            return waiver1.fullNameReversed.lowercased() < waiver2.fullNameReversed.lowercased()
         }
         collectionView.reloadData()
     }
     
+    
+    func grabNextLetterToFetch() -> String{
+        currentReservationCount += 100
+        
+        let startPoint = reservations.last
+        var result: String!
+        
+        if let letters = startPoint?.fullNameReversed {
+            result = String(letters.prefix(12))
+        }
+        return result
+    }
+    
+    
+    func removeAtIndex(for reservation: DataSnapshot){
+        let reservationID = reservation.key
+        
+        if let existingIndex = self.reservations.firstIndex(where: { $0.reservationId == reservationID }) {
+            let row: IndexPath = [0, existingIndex]
+            self.reservations.remove(at: existingIndex)
+            collectionView.deleteItems(at: [row])
+            #warning("check back if this location is ok")
+//            self.checkEmptyState()
+        }
+    }
+    
+    
 //    MARK: - API
     
-    @objc func fetchCurrentDayReservations() {
-        
+    @objc func fetchCurrentDayReservations(limit value: Int, start startPoint: String) {
         showLoadingView()
-        reservations = []
         formatReservationDate()
         
-        NetworkManager.shared.fetchReservations(for: currentDate) { [weak self] (result) in
+        NetworkManager.shared.fetchReservations(for: currentDate, fetch: value, starting: startPoint) { [weak self] (result) in
             guard let self = self else { return }
             self.checkEmptyState()
             self.collectionView.refreshControl?.endRefreshing()
-            
+
             switch result {
             case .success(let reservation):
-                self.handleReservationData(for: reservation)
+                self.handleFetchedReservationResults(for: reservation)
             case .failure(let error):
                 Alert.showAlert(on: self, with: error.rawValue)
             }
@@ -316,30 +392,60 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     
     func handleDeletedReservation() {
-        
         NetworkManager.shared.observeReservationDeleted(for: currentDate) { [weak self] result in
-
             guard let self = self else { return }
-            self.checkEmptyState()
-            self.reservations.removeAll(keepingCapacity: false)
-            self.fetchCurrentDayReservations()
-            self.collectionView.reloadData()
+            
+            switch result {
+            case .success(let snapshot):
+                self.removeAtIndex(for: snapshot)
+            case .failure(let error):
+                Alert.showAlert(on: self, with: error.rawValue)
+            }
         }
     }
+    
+    
+    func searchReservation(for name: String) {
+        showLoadingView()
+        
+        NetworkManager.shared.searchCurrentReservations(forDate: currentDate) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            
+            switch result{
+            case .success(let reservations):
+                self.handleSearchResult(for: name, in: reservations)
+            case .failure(_):
+                break
+            }
+        }
+    }
+    
+    
 }
 
 
 extension HomeVC: UISearchBarDelegate {
     
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchedReservationResult.removeAll()
+    }
+    
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.text = nil
     }
     
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else { return }
+        
+        searchReservation(for: text.lowercased())
         searchBar.resignFirstResponder()
     }
     
-    // filters search
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         let searchText = searchText
@@ -350,7 +456,7 @@ extension HomeVC: UISearchBarDelegate {
         } else {
             inSearchMode = true
             filteredReservations = reservations.filter({ (reservation) -> Bool in
-                return reservation.firstName.localizedCaseInsensitiveContains(searchText)
+                return reservation.fullName.localizedCaseInsensitiveContains(searchText)
             })
             collectionView.reloadData()
         }

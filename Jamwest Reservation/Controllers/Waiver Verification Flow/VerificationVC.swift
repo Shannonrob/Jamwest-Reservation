@@ -18,6 +18,7 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
     var heightForRow = 150
     var isShowingPendingWaivers = true
     var inSearchMode = false
+    
     var approvedWaiversFetchLimit = 100
     var currentApprovedWaiverCount = 100
     var startDataFetchAt = "A"
@@ -357,7 +358,6 @@ class VerificationVC: UIViewController, WaiverVerificationCellDelegate, Verifica
             
             switch result{
             case .success(let waiver):
-                guard let waiver = waiver else { return }
                 self.removeAtIndex(for: waiver)
             case .failure(_):
                 break
