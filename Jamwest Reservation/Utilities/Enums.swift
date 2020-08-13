@@ -52,6 +52,7 @@ enum ReservationPackage: Int, CustomStringConvertible {
     }
 }
 
+#warning("check if this enum is still being used")
 enum ShowInformation: Int {
     
     case EditReservation

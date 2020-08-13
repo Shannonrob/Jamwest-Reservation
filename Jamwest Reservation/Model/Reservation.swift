@@ -94,19 +94,4 @@ class Reservation {
             self.date = date
         }
     }
-    
-    // update pax value or delete reservation after each waiver is signed
-    func updateWaiverBalance(for currentDate: String) {
-        
-        // decrease reservation quantity or remove reservation
-        if pax == 1 {
-            
-            RESERVATION_REF.child(reservationId).removeValue()
-            
-        } else if pax > 1 {
-            
-            pax = pax - 1
-            RESERVATION_REF.child(reservationId).child(Constant.paxCount).setValue(pax)
-        }
-    }
 }

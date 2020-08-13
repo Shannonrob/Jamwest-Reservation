@@ -12,6 +12,7 @@ enum JWError: String, Error {
     case unableToCompleteRequest = "Unable to complete your request. Please check your internet connection"
     case unableToComplete = "Unable to complete your request."
     case malfunction = "Something went wrong"
+    case reservationLimit = "All waivers for this tour has already been completed. Please check with staff"
     case signatureRequired = "Your signature is required to complete the Waiver & Release of Liability"
     case noUser = "There is no user record corresponding to this identifier. The user may have been deleted."
     case invalidPassword = "The password is invalid or the user does not have a password."

@@ -25,6 +25,7 @@ class EditReservationVC: UITableViewController {
     var isCellSelected = false
     var inSearchMode = false
     var isShowingReservations = true
+
     var reservationFetchLimit = 100
     var currentReservationsCount = 100
     var dataFetchStartPoint = "A"
@@ -171,21 +172,37 @@ class EditReservationVC: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         
+        var reservation: String
+        var reservationDate: String
+        
         if showInformation == .EditReservation{
-            let reservation = editReservations[indexPath.row].reservationId
-            guard let reservationID = reservation else { return }
             
-            editReservations.remove(at: indexPath.row)
+            if inSearchMode {
+                reservation = filteredReservations[indexPath.row].reservationId
+                reservationDate = filteredReservations[indexPath.row].date
+                
+                editReservations.removeAll(where: { $0.reservationId == reservation })
+                filteredReservations.remove(at: indexPath.row)
+                
+            } else {
+                reservation = editReservations[indexPath.row].reservationId
+                reservationDate = editReservations[indexPath.row].date
+                editReservations.remove(at: indexPath.row)
+            }
+            
             tableView.deleteRows(at: [indexPath], with: .left)
-            deleteReservation(with: reservationID, caseType: .EditReservation)
+            deleteReservation(for: reservation, date: reservationDate)
+            return
             
         } else {
+            
             let email = emailsList[indexPath.row].waiverID
             guard let emailID = email else { return }
-            
+
             emailsList.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .left)
-            deleteReservation(with: emailID, caseType: .EmailList)
+            
+            self.deleteSubscriberEmail(forEmail: emailID)
         }
     }
     
@@ -306,14 +323,16 @@ class EditReservationVC: UITableViewController {
             for item in self.deleteList { self.emailsList.remove(at: item.row) }
             
             for content in self.shareEmails {
+                
                 let waiverID = content.waiverID
                 guard let email = waiverID else { return }
-                self.deleteReservation(with: email, caseType: .EmailList)
+                self.deleteSubscriberEmail(forEmail: email)
             }
             
             self.tableView.deleteRows(at: self.deleteList, with: .automatic)
             self.deleteList.removeAll()
             self.shareEmails.removeAll()
+            self.configureBarButtonItems()
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
@@ -547,7 +566,6 @@ class EditReservationVC: UITableViewController {
             let row: IndexPath = [0, existingIndex]
             self.editReservations.remove(at: existingIndex)
             self.tableView.deleteRows(at: [row], with: .fade)
-            print("array count is \(editReservations.count)")
         }
     }
     
@@ -579,18 +597,23 @@ class EditReservationVC: UITableViewController {
         }
     }
     
-    
-    func deleteReservation(with id: String, caseType: ShowInformation) {
-        NetworkManager.shared.removeReservation(for: id, caseType: caseType) { [weak self] result in
+
+    func deleteReservation(for reservationID: String, date day: String) {
+        NetworkManager.shared.deleteCompletedReservation(for: reservationID, date: day) { [weak self] result in
             guard let self = self else { return }
             
-            switch result {
+            switch result{
             case .success(_):
-                break
-            case .failure(let error):
-                Alert.showAlert(on: self, with: error.rawValue)
+                 break
+            case .failure(_):
+                Alert.showAlert(on: self, with: ErrorMessage.minorError)
             }
         }
+    }
+    
+
+    func deleteSubscriberEmail(forEmail emailID: String) {
+        NetworkManager.shared.deleteSubscriberEmail(for: emailID)
     }
     
     

@@ -71,24 +71,7 @@ class NetworkManager {
     }
 
         
-    func removeReservation(for id: String, caseType: ShowInformation, completed: @escaping (Result<String?, JWError>) -> Void) {
-        let reference: DatabaseReference!
-        
-        switch caseType {
-        case .EditReservation:
-            reference = RESERVATION_REF
-        case .EmailList:
-            reference = PARTICIPANT_EMAIL_REF
-        }
-        
-        reference.child(id).removeValue { (error, ref) in
-            if let _ = error {
-                completed(.failure(.malfunction))
-            } else {
-                completed(.success(.none))
-            }
-        }
-    }
+    func deleteSubscriberEmail(for id: String) { PARTICIPANT_EMAIL_REF.child(id).removeValue() }
     
     
     func searchReservations(completed: @escaping(Result<EditReservation, JWError>) -> Void) {
@@ -448,6 +431,21 @@ class NetworkManager {
     
     //    MARK: - WaiverVC
     
+    
+    func deleteCompletedReservation(for reservationID: String, date day: String, completed: @escaping(Result<Bool?, JWError>) -> Void) {
+         RESERVATION_REF.child(reservationID).removeValue { (error, ref) in
+             
+             if let _ = error {
+                 completed(.failure(.reservationLimit))
+                 return
+             }else {
+                 RESERVATION_DATE_REF.child(day).child(reservationID).removeValue()
+                 completed(.success(true))
+             }
+         }
+     }
+    
+    
     func postEmail(with waiverID: String, values: Dictionary<String, Any>) {
         PARTICIPANT_EMAIL_REF.child(waiverID).updateChildValues(values)
     }
@@ -503,5 +501,13 @@ class NetworkManager {
             }
         }
     }
+    
+    
+    func updatePaxCount(for reservationID: String, pax value: Int) {
+        RESERVATION_REF.child(reservationID).child(Constant.paxCount).setValue(value)
+    }
+    
+
+    
 }
 
