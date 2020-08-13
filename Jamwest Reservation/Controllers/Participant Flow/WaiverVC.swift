@@ -76,8 +76,7 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
         if !waiverViews.canvasView.drawing.bounds.isEmpty {
             waiverViews.doneButton.isEnabled = false
             
-            // update pax value or delete reservation
-            self.reservation.updateWaiverBalance(for: self.currentDate)
+            updateReservationPax()
             presentCamera()
         } else {
             Alert.signatureRequiredMessage(on: self, with: JWError.signatureRequired.rawValue)
@@ -273,6 +272,33 @@ class WaiverVC: UIViewController, WaiverVCDelegates {
             NetworkManager.shared.postEmail(with: waiverID, values: values)
         }
     }
+    
+    
+    func updateReservationPax() {
+        guard let reservationID = reservation.reservationId,
+            let date = reservation.date,
+        let paxcount = reservation.pax else { return }
+        
+        if paxCount > 1 {
+            let newPaxCount = paxcount - 1
+            NetworkManager.shared.updatePaxCount(for: reservationID, pax: newPaxCount)
+            
+        } else if paxcount == 1 {
+            
+            NetworkManager.shared.deleteCompletedReservation(for: reservationID, date: date) {[weak self] result in
+                guard let self = self else { return }
+                switch result{
+                    
+                case .success(_):
+                    break
+                case .failure(let error):
+                    Alert.showAlert(on: self, with: error.rawValue)
+                }
+            }
+        }
+    }
+    
+    
 }
 
 // extension to manually opperate scrollView

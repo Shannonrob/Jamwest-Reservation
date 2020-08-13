@@ -74,6 +74,7 @@
 		85E9C50924788284000F6589 /* EmailListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E9C50824788284000F6589 /* EmailListCell.swift */; };
 		85ECB436246EF89C005551A2 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECB435246EF89C005551A2 /* DateExt.swift */; };
 		85F04410247C18CF00277B9E /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F0440F247C18CF00277B9E /* Enums.swift */; };
+		85F5EC5F24E58EB400A08E4E /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F5EC5E24E58EB400A08E4E /* StringExt.swift */; };
 		EFD8AFA4F8E907595F1328BE /* libPods-Jamwest Reservation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */; };
 /* End PBXBuildFile section */
 
@@ -149,6 +150,7 @@
 		85E9C50824788284000F6589 /* EmailListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailListCell.swift; sourceTree = "<group>"; };
 		85ECB435246EF89C005551A2 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		85F0440F247C18CF00277B9E /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		85F5EC5E24E58EB400A08E4E /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		F10773DB1B7B48ED0703C5E6 /* libPods-Jamwest Reservation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jamwest Reservation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -356,6 +358,7 @@
 				855D9435240E920600F50CB2 /* UIStackviewExt.swift */,
 				855D9437240E921200F50CB2 /* UITextfieldExt.swift */,
 				855D9439240E921B00F50CB2 /* UIViewExt.swift */,
+				85F5EC5E24E58EB400A08E4E /* StringExt.swift */,
 				851275F62425A99100E9CAA7 /* UIViewControllerExt.swift */,
 				85D668E1242C2305002F1189 /* UIScrollViewExt.swift */,
 			);
@@ -510,6 +513,7 @@
 				855D9430240E91E000F50CB2 /* UIButtonExt.swift in Sources */,
 				85261260243621470009E2B2 /* PDFCreator.swift in Sources */,
 				855D945C240E961600F50CB2 /* WaiverVC.swift in Sources */,
+				85F5EC5F24E58EB400A08E4E /* StringExt.swift in Sources */,
 				855D9438240E921200F50CB2 /* UITextfieldExt.swift in Sources */,
 				85948E0E2474437800C2E307 /* EditReservationCell.swift in Sources */,
 				853C62B624C5EC6F007BD875 /* JWTableViewCell.swift in Sources */,

@@ -426,14 +426,14 @@ class AddReservationVC: UIViewController, UITextFieldDelegate, AddReservationDel
             
         case .UploadReservation:
             toursSelectionVC.uploadAction = UploadAction.init(index: 0)
-            toursSelectionVC.reservationInfo = [ Constant.hotelName: hotel,
-                                                 Constant.firstName: firstName,
-                                                 Constant.lastName: lastName,
+            toursSelectionVC.reservationInfo = [ Constant.hotelName: hotel.capitalizingFirstLetter(),
+                                                 Constant.firstName: firstName.capitalizingFirstLetter(),
+                                                 Constant.lastName: lastName.capitalizingFirstLetter(),
                                                  Constant.fullName: "\(firstName.lowercased()) \(lastName.lowercased())",
                                                  Constant.fullNameReversed: "\(lastName.lowercased()) \(firstName.lowercased())",
                                                  Constant.voucherNumber: voucherNumber,
-                                                 Constant.tourRep: tourRep,
-                                                 Constant.tourCompany: tourCompany,
+                                                 Constant.tourRep: tourRep.capitalizingFirstLetter(),
+                                                 Constant.tourCompany: tourCompany.capitalizingFirstLetter(),
                                                  Constant.reservationTime: time,
                                                  Constant.tourPackage: reservedPackage,
                                                  Constant.reservationDate: newReservationDate,
