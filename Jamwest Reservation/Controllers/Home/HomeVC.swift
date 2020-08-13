@@ -35,30 +35,37 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     }
     
     //    MARK: - Init
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        inSearchMode = false
+        showSearchBar(shouldShow: false)
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+       
+        currentReservationCount = 100
+        self.reservations.removeAll(keepingCapacity: false)
+        self.collectionView.reloadData()
+        
+        checkEmptyState()
+        handleDeletedReservation()
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView!.register(ReservationCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         configureUI()
-        observeDateChanged()
         configureRefreshControl()
+        observeDateChanged()
         fetchCurrentDayReservations(limit: fetchLimit, start: startDataFetchingPoint)
-        handleDeletedReservation()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
-        inSearchMode = false
-        showSearchBar(shouldShow: false)
-        dismissEmptyStateView()
-        dismissLoadingView()
-        handleRefresh()
-        #warning("delete if not needed")
-        //        collectionView.reloadData()
-    }
-    
+  
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         RESERVATION_DATE_REF.removeAllObservers()
@@ -202,7 +209,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         
         DispatchQueue.main.async {
             self.reservations.removeAll(keepingCapacity: false)
-            self.fetchCurrentDayReservations(limit: self.fetchLimit, start: self.startDataFetchingPoint)
             self.checkEmptyState()
         }
     }
@@ -269,7 +275,6 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     
     func observeDateChanged() {
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleRefresh),
                                                name: dateChanged, object: nil)
@@ -307,7 +312,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         showSearchBar(shouldShow: false)
     }
     
-    
+
     func handleEmptyStateResult(for snapshot: DataSnapshot) {
         if !snapshot.exists() {
             dismissLoadingView()
@@ -318,8 +323,8 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
                 return
             }
         } else {
-            self.dismissLoadingView()
-            self.dismissEmptyStateView()
+       
+            fetchCurrentDayReservations(limit: fetchLimit, start: startDataFetchingPoint)
             collectionView.refreshControl?.endRefreshing()
         }
     }
@@ -337,6 +342,7 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         reservations.sort { (waiver1, waiver2) -> Bool in
             return waiver1.fullNameReversed.lowercased() < waiver2.fullNameReversed.lowercased()
         }
+        dismissEmptyStateView()
         collectionView.reloadData()
     }
     
@@ -358,11 +364,9 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         let reservationID = reservation.key
         
         if let existingIndex = self.reservations.firstIndex(where: { $0.reservationId == reservationID }) {
-            let row: IndexPath = [0, existingIndex]
-            self.reservations.remove(at: existingIndex)
-            collectionView.deleteItems(at: [row])
-            #warning("check back if this location is ok")
-            //            self.checkEmptyState()
+            
+            if reservations.count >= 1 { self.reservations.remove(at: existingIndex) }
+            self.checkEmptyState()
         }
     }
     
@@ -370,12 +374,11 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     //    MARK: - API
     
     @objc func fetchCurrentDayReservations(limit value: Int, start startPoint: String) {
-        showLoadingView()
-        formatReservationDate()
+       formatReservationDate()
         
         NetworkManager.shared.fetchReservations(for: currentDate, fetch: value, starting: startPoint) { [weak self] (result) in
             guard let self = self else { return }
-            self.checkEmptyState()
+            self.dismissLoadingView()
             self.collectionView.refreshControl?.endRefreshing()
             
             switch result {
@@ -387,12 +390,16 @@ class HomeVC: UICollectionViewController, UICollectionViewDelegateFlowLayout{
         }
     }
     
-    
-    func checkEmptyState() {
-        dismissEmptyStateView()
+   
+    @objc func checkEmptyState() {
+        formatReservationDate()
+        collectionView.reloadData()
+        showLoadingView()
+        
         NetworkManager.shared.checkReservationsEmptyState(for: currentDate) { [weak self] result in
             guard let self = self else { return }
-            self.dismissLoadingView()
+            self.dismissEmptyStateView()
+            self.collectionView.refreshControl?.endRefreshing()
             
             switch result {
             case .success(let snapshot):

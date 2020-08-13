@@ -361,6 +361,7 @@ class EditReservationVC: UITableViewController {
         }
         
         guard !isCellSelected else {
+            
             navigationItem.leftBarButtonItem = nil
             navigationItem.leftBarButtonItems = [
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -369,6 +370,7 @@ class EditReservationVC: UITableViewController {
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
                 UIBarButtonItem(image: Image.trashIcon?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleDelete))]
             navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Cancel", style: .done, target: self, action: #selector(deselectAllCells))
+            
             return
         }
         

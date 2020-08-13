@@ -98,7 +98,9 @@ class NetworkManager {
     //    MARK: - HomeVC
     
     func checkReservationsEmptyState(for date: String, completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
+        
         RESERVATION_DATE_REF.child(date).observeSingleEvent(of: .value) { (snapshot, error) in
+            
             if let _ = error {
                 completed(.failure(.malfunction))
                 return
@@ -108,9 +110,9 @@ class NetworkManager {
         }
     }
     
-        
+    
     func fetchReservations(for date: String, fetch value: Int, starting startPoint: String, completed: @escaping (Result<Reservation, JWError>) -> Void) {
-        
+     
         RESERVATION_DATE_REF.child(date).queryOrdered(byChild: Constant.fullNameReversed).queryLimited(toFirst: UInt(value)).queryStarting(atValue: startPoint).observe( .value) { (snapshot, error) in
             
             if let _ = error {
@@ -125,7 +127,6 @@ class NetworkManager {
                 allObjects.forEach { (snapshot) in
                     
                     let reservationID = snapshot.key
-                    
                     RESERVATION_REF.child(reservationID).observe(.value) { (snapshot, err) in
                         
                         if let _ = err {
@@ -133,10 +134,8 @@ class NetworkManager {
                             return
                         }else {
                             
-                            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else {
-                                completed(.failure(.malfunction))
-                                return
-                            }
+                            guard let dictionary = snapshot.value as? Dictionary<String, AnyObject> else { return }
+                            
                             let reservation = Reservation(reservationId: reservationID, dictionary: dictionary)
                             completed(.success(reservation))
                         }
@@ -146,10 +145,15 @@ class NetworkManager {
         }
     }
     
-    
+   
     func observeReservationDeleted(for date: String, completed: @escaping (Result<DataSnapshot, JWError>) -> Void) {
-        RESERVATION_DATE_REF.child(date).observe(.childRemoved) { (snapshot) in
-            completed(.success(snapshot))
+        RESERVATION_DATE_REF.child(date).observe(.childRemoved) { (snapshot, error) in
+            
+            if let _ = error {
+                completed(.failure(.malfunction))
+            } else {
+                completed(.success(snapshot))
+            }
         }
     }
     
@@ -333,14 +337,6 @@ class NetworkManager {
             }
         }
     }
-    
-    
-    #warning("handle at a later time can be used for editReservationVC deletion of reservation")
-//    func removeDateRef(previousDate date: String, reservationId ID: String, with name: Dictionary<String, Any>) {
-//        RESERVATION_DATE_REF.child(date).child(ID).removeValue { (error, ref) in
-//            self.modifyReservationDate(newDate: date, reservationId: ID, with: <#T##Dictionary<String, Any>#>)
-//        }
-//    }
     
     
     //    MARK: - VerifictionVC
